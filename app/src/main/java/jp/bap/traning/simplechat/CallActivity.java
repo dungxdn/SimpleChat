@@ -6,11 +6,10 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +49,11 @@ public class CallActivity extends BaseActivity {
     @ViewById
     AppCompatTextView mtvStatus;
     @ViewById
-    AppCompatEditText mEditRoom;
+    AppCompatButton mBtnAccept;
+    @Extra
+    String roomId;
+    @Extra
+    boolean isIncoming;
 
     PeerConnectionFactory peerConnectionFactory;
     MediaConstraints audioConstraints;
@@ -66,13 +69,20 @@ public class CallActivity extends BaseActivity {
     EglBase rootEglBase;
     boolean gotUserMedia;
     List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
-    String roomId;
 
     @Override
     public void afterView() {
         initVideos();
         getIceServers();
         start();
+        if (isIncoming) {
+            mBtnAccept.setVisibility(View.VISIBLE);
+            mtvStatus.setText("Incoming call from: " + roomId);
+        } else {
+            ChatService.getChat().emitCall(roomId);
+            mBtnAccept.setVisibility(View.GONE);
+            mtvStatus.setText("Calling to " + roomId);
+        }
     }
 
     private void initVideos() {
@@ -80,7 +90,6 @@ public class CallActivity extends BaseActivity {
         mLocalVideoView.init(rootEglBase.getEglBaseContext(), null);
         mRemoteVideoView.init(rootEglBase.getEglBaseContext(), null);
         mLocalVideoView.setZOrderMediaOverlay(true);
-        mRemoteVideoView.setZOrderMediaOverlay(true);
     }
 
     private void getIceServers() {
@@ -274,39 +283,12 @@ public class CallActivity extends BaseActivity {
 
     }
 
-    private void stopCall() {
-        try {
-            if (localPeer != null) {
-                localPeer.close();
-                localPeer = null;
-            }
-            ChatService.getChat().emitCallStop(roomId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Util Methods
-     */
-    public int dpToPx(int dp) {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    @Click({R.id.mBtnCall, R.id.mBtnAccept, R.id.mBtnEnd})
+    @Click({R.id.mBtnAccept, R.id.mBtnStop})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mBtnEnd:
+            case R.id.mBtnStop:
                 mtvStatus.setText("Call ended!!!");
-                stopCall();
-                break;
-
-            case R.id.mBtnCall:
-                mtvStatus.setText("Calling!!!");
-                roomId = mEditRoom.getText().toString();
-                ChatService.getChat().emitCall(roomId);
+                ChatService.getChat().emitCallStop(roomId);
                 break;
 
             case R.id.mBtnAccept:
@@ -345,14 +327,6 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onCallStop() {
         super.onCallStop();
-        runOnUiThread(this::stopCall);
-    }
-
-    @Override
-    public void onCall(String userName) {
-        super.onCall(userName);
-        mtvStatus.setText("incoming from: " + userName);
-        roomId = userName;
     }
 
     public void onOfferReceived(final JSONObject data) {

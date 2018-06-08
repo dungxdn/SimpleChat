@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -12,11 +11,18 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+/**
+ * Created by dungpv on 6/8/18.
+ */
+
+@EActivity(R.layout.activity_login)
+public class LoginActivity extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
+    private static final String URL_SERVER = "http://172.16.0.31:3000";
     @ViewById
-    AppCompatEditText mEtRoomId;
+    AppCompatEditText mEditText;
+    @ViewById
+    AppCompatButton mBtnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +35,21 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Click(R.id.mBtnCall)
+    @Click(R.id.mBtnLogin)
     void onClick() {
         hideKeyboard();
-        CallActivity_.intent(this)
-                .isIncoming(false)
-                .roomId(mEtRoomId.getText().toString())
-                .start();
+        if (ChatService.getChat() == null) {
+            Intent i = new Intent(this, ChatService.class);
+            i.putExtra("host", URL_SERVER);
+            i.putExtra("token", mEditText.getText().toString());
+            startService(i);
+        }
     }
 
     @Override
-    public void onCall(String userName) {
-        super.onCall(userName);
-        CallActivity_.intent(this)
-                .isIncoming(true)
-                .roomId(userName)
-                .start();
+    public void onSocketConnected() {
+        super.onSocketConnected();
+        MainActivity_.intent(this).start();
+        finish();
     }
 }

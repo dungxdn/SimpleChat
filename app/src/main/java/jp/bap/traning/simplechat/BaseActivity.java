@@ -3,7 +3,9 @@ package jp.bap.traning.simplechat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -54,6 +56,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         super.onDestroy();
         if (mSocketCallback != null) {
             mSocketCallback.unregister();
+        }
+    }
+
+    protected void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
