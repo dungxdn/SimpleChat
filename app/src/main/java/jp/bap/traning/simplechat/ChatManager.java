@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.webrtc.SessionDescription;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
@@ -24,7 +25,11 @@ public class ChatManager {
     ChatManager(Socket s) {
         mSocket = s;
         on(
-                Event.MESSAGE_RECEIVER
+                Event.MESSAGE_RECEIVER,
+                Event.CALL,
+                Event.CALL_CONTENT,
+                Event.CALL_ACCEPT,
+                Event.CALL_STOP
         );
     }
 
@@ -59,11 +64,52 @@ public class ChatManager {
         });
     }
 
-    public void sendMessage(String content) {
+    public void sendMessage(String content, String roomId) {
         JSONObject data = new JSONObject();
         try {
             data.put("content", content);
+            data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallContent(JSONObject message, String roomId) {
+        Log.d("emitMessage", message.toString());
+        try {
+            message.put("roomId", roomId);
+            emit(Event.CALL_CONTENT, message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallStop(String roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_STOP, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCall(String roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallAccept(String roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_ACCEPT, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

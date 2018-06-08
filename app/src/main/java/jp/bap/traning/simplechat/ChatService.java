@@ -2,8 +2,10 @@ package jp.bap.traning.simplechat;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -56,7 +58,7 @@ public class ChatService extends Service implements ChatManager.Listener {
 
     @Override
     public void onEvent(Event event, JSONObject data) {
-
+        sendReceiver(event, data);
     }
 
     @Override
@@ -73,10 +75,22 @@ public class ChatService extends Service implements ChatManager.Listener {
                         sChatManager = new ChatManager(mSocket);
                         sChatManager.addListenerSocket(this);
                     }
+                    sendReceiver(Event.CONNECTED, new JSONObject());
                 })
                 .on(Socket.EVENT_RECONNECT, args -> Log.d(TAG, "EVENT_RECONNECT"))
                 .on(Socket.EVENT_DISCONNECT, args -> Log.w(TAG, "EVENT_DISCONNECT"))
                 .on(Socket.EVENT_ERROR, args -> Log.w(TAG, "EVENT_ERROR"))
                 .on(Socket.EVENT_RECONNECT_ERROR, args -> Log.e(TAG, "EVENT_RECONNECT_ERROR"));
+    }
+
+    private void sendReceiver(Event type, JSONObject data) {
+        Log.d(TAG, "sendReceiver: " + type.getEvent());
+        Intent intent = new Intent(type.getEvent());
+        intent.putExtra("data", data.toString());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void startCall(){
+
     }
 }

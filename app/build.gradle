@@ -42,4 +42,7 @@ dependencies {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+
+    //webrtc
+    implementation 'org.webrtc:google-webrtc:1.0.22920'
 }

@@ -1,6 +1,5 @@
 package jp.bap.traning.simplechat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +8,8 @@ import android.view.Window;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -16,19 +17,12 @@ import org.androidannotations.annotations.WindowFeature;
 
 @EActivity
 @WindowFeature(Window.FEATURE_NO_TITLE)
-public abstract class BaseActivity extends AppCompatActivity {
-    private static final String URL_SERVER = "http://172.16.0.31:3000";
-    private static final String USER_NAME = "dungpv";
+public abstract class BaseActivity extends AppCompatActivity implements CallbackManager.Listener {
+    private CallbackManager mSocketCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (ChatService.getChat() == null) {
-            Intent i = new Intent(this, ChatService.class);
-            i.putExtra("host", URL_SERVER);
-            i.putExtra("token", USER_NAME);
-            startService(i);
-        }
     }
 
     public abstract void afterView();
@@ -37,4 +31,69 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void initView() {
         this.afterView();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSocketCallback == null) {
+            mSocketCallback = new CallbackManager(this);
+        }
+        mSocketCallback.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mSocketCallback != null) {
+            mSocketCallback.unregister();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSocketCallback != null) {
+            mSocketCallback.unregister();
+        }
+    }
+
+    @Override
+    public void onSocketEvent(Event type, JSONObject data) {
+        switch (type) {
+            case CONNECTED:
+                onSocketConnected();
+                break;
+
+            case CALL_CONTENT:
+                onCallContent(data);
+                break;
+
+            case CALL_ACCEPT:
+                onCallAccept();
+                break;
+
+            case CALL_STOP:
+                onCallStop();
+                break;
+
+            case CALL:
+                try {
+                    String roomId = data.getString("roomId");
+                    onCall(roomId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    public void onCallStop() {}
+
+    public void onCallContent(JSONObject data) {}
+
+    public void onCallAccept() {}
+
+    public void onCall(String userName) {}
+
+    public void onSocketConnected() {}
 }
