@@ -60,12 +60,7 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     @Click
     void btnRecover() {
-        if(User.checkUser(edtEmail.getText().toString(), edtPassword.getText().toString())==true) {
-            Toast.makeText(LoginActivity.this,"Login Success!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(LoginActivity.this,"Login Failed!",Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 
