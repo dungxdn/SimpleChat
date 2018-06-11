@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.bap.traning.simplechat">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".BaseApp_"
         android:allowBackup="true"
@@ -19,6 +21,11 @@
         </activity>
         <activity android:name=".view.activities.SignUpActivity_"></activity>
         <activity android:name=".MainActivity"></activity>
+
+        <service
+            android:name=".ChatService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
