@@ -33,7 +33,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     public static final String CURRENT_USERNAME = "current_id";
     public static final String CURRENT_PASSWORD = "current_name";
     @ViewById
-    EditText edtEmail;
+    EditText edtUserName;
     @ViewById
     EditText edtPassword;
     @ViewById
@@ -41,21 +41,21 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Click
     void btnLogin() {
         indicatorView.show();
-        String email = edtEmail.getText().toString();
+        String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if(email.isEmpty() || password.isEmpty()) {
+        if(userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
         }
         else {
-            loginPresenter.logIn(email,password);
+            loginPresenter.logIn(userName,password);
         }
     }
 
     @Click
     void btnSignUp() {
         indicatorView.hide();
-        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+        startActivity(new Intent(LoginActivity.this,SignUpActivity_.class));
     }
 
     @Click
@@ -63,30 +63,26 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
-//        init();
+        //init
         loginPresenter = LoginPresenter.getShareInstance();
         loginPresenter.loginInterface = this;
-
     }
 
-    public void init() {
-        //get SharedPreference
-        edtEmail.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
+    public void getSharedPreference() {
+        edtUserName.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
         edtPassword.setText(SharedPrefs.getmInstance().getData(CURRENT_PASSWORD,String.class)+"");
-
     }
 
     @Override
     public void loginSuccess(String userName, String password) {
+        indicatorView.hide();
         SharedPrefs.getmInstance().putData(CURRENT_USERNAME,userName);
         SharedPrefs.getmInstance().putData(CURRENT_PASSWORD,password);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        indicatorView.hide();
+        Intent intent = new Intent(LoginActivity.this, FriendActivity_.class);
+        intent.putExtra("userName",userName);
         startActivity(intent);
     }
 

@@ -1,8 +1,10 @@
 package jp.bap.traning.simplechat.view.activities;
 
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -22,11 +24,14 @@ import jp.bap.traning.simplechat.model.User;
 public class FriendActivity extends BaseActivity {
     @ViewById
     RecyclerView mRecyclerFriend;
-
+    @ViewById
+    TextView helloUser;
     private List<User> mListUser;
     private FriendAdapter mFriendAdapter;
     @Override
     public void afterView() {
+        Intent getIntent = getIntent();
+        helloUser.setText("Xin Chao, "+getIntent.getStringExtra("userName"));
         mListUser = new ArrayList<>();
         User user1 = new User();
         user1.setFirstName("User 1");

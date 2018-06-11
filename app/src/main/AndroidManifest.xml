@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".view.activities.SignUpActivity_"></activity>
         <activity android:name=".MainActivity_"></activity>
-
+        <activity android:name=".view.activities.FriendActivity_"></activity>
         <service
             android:name=".ChatService"
             android:enabled="true"

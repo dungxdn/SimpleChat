@@ -1,20 +1,18 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.database;
 
 import io.realm.Realm;
-import io.realm.annotations.Ignore;
+import io.realm.RealmObject;
 import jp.bap.traning.simplechat.model.User;
-
-/**
- * Created by dungpv on 6/11/18.
- */
 
 public class UserDAO {
     private Realm mRealm;
+
     public UserDAO() {
         mRealm = Realm.getDefaultInstance();
     }
 
     public void addUser(User user) {
+        mRealm = Realm.getDefaultInstance();
         mRealm.beginTransaction();
         mRealm.copyToRealm(user);
         mRealm.commitTransaction();
@@ -22,6 +20,11 @@ public class UserDAO {
 
     public boolean checkUser(String userName,String password) {
         User user = mRealm.where(User.class).equalTo("userName",userName).equalTo("password",password).findFirst();
+        return user != null;
+    }
+
+    public boolean validUser(String userName) {
+        User user = mRealm.where(User.class).equalTo("userName",userName).findFirst();
         return user != null;
     }
 

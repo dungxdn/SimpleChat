@@ -2,18 +2,12 @@ package jp.bap.traning.simplechat.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class User extends RealmObject implements Parcelable{
     private String userName;
     private String password;
