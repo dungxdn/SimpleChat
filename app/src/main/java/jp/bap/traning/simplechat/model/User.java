@@ -1,7 +1,5 @@
 package jp.bap.traning.simplechat.model;
 
-import android.util.Log;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
@@ -29,7 +27,6 @@ public class User extends RealmObject {
     }
 
     public static boolean checkUser(String userName,String password) {
-        Log.d("User", "checkUser: ");
         User user = realm.where(User.class).equalTo("userName",userName).equalTo("password",password).findFirst();
         return user != null;
     }

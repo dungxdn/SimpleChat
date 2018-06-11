@@ -101,4 +101,8 @@ public class LoginActivity extends Activity implements LoginInterface {
         Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }
