@@ -1,5 +1,8 @@
 package jp.bap.traning.simplechat.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
@@ -10,26 +13,48 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class User extends RealmObject {
+public class User extends RealmObject implements Parcelable{
     private String userName;
     private String password;
+    private String avatar;
+    private String firstName;
+    private String status;
 
-    @Ignore
-    static Realm realm =Realm.getDefaultInstance();
-
-    public static void addUser(String userName, String password) {
-        User user = new User(userName,password);
-        realm.beginTransaction();
-        realm.copyToRealm(user);
-        realm.commitTransaction();
+    public User() {
     }
 
-    public static boolean checkUser(String userName,String password) {
-        User user = realm.where(User.class).equalTo("userName",userName).equalTo("password",password).findFirst();
-        return user != null;
+    protected User(Parcel in) {
+        userName = in.readString();
+        password = in.readString();
+        avatar = in.readString();
+        firstName = in.readString();
+        status = in.readString();
     }
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
 
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(userName);
+        parcel.writeString(password);
+        parcel.writeString(avatar);
+        parcel.writeString(firstName);
+        parcel.writeString(status);
+    }
 }

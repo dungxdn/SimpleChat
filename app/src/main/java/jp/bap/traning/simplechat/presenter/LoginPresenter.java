@@ -21,12 +21,7 @@ public class LoginPresenter  {
     }
 
     public void logIn(String userName, String password) {
-        if(User.checkUser(userName,password)==true) {
-            loginInterface.loginSuccess(userName,password);
-        }
-        else {
-            loginInterface.loginFailed();
-        }
+
     }
 
 
