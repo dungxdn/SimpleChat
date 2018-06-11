@@ -27,7 +27,6 @@ public class User extends RealmObject {
     }
 
     public static boolean checkUser(String userName,String password) {
-
         User user = realm.where(User.class).equalTo("userName",userName).equalTo("password",password).findFirst();
         return user != null;
     }
