@@ -36,6 +36,7 @@ public class BaseApp extends MultiDexApplication {
                 .name(Realm.DEFAULT_REALM_NAME)
                 .rxFactory(new RealmObservableFactory())
                 .schemaVersion(0)
+//                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 

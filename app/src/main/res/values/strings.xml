@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SimpleChat</string>
     //Login
-    <string name="hint_email">Email</string>
+    <string name="hint_email">UserName</string>
     <string name="hint_pass">Password</string>
+    <string name="hinh_first_name">FirstName</string>
     <string name="text_login">Access</string>
     <string name="text_create_accout">Create Account</string>
     <string name="text_not_account"> Do not have an account? </string>
