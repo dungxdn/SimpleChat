@@ -32,7 +32,7 @@
         <activity android:name=".CallActivity_" />
 
         <service
-            android:name=".ChatService"
+            android:name=".chat.ChatService"
             android:enabled="true"
             android:exported="true" />
     </application>

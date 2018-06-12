@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.webrtc;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ public class CustomPeerConnectionObserver implements PeerConnection.Observer {
 
     private String logTag;
 
-    CustomPeerConnectionObserver(String logTag) {
+    public CustomPeerConnectionObserver(String logTag) {
         this.logTag = this.getClass().getCanonicalName();
         this.logTag = this.logTag+" "+logTag;
     }

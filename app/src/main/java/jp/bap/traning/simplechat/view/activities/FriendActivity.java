@@ -10,7 +10,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.bap.traning.simplechat.BaseActivity;
+import jp.bap.traning.simplechat.ui.BaseActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
 

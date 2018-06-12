@@ -1,9 +1,7 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.ui;
 
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
@@ -34,6 +32,11 @@ import org.webrtc.VideoTrack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
+import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
+import jp.bap.traning.simplechat.R;
 
 /**
  * Created by dungpv on 6/8/18.

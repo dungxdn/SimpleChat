@@ -1,16 +1,14 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import jp.bap.traning.simplechat.ui.CallActivity_;
+import jp.bap.traning.simplechat.R;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {

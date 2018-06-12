@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.webrtc;
 
 import android.util.Log;
 
@@ -14,7 +14,7 @@ public class CustomSdpObserver implements SdpObserver {
 
     private String tag;
 
-    CustomSdpObserver(String logTag) {
+    public CustomSdpObserver(String logTag) {
         tag = this.getClass().getCanonicalName();
         this.tag = this.tag + " " + logTag;
     }

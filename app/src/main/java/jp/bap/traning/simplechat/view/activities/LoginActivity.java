@@ -2,11 +2,7 @@ package jp.bap.traning.simplechat.view.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,16 +11,11 @@ import com.wang.avi.AVLoadingIndicatorView;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.sharedpreferences.SharedPref;
-import org.xml.sax.InputSource;
 
-import io.realm.Realm;
-import jp.bap.traning.simplechat.BaseActivity;
-import jp.bap.traning.simplechat.ChatService;
-import jp.bap.traning.simplechat.MainActivity;
+import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.ui.MainActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
-import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.SharedPrefs;
 

@@ -1,8 +1,7 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.chat;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
