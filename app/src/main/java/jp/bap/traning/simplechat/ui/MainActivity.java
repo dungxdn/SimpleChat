@@ -1,9 +1,12 @@
 package jp.bap.traning.simplechat;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -13,7 +16,7 @@ import org.androidannotations.annotations.ViewById;
 public class MainActivity extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
     @ViewById
-    AppCompatEditText mEditText;
+    AppCompatEditText mEtRoomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,21 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Click(R.id.mBtnSend)
-    void onClick(View view) {
+    @Click(R.id.mBtnCall)
+    void onClick() {
+        hideKeyboard();
+        CallActivity_.intent(this)
+                .isIncoming(false)
+                .roomId(Integer.parseInt(mEtRoomId.getText().toString()))
+                .start();
+    }
 
+    @Override
+    public void onCall(int roomId) {
+        super.onCall(roomId);
+        CallActivity_.intent(this)
+                .isIncoming(true)
+                .roomId(roomId)
+                .start();
     }
 }
