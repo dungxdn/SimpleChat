@@ -33,7 +33,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     public static final String CURRENT_USERNAME = "current_id";
     public static final String CURRENT_PASSWORD = "current_name";
     @ViewById
-    EditText edtEmail;
+    EditText edtUsername;
     @ViewById
     EditText edtPassword;
     @ViewById
@@ -41,7 +41,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Click
     void btnLogin() {
         indicatorView.show();
-        String email = edtEmail.getText().toString();
+        String email = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
         if(email.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
@@ -51,22 +51,26 @@ public class LoginActivity extends Activity implements LoginInterface {
             loginPresenter.logIn(email,password);
         }
     }
-
     @Click
-    void btnSignUp() {
-        indicatorView.hide();
-        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+    void tvForgotPass(){
+        Toast.makeText(this, "tvForgotPass", Toast.LENGTH_SHORT).show();
     }
 
-    @Click
-    void btnRecover() {
-        if(User.checkUser(edtEmail.getText().toString(), edtPassword.getText().toString())==true) {
-            Toast.makeText(LoginActivity.this,"Login Success!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(LoginActivity.this,"Login Failed!",Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Click
+//    void btnSignUp() {
+//        indicatorView.hide();
+//        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+//    }
+
+//    @Click
+//    void btnRecover() {
+//        if(User.checkUser(edtUsername.getText().toString(), edtPassword.getText().toString())==true) {
+//            Toast.makeText(LoginActivity.this,"Login Success!",Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+//            Toast.makeText(LoginActivity.this,"Login Failed!",Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 
     @Override
@@ -81,7 +85,7 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     public void init() {
         //get SharedPreference
-        edtEmail.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
+        edtUsername.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
         edtPassword.setText(SharedPrefs.getmInstance().getData(CURRENT_PASSWORD,String.class)+"");
 
     }

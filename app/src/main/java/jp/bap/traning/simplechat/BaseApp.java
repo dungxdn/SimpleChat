@@ -30,7 +30,6 @@ public class BaseApp extends MultiDexApplication {
         super.onCreate();
         sInstance=this;
         Realm.init(this);
-
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .modules(Realm.getDefaultModule(), new AllModule())
                 .name(Realm.DEFAULT_REALM_NAME)

@@ -17,4 +17,10 @@
     <color name="colorBlueLight">#00bcd4</color>
     <color name="colorOpacity">#da161b1d</color>
     <color name="greenCircle">#780dff00</color>
+
+    <color name="colorGreen">#54ba85</color>
+    <color name="colorGreenLight">#9ddebc</color>
+    <color name="colorGreenDark">#1d874a</color>
+    <color name="colorGray">#a4a6a5</color>
+
 </resources>
