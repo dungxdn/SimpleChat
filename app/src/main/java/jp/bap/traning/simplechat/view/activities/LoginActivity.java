@@ -20,6 +20,7 @@ import org.xml.sax.InputSource;
 
 import io.realm.Realm;
 import jp.bap.traning.simplechat.BaseActivity;
+import jp.bap.traning.simplechat.ChatService;
 import jp.bap.traning.simplechat.MainActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
@@ -40,7 +41,8 @@ public class LoginActivity extends Activity implements LoginInterface {
     AVLoadingIndicatorView indicatorView;
     @Click
     void btnLogin() {
-        indicatorView.show();
+        connectServerChat("http://172.16.1.77:3000", Integer.parseInt(edtEmail.getText().toString()));
+        /*indicatorView.show();
         String email = edtEmail.getText().toString();
         String password = edtPassword.getText().toString();
         if(email.isEmpty() || password.isEmpty()) {
@@ -49,13 +51,14 @@ public class LoginActivity extends Activity implements LoginInterface {
         }
         else {
             loginPresenter.logIn(email,password);
-        }
+        }*/
     }
 
     @Click
     void btnSignUp() {
-        indicatorView.hide();
-        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+        /*indicatorView.hide();
+        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));*/
+        ChatService.getChat().sendMessage("Tessss", 1);
     }
 
     @Click
@@ -99,5 +102,14 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Override
     public void onBackPressed() {
 
+    }
+
+    public void connectServerChat(String url, int userId) {
+        if (ChatService.getChat() == null) {
+            Intent i = new Intent(this, ChatService.class);
+            i.putExtra("host", url);
+            i.putExtra("token", userId);
+            startService(i);
+        }
     }
 }

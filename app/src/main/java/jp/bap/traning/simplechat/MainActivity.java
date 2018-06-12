@@ -28,8 +28,6 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.mBtnSend)
     void onClick(View view) {
-        if (ChatService.getChat() != null) {
-            ChatService.getChat().sendMessage(mEditText.getText().toString());
-        }
+
     }
 }

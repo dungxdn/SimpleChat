@@ -36,13 +36,13 @@ public class ChatService extends Service implements ChatManager.Listener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getExtras() != null) {
             String host = intent.getStringExtra("host");
-            String token = intent.getStringExtra("token");
+            int token = intent.getIntExtra("token", -1);
             initSocket(host, token);
         }
         return START_STICKY;
     }
 
-    private void initSocket(String host, String token) {
+    private void initSocket(String host, int token) {
         try {
             IO.Options opts = new IO.Options();
             opts.query = "token=" + token;
