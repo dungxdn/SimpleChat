@@ -58,7 +58,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     void btnSignUp() {
         /*indicatorView.hide();
         startActivity(new Intent(LoginActivity.this,SignUpActivity.class));*/
-        ChatService.getChat().sendMessage("Tessss", 1);
+        ChatService.getChat().sendMessage("Tessss", Integer.parseInt(edtPassword.getText().toString()));
     }
 
     @Click
