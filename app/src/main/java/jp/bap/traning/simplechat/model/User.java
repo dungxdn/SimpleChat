@@ -14,6 +14,7 @@ public class User extends RealmObject implements Parcelable{
     private String avatar;
     private String firstName;
     private String status;
+    private int id;
 
     public User() {
     }
@@ -24,6 +25,7 @@ public class User extends RealmObject implements Parcelable{
         avatar = in.readString();
         firstName = in.readString();
         status = in.readString();
+        id = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -50,5 +52,6 @@ public class User extends RealmObject implements Parcelable{
         parcel.writeString(avatar);
         parcel.writeString(firstName);
         parcel.writeString(status);
+        parcel.writeInt(id);
     }
 }

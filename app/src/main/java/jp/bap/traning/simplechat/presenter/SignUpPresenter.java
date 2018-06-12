@@ -21,7 +21,12 @@ public class SignUpPresenter {
             signUpInterface.signUpFailed();
         }
         else {
-            userDAO.addUser(new User(userName,password,avatar,firstName,"How are you today?"));
+            User user = new User();
+            user.setUserName(userName);
+            user.setPassword(password);
+            user.setAvatar(avatar);
+            user.setFirstName(firstName);
+            userDAO.addUser(user);
             signUpInterface.signUpSuccess(userName);
         }
     }
