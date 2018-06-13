@@ -10,6 +10,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
 
+import jp.bap.traning.simplechat.chat.ChatService;
+
 /**
  * Created by dungpv on 6/7/18.
  */

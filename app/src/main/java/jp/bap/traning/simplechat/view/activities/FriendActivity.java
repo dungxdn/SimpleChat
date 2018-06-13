@@ -15,6 +15,7 @@ import java.util.List;
 import jp.bap.traning.simplechat.BaseActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.view.adapter.FriendAdapter;
 
 /**
  * Created by dungpv on 6/11/18.

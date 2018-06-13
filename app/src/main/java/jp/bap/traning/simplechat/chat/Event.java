@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.chat;
 
 /**
  * Created by dungpv on 6/7/18.

@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.chat;
 
 import android.app.Service;
 import android.content.Intent;
@@ -12,12 +12,13 @@ import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.interfaces.ListenerInterface;
 
 /**
  * Created by dungpv on 6/7/18.
  */
 
-public class ChatService extends Service implements ChatManager.Listener {
+public class ChatService extends Service implements ListenerInterface {
     private final String TAG = getClass().getSimpleName();
     private static ChatManager sChatManager;
     private Socket mSocket;
