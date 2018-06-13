@@ -21,13 +21,11 @@
         <activity android:name=".ui.SplashActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.SignUpActivity_"></activity>
-        <activity android:name=".view.activities.LoginActivity_"></activity>
-
+        <activity android:name=".view.activities.SignUpActivity_" />
+        <activity android:name=".view.activities.LoginActivity_" />
         <activity android:name=".ui.MainActivity_" />
         <activity android:name=".ui.CallActivity_" />
 
