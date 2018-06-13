@@ -8,9 +8,7 @@
     app:contentInsetEnd="0dp"
     app:contentInsetLeft="0dp"
     app:contentInsetRight="0dp"
-    app:contentInsetStart="0dp"
-    app:title="@string/app_name"
-    app:titleTextColor="@color/white">
+    app:contentInsetStart="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,13 +35,11 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imgBack"
-            android:padding="@dimen/_8sdp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:background="@android:color/transparent"
+            android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_arrow_back" />
     </RelativeLayout>
-
-
 </android.support.v7.widget.Toolbar>

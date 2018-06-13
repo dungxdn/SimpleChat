@@ -22,4 +22,12 @@ public class CustomToolbar extends Toolbar {
     public CustomToolbar(Context context) {
         super(context);
     }
+
+    public CustomToolbar(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 }
