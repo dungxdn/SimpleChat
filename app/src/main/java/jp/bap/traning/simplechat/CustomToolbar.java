@@ -17,17 +17,16 @@ import jp.bap.traning.simplechat.R;
  * Created by Admin on 6/13/2018.
  */
 @EViewGroup(R.layout.layout_custom_toolbar)
-public class CustomToolbar extends Toolbar {
-
-    public CustomToolbar(Context context) {
-        super(context);
+public class CustomToolbar extends RelativeLayout {
+    public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
-    public CustomToolbar(Context context, @Nullable AttributeSet attrs) {
+    public CustomToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public CustomToolbar(Context context) {
+        super(context);
     }
 }
