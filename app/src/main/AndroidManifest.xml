@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.activities.ChatTalksActivity_">
-        <activity android:name=".ActivitySplash_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +21,7 @@
         <activity android:name=".view.activities.SignUpActivity_" />
         <activity android:name=".MainActivity_" />
         <activity android:name=".view.activities.FriendActivity_" />
-
+        <activity android:name=".ActivitySplash_"/>
         <service
             android:name=".chat.ChatService"
             android:enabled="true"

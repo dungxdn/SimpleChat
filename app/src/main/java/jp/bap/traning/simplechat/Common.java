@@ -3,6 +3,8 @@ package jp.bap.traning.simplechat;
 import android.content.Context;
 import android.content.Intent;
 
+import jp.bap.traning.simplechat.chat.ChatService;
+
 /**
  * Created by dungpv on 6/13/18.
  */
