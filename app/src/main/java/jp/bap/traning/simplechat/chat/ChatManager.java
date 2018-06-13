@@ -13,7 +13,7 @@ import jp.bap.traning.simplechat.interfaces.ListenerInterface;
  * Created by dungpv on 6/7/18.
  */
 
-public class ChatManager {
+public class ChatManager  {
     private static final String TAG = ChatManager.class.getSimpleName();
     Socket mSocket;
     ListenerInterface mListener;
