@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.SignUpActivity_" />
-        <activity android:name=".MainActivity_" />
-        <activity android:name=".view.activities.FriendActivity_" />
+        <activity android:name=".MainActivity_"/>
+        <activity android:name=".view.activities.SignUpActivity_"/>
+        <activity android:name=".view.activities.FriendActivity_"/>
 
         <service
             android:name=".ChatService"
