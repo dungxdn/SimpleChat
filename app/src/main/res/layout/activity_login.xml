@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".view.activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_height="@dimen/_180sdp"
         android:gravity="center">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/imgv_logo"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:adjustViewBounds="false"
             android:scaleType="fitCenter"
             android:src="@drawable/logo1" />
@@ -27,35 +28,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/edtUsername"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/design_email"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_25sdp"
-            android:layout_marginRight="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:background="@drawable/shape_bg_edt_login"
-            android:gravity="center|left"
-            android:hint="@string/hint_email"
-            android:inputType="text"
-            android:padding="@dimen/_5sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgv_logo">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/edtPassword"
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/black"
+                android:hint="@string/hint_email"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/design_password"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_25sdp"
-            android:layout_marginRight="@dimen/_25sdp"
-            android:background="@drawable/shape_bg_edt_login"
-            android:gravity="center|left"
-            android:hint="@string/hint_pass"
-            android:inputType="textPassword"
-            android:padding="@dimen/_5sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:textColor="@color/black"
+                android:hint="@string/hint_pass"
+                android:textSize="@dimen/_14ssp"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
 
 
         <android.support.v7.widget.AppCompatButton

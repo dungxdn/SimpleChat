@@ -3,6 +3,9 @@
     //Login
     <string name="hint_email">Username</string>
     <string name="hint_pass">Password</string>
+    <string name="hint_confirm_pass">Confirm password</string>
+    <string name="hint_firstname">Firstname</string>
+    <string name="hint_lastname">Lastname</string>
     <string name="text_login">Login</string>
     <string name="text_register">Register</string>
     <string name="text_create_accout">Create new account</string>

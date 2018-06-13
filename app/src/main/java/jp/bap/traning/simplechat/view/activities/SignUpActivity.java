@@ -20,25 +20,31 @@ public class SignUpActivity extends Activity {
     @ViewById
     AVLoadingIndicatorView indicatorView;
     @ViewById
-    EditText edtRegisterEmail;
+    EditText edtUsername;
     @ViewById
-    EditText edtRegisterPassword;
+    EditText edtFirstname;
+    @ViewById
+    EditText edtLastname;
+    @ViewById
+    EditText edtPassword;
+    @ViewById
+    EditText edtConfirmPassword;
     @Click
     void btnSignUp() {
-        indicatorView.show();
-        String email = edtRegisterEmail.getText().toString();
-        String password = edtRegisterPassword.getText().toString();
-        if(email.isEmpty() || password.isEmpty()) {
-            indicatorView.hide();
-            Toast.makeText(SignUpActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-
-        }
+//        indicatorView.show();
+//        String email = edtUsername.getText().toString();
+//        String password = edtPassword.getText().toString();
+//        if(email.isEmpty() || password.isEmpty()) {
+//            indicatorView.hide();
+//            Toast.makeText(SignUpActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+//
+//        }
     }
     @Click
     void btnSignIn() {
-        startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+       finish();
     }
 
 

@@ -56,11 +56,11 @@ public class LoginActivity extends Activity implements LoginInterface {
         Toast.makeText(this, "tvForgotPass", Toast.LENGTH_SHORT).show();
     }
 
-//    @Click
-//    void btnSignUp() {
-//        indicatorView.hide();
-//        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
-//    }
+    @Click
+    void btnSignUp() {
+        indicatorView.hide();
+        startActivity(new Intent(this,SignUpActivity_.class));
+    }
 
 //    @Click
 //    void btnRecover() {

@@ -14,14 +14,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.activities.LoginActivity_"
             android:theme="@style/MyAppTheme">
+
+        </activity>
+        <activity android:name=".view.activities.SignUpActivity_"
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.SignUpActivity_"></activity>
-        <activity android:name=".MainActivity_"></activity>
 
         <service
             android:name=".ChatService"
