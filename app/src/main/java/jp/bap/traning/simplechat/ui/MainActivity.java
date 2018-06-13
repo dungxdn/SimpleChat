@@ -26,9 +26,9 @@ public class MainActivity extends BaseActivity {
     TabLayout mTabLayout;
 
     private int[] tabIcons = {
-            R.drawable.ic_tab_profile_select,
-            R.drawable.ic_tab_chat_select,
-            R.drawable.ic_tab_more_select
+            R.drawable.ic_person,
+            R.drawable.ic_sms,
+            R.drawable.ic_more
     };
 
     @Override
