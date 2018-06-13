@@ -59,10 +59,11 @@ public class ChatManager {
         });
     }
 
-    public void sendMessage(String content) {
+    public void sendMessage(String content, int roomId) {
         JSONObject data = new JSONObject();
         try {
             data.put("content", content);
+            data.put("roomId", content);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
             e.printStackTrace();
