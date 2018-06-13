@@ -18,6 +18,7 @@ import io.realm.rx.RealmObservableFactory;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
+
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
@@ -28,9 +29,10 @@ public class BaseApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance=this;
-        Realm.init(this);
+        sInstance = this;
 
+        //Init realm
+        Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .modules(Realm.getDefaultModule(), new AllModule())
                 .name(Realm.DEFAULT_REALM_NAME)
@@ -40,6 +42,7 @@ public class BaseApp extends MultiDexApplication {
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        //Debug database
         if (BuildConfig.DEBUG) {
             /**
              * set up for view realm db in #chrome://inspect/

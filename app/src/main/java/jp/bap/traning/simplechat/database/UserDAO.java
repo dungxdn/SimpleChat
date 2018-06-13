@@ -18,13 +18,13 @@ public class UserDAO {
         mRealm.commitTransaction();
     }
 
-    public boolean checkUser(String userName,String password) {
-        User user = mRealm.where(User.class).equalTo("userName",userName).equalTo("password",password).findFirst();
+    public boolean checkUser(String userName, String password) {
+        User user = mRealm.where(User.class).equalTo("userName", userName).equalTo("password", password).findFirst();
         return user != null;
     }
 
     public boolean validUser(String userName) {
-        User user = mRealm.where(User.class).equalTo("userName",userName).findFirst();
+        User user = mRealm.where(User.class).equalTo("userName", userName).findFirst();
         return user != null;
     }
 
