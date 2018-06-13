@@ -7,7 +7,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import jp.bap.traning.simplechat.ui.CallActivity_;
 import jp.bap.traning.simplechat.R;
 
 @EActivity(R.layout.activity_main)

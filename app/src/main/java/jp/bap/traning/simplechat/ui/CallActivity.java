@@ -33,6 +33,7 @@ import org.webrtc.VideoTrack;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.chat.ChatService;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
@@ -58,20 +59,21 @@ public class CallActivity extends BaseActivity {
     @Extra
     boolean isIncoming;
 
-    PeerConnectionFactory peerConnectionFactory;
-    MediaConstraints audioConstraints;
-    MediaConstraints videoConstraints;
-    MediaConstraints sdpConstraints;
-    VideoSource videoSource;
-    VideoTrack localVideoTrack;
-    AudioSource audioSource;
-    AudioTrack localAudioTrack;
-    VideoRenderer localRenderer;
-    VideoRenderer remoteRenderer;
-    PeerConnection localPeer;
-    EglBase rootEglBase;
-    boolean gotUserMedia;
-    List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
+
+    private PeerConnectionFactory peerConnectionFactory;
+    private MediaConstraints audioConstraints;
+    private MediaConstraints videoConstraints;
+    private MediaConstraints sdpConstraints;
+    private VideoSource videoSource;
+    private VideoTrack localVideoTrack;
+    private AudioSource audioSource;
+    private AudioTrack localAudioTrack;
+    private VideoRenderer localRenderer;
+    private VideoRenderer remoteRenderer;
+    private PeerConnection localPeer;
+    private EglBase rootEglBase;
+    private boolean gotUserMedia;
+    private List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
 
     @Override
     public void afterView() {
@@ -97,9 +99,9 @@ public class CallActivity extends BaseActivity {
 
     private void getIceServers() {
         PeerConnection.IceServer peerIceServer = PeerConnection.IceServer
-                .builder("turn:turn.robin-aisystem.com:2022")
-                .setUsername("robin")
-                .setPassword("EID5rvjx8Ls8wO9DALls1gAQa")
+                .builder(Common.TURN_URL)
+                .setUsername(Common.TURN_USERNAME)
+                .setPassword(Common.TURN_PASSWORD)
                 .createIceServer();
         peerIceServers.add(peerIceServer);
     }

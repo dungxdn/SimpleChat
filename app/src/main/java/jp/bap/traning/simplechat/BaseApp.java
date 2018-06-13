@@ -10,6 +10,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
+import jp.bap.traning.simplechat.presenter.SharedPrefs;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -29,15 +30,9 @@ public class BaseApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         sInstance=this;
-        Realm.init(this);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .modules(Realm.getDefaultModule(), new AllModule())
-                .name(Realm.DEFAULT_REALM_NAME)
-                .rxFactory(new RealmObservableFactory())
-                .schemaVersion(0)
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+        //realm init
+        initRealm();
 
         if (BuildConfig.DEBUG) {
             /**
@@ -49,5 +44,25 @@ public class BaseApp extends MultiDexApplication {
                             .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                             .build());
         }
+    }
+
+    private void initRetrofit() {
+
+    }
+
+    private void initRealm() {
+        Realm.init(this);
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .modules(Realm.getDefaultModule(), new AllModule())
+                .name(Realm.DEFAULT_REALM_NAME)
+                .rxFactory(new RealmObservableFactory())
+                .schemaVersion(0)
+                .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+    }
+
+    private void initSharedPrefs() {
+
     }
 }

@@ -12,44 +12,40 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.ui.BaseActivity;
 import jp.bap.traning.simplechat.ui.MainActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
 import jp.bap.traning.simplechat.presenter.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.SharedPrefs;
+import jp.bap.traning.simplechat.ui.MainActivity_;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends Activity implements LoginInterface {
-    private LoginPresenter loginPresenter;
-    public static final String CURRENT_USERNAME = "current_id";
-    public static final String CURRENT_PASSWORD = "current_name";
+public class LoginActivity extends BaseActivity {
     @ViewById
     EditText edtEmail;
     @ViewById
     EditText edtPassword;
     @ViewById
     AVLoadingIndicatorView indicatorView;
+
+    @Override
+    public void afterView() {
+        init();
+    }
+
     @Click
     void btnLogin() {
-        connectServerChat("http://172.16.1.77:3000", Integer.parseInt(edtEmail.getText().toString()));
-        /*indicatorView.show();
-        String email = edtEmail.getText().toString();
-        String password = edtPassword.getText().toString();
-        if(email.isEmpty() || password.isEmpty()) {
-            indicatorView.hide();
-            Toast.makeText(LoginActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            loginPresenter.logIn(email,password);
-        }*/
+        int mMineId = Integer.parseInt(edtEmail.getText().toString());
+        SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, mMineId);
+        Common.connectServerChat(this, Common.URL_CHAT, mMineId);
     }
 
     @Click
     void btnSignUp() {
-        /*indicatorView.hide();
-        startActivity(new Intent(LoginActivity.this,SignUpActivity.class));*/
-        ChatService.getChat().sendMessage("Tessss", Integer.parseInt(edtPassword.getText().toString()));
+
     }
 
     @Click
@@ -57,50 +53,13 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //
-//        init();
-        loginPresenter = LoginPresenter.getShareInstance();
-        loginPresenter.loginInterface = this;
-
-    }
-
     public void init() {
-        //get SharedPreference
-        edtEmail.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
-        edtPassword.setText(SharedPrefs.getmInstance().getData(CURRENT_PASSWORD,String.class)+"");
-
     }
 
     @Override
-    public void loginSuccess(String userName, String password) {
-        SharedPrefs.getmInstance().putData(CURRENT_USERNAME,userName);
-        SharedPrefs.getmInstance().putData(CURRENT_PASSWORD,password);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        indicatorView.hide();
-        startActivity(intent);
-    }
-
-    @Override
-    public void loginFailed() {
-        indicatorView.hide();
-        Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onBackPressed() {
-
-    }
-
-    public void connectServerChat(String url, int userId) {
-        if (ChatService.getChat() == null) {
-            Intent i = new Intent(this, ChatService.class);
-            i.putExtra("host", url);
-            i.putExtra("token", userId);
-            startService(i);
-        }
+    public void onSocketConnected() {
+        super.onSocketConnected();
+        MainActivity_.intent(this).start();
+        finish();
     }
 }
