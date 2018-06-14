@@ -48,7 +48,7 @@ public class CallbackManager {
         Map<String, Event> allType = Event.getAllType();
         if (allType.size() > 0) {
             for (Event type : allType.values()) {
-                if (type != Event.MESSAGE_SEND && type != Event.UNKNOWN) {
+                if (type != Event.MESSAGE_SEND) {
                     register(type, listener);
                 }
             }
