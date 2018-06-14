@@ -1,5 +1,8 @@
 package jp.bap.traning.simplechat.view.activities;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
@@ -17,42 +20,51 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.bap.traning.simplechat.BaseActivity;
 import jp.bap.traning.simplechat.BaseApp;
+import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.chat.ChatManager;
 import jp.bap.traning.simplechat.chat.ChatService;
 import jp.bap.traning.simplechat.chat.Event;
+import jp.bap.traning.simplechat.interfaces.ListenerInterface;
 import jp.bap.traning.simplechat.view.service.MessageChangeReceiver;
 
 @EActivity(R.layout.activity_chat_talks)
-public class ChatTalksActivity extends BaseApp{
-    private static final String URL_SERVER = "http://172.16.0.31:3000";
-    private static final String SEND_MESSAGE = "Send Message";
-    private static final String RECEIVE_MESSAGE = "Receive Message";
-    public MessageChangeReceiver messageChangeReceiver;
+public class ChatTalksActivity extends BaseActivity{
+    private static final String LISTEN_EVENT="send message";
     ArrayList<String> listMessage;
+    ChatManager chatManager;
     @ViewById
     ListView listViewChat;
     @ViewById
     EditText edtMessage;
     @Click
     void imgSendMessage() {
-        Intent intent = new Intent();
-        intent.setAction(SEND_MESSAGE);
-        sendBroadcast(intent);
-    }
-
-    @AfterViews
-    public void view() {
-        init();
-        if(connectToServer(URL_SERVER,1)==true) {
-            Toast.makeText(ChatTalksActivity.this,"Connect Server is Success",Toast.LENGTH_SHORT).show();
+        if(edtMessage.getText().toString().isEmpty()==true) {
+            Toast.makeText(ChatTalksActivity.this,"Edit Message is Empty",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(ChatTalksActivity.this,"Connect Server is NOT Success",Toast.LENGTH_SHORT).show();
+            if(ChatService.getChat() !=null) {
+                Toast.makeText(ChatTalksActivity.this,"5-Send Message",Toast.LENGTH_SHORT).show();
+                ChatService.getChat().sendMessage(edtMessage.getText().toString(),5);
+                //Thong bao cho broadcast receiver ve su kien send
+//                Intent intent =  new Intent();
+//                intent.setAction(LISTEN_EVENT);
+//                sendBroadcast(intent);
+            }
+
         }
+    }
+
+    @Override
+    public void afterView() {
+        init();
+        Common.connectToServerSocket(this,Common.URL_SERVER,"5");
     }
 
     private void init() {
@@ -63,23 +75,6 @@ public class ChatTalksActivity extends BaseApp{
         ArrayAdapter arrayAdapter = new ArrayAdapter(ChatTalksActivity.this,android.R.layout.simple_list_item_1,listMessage);
         listViewChat.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
-    }
-
-    private boolean connectToServer(String server, int userID) {
-        if(ChatService.getChat()==null) {
-            Intent intent = new Intent(this, ChatService.class);
-            intent.putExtra("host", server);
-            intent.putExtra("token",userID);
-            startService(intent);
-            return true;
-        }
-        return false;
-    }
-
-    private void initBroadCastReceiver() {
-        messageChangeReceiver = new MessageChangeReceiver();
-        IntentFilter intentFilter = new IntentFilter(SEND_MESSAGE);
-        registerReceiver(messageChangeReceiver,intentFilter);
     }
 
 }

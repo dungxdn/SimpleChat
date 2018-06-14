@@ -1,6 +1,11 @@
 package jp.bap.traning.simplechat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.multidex.MultiDexApplication;
+import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -10,6 +15,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
+import jp.bap.traning.simplechat.view.service.MessageChangeReceiver;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -18,6 +24,8 @@ import io.realm.rx.RealmObservableFactory;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
+    private static final String LISTEN_EVENT="send message";
+
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
@@ -49,5 +57,21 @@ public class BaseApp extends MultiDexApplication {
                             .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                             .build());
         }
+
+        initBroadCastReceiver();
     }
+
+    public void initBroadCastReceiver() {
+        Toast.makeText(getApplicationContext(),"BroadCast Receiver is Ready",Toast.LENGTH_SHORT).show();
+        MessageChangeReceiver messageChangeReceiver = new MessageChangeReceiver();
+        IntentFilter intentFilter = new IntentFilter(LISTEN_EVENT);
+        registerReceiver(messageChangeReceiver,intentFilter);
+    }
+
+    public void resultMessage(String message) {
+
+    }
+
+
+
 }

@@ -38,9 +38,9 @@ public class ChatManager  {
                         // TODO: 6/7/18
                         Log.d(TAG, "Callback ON: " + event + " had ack!");
                     }
-                    if (mListener != null) {
+//                    if (mListener != null) {
                         mListener.onEvent(event, (JSONObject) args[0]);
-                    }
+//                    }
                 });
             }
         }
@@ -60,10 +60,12 @@ public class ChatManager  {
         JSONObject data = new JSONObject();
         try {
             data.put("content", content);
-            data.put("roomId", content);
+            data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import jp.bap.traning.simplechat.interfaces.ListenerInterface;
  */
 
 public class ChatService extends Service implements ListenerInterface {
+    private static final String LISTEN_EVENT="send message";
     private final String TAG = getClass().getSimpleName();
     private static ChatManager sChatManager;
     private Socket mSocket;
@@ -57,12 +59,17 @@ public class ChatService extends Service implements ListenerInterface {
 
     @Override
     public void onEvent(Event event, JSONObject data) {
-
+        Log.d("Ham Event","Nhan Duoc Tin Nhan");
+        Toast.makeText(getApplicationContext(),"Ham On Event Cho Doi De Tra Ket Qua Ve",Toast.LENGTH_SHORT).show();
+        //
+        Intent intent =  new Intent();
+        intent.setAction(LISTEN_EVENT);
+        sendBroadcast(intent);
     }
 
     @Override
     public void onEmit(Event event, JSONObject data) {
-
+        Toast.makeText(getApplicationContext(),"Ham onEmit ",Toast.LENGTH_SHORT).show();
     }
 
     private void onSocketSystem() {
