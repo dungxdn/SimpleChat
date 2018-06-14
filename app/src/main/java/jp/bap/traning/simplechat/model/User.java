@@ -7,6 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,20 +16,23 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class User extends RealmObject implements Parcelable{
+    @PrimaryKey
+    private int id;
     private String userName;
-    private String password;
-    private String avatar;
     private String firstName;
+    private String lastName;
+    private String avatar;
     private String status;
 
     public User() {
     }
 
     protected User(Parcel in) {
+        id = in.readInt();
         userName = in.readString();
-        password = in.readString();
-        avatar = in.readString();
         firstName = in.readString();
+        lastName = in.readString();
+        avatar = in.readString();
         status = in.readString();
     }
 
@@ -51,10 +55,11 @@ public class User extends RealmObject implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(userName);
-        parcel.writeString(password);
-        parcel.writeString(avatar);
         parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(avatar);
         parcel.writeString(status);
     }
 }
