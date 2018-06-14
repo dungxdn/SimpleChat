@@ -2,38 +2,31 @@ package jp.bap.traning.simplechat.view.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import jp.bap.traning.simplechat.Response.UserResponse;
+import jp.bap.traning.simplechat.interfaces.LoginInterface;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.sharedpreferences.SharedPref;
-import org.xml.sax.InputSource;
 
-import io.realm.Realm;
-import jp.bap.traning.simplechat.BaseActivity;
-import jp.bap.traning.simplechat.MainActivity;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.interfaces.LoginInterface;
-import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.LoginPresenter;
-import jp.bap.traning.simplechat.presenter.SharedPrefs;
+import jp.bap.traning.simplechat.Presenter.LoginPresenter;
+import jp.bap.traning.simplechat.Presenter.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity implements LoginInterface {
-    private LoginPresenter loginPresenter;
+    private LoginPresenter mLoginPresenter;
     public static final String CURRENT_USERNAME = "current_id";
     public static final String CURRENT_PASSWORD = "current_name";
+
     @ViewById
-    EditText edtUsername;
+    EditText edtUserName;
     @ViewById
     EditText edtPassword;
     @ViewById
@@ -41,19 +34,15 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Click
     void btnLogin() {
         indicatorView.show();
-        String email = edtUsername.getText().toString();
+        String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if(email.isEmpty() || password.isEmpty()) {
+        if(userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
         }
         else {
-            loginPresenter.logIn(email,password);
+            mLoginPresenter.logIn(userName,password);
         }
-    }
-    @Click
-    void tvForgotPass(){
-        Toast.makeText(this, "tvForgotPass", Toast.LENGTH_SHORT).show();
     }
 
     @Click
@@ -62,45 +51,25 @@ public class LoginActivity extends Activity implements LoginInterface {
         startActivity(new Intent(this,SignUpActivity_.class));
     }
 
-//    @Click
-//    void btnRecover() {
-//        if(User.checkUser(edtUsername.getText().toString(), edtPassword.getText().toString())==true) {
-//            Toast.makeText(LoginActivity.this,"Login Success!",Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-//            Toast.makeText(LoginActivity.this,"Login Failed!",Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
-//        init();
-        loginPresenter = LoginPresenter.getShareInstance();
-        loginPresenter.loginInterface = this;
-
+        Init();
     }
 
-    public void init() {
-        //get SharedPreference
-        edtUsername.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
+    public void getSharedPreference() {
+        edtUserName.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
         edtPassword.setText(SharedPrefs.getmInstance().getData(CURRENT_PASSWORD,String.class)+"");
-
     }
 
     @Override
-    public void loginSuccess(String userName, String password) {
-        SharedPrefs.getmInstance().putData(CURRENT_USERNAME,userName);
-        SharedPrefs.getmInstance().putData(CURRENT_PASSWORD,password);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    public void onLoginSuccess(UserResponse userResponse) {
         indicatorView.hide();
-        startActivity(intent);
+        Log.e("abc", userResponse.getData().toString());
     }
 
     @Override
-    public void loginFailed() {
+    public void onLoginFailed() {
         indicatorView.hide();
         Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
     }
@@ -108,5 +77,9 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Override
     public void onBackPressed() {
 
+    }
+
+    public void Init(){
+        this.mLoginPresenter = new LoginPresenter(this);
     }
 }

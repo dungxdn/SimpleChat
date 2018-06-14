@@ -37,7 +37,6 @@ public class FriendAdapter extends RecyclerView.Adapter {
         User user = mListUser.get(position);
         FriendViewHolder friendholder = (FriendViewHolder) holder;
         friendholder.mUserName.setText(user.getFirstName());
-        friendholder.mStatus.setText(user.getStatus());
     }
 
     @Override
