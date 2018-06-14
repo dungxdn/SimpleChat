@@ -70,7 +70,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Override
     public void onLoginSuccess(UserResponse userResponse) {
         indicatorView.hide();
-        Log.e("abc", userResponse.getUser().toString());
+        Log.e("abc", userResponse.getData().toString());
     }
 
     @Override
