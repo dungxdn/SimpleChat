@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -9,21 +9,17 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User extends RealmObject implements Parcelable{
-    private String userName;
-    private String password;
-    private String avatar;
+    private int id;
     private String firstName;
-    private String status;
+    private String lastName;
 
     public User() {
     }
 
     protected User(Parcel in) {
-        userName = in.readString();
-        password = in.readString();
-        avatar = in.readString();
+        id = in.readInt();
         firstName = in.readString();
-        status = in.readString();
+        lastName = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -44,11 +40,9 @@ public class User extends RealmObject implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(userName);
-        parcel.writeString(password);
-        parcel.writeString(avatar);
-        parcel.writeString(firstName);
-        parcel.writeString(status);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
     }
 }

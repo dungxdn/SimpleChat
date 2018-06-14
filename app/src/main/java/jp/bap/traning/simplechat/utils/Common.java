@@ -1,14 +1,17 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.utils;
 
 import android.content.Context;
 import android.content.Intent;
+
+import jp.bap.traning.simplechat.service.ChatService;
 
 /**
  * Created by dungpv on 6/13/18.
  */
 
 public class Common {
-    private static final String URL_SERVER = "http://172.16.1.77:3000";
+    public static final String URL_SERVER = "http://172.16.1.77:3000";
+    public static final String ACTION_SOCKET_EVENT = "action.socket.event";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {

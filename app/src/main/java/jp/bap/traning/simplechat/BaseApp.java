@@ -10,6 +10,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
+import jp.bap.traning.simplechat.utils.AllModule;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -18,6 +19,7 @@ import io.realm.rx.RealmObservableFactory;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
+
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
@@ -28,7 +30,7 @@ public class BaseApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance=this;
+        sInstance = this;
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .modules(Realm.getDefaultModule(), new AllModule())

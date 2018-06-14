@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.presenter;
+package jp.bap.traning.simplechat.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +7,7 @@ import jp.bap.traning.simplechat.BaseApp;
 
 public class SharedPrefs {
     private static final String PREFS_NAME = "share_prefs";
+    public static final String KEY_SAVE_ID = "KEY_SAVE_ID";
     private static SharedPrefs mInstance;
     private SharedPreferences mSharedPreferences;
 
@@ -14,7 +15,7 @@ public class SharedPrefs {
        mSharedPreferences = BaseApp.getInstance().getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
     }
 
-    public static SharedPrefs getmInstance() {
+    public static SharedPrefs getInstance() {
         if(mInstance== null) {
             mInstance = new SharedPrefs();
         }
