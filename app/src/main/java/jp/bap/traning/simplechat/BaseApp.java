@@ -24,9 +24,6 @@ import jp.bap.traning.simplechat.view.service.MessageChangeReceiver;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
-    private static final String LISTEN_EVENT="send message";
-
-
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
@@ -44,7 +41,6 @@ public class BaseApp extends MultiDexApplication {
                 .name(Realm.DEFAULT_REALM_NAME)
                 .rxFactory(new RealmObservableFactory())
                 .schemaVersion(0)
-//                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
@@ -59,17 +55,5 @@ public class BaseApp extends MultiDexApplication {
                             .build());
         }
 
-        initBroadCastReceiver();
     }
-
-    public void initBroadCastReceiver() {
-        Toast.makeText(getApplicationContext(),"BroadCast Receiver is Ready",Toast.LENGTH_SHORT).show();
-        MessageChangeReceiver messageChangeReceiver = new MessageChangeReceiver();
-        IntentFilter intentFilter = new IntentFilter(LISTEN_EVENT);
-        registerReceiver(messageChangeReceiver,intentFilter);
-    }
-
-
-
-
 }

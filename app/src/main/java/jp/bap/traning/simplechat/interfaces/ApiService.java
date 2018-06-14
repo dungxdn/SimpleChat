@@ -6,8 +6,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface APIInterface {
-
+public interface ApiService {
     @FormUrlEncoded
     @POST("/user/login")
     Call<UserResponse> getUser(@Field("userName") String userName,

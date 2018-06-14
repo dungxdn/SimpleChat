@@ -11,6 +11,7 @@ import jp.bap.traning.simplechat.chat.ChatService;
 
 public class Common {
     public static final String URL_SERVER = "http://172.16.1.77:3000";
+    public static final String ACTION_SOCKET_EVENT = "action.socket.event";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {

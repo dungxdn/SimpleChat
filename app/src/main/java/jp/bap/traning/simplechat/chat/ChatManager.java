@@ -39,9 +39,9 @@ public class ChatManager  {
                         // TODO: 6/7/18
                         Log.d(TAG, "Callback ON: " + event + " had ack!");
                     }
-//                    if (mListener != null) {
+                    if (mListener != null) {
                         mListener.onEvent(event, (JSONObject) args[0]);
-//                    }
+                    }
                 });
             }
         }

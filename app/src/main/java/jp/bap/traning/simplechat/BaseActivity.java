@@ -32,6 +32,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         mCallback.register(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCallback.unregister();
+    }
+
     public abstract void afterView();
 
     @AfterViews

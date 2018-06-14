@@ -36,11 +36,4 @@ public class MainActivity extends BaseActivity {
         int roomId = Integer.parseInt(mEdtRoomId.getText().toString());
         ChatService.getChat().sendMessage(message, roomId);
     }
-
-//    @Click(R.id.mBtnSend)
-//    void onClick(View view) {
-//        if (ChatService.getChat() != null) {
-//            ChatService.getChat().sendMessage(mEditText.getText().toString());
-//        }
-//    }
 }

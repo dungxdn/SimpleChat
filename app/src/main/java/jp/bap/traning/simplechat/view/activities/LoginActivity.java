@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.MainActivity_;
 import jp.bap.traning.simplechat.presenter.SharedPrefs;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
@@ -65,6 +67,8 @@ public class LoginActivity extends Activity implements LoginView {
         indicatorView.hide();
         Log.e("abc", userResponse.getData().toString());
         MainActivity_.intent(this).start();
+        //Connect to Socket
+        Common.connectToServerSocket(this,Common.URL_SERVER,userResponse.getData().getId());
         finish();
     }
 

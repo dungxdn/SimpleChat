@@ -4,7 +4,7 @@ import jp.bap.traning.simplechat.presenter.SharedPrefs;
 import jp.bap.traning.simplechat.RetrofitAPIHandler.RetrofitAPIUtils;
 import jp.bap.traning.simplechat.Response.UserResponse;
 import jp.bap.traning.simplechat.database.UserDAO;
-import jp.bap.traning.simplechat.interfaces.APIInterface;
+import jp.bap.traning.simplechat.interfaces.ApiService;
 import jp.bap.traning.simplechat.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class LoginInteractor {
 
-    private APIInterface mAPIInterface;
+    private ApiService mAPIInterface;
 
     public LoginInteractor() {
     }
