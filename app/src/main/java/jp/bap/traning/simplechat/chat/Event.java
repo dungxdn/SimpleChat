@@ -6,7 +6,8 @@ package jp.bap.traning.simplechat.chat;
 
 public enum Event {
     MESSAGE_SEND("sendMessage"),
-    MESSAGE_RECEIVER("receiverMessage");
+    MESSAGE_RECEIVER("receiverMessage"),
+    CONNECT("connect");
 
     String mEvent;
     Event(String e) {

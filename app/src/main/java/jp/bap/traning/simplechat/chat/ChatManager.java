@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.chat;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -67,5 +68,8 @@ public class ChatManager  {
         }
     }
 
+    public void sendReceive(Event event, JSONObject data) {
+        LocalBroadcastManager.getInstance(.)
+    }
 
 }

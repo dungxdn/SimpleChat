@@ -68,9 +68,6 @@ public class BaseApp extends MultiDexApplication {
         registerReceiver(messageChangeReceiver,intentFilter);
     }
 
-    public void resultMessage(String message) {
-
-    }
 
 
 
