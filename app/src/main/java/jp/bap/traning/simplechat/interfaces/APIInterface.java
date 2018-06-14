@@ -10,7 +10,7 @@ public interface APIInterface {
 
     @FormUrlEncoded
     @POST("/user/login")
-    Call<UserResponse> getListUser(@Field("userName") String userName,
+    Call<UserResponse> getUser(@Field("userName") String userName,
             @Field("password") String password);
 
 }

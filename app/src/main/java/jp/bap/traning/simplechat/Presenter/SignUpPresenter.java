@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.presenter;
+package jp.bap.traning.simplechat.Presenter;
 
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.interfaces.SignUpInterface;
@@ -22,9 +22,6 @@ public class SignUpPresenter {
         }
         else {
             User user = new User();
-            user.setUserName(userName);
-            user.setPassword(password);
-            user.setAvatar(avatar);
             user.setFirstName(firstName);
             userDAO.addUser(user);
             signUpInterface.signUpSuccess(userName);

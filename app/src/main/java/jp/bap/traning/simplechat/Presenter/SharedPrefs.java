@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.presenter;
+package jp.bap.traning.simplechat.Presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;

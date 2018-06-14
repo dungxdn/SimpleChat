@@ -2,13 +2,8 @@ package jp.bap.traning.simplechat.view.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,12 +15,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.interfaces.SignUpInterface;
-import jp.bap.traning.simplechat.presenter.SignUpPresenter;
+import jp.bap.traning.simplechat.Presenter.SignUpPresenter;
 
 @EActivity(R.layout.activity_sign_up)
 public class SignUpActivity extends Activity implements SignUpInterface{

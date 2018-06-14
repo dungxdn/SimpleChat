@@ -1,11 +1,11 @@
-package jp.bap.traning.simplechat.APIHandler;
+package jp.bap.traning.simplechat.RetrofitAPIHandler;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class APIClient {
+public class RetrofitAPIClient {
 
     private static Retrofit mRetrofit = null;
 
