@@ -68,8 +68,4 @@ public class ChatManager  {
         }
     }
 
-    public void sendReceive(Event event, JSONObject data) {
-        LocalBroadcastManager.getInstance(.)
-    }
-
 }

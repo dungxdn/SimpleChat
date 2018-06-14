@@ -26,6 +26,7 @@ public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
     private static final String LISTEN_EVENT="send message";
 
+
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();

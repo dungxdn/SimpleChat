@@ -17,12 +17,6 @@ public class SignUpPresenter {
     }
 
     public void signUp(String userName,String password, String avatar, String firstName) {
-        if(userDAO.validUser(userName)==true) {
-            signUpInterface.signUpFailed();
-        }
-        else {
-            userDAO.addUser(new User(userName,password,avatar,firstName,"How are you today?"));
-            signUpInterface.signUpSuccess(userName);
-        }
+
     }
 }

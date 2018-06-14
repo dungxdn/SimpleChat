@@ -1,6 +1,9 @@
 package jp.bap.traning.simplechat.interfaces;
 
+import jp.bap.traning.simplechat.Response.UserResponse;
+
 public interface LoginInterface {
-    void loginSuccess(String email,String password);
-    void loginFailed();
+    void onLoginSuccess(UserResponse userResponse);
+
+    void onLoginFailed();
 }
