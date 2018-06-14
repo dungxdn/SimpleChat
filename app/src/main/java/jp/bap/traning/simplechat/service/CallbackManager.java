@@ -9,10 +9,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.Event;
 
 /**
@@ -20,62 +17,37 @@ import jp.bap.traning.simplechat.Event;
  */
 
 public class CallbackManager {
-    private Map<String, CallbackReceiver> _receivers;
-    private Listener _listener;
+    private CallbackReceiver mReceiver;
+    private Listener mListener;
+    private Context mContext;
 
     public interface Listener {
         void onMessage(Event type, JSONObject data);
-    }
 
-    private Context _context;
+    }
 
     public CallbackManager(Context context) {
-        _context = context;
-        _receivers = new HashMap<>();
+        mContext = context;
+        mReceiver = new CallbackReceiver();
 
-    }
-
-    public void register(Event type, Listener listener) {
-        IntentFilter filter = new IntentFilter(type.getEvent());
-        _receivers.put(type.getEvent(), new CallbackReceiver());
-        _listener = listener;
-        LocalBroadcastManager.getInstance(_context).registerReceiver(_receivers.get(type.getEvent()), filter);
     }
 
     public void register(Listener listener) {
-
-        if (_listener == listener) return;
-        Map<String, Event> allType = Event.getAllType();
-        if (allType.size() > 0) {
-            for (Event type : allType.values()) {
-                if (type != Event.MESSAGE_SEND) {
-                    register(type, listener);
-                }
-            }
-        }
-    }
-
-    private void unregister(String action) {
-        if (_receivers.containsKey(action)) {
-            LocalBroadcastManager.getInstance(_context).unregisterReceiver(_receivers.get(action));
-        }
-        _listener = null;
+        mListener = listener;
+        IntentFilter filter = new IntentFilter(Common.ACTION_SOCKET_EVENT);
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mReceiver, filter);
     }
 
     public void unregister() {
-        if (_receivers != null && !_receivers.isEmpty()) {
-            for (Iterator<String> keys = _receivers.keySet().iterator(); keys.hasNext(); ) {
-                String key = keys.next();
-                unregister(key);
-            }
-        }
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mReceiver);
+        mListener = null;
     }
 
     class CallbackReceiver extends android.content.BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            String action = intent.getStringExtra("action");
             String data_json = intent.getStringExtra("data");
             JSONObject data = null;
             try {
@@ -85,8 +57,8 @@ public class CallbackManager {
             }
             Event type = Event.fromEvent(action);
             if (!TextUtils.isEmpty(action)) {
-                if (_listener != null && data != null) {
-                    _listener.onMessage(type, data);
+                if (mListener != null && data != null) {
+                    mListener.onMessage(type, data);
                 }
             }
         }

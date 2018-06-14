@@ -84,7 +84,8 @@ public class ChatService extends Service implements ChatManager.Listener {
     }
 
     private void sendReceiver(Event type, JSONObject data) {
-        Intent i = new Intent(type.getEvent());
+        Intent i = new Intent(Common.ACTION_SOCKET_EVENT);
+        i.putExtra("action", type.getEvent());
         i.putExtra("data", data.toString());
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
