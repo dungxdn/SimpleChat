@@ -55,7 +55,7 @@ public class ChatTalksActivity extends BaseActivity{
                 //Thong bao cho broadcast receiver ve su kien send
 //                Intent intent =  new Intent();
 //                intent.setAction(LISTEN_EVENT);
-//                sendBroadcast(intent);
+//                sendBroadcast(intent);gi
             }
 
         }
