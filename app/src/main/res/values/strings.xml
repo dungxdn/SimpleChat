@@ -13,6 +13,9 @@
     <string name="text_a_member"> Are you already a member? </string>
     <string name="text_sign_up"><u>Sign-Up</u></string>
     <string name="text_sign_in"><u>Sign-In</u></string>
-    <string name="text_forgot_password">Forgot password? </string>
+    <string name="text_forgot_password"><u>Forgot password?</u></string>
     <string name="text_recover"><u>Recover it</u></string>
+    <string name="title_tab_friend">Friends</string>
+    <string name="title_tab_chat">Chat</string>
+    <string name="title_tab_more">More</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -18,10 +19,10 @@ import jp.bap.traning.simplechat.model.User;
  */
 
 public class FriendAdapter extends RecyclerView.Adapter {
-    private List<User> mListUser;
+    private ArrayList<User> mListUser;
     private Context mContext;
 
-    public FriendAdapter(Context context, List<User> userList) {
+    public FriendAdapter(Context context, ArrayList<User> userList) {
         mListUser = userList;
         mContext = context;
     }
