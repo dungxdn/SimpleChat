@@ -1,7 +1,6 @@
 package jp.bap.traning.simplechat.presenter.login;
 
-import jp.bap.traning.simplechat.Response.UserResponse;
-import jp.bap.traning.simplechat.presenter.login.LoginInteractor;
+import jp.bap.traning.simplechat.response.UserResponse;
 
 public class LoginPresenter implements LoginView {
     private LoginView mLoginView;

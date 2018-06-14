@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.chat;
+package jp.bap.traning.simplechat.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,19 +6,21 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
+
 import org.json.JSONObject;
+
 import java.net.URISyntaxException;
+
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import jp.bap.traning.simplechat.interfaces.ListenerInterface;
 import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/7/18.
  */
 
-public class ChatService extends Service implements ListenerInterface {
+public class ChatService extends Service implements ChatManager.Listener {
     private final String TAG = getClass().getSimpleName();
     private static ChatManager sChatManager;
     private Socket mSocket;
@@ -37,7 +39,7 @@ public class ChatService extends Service implements ListenerInterface {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getExtras() != null) {
             String host = intent.getStringExtra("host");
-            int token = intent.getIntExtra("token",0);
+            int token = intent.getIntExtra("token", 0);
             initSocket(host, token);
         }
         return START_STICKY;
@@ -53,6 +55,17 @@ public class ChatService extends Service implements ListenerInterface {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onEvent(Event event, JSONObject data) {
+        Log.d(TAG, "onEvent: " + event.getEvent() + " " + data);
+        sendReceiver(event, data);
+    }
+
+    @Override
+    public void onEmit(Event event, JSONObject data) {
+
     }
 
     private void onSocketSystem() {
@@ -77,17 +90,5 @@ public class ChatService extends Service implements ListenerInterface {
         i.putExtra("action", type.getEvent());
         i.putExtra("data", data.toString());
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
-    }
-
-    @Override
-    public void onEvent(Event event, JSONObject data) {
-        Log.d(TAG, "onEvent: " + event.getEvent() + " " + data);
-        sendReceiver(event, data);
-    }
-
-    @Override
-    public void onEmit(Event event, JSONObject data) {
-        Toast.makeText(getApplicationContext(),"Ham onEmit ",Toast.LENGTH_SHORT).show();
-
     }
 }

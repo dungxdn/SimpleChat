@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.Response;
+package jp.bap.traning.simplechat.response;
 
 import lombok.Data;
 

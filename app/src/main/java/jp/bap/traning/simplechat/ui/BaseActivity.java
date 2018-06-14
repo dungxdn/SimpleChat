@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,11 +10,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import jp.bap.traning.simplechat.chat.Event;
 import jp.bap.traning.simplechat.service.CallbackManager;
-
-import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/7/18.

@@ -7,13 +7,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import jp.bap.traning.simplechat.chat.Event;
-
-import jp.bap.traning.simplechat.Common;
-import jp.bap.traning.simplechat.chat.Event;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/14/18.
@@ -26,9 +21,8 @@ public class CallbackManager {
 
     public interface Listener {
         void onMessage(Event type, JSONObject data);
-    }
 
-    private Context _context;
+    }
 
     public CallbackManager(Context context) {
         mContext = context;

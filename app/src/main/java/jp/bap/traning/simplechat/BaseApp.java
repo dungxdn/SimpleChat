@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
-import jp.bap.traning.simplechat.view.service.MessageChangeReceiver;
+import jp.bap.traning.simplechat.utils.AllModule;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -34,13 +34,14 @@ public class BaseApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance=this;
+        sInstance = this;
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .modules(Realm.getDefaultModule(), new AllModule())
                 .name(Realm.DEFAULT_REALM_NAME)
                 .rxFactory(new RealmObservableFactory())
                 .schemaVersion(0)
+//                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
@@ -54,6 +55,5 @@ public class BaseApp extends MultiDexApplication {
                             .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                             .build());
         }
-
     }
 }

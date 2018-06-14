@@ -18,11 +18,11 @@ public class UserDAO {
     }
 
     public User getUser(int id) {
-        Realm realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class)
+        Realm mRealm = Realm.getDefaultInstance();
+        User user = mRealm.where(User.class)
                 .equalTo("id", id)
                 .findFirst();
-        //realm.close();
+        mRealm.close();
         return user;
     }
 }

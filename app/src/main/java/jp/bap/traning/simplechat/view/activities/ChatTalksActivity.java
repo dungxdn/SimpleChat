@@ -8,13 +8,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
-import jp.bap.traning.simplechat.BaseActivity;
-import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.ui.BaseActivity;
+import jp.bap.traning.simplechat.utils.Common;
 
 @EActivity(R.layout.activity_chat_talks)
-public class ChatTalksActivity extends BaseActivity{
+public class ChatTalksActivity extends BaseActivity {
     ArrayList<String> listMessage;
     ArrayAdapter arrayAdapter;
     @ViewById

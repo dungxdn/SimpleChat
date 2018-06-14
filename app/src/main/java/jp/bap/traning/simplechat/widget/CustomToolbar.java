@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -19,9 +19,6 @@ import jp.bap.traning.simplechat.R;
 public class CustomToolbar extends Toolbar {
     public CustomToolbar(Context context) {
         super(context);
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View view = inflater.inflate(R.layout.layout_custom_toolbar,this,true);
-
     }
 
     public CustomToolbar(Context context, @Nullable AttributeSet attrs) {

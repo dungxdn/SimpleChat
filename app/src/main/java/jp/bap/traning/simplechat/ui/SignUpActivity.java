@@ -1,10 +1,8 @@
-package jp.bap.traning.simplechat.view.activities;
+package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -29,6 +27,7 @@ public class SignUpActivity extends Activity {
     EditText edtPassword;
     @ViewById
     EditText edtConfirmPassword;
+
     @Click
     void btnSignUp() {
 //        indicatorView.show();
@@ -42,9 +41,10 @@ public class SignUpActivity extends Activity {
 //
 //        }
     }
+
     @Click
     void btnSignIn() {
-       finish();
+        finish();
     }
 
 

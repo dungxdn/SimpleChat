@@ -1,10 +1,12 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.ui;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
-
-import jp.bap.traning.simplechat.presenter.SharedPrefs;
-import jp.bap.traning.simplechat.view.activities.LoginActivity_;
+import jp.bap.traning.simplechat.ui.MainActivity;
+import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
+import jp.bap.traning.simplechat.ui.LoginActivity;
 
 /**
  * Created by dungpv on 6/13/18.
