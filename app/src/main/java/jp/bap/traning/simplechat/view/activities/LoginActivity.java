@@ -48,12 +48,7 @@ public class LoginActivity extends Activity implements LoginInterface {
     @Click
     void btnSignUp() {
         indicatorView.hide();
-        startActivity(new Intent(LoginActivity.this,SignUpActivity_.class));
-    }
-
-    @Click
-    void btnRecover() {
-
+        startActivity(new Intent(this,SignUpActivity_.class));
     }
 
     @Override
