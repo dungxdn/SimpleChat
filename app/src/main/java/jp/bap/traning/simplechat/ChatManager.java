@@ -63,7 +63,7 @@ public class ChatManager {
         JSONObject data = new JSONObject();
         try {
             data.put("content", content);
-            data.put("roomId", content);
+            data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
             e.printStackTrace();

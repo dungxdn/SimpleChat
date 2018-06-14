@@ -1,9 +1,11 @@
 package jp.bap.traning.simplechat.Interactor;
 
+import jp.bap.traning.simplechat.Presenter.SharedPrefs;
 import jp.bap.traning.simplechat.RetrofitAPIHandler.RetrofitAPIUtils;
 import jp.bap.traning.simplechat.Response.UserResponse;
 import jp.bap.traning.simplechat.interfaces.APIInterface;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
+import jp.bap.traning.simplechat.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +25,15 @@ public class LoginInteractor {
         mCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                mLoginInterface.onLoginSuccess(response.body());
+                if (response.body().getStatus() == 200) {
+                    User user = response.body().getData();
+                    //save db
+
+                    SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, user.getId());
+                    mLoginInterface.onLoginSuccess(response.body());
+                } else {
+                    mLoginInterface.onLoginFailed();
+                }
             }
 
             @Override

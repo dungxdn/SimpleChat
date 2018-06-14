@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -36,13 +37,13 @@ public class ChatService extends Service implements ChatManager.Listener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getExtras() != null) {
             String host = intent.getStringExtra("host");
-            String token = intent.getStringExtra("token");
+            int token = intent.getIntExtra("token", 0);
             initSocket(host, token);
         }
         return START_STICKY;
     }
 
-    private void initSocket(String host, String token) {
+    private void initSocket(String host, int token) {
         try {
             IO.Options opts = new IO.Options();
             opts.query = "token=" + token;
@@ -56,7 +57,7 @@ public class ChatService extends Service implements ChatManager.Listener {
 
     @Override
     public void onEvent(Event event, JSONObject data) {
-
+        Log.d(TAG, "onEvent: " + event.getEvent() + " " + data);
     }
 
     @Override
@@ -73,10 +74,17 @@ public class ChatService extends Service implements ChatManager.Listener {
                         sChatManager = new ChatManager(mSocket);
                         sChatManager.addListenerSocket(this);
                     }
+                    sendReceiver(Event.CONNECT, new JSONObject());
                 })
                 .on(Socket.EVENT_RECONNECT, args -> Log.d(TAG, "EVENT_RECONNECT"))
                 .on(Socket.EVENT_DISCONNECT, args -> Log.w(TAG, "EVENT_DISCONNECT"))
                 .on(Socket.EVENT_ERROR, args -> Log.w(TAG, "EVENT_ERROR"))
                 .on(Socket.EVENT_RECONNECT_ERROR, args -> Log.e(TAG, "EVENT_RECONNECT_ERROR"));
+    }
+
+    private void sendReceiver(Event type, JSONObject data) {
+        Intent i = new Intent(type.getEvent());
+        i.putExtra("data", data.toString());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
 }

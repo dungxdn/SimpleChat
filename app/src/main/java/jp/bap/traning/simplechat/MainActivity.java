@@ -12,8 +12,10 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
-//    @ViewById
-//    AppCompatEditText mEditText;
+    @ViewById
+    AppCompatEditText mEdtInputMessage;
+    @ViewById
+    AppCompatEditText mEdtRoomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +28,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
-//    @Click(R.id.mBtnSend)
-//    void onClick(View view) {
-//        if (ChatService.getChat() != null) {
-//            ChatService.getChat().sendMessage(mEditText.getText().toString());
-//        }
-//    }
+    @Click(R.id.mBtnSend)
+    public void onSend() {
+        String message = mEdtInputMessage.getText().toString();
+        int roomId = Integer.parseInt(mEdtRoomId.getText().toString());
+        ChatService.getChat().sendMessage(message, roomId);
+    }
 }

@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import jp.bap.traning.simplechat.MainActivity_;
 import jp.bap.traning.simplechat.Response.UserResponse;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -31,24 +33,24 @@ public class LoginActivity extends Activity implements LoginInterface {
     EditText edtPassword;
     @ViewById
     AVLoadingIndicatorView indicatorView;
+
     @Click
     void btnLogin() {
         indicatorView.show();
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if(userName.isEmpty() || password.isEmpty()) {
+        if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
-            Toast.makeText(LoginActivity.this,"Please input usename and password!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            mLoginPresenter.logIn(userName,password);
+            Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
+        } else {
+            mLoginPresenter.logIn(userName, password);
         }
     }
 
     @Click
     void btnSignUp() {
         indicatorView.hide();
-        startActivity(new Intent(this,SignUpActivity_.class));
+        startActivity(new Intent(this, SignUpActivity_.class));
     }
 
     @Override
@@ -58,14 +60,16 @@ public class LoginActivity extends Activity implements LoginInterface {
     }
 
     public void getSharedPreference() {
-        edtUserName.setText(SharedPrefs.getmInstance().getData(CURRENT_USERNAME,String.class)+"");
-        edtPassword.setText(SharedPrefs.getmInstance().getData(CURRENT_PASSWORD,String.class)+"");
+        edtUserName.setText(SharedPrefs.getInstance().getData(CURRENT_USERNAME, String.class) + "");
+        edtPassword.setText(SharedPrefs.getInstance().getData(CURRENT_PASSWORD, String.class) + "");
     }
 
     @Override
     public void onLoginSuccess(UserResponse userResponse) {
         indicatorView.hide();
         Log.e("abc", userResponse.getData().toString());
+        MainActivity_.intent(this).start();
+        finish();
     }
 
     @Override
@@ -79,7 +83,7 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     }
 
-    public void Init(){
+    public void Init() {
         this.mLoginPresenter = new LoginPresenter(this);
     }
 }
