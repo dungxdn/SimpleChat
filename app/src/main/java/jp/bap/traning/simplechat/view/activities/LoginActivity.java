@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import jp.bap.traning.simplechat.MainActivity_;
+import jp.bap.traning.simplechat.Presenter.login.LoginView;
 import jp.bap.traning.simplechat.Response.UserResponse;
 import jp.bap.traning.simplechat.interfaces.LoginInterface;
 
@@ -18,11 +19,11 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.Presenter.LoginPresenter;
+import jp.bap.traning.simplechat.Presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.Presenter.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends Activity implements LoginInterface {
+public class LoginActivity extends Activity implements LoginView {
     private LoginPresenter mLoginPresenter;
     public static final String CURRENT_USERNAME = "current_id";
     public static final String CURRENT_PASSWORD = "current_name";
@@ -85,5 +86,15 @@ public class LoginActivity extends Activity implements LoginInterface {
 
     public void Init() {
         this.mLoginPresenter = new LoginPresenter(this);
+    }
+
+    @Override
+    public void onSuccess(UserResponse result) {
+
+    }
+
+    @Override
+    public void onError(String message, int code) {
+
     }
 }

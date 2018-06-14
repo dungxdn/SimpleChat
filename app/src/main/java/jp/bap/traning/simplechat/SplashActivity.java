@@ -12,7 +12,7 @@ import jp.bap.traning.simplechat.view.activities.LoginActivity_;
 
 @Fullscreen
 @EActivity(R.layout.activity_splash)
-public class ActivitySplash extends BaseActivity {
+public class SplashActivity extends BaseActivity {
     @Override
     public void afterView() {
         int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);

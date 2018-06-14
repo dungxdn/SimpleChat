@@ -58,6 +58,7 @@ public class ChatService extends Service implements ChatManager.Listener {
     @Override
     public void onEvent(Event event, JSONObject data) {
         Log.d(TAG, "onEvent: " + event.getEvent() + " " + data);
+        sendReceiver(event, data);
     }
 
     @Override

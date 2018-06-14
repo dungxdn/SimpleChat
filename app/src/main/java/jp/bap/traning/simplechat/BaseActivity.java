@@ -8,6 +8,7 @@ import android.view.Window;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import jp.bap.traning.simplechat.service.CallbackManager;
@@ -41,8 +42,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
             case CONNECT:
                 onConnectedSocket();
                 break;
+
+            case MESSAGE_RECEIVER:
+                try {
+                    String message = data.getString("content");
+                    int roomId = data.getInt("roomId");
+                    onReceiverMessage(message, roomId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
     public void onConnectedSocket() {}
+
+    public void onReceiverMessage(String message, int roomId) {}
 }
