@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import jp.bap.traning.simplechat.BuildConfig;
-import jp.bap.traning.simplechat.Common;
-import jp.bap.traning.simplechat.Presenter.SharedPrefs;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.interfaces.ApiService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

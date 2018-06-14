@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.service.CallbackManager;
 
 /**
@@ -60,7 +61,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         }
     }
 
-    public void onConnectedSocket() {}
+    public void onConnectedSocket() {
+    }
 
-    public void onReceiverMessage(String message, int roomId) {}
+    public void onReceiverMessage(String message, int roomId) {
+    }
 }

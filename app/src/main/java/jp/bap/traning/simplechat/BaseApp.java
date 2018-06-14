@@ -10,6 +10,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
+import jp.bap.traning.simplechat.utils.AllModule;
 
 /**
  * Created by dungpv on 6/7/18.

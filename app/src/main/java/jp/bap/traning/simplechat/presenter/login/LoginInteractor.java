@@ -1,7 +1,7 @@
-package jp.bap.traning.simplechat.Presenter.login;
+package jp.bap.traning.simplechat.presenter.login;
 
-import jp.bap.traning.simplechat.Presenter.SharedPrefs;
-import jp.bap.traning.simplechat.Response.UserResponse;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
+import jp.bap.traning.simplechat.response.UserResponse;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ApiClient;

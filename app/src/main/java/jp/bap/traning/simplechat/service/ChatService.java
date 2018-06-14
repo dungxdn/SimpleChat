@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/7/18.

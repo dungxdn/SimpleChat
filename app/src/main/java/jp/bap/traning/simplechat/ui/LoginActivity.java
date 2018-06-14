@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.view.activities;
+package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,12 +13,11 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import jp.bap.traning.simplechat.MainActivity_;
-import jp.bap.traning.simplechat.Presenter.SharedPrefs;
-import jp.bap.traning.simplechat.Presenter.login.LoginPresenter;
-import jp.bap.traning.simplechat.Presenter.login.LoginView;
+import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
+import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.Response.UserResponse;
+import jp.bap.traning.simplechat.response.UserResponse;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity implements LoginView {

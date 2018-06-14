@@ -4,52 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jp.bap.traning.simplechat.MainActivity">
-   <jp.bap.traning.simplechat.CustomToolbar_
-       android:id="@+id/mToolbar"
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/_40sdp"
-       app:layout_constraintTop_toTopOf="parent"
-       app:title="@string/app_name">
+    tools:context="jp.bap.traning.simplechat.ui.MainActivity">
 
-   </jp.bap.traning.simplechat.CustomToolbar_>
+    <jp.bap.traning.simplechat.widget.CustomToolbar_
+        android:id="@+id/mToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name">
 
-   <android.support.v7.widget.AppCompatTextView
-       android:id="@+id/mTvMessage"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintTop_toBottomOf="@+id/mToolbar"
-       android:text="Message:"/>
+    </jp.bap.traning.simplechat.widget.CustomToolbar_>
 
-   <android.support.v7.widget.AppCompatEditText
-       android:id="@+id/mEdtInputMessage"
-       android:layout_width="@dimen/_100sdp"
-       android:layout_height="wrap_content"
-       app:layout_constraintLeft_toRightOf="@+id/mTvMessage"
-       app:layout_constraintBaseline_toBaselineOf="@+id/mTvMessage"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mTvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message:"
+        app:layout_constraintTop_toBottomOf="@+id/mToolbar" />
 
-   <android.support.v7.widget.AppCompatTextView
-       android:id="@+id/mTvRoom"
-       android:text="RoomId: "
-       android:layout_marginTop="@dimen/_20sdp"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintTop_toBottomOf="@+id/mTvMessage"/>
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/mEdtInputMessage"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mTvMessage"
+        app:layout_constraintLeft_toRightOf="@+id/mTvMessage" />
 
-   <android.support.v7.widget.AppCompatEditText
-       android:id="@+id/mEdtRoomId"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintLeft_toRightOf="@+id/mTvRoom"
-       app:layout_constraintBaseline_toBaselineOf="@+id/mTvRoom"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mTvRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="RoomId: "
+        app:layout_constraintTop_toBottomOf="@+id/mTvMessage" />
 
-   <android.support.v7.widget.AppCompatButton
-       android:id="@+id/mBtnSend"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/_20sdp"
-       android:text="Send"
-       app:layout_constraintTop_toBottomOf="@+id/mTvRoom"/>
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/mEdtRoomId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mTvRoom"
+        app:layout_constraintLeft_toRightOf="@+id/mTvRoom" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/mBtnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Send"
+        app:layout_constraintTop_toBottomOf="@+id/mTvRoom" />
 
 
 </android.support.constraint.ConstraintLayout>

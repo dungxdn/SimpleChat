@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat;
+package jp.bap.traning.simplechat.utils;
 
 import io.realm.annotations.RealmModule;
 

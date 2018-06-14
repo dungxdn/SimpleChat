@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.view.activities;
+package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +12,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.bap.traning.simplechat.BaseActivity;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
 
@@ -28,10 +27,11 @@ public class FriendActivity extends BaseActivity {
     TextView helloUser;
     private List<User> mListUser;
     private FriendAdapter mFriendAdapter;
+
     @Override
     public void afterView() {
         Intent getIntent = getIntent();
-        helloUser.setText("Xin Chao, "+getIntent.getStringExtra("userName"));
+        helloUser.setText("Xin Chao, " + getIntent.getStringExtra("userName"));
         mListUser = new ArrayList<>();
         User user1 = new User();
         user1.setFirstName("User 1");

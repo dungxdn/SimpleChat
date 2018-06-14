@@ -1,6 +1,6 @@
 package jp.bap.traning.simplechat.interfaces;
 
-import jp.bap.traning.simplechat.Response.UserResponse;
+import jp.bap.traning.simplechat.response.UserResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

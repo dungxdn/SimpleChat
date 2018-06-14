@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.view.activities;
+package jp.bap.traning.simplechat.ui;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;

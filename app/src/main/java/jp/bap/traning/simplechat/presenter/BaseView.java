@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.Presenter;
+package jp.bap.traning.simplechat.presenter;
 
 /**
  * Created by dungpv on 6/14/18.

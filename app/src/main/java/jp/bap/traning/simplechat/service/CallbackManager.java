@@ -9,8 +9,8 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import jp.bap.traning.simplechat.Common;
-import jp.bap.traning.simplechat.Event;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/14/18.
