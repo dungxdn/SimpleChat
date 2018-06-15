@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.chat;
+package jp.bap.traning.simplechat.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -37,7 +39,7 @@ public class ChatService extends Service implements ChatManager.Listener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getExtras() != null) {
             String host = intent.getStringExtra("host");
-            int token = intent.getIntExtra("token", -1);
+            int token = intent.getIntExtra("token", 0);
             initSocket(host, token);
         }
         return START_STICKY;
@@ -57,6 +59,7 @@ public class ChatService extends Service implements ChatManager.Listener {
 
     @Override
     public void onEvent(Event event, JSONObject data) {
+        Log.d(TAG, "onEvent: " + event.getEvent() + " " + data);
         sendReceiver(event, data);
     }
 
@@ -74,7 +77,7 @@ public class ChatService extends Service implements ChatManager.Listener {
                         sChatManager = new ChatManager(mSocket);
                         sChatManager.addListenerSocket(this);
                     }
-                    sendReceiver(Event.CONNECTED, new JSONObject());
+                    sendReceiver(Event.CONNECT, new JSONObject());
                 })
                 .on(Socket.EVENT_RECONNECT, args -> Log.d(TAG, "EVENT_RECONNECT"))
                 .on(Socket.EVENT_DISCONNECT, args -> Log.w(TAG, "EVENT_DISCONNECT"))
@@ -83,13 +86,9 @@ public class ChatService extends Service implements ChatManager.Listener {
     }
 
     private void sendReceiver(Event type, JSONObject data) {
-        Log.d(TAG, "sendReceiver: " + type.getEvent());
-        Intent intent = new Intent(type.getEvent());
-        intent.putExtra("data", data.toString());
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
-
-    private void startCall(){
-
+        Intent i = new Intent(Common.ACTION_SOCKET_EVENT);
+        i.putExtra("action", type.getEvent());
+        i.putExtra("data", data.toString());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
 }

@@ -1,65 +1,105 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private final String TAG = getClass().getSimpleName();
     @ViewById
-    Toolbar mToolBar;
+    TabLayout mTabLayout;
     @ViewById
     ViewPager mViewPager;
     @ViewById
-    TabLayout mTabLayout;
+    CustomToolbar_ mToolbar;
 
-    private int[] tabIcons = {
-            R.drawable.ic_person,
-            R.drawable.ic_sms,
-            R.drawable.ic_more
-    };
+    private final String FRIEND_TITLE = "Friend";
+    private final String CHAT_TITLE = "Chat";
+    private final String MORE_TITLE = "More";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void afterView() {
-        setSupportActionBar(mToolBar);
-        setupViewPager(mViewPager);
+        init();
+
+    }
+
+    private void init() {
+        mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.getBackButton().setVisibility(View.GONE);
+        //Setup viewPager
+        ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
+        mViewpagerAdapter.addFragment(new ChatFragment_(), getResources().getString(R.string.title_tab_chat), R.drawable.selection_icon_chat_tablayout);
+        mViewpagerAdapter.addFragment(new MoreFragment_(), getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
+        mViewPager.setAdapter(mViewpagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
-        setupTabIcons();
+        mViewPager.addOnPageChangeListener(this);
+
+        //Setup tab icon
+        int length = mTabLayout.getTabCount();
+        for (int i = 0; i < length; i++) {
+            mTabLayout.getTabAt(i).setCustomView(mViewpagerAdapter.getTabView(i));
+        }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FriendFragment_());
-        adapter.addFragment(new ChatFragment_());
-        adapter.addFragment(new MoreFragment_());
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
     }
 
-    private void setupTabIcons() {
-        mTabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        mTabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        mTabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                mToolbar.setTitle(FRIEND_TITLE);
+                break;
+
+            case 1:
+                mToolbar.setTitle(CHAT_TITLE);
+                break;
+
+            case 2:
+                mToolbar.setTitle(MORE_TITLE);
+                break;
+        }
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+    }
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
+        private final ArrayList<String> mTitleList = new ArrayList<>();
+        private final ArrayList<Integer> mIconList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+
         }
 
         @Override
@@ -70,10 +110,27 @@ public class MainActivity extends BaseActivity {
         @Override
         public int getCount() {
             return mFragmentList.size();
+
         }
 
-        public void addFragment(Fragment fragment) {
+        public void addFragment(Fragment fragment, String title, int icon) {
             mFragmentList.add(fragment);
+            mTitleList.add(title);
+            mIconList.add(icon);
         }
+
+        public View getTabView(int position) {
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_custom_tablayout, null);
+            AppCompatTextView mTvTitle = view.findViewById(R.id.mTvTitle);
+            AppCompatImageView mImgIcon = view.findViewById(R.id.mImgIcon);
+
+            mImgIcon.setImageResource(this.mIconList.get(position));
+            mTvTitle.setText(this.mTitleList.get(position));
+
+            return view;
+        }
+
     }
+
+
 }

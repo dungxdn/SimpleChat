@@ -10,7 +10,7 @@ import org.androidannotations.annotations.EApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.rx.RealmObservableFactory;
-import jp.bap.traning.simplechat.presenter.SharedPrefs;
+import jp.bap.traning.simplechat.utils.AllModule;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -19,6 +19,7 @@ import jp.bap.traning.simplechat.presenter.SharedPrefs;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
+
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
@@ -29,10 +30,16 @@ public class BaseApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance=this;
-
-        //realm init
-        initRealm();
+        sInstance = this;
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .modules(Realm.getDefaultModule(), new AllModule())
+                .name(Realm.DEFAULT_REALM_NAME)
+                .rxFactory(new RealmObservableFactory())
+                .schemaVersion(0)
+//                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
 
         if (BuildConfig.DEBUG) {
             /**
@@ -44,25 +51,5 @@ public class BaseApp extends MultiDexApplication {
                             .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                             .build());
         }
-    }
-
-    private void initRetrofit() {
-
-    }
-
-    private void initRealm() {
-        Realm.init(this);
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .modules(Realm.getDefaultModule(), new AllModule())
-                .name(Realm.DEFAULT_REALM_NAME)
-                .rxFactory(new RealmObservableFactory())
-                .schemaVersion(0)
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-    }
-
-    private void initSharedPrefs() {
-
     }
 }

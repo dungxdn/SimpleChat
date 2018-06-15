@@ -1,15 +1,11 @@
 package jp.bap.traning.simplechat.service;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import jp.bap.traning.simplechat.BuildConfig;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.interfaces.ApiService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,6 +30,7 @@ public class ApiClient {
     public synchronized static ApiClient getInstance() {
         if (sInstance == null) {
             sInstance = new ApiClient();
+            sInstance.init(Common.URL_SERVER, SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class));
         }
         return sInstance;
     }
@@ -42,11 +39,10 @@ public class ApiClient {
         return getInstance().mApiService;
     }
 
-    public void init(String host, int auth) {
+    private void init(String host, int auth) {
         // init OkHttpClient
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient().newBuilder();
         okHttpBuilder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS);
-        okHttpBuilder.interceptors().add(new ForbiddenInterceptor());
 
         // Log
         if (BuildConfig.DEBUG) {
@@ -69,7 +65,6 @@ public class ApiClient {
                 .baseUrl(host)
                 .client(okHttpBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         mApiService = retrofit.create(ApiService.class);
     }

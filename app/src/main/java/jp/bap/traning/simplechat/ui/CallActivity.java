@@ -33,8 +33,8 @@ import org.webrtc.VideoTrack;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.bap.traning.simplechat.Common;
-import jp.bap.traning.simplechat.chat.ChatService;
+import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.R;

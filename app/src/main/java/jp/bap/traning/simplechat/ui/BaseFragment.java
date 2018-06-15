@@ -1,10 +1,20 @@
 package jp.bap.traning.simplechat.ui;
 
+
 import android.support.v4.app.Fragment;
 
-/**
- * Created by dungpv on 6/13/18.
- */
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
 
-public abstract class BaseFragment extends Fragment {
+/**
+ * Created by Admin on 6/13/2018.
+ */
+@EFragment
+public abstract class BaseFragment extends Fragment{
+    public abstract void afterView();
+
+    @AfterViews
+    public void initView() {
+        this.afterView();
+    }
 }

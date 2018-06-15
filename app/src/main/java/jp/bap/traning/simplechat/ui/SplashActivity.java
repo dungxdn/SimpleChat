@@ -3,10 +3,9 @@ package jp.bap.traning.simplechat.ui;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 
-import jp.bap.traning.simplechat.Common;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.presenter.SharedPrefs;
-import jp.bap.traning.simplechat.view.activities.LoginActivity_;
+import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by dungpv on 6/13/18.
@@ -22,13 +21,13 @@ public class SplashActivity extends BaseActivity {
             LoginActivity_.intent(this).start();
             finish();
         } else {
-            Common.connectServerChat(this, Common.URL_CHAT, mMineId);
+            Common.connectToServerSocket(this, Common.URL_SERVER, mMineId);
         }
     }
 
     @Override
-    public void onSocketConnected() {
-        super.onSocketConnected();
+    public void onConnectedSocket() {
+        super.onConnectedSocket();
         MainActivity_.intent(this).start();
         finish();
     }

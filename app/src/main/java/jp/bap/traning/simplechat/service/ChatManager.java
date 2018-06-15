@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.chat;
+package jp.bap.traning.simplechat.service;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.utils.Event;
 
 /**
  * Created by dungpv on 6/7/18.
@@ -14,10 +15,13 @@ import io.socket.client.Socket;
 
 public class ChatManager {
     private static final String TAG = ChatManager.class.getSimpleName();
+
     interface Listener {
         void onEvent(Event event, JSONObject data);
+
         void onEmit(Event event, JSONObject data);
     }
+
     Socket mSocket;
     Listener mListener;
 

@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.chat;
+package jp.bap.traning.simplechat.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +17,7 @@ public enum Event {
     CALL_ACCEPT("callAccept"),
     CALL_STOP("callStop"),
 
-    //Status
-    CONNECTED("connected"),
+    CONNECT("connect"),
     UNKNOWN("");
 
     String mEvent;
@@ -42,8 +41,8 @@ public enum Event {
         return mapByEvent;
     }
 
-    public static Event fromAction(String action) {
-        Event type = mapByEvent.get(action);
+    public static Event fromEvent(String event) {
+        Event type = mapByEvent.get(event);
         if (type == null)
             return Event.UNKNOWN;
         return type;
