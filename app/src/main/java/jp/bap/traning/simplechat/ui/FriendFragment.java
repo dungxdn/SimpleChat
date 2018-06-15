@@ -39,7 +39,9 @@ public class FriendFragment extends BaseFragment {
         mRecyclerFriend.setAdapter(mFriendAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(),1);
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
-        ChatService.getChat().emitGetUsersOnline();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().emitGetUsersOnline();
+        }
     }
 
     @Override
