@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -29,7 +30,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @ViewById
     CustomToolbar_ mToolbar;
 
-    private final String FRIEND_TITLE = "Friend";
+    private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
 
@@ -47,6 +48,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
         mToolbar.getBackButton().setVisibility(View.GONE);
+        ViewCompat.setElevation(mTabLayout, 10);
+
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);

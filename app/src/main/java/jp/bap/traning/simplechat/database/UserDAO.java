@@ -22,7 +22,7 @@ public class UserDAO {
         User user = mRealm.where(User.class)
                 .equalTo("id", id)
                 .findFirst();
-        mRealm.close();
+//        mRealm.close();
         return user;
     }
 }
