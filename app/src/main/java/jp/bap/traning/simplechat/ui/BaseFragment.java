@@ -32,10 +32,23 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
     public void initView() {
         this.afterView();
         mGson = new Gson();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (mSocketCallback == null) {
             mSocketCallback = new CallbackManager(getContext());
         }
         mSocketCallback.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mSocketCallback != null) {
+            mSocketCallback.unregister();
+        }
     }
 
     @Override

@@ -73,6 +73,7 @@ public class CallActivity extends BaseActivity {
     private PeerConnection localPeer;
     private EglBase rootEglBase;
     private boolean gotUserMedia;
+    private VideoCapturer videoCapturerAndroid;
     private List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
 
     @Override
@@ -121,9 +122,7 @@ public class CallActivity extends BaseActivity {
 
 
         //Now create a VideoCapturer instance.
-        VideoCapturer videoCapturerAndroid;
         videoCapturerAndroid = createCameraCapturer(new Camera1Enumerator(false));
-
 
         //Create MediaConstraints - Will be useful for specifying video and audio constraints.
         audioConstraints = new MediaConstraints();
@@ -292,6 +291,7 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop:
                 mtvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
+                stop();
                 break;
 
             case R.id.mBtnAccept:
@@ -330,6 +330,7 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onCallStop() {
         super.onCallStop();
+        stop();
     }
 
     public void onOfferReceived(final JSONObject data) {
@@ -385,5 +386,18 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void stop() {
+        if (videoCapturerAndroid != null) {
+            videoCapturerAndroid.dispose();
+        }
+        if (mLocalVideoView != null) {
+            mLocalVideoView.release();
+        }
+        if (mRemoteVideoView != null) {
+            mRemoteVideoView.release();
+        }
+        finish();
     }
 }

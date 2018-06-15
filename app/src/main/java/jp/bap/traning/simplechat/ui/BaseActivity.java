@@ -100,14 +100,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSocketCallback != null) {
-            mSocketCallback.unregister();
-        }
-    }
-
     protected void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
