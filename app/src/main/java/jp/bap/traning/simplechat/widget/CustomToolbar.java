@@ -46,6 +46,26 @@ public class CustomToolbar extends RelativeLayout {
         super(context);
         this.context = context;
     }
+
+
+    enum FRAGMENT {
+
+        FRIEND("FriendFragment"),
+        CHAT("ChatFragment"),
+        MORE("MoreFragment");
+
+        private String fragment;
+
+        FRAGMENT(String fragment) {
+            this.fragment = fragment;
+        }
+
+        public String getFragment() {
+            return this.fragment;
+        }
+    };
+
+
     @Click
     void mImgButtonBack(){
         Toast.makeText(context, "Back", Toast.LENGTH_SHORT).show();
