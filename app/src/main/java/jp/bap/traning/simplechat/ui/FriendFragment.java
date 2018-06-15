@@ -9,9 +9,11 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.service.ChatService;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -30,21 +32,6 @@ public class FriendFragment extends BaseFragment {
 
     private void init() {
         mUserList = new ArrayList<>();
-        User user1 = new User();
-        user1.setFirstName("User 1");
-//        user1.setStatus("Cooling 1");
-        mUserList.add(user1);
-
-        User user2 = new User();
-        user2.setFirstName("User 2");
-//        user2.setStatus("Cooling 2");
-        mUserList.add(user2);
-
-        User user3 = new User();
-        user3.setFirstName("User 3");
-//        user3.setStatus("Cooling 3");
-        mUserList.add(user3);
-
         mFriendAdapter = new FriendAdapter(getContext(), mUserList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerFriend.setLayoutManager(mLayoutManager);
@@ -52,11 +39,19 @@ public class FriendFragment extends BaseFragment {
         mRecyclerFriend.setAdapter(mFriendAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(),1);
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
+        ChatService.getChat().emitGetUsersOnline();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mFriendAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetUsersOnline(List<User> users) {
+        super.onGetUsersOnline(users);
+        mUserList.addAll(users);
         mFriendAdapter.notifyDataSetChanged();
     }
 }

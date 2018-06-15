@@ -11,6 +11,9 @@ public enum Event {
     MESSAGE_SEND("sendMessage"),
     MESSAGE_RECEIVER("receiverMessage"),
 
+    //User
+    USER_GET_ONLINE("getUsersOnline"),
+
     //Call
     CALL("call"),
     CALL_CONTENT("callContent"),

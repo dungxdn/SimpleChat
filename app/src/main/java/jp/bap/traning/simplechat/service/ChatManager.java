@@ -29,6 +29,9 @@ public class ChatManager {
         mSocket = s;
         on(
                 Event.MESSAGE_RECEIVER,
+
+                Event.USER_GET_ONLINE,
+
                 Event.CALL,
                 Event.CALL_CONTENT,
                 Event.CALL_ACCEPT,
@@ -116,5 +119,10 @@ public class ChatManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void emitGetUsersOnline() {
+        JSONObject data = new JSONObject();
+        emit(Event.USER_GET_ONLINE, data);
     }
 }
