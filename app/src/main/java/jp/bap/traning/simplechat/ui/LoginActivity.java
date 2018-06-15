@@ -57,15 +57,10 @@ public class LoginActivity extends Activity implements LoginView {
         Init();
     }
 
-    public void getSharedPreference() {
-        edtUserName.setText(SharedPrefs.getInstance().getData(CURRENT_USERNAME, String.class) + "");
-        edtPassword.setText(SharedPrefs.getInstance().getData(CURRENT_PASSWORD, String.class) + "");
-    }
-
     @Override
     public void onLoginSuccess(UserResponse userResponse) {
         indicatorView.hide();
-        Log.e("abc", userResponse.getData().toString());
+        Log.e("User login", userResponse.getData().toString());
         MainActivity_.intent(this).start();
         finish();
     }

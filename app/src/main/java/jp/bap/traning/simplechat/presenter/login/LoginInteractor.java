@@ -1,5 +1,9 @@
 package jp.bap.traning.simplechat.presenter.login;
 
+import android.content.Context;
+import android.util.Log;
+import jp.bap.traning.simplechat.BaseApp;
+import jp.bap.traning.simplechat.response.RoomResponse;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.response.UserResponse;
 import jp.bap.traning.simplechat.database.UserDAO;
@@ -15,8 +19,8 @@ public class LoginInteractor {
     }
 
     public void login(String userName, String password, LoginView callback) {
-        Call<UserResponse> mCall = ApiClient.getService().getUser(userName, password);
-        mCall.enqueue(new Callback<UserResponse>() {
+        Call<UserResponse> mCallUser = ApiClient.getService().getUser(userName, password);
+        mCallUser.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body().getStatus() == 200) {
@@ -34,6 +38,25 @@ public class LoginInteractor {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 callback.onLoginFailed();
+            }
+        });
+
+        Call<RoomResponse> mCallRooms = ApiClient.getService().getListRoom();
+        mCallRooms.enqueue(new Callback<RoomResponse>() {
+            @Override
+            public void onResponse(Call<RoomResponse> call, Response<RoomResponse> response) {
+                if (response.body().getStatus() == 200){
+                    if (response.body().getData().getRooms().size() != 0){
+                        Log.e("rooms", response.body().getData().getRooms().get(0).toString());
+                    }else {
+                        Log.e("rooms", "empty");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RoomResponse> call, Throwable t) {
+                Log.e("rooms", "fail");
             }
         });
     }

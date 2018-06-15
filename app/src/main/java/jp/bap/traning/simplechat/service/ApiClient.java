@@ -23,7 +23,7 @@ public class ApiClient {
     private static ApiClient sInstance;
     private ApiService mApiService;
 
-    public ApiClient() {
+    private ApiClient() {
 
     }
 
@@ -61,6 +61,7 @@ public class ApiClient {
             Request.Builder requestBuilder = original.newBuilder()
                     .header(AUTHORIZATION, String.valueOf(auth))
                     .addHeader("Accept-Language", Locale.getDefault().getLanguage())
+                    .addHeader("Authorization", "5")
                     .method(original.method(), original.body());
             Request request = requestBuilder.build();
             return chain.proceed(request);
