@@ -40,14 +40,9 @@ public class ApiClient {
     }
 
     private void init(String host, int auth) {
-        // init HttpLoggingInterceptor
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         // init OkHttpClient
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient().newBuilder();
         okHttpBuilder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS);
-        okHttpBuilder.interceptors().add(httpLoggingInterceptor);
 
         // Log
         if (BuildConfig.DEBUG) {
