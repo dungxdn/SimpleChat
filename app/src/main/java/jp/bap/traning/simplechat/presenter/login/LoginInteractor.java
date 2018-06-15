@@ -40,24 +40,5 @@ public class LoginInteractor {
                 callback.onLoginFailed();
             }
         });
-
-        Call<RoomResponse> mCallRooms = ApiClient.getService().getListRoom();
-        mCallRooms.enqueue(new Callback<RoomResponse>() {
-            @Override
-            public void onResponse(Call<RoomResponse> call, Response<RoomResponse> response) {
-                if (response.body().getStatus() == 200){
-                    if (response.body().getData().getRooms().size() != 0){
-                        Log.e("rooms", response.body().getData().getRooms().get(0).toString());
-                    }else {
-                        Log.e("rooms", "empty");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RoomResponse> call, Throwable t) {
-                Log.e("rooms", "fail");
-            }
-        });
     }
 }

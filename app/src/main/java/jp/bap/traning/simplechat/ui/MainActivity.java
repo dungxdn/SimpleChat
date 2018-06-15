@@ -7,6 +7,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
+import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
+import jp.bap.traning.simplechat.response.RoomResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.R;
@@ -32,8 +35,19 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.mBtnSend)
     public void onSend() {
-        String message = mEdtInputMessage.getText().toString();
+        /*String message = mEdtInputMessage.getText().toString();
         int roomId = Integer.parseInt(mEdtRoomId.getText().toString());
-        ChatService.getChat().sendMessage(message, roomId);
+        ChatService.getChat().sendMessage(message, roomId);*/
+        new GetRoomsPresenter(new GetRoomsView() {
+            @Override
+            public void onSuccess(RoomResponse result) {
+                Log.d(TAG, "onSuccess: " + result);
+            }
+
+            @Override
+            public void onError(String message, int code) {
+
+            }
+        }).request();
     }
 }

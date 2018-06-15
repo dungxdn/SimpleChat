@@ -7,5 +7,5 @@ import lombok.Data;
 
 @Data
 public class RoomResponse extends BaseResponse {
-    private RoomData data;
+    private List<Room> data;
 }
