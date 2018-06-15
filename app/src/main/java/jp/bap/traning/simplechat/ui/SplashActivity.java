@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onConnectedSocket() {
         super.onConnectedSocket();
-        MainActivity_.intent(this).start();
+        ChatTalksActivity_.intent(this).start();
         finish();
     }
 }

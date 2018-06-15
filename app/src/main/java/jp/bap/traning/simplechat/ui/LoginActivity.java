@@ -1,13 +1,12 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
-import jp.bap.traning.simplechat.ui.MainActivity;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -15,11 +14,11 @@ import org.androidannotations.annotations.ViewById;
 import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.response.UserResponse;
+import jp.bap.traning.simplechat.service.ChatManager;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends Activity implements LoginView {
+public class LoginActivity extends BaseActivity implements LoginView {
     private LoginPresenter mLoginPresenter;
     public static final String CURRENT_USERNAME = "current_id";
     public static final String CURRENT_PASSWORD = "current_name";
@@ -51,24 +50,34 @@ public class LoginActivity extends Activity implements LoginView {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void afterView() {
         Init();
     }
 
-    public void getSharedPreference() {
-        edtUserName.setText(SharedPrefs.getInstance().getData(CURRENT_USERNAME, String.class) + "");
-        edtPassword.setText(SharedPrefs.getInstance().getData(CURRENT_PASSWORD, String.class) + "");
+    public void confirmDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setMessage("Do you want to exit?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        System.exit(0);
+                    }
+                })
+                .show();
     }
-
     @Override
     public void onLoginSuccess(UserResponse userResponse) {
         indicatorView.hide();
         Log.e("abc", userResponse.getData().toString());
-        MainActivity_.intent(this).start();
+        ChatTalksActivity_.intent(this).start();
         //Connect to Socket
-        Common.connectToServerSocket(this,Common.URL_SERVER,userResponse.getData().getId());
-        finish();
+        Common.connectToServerSocket(LoginActivity.this,Common.URL_SERVER,userResponse.getData().getId());
     }
 
     @Override
@@ -79,7 +88,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void onBackPressed() {
-
+        confirmDialog();
     }
 
     public void Init() {
@@ -93,6 +102,15 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void onError(String message, int code) {
+
+    }
+
+    @Override
+    public void onConnectedSocket() {
+        super.onConnectedSocket();
+        Toast.makeText(LoginActivity.this,"Connect Success",Toast.LENGTH_SHORT).show();
+        ChatTalksActivity_.intent(this).start();
+        finish();
 
     }
 }

@@ -20,7 +20,7 @@
         <activity android:name=".ui.LoginActivity_"/>
         <activity android:name=".ui.SignUpActivity_"/>
         <activity android:name=".ui.FriendActivity_"/>
-        <activity android:name=".view.activities.ChatTalksActivity_"/>
+        <activity android:name=".ui.ChatTalksActivity_"/>
         <service
             android:name=".service.ChatService"
             android:enabled="true"

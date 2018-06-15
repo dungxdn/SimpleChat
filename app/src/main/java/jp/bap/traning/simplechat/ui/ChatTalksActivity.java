@@ -1,6 +1,6 @@
-package jp.bap.traning.simplechat.view.activities;
+package jp.bap.traning.simplechat.ui;
 
-import android.widget.ArrayAdapter;
+import  android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -9,9 +9,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.chat.ChatService;
-import jp.bap.traning.simplechat.ui.BaseActivity;
-import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.service.ChatService;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
@@ -28,8 +26,9 @@ public class ChatTalksActivity extends BaseActivity {
         }
         else {
             if(ChatService.getChat() !=null) {
-                Toast.makeText(ChatTalksActivity.this,"5-Send Message",Toast.LENGTH_SHORT).show();
-                ChatService.getChat().sendMessage(edtMessage.getText().toString(),5);
+                Toast.makeText(ChatTalksActivity.this,"Send Message",Toast.LENGTH_SHORT).show();
+                ChatService.getChat().sendMessage(edtMessage.getText().toString(),13);
+                edtMessage.setText("");
             }
         }
     }
@@ -37,7 +36,6 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     public void afterView() {
         init();
-        Common.connectToServerSocket(this,Common.URL_SERVER,5);
     }
 
     private void init() {
@@ -56,11 +54,5 @@ public class ChatTalksActivity extends BaseActivity {
         super.onReceiverMessage(message, roomId);
         listMessage.add(message+"--"+roomId);
         arrayAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onConnectedSocket() {
-        super.onConnectedSocket();
-        Toast.makeText(ChatTalksActivity.this,"Connect Success!", Toast.LENGTH_SHORT).show();
     }
 }
