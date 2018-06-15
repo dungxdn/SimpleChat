@@ -2,6 +2,7 @@ package jp.bap.traning.simplechat.interfaces;
 
 import jp.bap.traning.simplechat.response.BaseResponse;
 import jp.bap.traning.simplechat.response.RoomResponse;
+import jp.bap.traning.simplechat.response.SignUpResponse;
 import jp.bap.traning.simplechat.response.UserResponse;
 import lombok.Getter;
 import retrofit2.Call;
@@ -21,7 +22,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("user/register")
-    Call<BaseResponse> addUser(@Field("userName") String userName,
+    Call<SignUpResponse> addUser(@Field("userName") String userName,
             @Field("firstName") String firstName,
             @Field("lastName") String lastName,
             @Field("password") String password);

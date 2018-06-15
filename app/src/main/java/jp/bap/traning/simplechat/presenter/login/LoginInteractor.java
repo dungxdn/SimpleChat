@@ -29,7 +29,7 @@ public class LoginInteractor {
                     new UserDAO().insertOrUpdate(user);
 
                     SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, user.getId());
-                    callback.onLoginSuccess(response.body());
+                    callback.onSuccess(response.body());
                 } else {
                     callback.onLoginFailed();
                 }

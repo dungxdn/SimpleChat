@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.presenter.rooms;
 
+import android.util.Log;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
@@ -22,6 +23,7 @@ public class GetRoomsInteractor {
             @Override
             public void onResponse(Call<RoomResponse> call, Response<RoomResponse> response) {
                 if (response.body().getStatus() == 200) {
+                    Log.e("rooms", response.body().getData().toString());
                     callback.onSuccess(response.body());
                 } else {
                     callback.onError(response.body().getMessage(), response.body().getStatus());

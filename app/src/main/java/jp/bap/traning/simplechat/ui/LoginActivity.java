@@ -82,7 +82,6 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void onSuccess(UserResponse result) {
-
     }
 
     @Override
