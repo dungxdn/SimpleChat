@@ -100,8 +100,6 @@ public class CallActivity extends BaseActivity {
     private void getIceServers() {
         PeerConnection.IceServer peerIceServer = PeerConnection.IceServer
                 .builder(Common.TURN_URL)
-                .setUsername(Common.TURN_USERNAME)
-                .setPassword(Common.TURN_PASSWORD)
                 .createIceServer();
         peerIceServers.add(peerIceServer);
     }

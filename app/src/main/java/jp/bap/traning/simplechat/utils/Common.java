@@ -12,9 +12,7 @@ import jp.bap.traning.simplechat.service.ChatService;
 public class Common {
     public static final String URL_SERVER = "http://172.16.1.77:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
-    public static final String TURN_URL = "turn:turn.robin-aisystem.com:2022";
-    public static final String TURN_USERNAME = "robin";
-    public static final String TURN_PASSWORD = "EID5rvjx8Ls8wO9DALls1gAQa";
+    public static final String TURN_URL = "stun:stun.l.google.com:19302";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
