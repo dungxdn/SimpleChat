@@ -20,7 +20,7 @@ import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private final String TAG = getClass().getSimpleName();
     @ViewById
     TabLayout mTabLayout;
@@ -28,6 +28,10 @@ public class MainActivity extends BaseActivity {
     ViewPager mViewPager;
     @ViewById
     CustomToolbar_ mToolbar;
+
+    private final String FRIEND_TITLE = "Friend";
+    private final String CHAT_TITLE = "Chat";
+    private final String MORE_TITLE = "More";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+        mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.getBackButton().setVisibility(View.GONE);
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
@@ -48,14 +54,41 @@ public class MainActivity extends BaseActivity {
         mViewpagerAdapter.addFragment(new MoreFragment_(), getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
-
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(this);
 
         //Setup tab icon
         int length = mTabLayout.getTabCount();
         for (int i = 0; i < length; i++) {
             mTabLayout.getTabAt(i).setCustomView(mViewpagerAdapter.getTabView(i));
         }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                mToolbar.setTitle(FRIEND_TITLE);
+                break;
+
+            case 1:
+                mToolbar.setTitle(CHAT_TITLE);
+                break;
+
+            case 2:
+                mToolbar.setTitle(MORE_TITLE);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
 

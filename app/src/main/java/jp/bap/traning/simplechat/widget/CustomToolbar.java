@@ -81,4 +81,8 @@ public class CustomToolbar extends RelativeLayout {
     public void setTitleColor(int idColor){
         mTvTitle.setTextColor(idColor);
     }
+
+    public AppCompatImageButton getBackButton() {
+        return mImgButtonBack;
+    }
 }
