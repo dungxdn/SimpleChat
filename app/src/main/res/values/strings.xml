@@ -20,4 +20,5 @@
     <string name="title_tab_more">More</string>
     <string name="title_me">Me</string>
     <string name="title_friend">Friends</string>
+    <string name="str_logout">Logout</string>
 </resources>

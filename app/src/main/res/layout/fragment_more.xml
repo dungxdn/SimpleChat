@@ -1,21 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorGreen"
-    android:padding="@dimen/_8sdp"
-    android:gravity="center">
-    <android.support.v4.widget.CircleImageView
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreen"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mImgAvata"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/ic_avatar_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mTvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_tab_friend"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mImgButtonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@android:color/transparent"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintLeft_toRightOf="@id/mTvUserName"
+            app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/mButtonLogout"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:src="@drawable/ic_avatar_default"
-        />
-
-</LinearLayout>
+        android:background="@color/white"
+        android:elevation="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/str_logout"
+        android:textAllCaps="false"
+        android:textColor="@color/red"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutTop" />
 </android.support.constraint.ConstraintLayout>

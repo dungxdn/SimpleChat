@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.Friend.FriendPresenter;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -34,7 +34,6 @@ public class FriendFragment extends BaseFragment {
     RecyclerView mRecyclerFriend;
     private ArrayList<User> mUserList;
     private FriendAdapter mFriendAdapter;
-    private FriendPresenter mFriendPresenter;
 
     @Override
     public void afterView() {
@@ -42,9 +41,8 @@ public class FriendFragment extends BaseFragment {
     }
 
     private void init() {
-        mFriendPresenter = new FriendPresenter();
         User user = getUserLogin();
-        mTvUserName.setText(user.getFirstName()+" "+user.getLastName());
+        mTvUserName.setText(user.getFirstName() + " " + user.getLastName());
 
         mUserList = new ArrayList<>();
         mUserList = getAllFriend();
@@ -55,27 +53,25 @@ public class FriendFragment extends BaseFragment {
         mRecyclerFriend.setLayoutManager(mLayoutManager);
         mRecyclerFriend.setItemAnimator(new DefaultItemAnimator());
         mRecyclerFriend.setAdapter(mFriendAdapter);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(),1);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(), 1);
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mTvTitleFriend.setText(getString(R.string.title_friend)+" ("+mUserList.size()+")");
+        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
         mFriendAdapter.notifyDataSetChanged();
     }
 
-    private User getUserLogin(){
-        int name = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID,Integer.class);
-        User user = null;
+    private User getUserLogin() {
+        int id = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
         //get user from Realm
-        user = mFriendPresenter.getUserLogin(name);
-        return user;
+        return new UserDAO().getUser(id);
     }
 
     //get friend list from API
-    private ArrayList<User> getAllFriend(){
+    private ArrayList<User> getAllFriend() {
         //fake data
         ArrayList<User> list = new ArrayList<>();
         User user1 = new User();

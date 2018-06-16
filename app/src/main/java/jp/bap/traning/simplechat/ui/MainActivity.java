@@ -84,7 +84,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
 
             case 2:
-                mToolbar.setTitle(MORE_TITLE);
+//                mToolbar.setTitle(MORE_TITLE);
+                mToolbar.getTvTitle().setVisibility(View.GONE);
                 break;
         }
     }
