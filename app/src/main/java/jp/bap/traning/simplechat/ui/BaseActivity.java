@@ -5,11 +5,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 
@@ -51,9 +56,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
             case MESSAGE_RECEIVER:
                 try {
-                    String message = data.getString("content");
-                    int roomId = data.getInt("roomId");
-                    onReceiverMessage(message, roomId);
+                    Gson gson = new GsonBuilder().create();
+                    Message message = gson.fromJson(String.valueOf(data.getJSONObject("chatMessage")),Message.class);
+                    onReceiverMessage(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -62,5 +67,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
     public void onConnectedSocket() {}
 
-    public void onReceiverMessage(String message, int roomId) {}
+    public void onReceiverMessage(Message message) {}
 }

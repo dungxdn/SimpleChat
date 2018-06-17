@@ -23,7 +23,7 @@ public class FriendActivity extends BaseActivity {
     RecyclerView mRecyclerFriend;
     @ViewById
     TextView helloUser;
-    private List<User> mListUser;
+    private ArrayList<User> mListUser;
     private FriendAdapter mFriendAdapter;
 
     @Override

@@ -1,22 +1,27 @@
 package jp.bap.traning.simplechat.ui;
 
-import  android.widget.ArrayAdapter;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import  android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
-    ArrayList<String> listMessage;
-    ArrayAdapter arrayAdapter;
+    ArrayList<Message> listMessage;
+    ChatTalksAdapter chatTalksAdapter;
+    Message message;
+    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     @ViewById
-    ListView listViewChat;
+    RecyclerView listViewChat;
     @ViewById
     EditText edtMessage;
     @Click
@@ -26,9 +31,13 @@ public class ChatTalksActivity extends BaseActivity {
         }
         else {
             if(ChatService.getChat() !=null) {
-                Toast.makeText(ChatTalksActivity.this,"Send Message",Toast.LENGTH_SHORT).show();
-                ChatService.getChat().sendMessage(edtMessage.getText().toString(),13);
+                message = new Message(1,edtMessage.getText().toString(),mMineId,13);
+                listMessage.add(message);
+                chatTalksAdapter.notifyDataSetChanged();
+                ChatService.getChat().sendMessage(message,message.getRoomID());
+                Toast.makeText(ChatTalksActivity.this,"Send Message: "+message.getRoomID(),Toast.LENGTH_SHORT).show();
                 edtMessage.setText("");
+
             }
         }
     }
@@ -40,19 +49,19 @@ public class ChatTalksActivity extends BaseActivity {
 
     private void init() {
         listMessage= new ArrayList<>();
-        listMessage.add("aa");
-        listMessage.add("bb");
-        listMessage.add("cc");
-        arrayAdapter = new ArrayAdapter(ChatTalksActivity.this,android.R.layout.simple_list_item_1,listMessage);
-        listViewChat.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
+        chatTalksAdapter = new ChatTalksAdapter(this,listMessage);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        listViewChat.setLayoutManager(mLayoutManager);
+        listViewChat.setItemAnimator(new DefaultItemAnimator());
+        listViewChat.setAdapter(chatTalksAdapter);
+        chatTalksAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onReceiverMessage(String message, int roomId) {
-        Toast.makeText(ChatTalksActivity.this,"Nhan Duoc Message",Toast.LENGTH_SHORT).show();
-        super.onReceiverMessage(message, roomId);
-        listMessage.add(message+"--"+roomId);
-        arrayAdapter.notifyDataSetChanged();
+    public void onReceiverMessage(Message message) {
+        super.onReceiverMessage(message);
+        Toast.makeText(ChatTalksActivity.this,"Nhan Duoc Message: "+message.getUserID(),Toast.LENGTH_SHORT).show();
+        listMessage.add(message);
+        chatTalksAdapter.notifyDataSetChanged();
     }
 }

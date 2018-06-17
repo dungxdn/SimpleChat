@@ -20,4 +20,7 @@
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
+      <string name="title_tab_friend">Friends</string>
+    <string name="title_tab_chat">Chat</string>
+    <string name="title_tab_more">More</string>
 </resources>

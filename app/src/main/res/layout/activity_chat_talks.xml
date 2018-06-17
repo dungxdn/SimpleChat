@@ -50,7 +50,7 @@
             android:src="@drawable/ic_menu" />
     </RelativeLayout>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listViewChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         android:paddingBottom="@dimen/_8sdp"
         >
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
     <View
         android:id="@+id/view_below_listView"
