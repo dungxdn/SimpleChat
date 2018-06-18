@@ -85,4 +85,8 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatImageButton getBackButton() {
         return mImgButtonBack;
     }
+
+    public AppCompatImageButton getSettingButton() {
+        return mImgButtonSetting;
+    }
 }

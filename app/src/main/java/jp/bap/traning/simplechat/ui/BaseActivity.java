@@ -58,7 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 try {
                     Gson gson = new Gson();
                     String objectMessage = data.get("chatMessage").toString();
-                    Message message = gson.fromJson(objectMessage,Message.class);
+                    Message message = gson.fromJson(objectMessage, Message.class);
                     onReceiverMessage(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -66,7 +66,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         }
     }
 
-    public void onConnectedSocket() {}
+    public void onConnectedSocket() {
+    }
 
-    public void onReceiverMessage(Message message) {}
+    public void onReceiverMessage(Message message) {
+    }
 }
