@@ -88,4 +88,8 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
     }
+
+    public AppCompatImageButton getSettingButton() {
+        return mImgButtonSetting;
+    }
 }

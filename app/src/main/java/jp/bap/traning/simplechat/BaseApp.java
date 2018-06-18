@@ -1,6 +1,11 @@
 package jp.bap.traning.simplechat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.multidex.MultiDexApplication;
+import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -19,7 +24,6 @@ import jp.bap.traning.simplechat.utils.AllModule;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private static BaseApp sInstance = null;
-
     public static synchronized BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();

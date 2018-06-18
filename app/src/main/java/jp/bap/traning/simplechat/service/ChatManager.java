@@ -2,11 +2,14 @@ package jp.bap.traning.simplechat.service;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.utils.Event;
 
 /**
@@ -60,10 +63,13 @@ public class ChatManager {
         });
     }
 
-    public void sendMessage(String content, int roomId) {
+    public void sendMessage(Message message, int roomId) {
         JSONObject data = new JSONObject();
         try {
-            data.put("content", content);
+            Gson gson = new Gson();
+            String objectMessage = gson.toJson(message);
+            data.put("chatMessage",objectMessage);
+//            data.put("content", content);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
