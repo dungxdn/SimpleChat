@@ -23,7 +23,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
-    public ChatTalksAdapter(Context mContext,ArrayList<Message> messageArrayList) {
+    public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList) {
         this.messageArrayList = messageArrayList;
         this.mContext = mContext;
     }
@@ -31,10 +31,9 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Message mMessage = messageArrayList.get(position);
-        if(mMessage.getUserID()==mMineId) {
+        if (mMessage.getUserID() == mMineId) {
             return VIEW_TYPE_MESSAGE_SENT;
-        }
-        else {
+        } else {
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
@@ -42,12 +41,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        if(viewType==VIEW_TYPE_MESSAGE_SENT) {
-            View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message,parent,false);
+        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
+            View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
             return new MessageViewHolder(view);
-        }
-        else {
-            View view = layoutInflater.inflate(R.layout.view_holder_chat_receive_message,parent,false);
+        } else {
+            View view = layoutInflater.inflate(R.layout.view_holder_chat_receive_message, parent, false);
             return new MessageViewHolder(view);
         }
 
@@ -68,6 +66,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     class MessageViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
+
         public MessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mAvatar);
