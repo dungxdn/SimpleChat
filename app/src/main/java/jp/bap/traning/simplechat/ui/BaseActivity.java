@@ -11,10 +11,14 @@ import com.google.gson.GsonBuilder;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 
@@ -63,6 +67,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
+
+            case USER_ONLINE:
+                try{
+                    JSONArray jsonArray = data.getJSONArray("uses");
+                    ArrayList<User> usersOnline = new ArrayList<>();
+                    Gson gson = new Gson();
+                    for(int i=0; i<jsonArray.length();i++) {
+                        String objectUser = jsonArray.getString(i);
+                        User user = gson.fromJson(objectUser,User.class);
+                        usersOnline.add(user);
+                    }
+//                    onReceiverListUsersOnline(usersOnline);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
         }
     }
 
@@ -70,5 +91,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onReceiverMessage(Message message) {
+    }
+
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
     }
 }

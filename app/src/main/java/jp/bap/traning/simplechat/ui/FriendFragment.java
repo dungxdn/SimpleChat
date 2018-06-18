@@ -45,11 +45,8 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     private void init() {
         User user = getUserLogin();
         mTvUserName.setText(user.getFirstName() + " " + user.getLastName());
-
         mUserList = new ArrayList<>();
-        mUserList = getAllFriend();
-
-
+        //
         mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerFriend.setLayoutManager(mLayoutManager);
@@ -59,6 +56,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
 
     }
+
 
     @Override
     public void onResume() {
@@ -74,32 +72,13 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     }
 
     //get friend list from API
-    private ArrayList<User> getAllFriend() {
-        //fake data
-        ArrayList<User> list = new ArrayList<>();
-        User user1 = new User();
-        user1.setFirstName("User 1");
-        list.add(user1);
 
-        User user2 = new User();
-        user2.setFirstName("User 2");
-        list.add(user2);
 
-        User user3 = new User();
-        user3.setFirstName("User 3");
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        return list;
-
+    @Override
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
+        super.onReceiverListUsersOnline(users);
+        mUserList = users;
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
