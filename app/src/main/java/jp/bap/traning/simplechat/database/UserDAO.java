@@ -22,7 +22,8 @@ public class UserDAO {
         User user = mRealm.where(User.class)
                 .equalTo("id", id)
                 .findFirst();
+        User result = mRealm.copyFromRealm(user);
         mRealm.close();
-        return user;
+        return result;
     }
 }
