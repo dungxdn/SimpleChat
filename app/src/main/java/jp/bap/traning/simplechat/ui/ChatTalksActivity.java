@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -28,13 +29,21 @@ public class ChatTalksActivity extends BaseActivity {
     @ViewById
     EditText edtMessage;
 
+    @Extra
+    int roomId;
+
+    @Override
+    public void afterView() {
+        init();
+    }
+
     @Click
     void imgSendMessage() {
         if (edtMessage.getText().toString().isEmpty() == true) {
             Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
         } else {
             if (ChatService.getChat() != null) {
-                message = new Message(1, edtMessage.getText().toString(), mMineId, 13);
+                message = new Message(edtMessage.getText().toString(), mMineId, roomId);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 ChatService.getChat().sendMessage(message, message.getRoomID());
@@ -42,11 +51,6 @@ public class ChatTalksActivity extends BaseActivity {
 
             }
         }
-    }
-
-    @Override
-    public void afterView() {
-        init();
     }
 
     private void init() {
