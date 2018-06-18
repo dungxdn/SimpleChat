@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -90,5 +91,12 @@ public class ChatService extends Service implements ChatManager.Listener {
         i.putExtra("action", type.getEvent());
         i.putExtra("data", data.toString());
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "destroy service", Toast.LENGTH_SHORT).show();
     }
 }
