@@ -2,7 +2,6 @@ package jp.bap.traning.simplechat.utils;
 
 import android.content.Context;
 import android.content.Intent;
-
 import jp.bap.traning.simplechat.service.ChatService;
 
 /**

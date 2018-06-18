@@ -1,21 +1,26 @@
 <resources>
     <string name="app_name">SimpleChat</string>
-    //Login
-    <string name="hint_email">Username</string>
+    //Login Activity
+    <string name="hint_email">UserName</string>
     <string name="hint_pass">Password</string>
-    <string name="hint_confirm_pass">Confirm password</string>
-    <string name="hint_firstname">Firstname</string>
-    <string name="hint_lastname">Lastname</string>
-    <string name="text_login">Login</string>
+    <string name="hinh_first_name">FirstName</string>
+    <string name="text_login">Access</string>
+    <string name="text_forgot_password">Forgot Password? </string>
+    <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Register</string>
-    <string name="text_create_accout">Create new account</string>
+    //SignUp Activity
+    <string name="text_create_accout">Create Account</string>
     <string name="text_not_account"> Do not have an account? </string>
     <string name="text_a_member"> Are you already a member? </string>
     <string name="text_sign_up"><u>Sign-Up</u></string>
     <string name="text_sign_in"><u>Sign-In</u></string>
-    <string name="text_forgot_password"><u>Forgot password?</u></string>
-    <string name="text_recover"><u>Recover it</u></string>
-    <string name="title_tab_friend">Friends</string>
+    <string name="hint_lastname">Lastname</string>
+    <string name="hint_confirm_pass">Confirm password</string>
+    <string name="hint_firstname">Firstname</string>
+    //ChatTalks Activity
+    <string name="textview_text_chat_name">Your Friend</string>
+    <string name="edittext_input_message">Input your messsage</string>
+      <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
     <string name="title_tab_more">More</string>
 </resources>
