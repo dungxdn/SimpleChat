@@ -2,13 +2,16 @@ package jp.bap.traning.simplechat.ui;
 
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import  android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.service.ChatService;
@@ -24,17 +27,17 @@ public class ChatTalksActivity extends BaseActivity {
     RecyclerView listViewChat;
     @ViewById
     EditText edtMessage;
+
     @Click
     void imgSendMessage() {
-        if(edtMessage.getText().toString().isEmpty()==true) {
-            Toast.makeText(ChatTalksActivity.this,"Edit Message is Empty",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            if(ChatService.getChat() !=null) {
-                message = new Message(1,edtMessage.getText().toString(),mMineId,13);
+        if (edtMessage.getText().toString().isEmpty() == true) {
+            Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
+        } else {
+            if (ChatService.getChat() != null) {
+                message = new Message(1, edtMessage.getText().toString(), mMineId, 13);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
-                ChatService.getChat().sendMessage(message,message.getRoomID());
+                ChatService.getChat().sendMessage(message, message.getRoomID());
                 edtMessage.setText("");
 
             }
@@ -47,8 +50,8 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
     private void init() {
-        listMessage= new ArrayList<>();
-        chatTalksAdapter = new ChatTalksAdapter(this,listMessage);
+        listMessage = new ArrayList<>();
+        chatTalksAdapter = new ChatTalksAdapter(this, listMessage);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         listViewChat.setLayoutManager(mLayoutManager);
         listViewChat.setItemAnimator(new DefaultItemAnimator());
