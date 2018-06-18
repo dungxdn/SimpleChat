@@ -1,10 +1,15 @@
 package jp.bap.traning.simplechat.model;
 
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class Room {
+@EqualsAndHashCode(callSuper = false)
+public class Room extends RealmObject {
+    @PrimaryKey
     int roomId;
-    List<User> users;
+    RealmList<User> users;
 }

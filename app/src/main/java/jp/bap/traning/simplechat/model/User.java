@@ -2,13 +2,18 @@ package jp.bap.traning.simplechat.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @AllArgsConstructor
-public class User extends RealmObject implements Parcelable{
+@EqualsAndHashCode(callSuper = false)
+public class User extends RealmObject implements Parcelable {
+    @PrimaryKey
     private int id;
     private String firstName;
     private String lastName;

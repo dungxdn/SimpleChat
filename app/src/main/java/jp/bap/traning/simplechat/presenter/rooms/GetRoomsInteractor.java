@@ -1,7 +1,12 @@
 package jp.bap.traning.simplechat.presenter.rooms;
 
 import android.util.Log;
+
+import java.util.List;
+
+import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.response.RoomResponse;
@@ -23,7 +28,8 @@ public class GetRoomsInteractor {
             @Override
             public void onResponse(Call<RoomResponse> call, Response<RoomResponse> response) {
                 if (response.body().getStatus() == 200) {
-                    Log.e("rooms", response.body().getData().toString());
+                    List<Room> rooms = response.body().getData();
+                    new RoomDAO().insertOrUpdate(rooms);
                     callback.onSuccess(response.body());
                 } else {
                     callback.onError(response.body().getMessage(), response.body().getStatus());

@@ -27,10 +27,10 @@ public class ApiClient {
 
     }
 
-    public synchronized static ApiClient getInstance() {
+    private synchronized static ApiClient getInstance() {
         if (sInstance == null) {
             sInstance = new ApiClient();
-            sInstance.init(Common.URL_SERVER, SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class));
+            sInstance.init();
         }
         return sInstance;
     }
@@ -39,7 +39,10 @@ public class ApiClient {
         return getInstance().mApiService;
     }
 
-    private void init(String host, int auth) {
+    private void init() {
+        String host = Common.URL_SERVER;
+        int auth = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+
         // init OkHttpClient
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient().newBuilder();
         okHttpBuilder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS);
@@ -56,7 +59,6 @@ public class ApiClient {
             Request.Builder requestBuilder = original.newBuilder()
                     .header(AUTHORIZATION, String.valueOf(auth))
                     .addHeader("Accept-Language", Locale.getDefault().getLanguage())
-                    .addHeader("Authorization", "5")
                     .method(original.method(), original.body());
             Request request = requestBuilder.build();
             return chain.proceed(request);
@@ -67,6 +69,8 @@ public class ApiClient {
                 .client(okHttpBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+
         mApiService = retrofit.create(ApiService.class);
     }
 }
