@@ -1,6 +1,5 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -20,7 +18,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
