@@ -87,4 +87,9 @@ public class ChatManager {
             e.printStackTrace();
         }
     }
+
+    public void disconnectSocket(Event type){
+        emit(type,new Object());
+
+    }
 }

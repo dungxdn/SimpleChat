@@ -10,6 +10,8 @@ import java.util.Map;
 public enum Event {
     MESSAGE_SEND("sendMessage"),
     MESSAGE_RECEIVER("receiverMessage"),
+    MESSAGE_DISCONNECT("disconnect"),
+
     CONNECT("connect"),
     UNKNOWN(""),
     USER_ONLINE("getUsersOnline"),

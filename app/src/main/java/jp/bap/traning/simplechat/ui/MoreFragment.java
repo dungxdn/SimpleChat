@@ -17,6 +17,7 @@ import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -64,12 +65,16 @@ public class MoreFragment extends BaseFragment {
         realm.deleteAll();
         realm.commitTransaction();
 
+        //disconnect server
+        ChatService.getChat().disconnectSocket(Event.MESSAGE_DISCONNECT);
+
         //Stop Connect Server
         getContext().stopService(new Intent(getContext(),ChatService.class));
 
-        //back to LoginActivity
-        LoginActivity_.intent(this).start();
+        //back to SplashActivity
+        SplashActivity_.intent(this).start();
         getActivity().finish();
+
 
     }
 }

@@ -18,6 +18,10 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
+import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
+import jp.bap.traning.simplechat.response.RoomResponse;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
