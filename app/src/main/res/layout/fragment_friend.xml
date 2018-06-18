@@ -61,26 +61,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lnUser">
+
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvTitleFriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_tab_friend"
+            android:paddingBottom="@dimen/_4sdp"
             android:paddingStart="@dimen/_8sdp"
             android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"/>
+            android:text="@string/title_tab_friend" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mRecyclerFriend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="536dp" />
 
     </LinearLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

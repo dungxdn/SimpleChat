@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
@@ -76,16 +78,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
             case 1:
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
             case 2:
 //                mToolbar.setTitle(MORE_TITLE);
-                mToolbar.getTvTitle().setVisibility(View.GONE);
+                mToolbar.setVisibility(View.GONE);
                 break;
         }
     }
@@ -135,6 +139,4 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
     }
-
-
 }
