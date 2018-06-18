@@ -14,14 +14,16 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by Admin on 6/13/2018.
  */
 @EFragment(R.layout.fragment_friend)
-public class FriendFragment extends BaseFragment {
+public class FriendFragment extends BaseFragment implements FriendAdapter.Listener {
     @ViewById
     CircleImageView mImgAvatar;
     @ViewById
@@ -48,7 +50,7 @@ public class FriendFragment extends BaseFragment {
         mUserList = getAllFriend();
 
 
-        mFriendAdapter = new FriendAdapter(getContext(), mUserList);
+        mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerFriend.setLayoutManager(mLayoutManager);
         mRecyclerFriend.setItemAnimator(new DefaultItemAnimator());
@@ -97,6 +99,28 @@ public class FriendFragment extends BaseFragment {
         list.add(user3);
         list.add(user3);
         return list;
+
+    }
+
+    @Override
+    public void onChat(int userId) {
+        Room room = Common.getRoomWithUser(userId);
+        if (room != null) {
+            ChatTalksActivity_.intent(this)
+                    .roomId(room.getRoomId())
+                    .start();
+        } else {
+            // TODO: 6/18/18 Tao room bang API 
+        }
+    }
+
+    @Override
+    public void onCallVideo(int userId) {
+
+    }
+
+    @Override
+    public void onCallAudio(int userId) {
 
     }
 }

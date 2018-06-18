@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,18 @@ import jp.bap.traning.simplechat.model.User;
 public class FriendAdapter extends RecyclerView.Adapter {
     private ArrayList<User> mListUser;
     private Context mContext;
+    private Listener mListener;
 
-    public FriendAdapter(Context context, ArrayList<User> userList) {
+    interface Listener {
+        void onChat(int userId);
+        void onCallVideo(int userId);
+        void onCallAudio(int userId);
+    }
+
+    public FriendAdapter(Context context, ArrayList<User> userList, Listener listener) {
         mListUser = userList;
         mContext = context;
+        mListener = listener;
     }
 
     @Override
@@ -40,18 +49,9 @@ public class FriendAdapter extends RecyclerView.Adapter {
         User user = mListUser.get(position);
         FriendViewHolder friendholder = (FriendViewHolder) holder;
         friendholder.mUserName.setText(user.getFirstName());
-        friendholder.mImgButtonCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "mImgButtonCall; "+position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        friendholder.mImgButtonCallVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "mImgButtonCallVideo ; "+position, Toast.LENGTH_SHORT).show();
-            }
-        });
+        friendholder.mAvatar.setOnClickListener(view -> mListener.onChat(user.getId()));
+        friendholder.mImgButtonCall.setOnClickListener(view -> mListener.onCallAudio(user.getId()));
+        friendholder.mImgButtonCallVideo.setOnClickListener(view -> mListener.onCallVideo(user.getId()));
     }
 
     @Override
