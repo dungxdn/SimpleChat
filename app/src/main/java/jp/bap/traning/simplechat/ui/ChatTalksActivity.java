@@ -35,7 +35,6 @@ public class ChatTalksActivity extends BaseActivity {
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 ChatService.getChat().sendMessage(message,message.getRoomID());
-                Toast.makeText(ChatTalksActivity.this,"Send Message: "+message.getRoomID(),Toast.LENGTH_SHORT).show();
                 edtMessage.setText("");
 
             }
@@ -60,7 +59,6 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     public void onReceiverMessage(Message message) {
         super.onReceiverMessage(message);
-        Toast.makeText(ChatTalksActivity.this,"Nhan Duoc Message: "+message.getUserID(),Toast.LENGTH_SHORT).show();
         listMessage.add(message);
         chatTalksAdapter.notifyDataSetChanged();
     }

@@ -56,8 +56,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
             case MESSAGE_RECEIVER:
                 try {
-                    Gson gson = new GsonBuilder().create();
-                    Message message = gson.fromJson(String.valueOf(data.getJSONObject("chatMessage")),Message.class);
+                    Gson gson = new Gson();
+                    String objectMessage = data.get("chatMessage").toString();
+                    Message message = gson.fromJson(objectMessage,Message.class);
                     onReceiverMessage(message);
                 } catch (JSONException e) {
                     e.printStackTrace();

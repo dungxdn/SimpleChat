@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFFFF"
             android:layout_gravity="center"
-            android:text="Hello"/>
+            android:text="Hellooooooopoooooooooooooo"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
