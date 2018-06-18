@@ -16,8 +16,9 @@ public class LoginPresenter implements LoginView {
     }
 
     @Override
-    public void onLoginSuccess(UserResponse user) {
-        mLoginView.onLoginSuccess(user);
+    public void onLoginSuccess(UserResponse userResponse) {
+        mLoginView.onSuccess(userResponse);
+
     }
 
     @Override

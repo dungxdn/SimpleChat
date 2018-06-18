@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.Event;
 

@@ -1,5 +1,4 @@
 package jp.bap.traning.simplechat.presenter.login;
-
 import jp.bap.traning.simplechat.presenter.BaseView;
 import jp.bap.traning.simplechat.response.UserResponse;
 
