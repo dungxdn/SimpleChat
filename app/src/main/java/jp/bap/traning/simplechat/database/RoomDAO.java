@@ -16,4 +16,10 @@ public class RoomDAO {
         mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(rooms));
         mRealm.close();
     }
+
+    public Room getRoomWithUser(int userId) {
+        Room room = new Room();
+        room.setRoomId(1);
+        return room;
+    }
 }
