@@ -57,9 +57,7 @@ public class CustomToolbar extends RelativeLayout {
         public String getFragment() {
             return this.fragment;
         }
-    }
-
-    ;
+    };
 
 
     @Click

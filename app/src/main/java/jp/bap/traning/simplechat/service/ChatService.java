@@ -94,6 +94,8 @@ public class ChatService extends Service implements ChatManager.Listener {
 
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

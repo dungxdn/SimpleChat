@@ -5,17 +5,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
@@ -43,13 +44,13 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     }
 
     private void init() {
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().getUsersOnline();
+        }
         User user = getUserLogin();
         mTvUserName.setText(user.getFirstName() + " " + user.getLastName());
-
         mUserList = new ArrayList<>();
-        mUserList = getAllFriend();
-
-
+        //
         mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerFriend.setLayoutManager(mLayoutManager);
@@ -57,14 +58,12 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         mRecyclerFriend.setAdapter(mFriendAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(), 1);
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
-
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
-        mFriendAdapter.notifyDataSetChanged();
     }
 
     private User getUserLogin() {
@@ -74,34 +73,36 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     }
 
     //get friend list from API
-    private ArrayList<User> getAllFriend() {
-        //fake data
-        ArrayList<User> list = new ArrayList<>();
-        User user1 = new User();
-        user1.setFirstName("User 1");
-        list.add(user1);
-
-        User user2 = new User();
-        user2.setFirstName("User 2");
-        list.add(user2);
-
-        User user3 = new User();
-        user3.setFirstName("User 3");
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        return list;
+    @Override
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
+        super.onReceiverListUsersOnline(users);
+        for(int i = 0; i<users.size();i++) {
+            mUserList.add(users.get(i));
+        }
+        mFriendAdapter.notifyDataSetChanged();
+        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
 
     }
 
+    //remove user offline
+    @Override
+    public void onUserOffline(User user) {
+        super.onUserOffline(user);
+        Toast.makeText(getContext(),"User Offline: "+user.getLastName(),Toast.LENGTH_LONG).show();
+        mUserList.remove(user);
+        mFriendAdapter.notifyDataSetChanged();
+    }
+
+    //insert user online
+    @Override
+    public void onUserOnline(User users) {
+        super.onUserOnline(users);
+        mUserList.add(users);
+        mFriendAdapter.notifyDataSetChanged();
+    }
+
+
+    //Chat
     @Override
     public void onChat(int userId) {
         Room room = Common.getRoomWithUser(userId);

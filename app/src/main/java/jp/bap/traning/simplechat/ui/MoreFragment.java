@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
@@ -17,6 +16,7 @@ import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -67,9 +67,10 @@ public class MoreFragment extends BaseFragment {
         //Stop Connect Server
         getContext().stopService(new Intent(getContext(),ChatService.class));
 
-        //back to LoginActivity
-        LoginActivity_.intent(this).start();
+        //back to SplashActivity
+        SplashActivity_.intent(this).start();
         getActivity().finish();
+
 
     }
 }
