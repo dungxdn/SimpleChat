@@ -45,8 +45,8 @@ public class LoginActivity extends BaseActivity {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
         } else {
+            indicatorView.show();
             mLoginPresenter.logIn(userName, password);
-            Log.e("login", "loginActivity");
         }
     }
 
@@ -56,18 +56,13 @@ public class LoginActivity extends BaseActivity {
         startActivity(new Intent(this, SignUpActivity_.class));
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     public void init() {
-        indicatorView.show();
         this.mLoginPresenter = new LoginPresenter(new LoginView() {
             @Override
             public void onLoginSuccess(UserResponse userResponse) {
                 indicatorView.hide();
                 setResult(Common.REQUEST_LOGIN);
+                Log.e("login", "loginActivity");
                 finish();
             }
 

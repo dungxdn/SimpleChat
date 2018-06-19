@@ -71,6 +71,11 @@ public class SignUpActivity extends Activity implements SignUpView{
 
     @Override
     public void onSiginUpSuccess(SignUpResponse signUpResponse) {
+        edtUsername.getText().clear();
+        edtFirstname.getText().clear();
+        edtLastname.getText().clear();
+        edtPassword.getText().clear();
+        edtConfirmPassword.getText().clear();
         Toast.makeText(this, "Register success!", Toast.LENGTH_SHORT).show();
         LoginActivity_.intent(this).start();
     }

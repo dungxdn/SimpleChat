@@ -12,24 +12,25 @@
         android:layout_height="@dimen/_20sdp"
         android:src="@drawable/ic_avatar_default"
         android:layout_marginEnd="@dimen/_3sdp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/mLnChat"/>
 
     <LinearLayout
         android:id="@+id/mLnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_message_right_default"
-        app:layout_constraintRight_toLeftOf="@+id/mAvatar"
+        android:background="@drawable/bg_message_friend"
+        app:layout_constraintLeft_toRightOf="@+id/mAvatar"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/black"
             android:layout_gravity="center"
-            android:text="Hello"/>
+            android:text="Helloooooooooooo"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

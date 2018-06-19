@@ -3,6 +3,8 @@ package jp.bap.traning.simplechat.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.service.ChatService;
 
 /**
@@ -21,5 +23,9 @@ public class Common {
             i.putExtra("token", token);
             context.startService(i);
         }
+    }
+
+    public static Room getRoomWithUser(int userId) {
+        return new RoomDAO().getRoomWithUser(userId);
     }
 }
