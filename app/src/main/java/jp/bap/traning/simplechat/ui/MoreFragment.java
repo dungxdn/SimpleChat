@@ -65,9 +65,6 @@ public class MoreFragment extends BaseFragment {
         realm.deleteAll();
         realm.commitTransaction();
 
-        //disconnect server
-        ChatService.getChat().disconnectSocket(Event.MESSAGE_DISCONNECT);
-
         //Stop Connect Server
         getContext().stopService(new Intent(getContext(),ChatService.class));
 

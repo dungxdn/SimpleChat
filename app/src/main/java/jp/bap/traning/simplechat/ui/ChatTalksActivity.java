@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
@@ -28,12 +31,15 @@ public class ChatTalksActivity extends BaseActivity {
     RecyclerView listViewChat;
     @ViewById
     EditText edtMessage;
+    @ViewById
+    CustomToolbar_ mToolbar;
 
     @Extra
     int roomId;
 
     @Override
     public void afterView() {
+        setupToolbar();
         init();
     }
 
@@ -61,6 +67,19 @@ public class ChatTalksActivity extends BaseActivity {
         listViewChat.setItemAnimator(new DefaultItemAnimator());
         listViewChat.setAdapter(chatTalksAdapter);
         chatTalksAdapter.notifyDataSetChanged();
+
+    }
+    private void setupToolbar(){
+        mToolbar.getCallButton().setVisibility(View.VISIBLE);
+        mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
+        mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
+        mToolbar.setTitle(Common.getNameRoomFromRoomId(roomId));
+        mToolbar.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

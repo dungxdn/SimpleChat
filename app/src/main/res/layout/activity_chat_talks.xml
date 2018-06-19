@@ -6,55 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.ChatTalksActivity">
 
-    <RelativeLayout
-        android:id="@+id/viewTop"
+    <jp.bap.traning.simplechat.widget.CustomToolbar_
+        android:id="@+id/mToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:paddingRight="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_back" />
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_toRightOf="@+id/btnBack"
-            android:layout_toLeftOf="@+id/btnMenu"
-            android:text="@string/textview_text_chat_name"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="normal"
-            android:gravity="center"/>
-        <ImageButton
-            android:id="@+id/btnMenu"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_menu" />
-    </RelativeLayout>
-
+    </jp.bap.traning.simplechat.widget.CustomToolbar_>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listViewChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewTop"
+        android:layout_below="@+id/mToolbar"
         android:layout_above="@+id/view_below_listView"
         android:paddingLeft="@dimen/_8sdp"
         android:paddingRight="@dimen/_8sdp"
