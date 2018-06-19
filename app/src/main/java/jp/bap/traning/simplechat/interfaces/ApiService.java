@@ -29,11 +29,6 @@ public interface ApiService {
     @GET("/rooms")
     Call<RoomResponse> getListRoom();
 
-//    @FormUrlEncoded
-//    @POST("/room")
-//    Call<AddRoomResponse> addRoom(@Field("ids[]") int[] ids,
-//                                  @Field("type") int type);
-
     @Multipart
     @POST("/room")
     Call<AddRoomResponse> createRoom(@Part("ids[]") List<Integer> ids,

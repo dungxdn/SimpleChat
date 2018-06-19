@@ -16,7 +16,6 @@ public class AddRoomPresenter implements AddRoomView{
 
     public void addroom(List<Integer> ids, int type){
         mAddRoomInteractor.addRoom(ids, type, mAddRoomView);
-        Log.e("addRoom", "AddRoomPresenter");
     }
 
     @Override
@@ -26,7 +25,7 @@ public class AddRoomPresenter implements AddRoomView{
 
     @Override
     public void onAddRoomFail() {
-
+        mAddRoomView.onAddRoomFail();
     }
 
     @Override

@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class RoomData {
-    int idRoom;
+    int roomId;
 }

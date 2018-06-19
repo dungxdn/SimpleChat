@@ -5,10 +5,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
 import jp.bap.traning.simplechat.response.RoomResponse;
@@ -33,7 +35,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @ViewById
     CustomToolbar_ mToolbar;
 
-    private final String FRIEND_TITLE = "Friend";
+    private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
 
@@ -45,27 +47,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void afterView() {
         init();
-        mToolbar.getSettingButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new GetRoomsPresenter(new GetRoomsView() {
-                    @Override
-                    public void onSuccess(RoomResponse result) {
-                        Log.e(TAG, "onGetRoomsSuccess: " + result);
-                    }
 
-                    @Override
-                    public void onError(String message, int code) {
-
-                    }
-                }).request();
-            }
-        });
     }
 
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
         mToolbar.getBackButton().setVisibility(View.GONE);
+        mToolbar.getTvTitle().setGravity(Gravity.CENTER);
+        ViewCompat.setElevation(mTabLayout, 10);
+
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
@@ -92,15 +82,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
             case 1:
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
             case 2:
-                mToolbar.setTitle(MORE_TITLE);
+//                mToolbar.setTitle(MORE_TITLE);
+                mToolbar.setVisibility(View.GONE);
                 break;
         }
     }
@@ -150,6 +143,4 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
     }
-
-
 }

@@ -5,6 +5,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import android.util.Log;
 import io.realm.Realm;
@@ -18,20 +20,26 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+
+import static jp.bap.traning.simplechat.model.User.userComparator;
 
 /**
  * Created by Admin on 6/13/2018.
  */
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendAdapter.Listener, AddRoomView {
+    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     @ViewById
     CircleImageView mImgAvatar;
     @ViewById
@@ -55,14 +63,16 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     }
 
     private void init() {
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().getUsersOnline();
+        }
         User user = getUserLogin();
         mTvUserName.setText(user.getFirstName() + " " + user.getLastName());
-
         mUserList = new ArrayList<>();
-        mUserList = getAllFriend();
 
         mAddRoomPresenter = new AddRoomPresenter(this);
         mListUserId = new ArrayList<>();
+        mUserRealmList = new RealmList<>();
 
         mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -71,14 +81,12 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         mRecyclerFriend.setAdapter(mFriendAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(), 1);
         mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
-
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
-        mFriendAdapter.notifyDataSetChanged();
     }
 
     private User getUserLogin() {
@@ -88,34 +96,45 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     }
 
     //get friend list from API
-    private ArrayList<User> getAllFriend() {
-        //fake data
-        ArrayList<User> list = new ArrayList<>();
-        User user1 = new User();
-        user1.setFirstName("User 1");
-        list.add(user1);
-
-        User user2 = new User();
-        user2.setFirstName("User 2");
-        list.add(user2);
-
-        User user3 = new User();
-        user3.setFirstName("User 3");
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        list.add(user3);
-        return list;
+    @Override
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
+        super.onReceiverListUsersOnline(users);
+        for (int i = 0; i < users.size(); i++) {
+            mUserList.add(users.get(i));
+        }
+        mFriendAdapter.notifyDataSetChanged();
+        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
 
     }
 
+    //remove user offline
+    @Override
+    public void onUserOffline(User user) {
+        super.onUserOffline(user);
+        mUserList.remove(user);
+        mFriendAdapter.notifyDataSetChanged();
+        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+    }
+
+    //insert user online
+    @Override
+    public void onUserOnline(User users) {
+        super.onUserOnline(users);
+        boolean checkValidUser = mUserList.contains(users);
+        if (users.getId() == mMineId) {
+
+        } else if (checkValidUser == true) {
+
+        } else {
+            mUserList.add(users);
+            Collections.sort(mUserList, userComparator);
+            mFriendAdapter.notifyDataSetChanged();
+            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        }
+    }
+
+
+    //Chat
     @Override
     public void onChat(User user) {
         Room room = Common.getRoomWithUser(user.getId());
@@ -129,7 +148,6 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
             mListUserId.add(user.getId());
             mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON);
             mUserRealmList.add(user);
-            Log.e("addRoom", "addRoom");
         }
     }
 
@@ -149,21 +167,19 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         //Save to Realm
         List<Room> mListRoom = new ArrayList<>();
         Room mRoom = new Room();
-        mRoom.setRoomId(addRoomResponse.getData().getIdRoom());
+        mRoom.setRoomId(addRoomResponse.getData().getRoomId());
         mRoom.setType(sTYPE_2PERSON);
         mRoom.setUsers(mUserRealmList);
         mListRoom.add(mRoom);
         new RoomDAO().insertOrUpdate(mListRoom);
         //Start ChatActivity
         ChatTalksActivity_.intent(this)
-                .roomId(addRoomResponse.getData().getIdRoom())
+                .roomId(addRoomResponse.getData().getRoomId())
                 .start();
-        Log.e("addRoom", "Success");
     }
 
     @Override
     public void onAddRoomFail() {
-
     }
 
     @Override

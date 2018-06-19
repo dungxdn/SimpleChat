@@ -2,6 +2,9 @@ package jp.bap.traning.simplechat.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import java.util.Comparator;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -50,4 +53,18 @@ public class User extends RealmObject implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
     }
+
+    public static Comparator<User> userComparator = new Comparator<User>() {
+        @Override
+        //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < -> return <0
+        public int compare(User user, User t1) {
+            if(user.getLastName().compareTo(t1.getLastName())==0) {
+                return user.getFirstName().compareTo(t1.getFirstName());
+            }
+            else {
+                return user.getLastName().compareTo(t1.getLastName());
+            }
+
+        }
+    };
 }

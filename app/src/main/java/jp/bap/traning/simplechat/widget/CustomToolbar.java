@@ -24,6 +24,10 @@ public class CustomToolbar extends RelativeLayout {
     AppCompatImageButton mImgButtonBack;
     @ViewById
     AppCompatImageButton mImgButtonSetting;
+    @ViewById
+    AppCompatImageButton mImgButtonCall;
+    @ViewById
+    AppCompatImageButton mImgButtonCallVideo;
     private Context context;
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -57,9 +61,7 @@ public class CustomToolbar extends RelativeLayout {
         public String getFragment() {
             return this.fragment;
         }
-    }
-
-    ;
+    };
 
 
     @Click
@@ -90,5 +92,11 @@ public class CustomToolbar extends RelativeLayout {
 
     public AppCompatImageButton getSettingButton() {
         return mImgButtonSetting;
+    }
+    public AppCompatImageButton getCallButton() {
+        return mImgButtonCall;
+    }
+    public AppCompatImageButton getCallVideoButton() {
+        return mImgButtonCallVideo;
     }
 }

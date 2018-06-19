@@ -11,10 +11,14 @@ import com.google.gson.GsonBuilder;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 
@@ -63,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
         }
     }
 

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import jp.bap.traning.simplechat.interfaces.ApiService;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.response.UserResponse;
+import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.utils.Common;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,22 +22,19 @@ public class AddRoomInteractor {
     }
 
     public void addRoom(List<Integer> ids, int type,AddRoomView callback){
-        Log.e("addRoom", "AddRoomInteractor");
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Common.URL_SERVER)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<AddRoomResponse> mCallUser = apiService.createRoom(ids, type);
+
+        Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type);
         mCallUser.enqueue(new Callback<AddRoomResponse>() {
             @Override
             public void onResponse(Call<AddRoomResponse> call, Response<AddRoomResponse> response) {
                 callback.onAddRoomSuccess(response.body());
+                Log.e("addRoom", "success");
             }
 
             @Override
             public void onFailure(Call<AddRoomResponse> call, Throwable t) {
                 callback.onAddRoomFail();
+                Log.e("addRoom", "fail");
             }
         });
     }
