@@ -46,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_weight="8"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/_14ssp"
             android:hint="@string/edittext_input_message"
             />
         <android.support.v7.widget.AppCompatImageButton
