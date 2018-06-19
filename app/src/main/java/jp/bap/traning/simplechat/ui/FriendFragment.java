@@ -117,7 +117,6 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         }
     }
 
-
     //Chat
     @Override
     public void onChat(int userId) {

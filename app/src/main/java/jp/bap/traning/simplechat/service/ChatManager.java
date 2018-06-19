@@ -72,7 +72,6 @@ public class ChatManager {
             Gson gson = new Gson();
             String objectMessage = gson.toJson(message);
             data.put("chatMessage",objectMessage);
-//            data.put("content", content);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
