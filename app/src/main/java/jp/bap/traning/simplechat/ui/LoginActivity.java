@@ -42,6 +42,7 @@ public class LoginActivity extends Activity implements LoginView {
             Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
         } else {
             mLoginPresenter.logIn(userName, password);
+            Log.e("login", "loginActivity");
         }
     }
 

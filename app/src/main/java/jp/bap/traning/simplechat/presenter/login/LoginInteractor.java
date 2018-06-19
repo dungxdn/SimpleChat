@@ -19,6 +19,7 @@ public class LoginInteractor {
     }
 
     public void login(String userName, String password, LoginView callback) {
+        Log.e("login", "loginIniteractor");
         Call<UserResponse> mCallUser = ApiClient.getService().getUser(userName, password);
         mCallUser.enqueue(new Callback<UserResponse>() {
             @Override

@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 new GetRoomsPresenter(new GetRoomsView() {
                     @Override
                     public void onSuccess(RoomResponse result) {
-                        Log.d(TAG, "onSuccess: " + result);
+                        Log.e(TAG, "onGetRoomsSuccess: " + result);
                     }
 
                     @Override
