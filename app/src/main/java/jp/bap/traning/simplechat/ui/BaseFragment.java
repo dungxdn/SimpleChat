@@ -42,25 +42,56 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
     @Override
     public void onMessage(Event type, JSONObject data) {
         switch (type) {
-            case USER_ONLINE:
-                try{
-                    JSONArray jsonArray = data.getJSONArray("uses");
+            case USER_ONLINE: {
+                try {
+                    JSONArray jsonArray = data.getJSONArray("users");
                     ArrayList<User> usersOnline = new ArrayList<>();
                     Gson gson = new Gson();
-                    for(int i=0; i<jsonArray.length();i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         String objectUser = jsonArray.getString(i);
-                        User user = gson.fromJson(objectUser,User.class);
+                        User user = gson.fromJson(objectUser, User.class);
                         usersOnline.add(user);
                     }
                     onReceiverListUsersOnline(usersOnline);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            }
+
+            case ON_USER_OFFLINE: {
+                try {
+                    String objectUserOffline = data.getString("user");
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(objectUserOffline,User.class);
+                    onUserOffline(user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
+            case ON_USER_ONLINE: {
+                try {
+                    String objectUserOffline = data.getString("user");
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(objectUserOffline,User.class);
+                    onUserOnline(user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
     public void onReceiverListUsersOnline(ArrayList<User> users) {
+    }
+
+    public void onUserOffline(User users) {
+    }
+
+    public void onUserOnline(User users) {
     }
 
 }

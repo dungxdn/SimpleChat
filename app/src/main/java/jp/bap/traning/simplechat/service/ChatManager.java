@@ -29,7 +29,9 @@ public class ChatManager {
         mSocket = s;
         on(
                 Event.MESSAGE_RECEIVER,
-                Event.USER_ONLINE
+                Event.USER_ONLINE,
+                Event.ON_USER_OFFLINE,
+                Event.ON_USER_ONLINE
         );
     }
 
@@ -86,10 +88,5 @@ public class ChatManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void disconnectSocket(Event type){
-        emit(type,new Object());
-
     }
 }

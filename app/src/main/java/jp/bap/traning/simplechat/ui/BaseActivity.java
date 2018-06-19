@@ -68,22 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     e.printStackTrace();
                 }
                 break;
-
-            case USER_ONLINE:
-                try{
-                    JSONArray jsonArray = data.getJSONArray("uses");
-                    ArrayList<User> usersOnline = new ArrayList<>();
-                    Gson gson = new Gson();
-                    for(int i=0; i<jsonArray.length();i++) {
-                        String objectUser = jsonArray.getString(i);
-                        User user = gson.fromJson(objectUser,User.class);
-                        usersOnline.add(user);
-                    }
-//                    onReceiverListUsersOnline(usersOnline);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
         }
     }
 
@@ -91,8 +75,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onReceiverMessage(Message message) {
-    }
-
-    public void onReceiverListUsersOnline(ArrayList<User> users) {
     }
 }

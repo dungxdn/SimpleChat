@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
@@ -64,9 +63,6 @@ public class MoreFragment extends BaseFragment {
         realm.beginTransaction();
         realm.deleteAll();
         realm.commitTransaction();
-
-        //disconnect server
-        ChatService.getChat().disconnectSocket(Event.MESSAGE_DISCONNECT);
 
         //Stop Connect Server
         getContext().stopService(new Intent(getContext(),ChatService.class));
