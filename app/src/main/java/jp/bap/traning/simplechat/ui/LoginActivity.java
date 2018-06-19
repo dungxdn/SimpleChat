@@ -17,13 +17,13 @@ import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.response.UserResponse;
+import jp.bap.traning.simplechat.service.ApiClient;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends Activity implements LoginView {
+public class LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
-    public static final String CURRENT_USERNAME = "current_id";
-    public static final String CURRENT_PASSWORD = "current_name";
 
     @ViewById
     EditText edtUserName;
@@ -32,9 +32,13 @@ public class LoginActivity extends Activity implements LoginView {
     @ViewById
     AVLoadingIndicatorView indicatorView;
 
+    @Override
+    public void afterView() {
+        init();
+    }
+
     @Click
     void btnLogin() {
-        indicatorView.show();
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
         if (userName.isEmpty() || password.isEmpty()) {
@@ -53,40 +57,35 @@ public class LoginActivity extends Activity implements LoginView {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Init();
-    }
-
-    @Override
-    public void onLoginSuccess(UserResponse userResponse) {
-        indicatorView.hide();
-        Log.e("User login", userResponse.getData().toString());
-        MainActivity_.intent(this).start();
-        finish();
-    }
-
-    @Override
-    public void onLoginFailed() {
-        indicatorView.hide();
-        Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onBackPressed() {
 
     }
 
-    public void Init() {
-        this.mLoginPresenter = new LoginPresenter(this);
-    }
+    public void init() {
+        indicatorView.show();
+        this.mLoginPresenter = new LoginPresenter(new LoginView() {
+            @Override
+            public void onLoginSuccess(UserResponse userResponse) {
+                indicatorView.hide();
+                setResult(Common.REQUEST_LOGIN);
+                finish();
+            }
 
-    @Override
-    public void onSuccess(UserResponse result) {
-    }
+            @Override
+            public void onLoginFailed() {
+                indicatorView.hide();
+                Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
+            }
 
-    @Override
-    public void onError(String message, int code) {
+            @Override
+            public void onSuccess(UserResponse result) {
 
+            }
+
+            @Override
+            public void onError(String message, int code) {
+
+            }
+        });
     }
 }

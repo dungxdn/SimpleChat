@@ -77,7 +77,7 @@ public class SignUpActivity extends Activity implements SignUpView{
 
     @Override
     public void onSignUpFailed() {
-        Toast.makeText(this, "Sign up fail!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sign up fail. Please check again!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
