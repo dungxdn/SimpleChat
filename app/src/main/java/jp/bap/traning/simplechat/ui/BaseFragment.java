@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import org.androidannotations.annotations.EFragment;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.model.User;
@@ -24,12 +26,14 @@ import jp.bap.traning.simplechat.utils.Event;
 @EFragment
 public abstract class BaseFragment extends Fragment implements CallbackManager.Listener {
     CallbackManager mCallback;
+    private WeakReference<Activity> mWeakReferance;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCallback = new CallbackManager(getContext());
         mCallback.register(this);
+        mWeakReferance = new WeakReference<>(getActivity());
     }
 
     public abstract void afterView();
@@ -37,6 +41,10 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
     @AfterViews
     public void initView() {
         this.afterView();
+    }
+
+    public Activity getBaseActivity() {
+        return mWeakReferance.get();
     }
 
     @Override

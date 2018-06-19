@@ -95,10 +95,10 @@ public class ChatService extends Service implements ChatManager.Listener {
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "destroy service", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onDestroy: ");
+        mSocket.disconnect();
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -82,7 +83,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     @Override
     public void onReceiverListUsersOnline(ArrayList<User> users) {
         super.onReceiverListUsersOnline(users);
-        for(int i = 0; i<users.size();i++) {
+        for (int i = 0; i < users.size(); i++) {
             mUserList.add(users.get(i));
         }
         mFriendAdapter.notifyDataSetChanged();
@@ -94,7 +95,6 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     @Override
     public void onUserOffline(User user) {
         super.onUserOffline(user);
-        Toast.makeText(getContext(),"User Offline: "+user.getLastName(),Toast.LENGTH_LONG).show();
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
         mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
@@ -105,15 +105,13 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     public void onUserOnline(User users) {
         super.onUserOnline(users);
         boolean checkValidUser = mUserList.contains(users);
-        if(users.getId()==mMineId) {
+        if (users.getId() == mMineId) {
 
-        }
-        else if(checkValidUser == true) {
+        } else if (checkValidUser == true) {
 
-        }
-        else {
+        } else {
             mUserList.add(users);
-            Collections.sort(mUserList,userComparator);
+            Collections.sort(mUserList, userComparator);
             mFriendAdapter.notifyDataSetChanged();
             mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
         }

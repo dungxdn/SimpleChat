@@ -65,7 +65,7 @@ public class MoreFragment extends BaseFragment {
         realm.commitTransaction();
 
         //Stop Connect Server
-        getContext().stopService(new Intent(getContext(),ChatService.class));
+        getBaseActivity().stopService(new Intent(getBaseActivity(), ChatService.class));
 
         //back to SplashActivity
         SplashActivity_.intent(this).start();

@@ -82,11 +82,6 @@ public class ChatManager {
 
     public void getUsersOnline() {
         JSONObject data = new JSONObject();
-        try {
-            data.put("getUsersOnline","getUserOnline");
-            emit(Event.USER_ONLINE,data);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        emit(Event.USER_ONLINE,data);
     }
 }
