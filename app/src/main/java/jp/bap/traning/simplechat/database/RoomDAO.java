@@ -1,8 +1,12 @@
 package jp.bap.traning.simplechat.database;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import jp.bap.traning.simplechat.model.Room;
 
 /**
@@ -17,9 +21,43 @@ public class RoomDAO {
         mRealm.close();
     }
 
+    public ArrayList<Room> getAllRoom() {
+        ArrayList<Room> list = new ArrayList<>();
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<Room> results = mRealm.where(Room.class).findAll();
+        for (Room c : results) {
+            list.add(mRealm.copyFromRealm(c));
+        }
+        mRealm.close();
+        return list;
+    }
+
     public Room getRoomWithUser(int userId) {
         Room room = new Room();
-        room.setRoomId(1);
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<Room> results =
+                mRealm.where(Room.class).findAll();
+
+        for (Room c : results) {
+            if (c.getType() == 0 && (c.getUsers().get(0).getId() == userId || c.getUsers().get(1).getId() == userId)) {
+                room = mRealm.copyFromRealm(c);
+                break;
+            }
+        }
+        mRealm.close();
         return room;
+    }
+
+    public Room getRoomFromRoomId(int roomId) {
+        Room result = null;
+        Realm mRealm = Realm.getDefaultInstance();
+        Room room = mRealm.where(Room.class)
+                .equalTo("roomId", roomId)
+                .findFirst();
+        if (room != null) {
+            result = mRealm.copyFromRealm(room);
+        }
+        mRealm.close();
+        return result;
     }
 }

@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_viewholder_chat"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/mImgAvatar"
@@ -23,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/mTvUserName"
+            android:id="@+id/mTvUserChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -38,7 +39,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/mImgButtonCallVideo"
+        android:id="@+id/mTvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/_5sdp"

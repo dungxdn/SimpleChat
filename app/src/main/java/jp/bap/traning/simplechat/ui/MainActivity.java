@@ -9,6 +9,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
         mToolbar.getBackButton().setVisibility(View.GONE);
+        mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
 
         //Setup viewPager
