@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;

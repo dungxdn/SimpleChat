@@ -28,7 +28,10 @@ public class ChatManager {
     ChatManager(Socket s) {
         mSocket = s;
         on(
-                Event.MESSAGE_RECEIVER
+                Event.MESSAGE_RECEIVER,
+                Event.USER_ONLINE,
+                Event.ON_USER_OFFLINE,
+                Event.ON_USER_ONLINE
         );
     }
 
@@ -72,6 +75,16 @@ public class ChatManager {
 //            data.put("content", content);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getUsersOnline() {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("getUsersOnline","getUserOnline");
+            emit(Event.USER_ONLINE,data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

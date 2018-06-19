@@ -12,7 +12,10 @@ public enum Event {
     MESSAGE_RECEIVER("receiverMessage"),
 
     CONNECT("connect"),
-    UNKNOWN("");
+    UNKNOWN(""),
+    USER_ONLINE("getUsersOnline"),
+    ON_USER_ONLINE("onUserOnline"),
+    ON_USER_OFFLINE("onUserOffline");
 
     String mEvent;
     Event(String e) {
