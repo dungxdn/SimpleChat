@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/edittext_input_message"
             />
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imgSendMessage"
             android:layout_height="wrap_content"
             android:layout_width="0dp"

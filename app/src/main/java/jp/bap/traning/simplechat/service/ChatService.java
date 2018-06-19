@@ -100,5 +100,6 @@ public class ChatService extends Service implements ChatManager.Listener {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
         mSocket.disconnect();
+        sChatManager = null;
     }
 }
