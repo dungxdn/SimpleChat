@@ -73,4 +73,8 @@ public class ApiClient {
 
         mApiService = retrofit.create(ApiService.class);
     }
+
+    public static void stopApilient() {
+        sInstance = null;
+    }
 }

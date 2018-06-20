@@ -26,4 +26,5 @@
     <string name="title_me">Me</string>
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
+    <string name="str_not_have_room">You not have room chat</string>
 </resources>
