@@ -15,7 +15,7 @@ import jp.bap.traning.simplechat.service.ChatService;
  */
 
 public class Common {
-    public static final String URL_SERVER = "http://172.16.0.27:3000";
+    public static final String URL_SERVER = "http://18.216.126.225:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
     private static final String TAG = "Common";
