@@ -2,6 +2,8 @@ package jp.bap.traning.simplechat.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Room;
@@ -16,6 +18,7 @@ public class Common {
     public static final String URL_SERVER = "http://172.16.0.27:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
+    private static final String TAG = "Common";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
@@ -23,6 +26,8 @@ public class Common {
             i.putExtra("host", host);
             i.putExtra("token", token);
             context.startService(i);
+        }else{
+            Log.d(TAG, "connectToServerSocket: Service started ");
         }
     }
 
