@@ -146,7 +146,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         super.onUserOffline(user);
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
-        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" + mUserList.size() + ")");
     }
 
     //insert user online

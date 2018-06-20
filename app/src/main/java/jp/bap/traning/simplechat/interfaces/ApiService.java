@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.interfaces;
 
 import java.util.List;
+
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.response.RoomResponse;
 import jp.bap.traning.simplechat.response.SignUpResponse;
@@ -29,9 +30,9 @@ public interface ApiService {
     @GET("/rooms")
     Call<RoomResponse> getListRoom();
 
-    @Multipart
+    @FormUrlEncoded
     @POST("/room")
-    Call<AddRoomResponse> createRoom(@Part("ids[]") List<Integer> ids,
-                                     @Part("type") int type);
+    Call<AddRoomResponse> createRoom(@Field("ids") List<Integer> ids,
+                                     @Field("type") int type);
 
 }
