@@ -8,6 +8,7 @@ public class AddRoomPresenter implements AddRoomView{
 
     private AddRoomView mAddRoomView;
     private AddRoomInteractor mAddRoomInteractor;
+    private int type;
 
     public AddRoomPresenter(AddRoomView addRoomView) {
         this.mAddRoomInteractor = new AddRoomInteractor();
@@ -15,11 +16,13 @@ public class AddRoomPresenter implements AddRoomView{
     }
 
     public void addroom(List<Integer> ids, int type){
+        this.type = type;
         mAddRoomInteractor.addRoom(ids, type, mAddRoomView);
     }
 
     @Override
     public void onAddRoomSuccess(AddRoomResponse addRoomResponse) {
+        addRoomResponse.getData().setType(type);
         mAddRoomView.onAddRoomSuccess(addRoomResponse);
     }
 
