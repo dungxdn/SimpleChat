@@ -8,6 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import android.util.Log;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+
+import java.util.List;
+
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
+import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
+import jp.bap.traning.simplechat.response.AddRoomResponse;
+
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -44,6 +56,10 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
     RecyclerView mRecyclerFriend;
     private ArrayList<User> mUserList;
     private FriendAdapter mFriendAdapter;
+    private AddRoomPresenter mAddRoomPresenter;
+    private List<Integer> mListUserId;
+    private RealmList<User> mUserRealmList;
+    private static int sTYPE_2PERSON = 0;
 
     @Override
     public void afterView() {
@@ -57,7 +73,40 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         User user = getUserLogin();
         mTvUserName.setText(user.getFirstName() + " " + user.getLastName());
         mUserList = new ArrayList<>();
-        //
+
+        mAddRoomPresenter = new AddRoomPresenter(new AddRoomView() {
+            @Override
+            public void onAddRoomSuccess(AddRoomResponse addRoomResponse) {
+                //TODO: Save to Realm, Start ChatActivity
+                //Save to Realm
+                Room mRoom = new Room();
+                mRoom.setRoomId(addRoomResponse.getData().getRoomId());
+                mRoom.setType(sTYPE_2PERSON);
+                mRoom.setUsers(mUserRealmList);
+                new RoomDAO().insertOrUpdate(mRoom);
+                //Start ChatActivity
+                ChatTalksActivity_.intent(FriendFragment.this)
+                        .roomId(addRoomResponse.getData().getRoomId())
+                        .start();
+            }
+
+            @Override
+            public void onAddRoomFail() {
+            }
+
+            @Override
+            public void onSuccess(AddRoomResponse result) {
+
+            }
+
+            @Override
+            public void onError(String message, int code) {
+
+            }
+        });
+        mListUserId = new ArrayList<>();
+        mUserRealmList = new RealmList<>();
+
         mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerFriend.setLayoutManager(mLayoutManager);
@@ -97,7 +146,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         super.onUserOffline(user);
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
-        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" + mUserList.size() + ")");
     }
 
     //insert user online
@@ -120,14 +169,18 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
 
     //Chat
     @Override
-    public void onChat(int userId) {
-        Room room = Common.getRoomWithUser(userId);
+    public void onChat(User user) {
+        Room room = Common.getRoomWithUser(user.getId());
         if (room != null) {
             ChatTalksActivity_.intent(this)
                     .roomId(room.getRoomId())
                     .start();
         } else {
-            // TODO: 6/18/18 Tao room bang API 
+            // TODO: 6/18/18 Tao room bang API
+            // add Room
+            mListUserId.add(user.getId());
+            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON);
+            mUserRealmList.add(user);
         }
     }
 
