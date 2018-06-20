@@ -1,7 +1,6 @@
 package jp.bap.traning.simplechat.database;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import jp.bap.traning.simplechat.model.User;
 
 public class UserDAO {

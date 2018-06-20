@@ -52,6 +52,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
         switch (type) {
             case USER_ONLINE: {
                 try {
+                    if (data.length() == 0) return;
                     JSONArray jsonArray = data.getJSONArray("users");
                     ArrayList<User> usersOnline = new ArrayList<>();
                     Gson gson = new Gson();

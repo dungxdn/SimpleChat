@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
+import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
@@ -23,6 +26,7 @@ import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
+    private MessagePresenter messagePresenter;
     ArrayList<Message> listMessage;
     ChatTalksAdapter chatTalksAdapter;
     Message message;
@@ -49,11 +53,15 @@ public class ChatTalksActivity extends BaseActivity {
             Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
         } else {
             if (ChatService.getChat() != null) {
+                //show in the UI
                 message = new Message(edtMessage.getText().toString(), mMineId, roomId);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
+                //Send event to the Socket
                 ChatService.getChat().sendMessage(message, message.getRoomID());
                 edtMessage.setText("");
+                //Save into Realm Database
+                messagePresenter.insertOrUpdateMessage(message);
 
             }
         }
@@ -67,9 +75,40 @@ public class ChatTalksActivity extends BaseActivity {
         listViewChat.setItemAnimator(new DefaultItemAnimator());
         listViewChat.setAdapter(chatTalksAdapter);
         chatTalksAdapter.notifyDataSetChanged();
+        //Create MessagePresenter
+        this.messagePresenter = new MessagePresenter(new MessageView() {
+            @Override
+            public void insertMessage(Message message) {
+                Toast.makeText(ChatTalksActivity.this, "Insert thanh cong Message " + message.getContent(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void errorInsertMessage(Message message) {
+                Toast.makeText(ChatTalksActivity.this, "Khong insert duoc Message " + message.getContent(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void getAllMessage(ArrayList<Message> messagesList) {
+                Toast.makeText(ChatTalksActivity.this, "Lay thanh cong toan bo Message " + messagesList.size() + "--" + messagesList.get(0).getContent(), Toast.LENGTH_LONG).show();
+                for (int i = 0; i < messagesList.size(); i++) {
+                    listMessage.add(messagesList.get(i));
+                }
+                chatTalksAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void errorGetAllMessage(int roomID) {
+                Toast.makeText(ChatTalksActivity.this, "Khong getALLMessage dc " + roomID, Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+        };
+        //GetConverstation
+        messagePresenter.getAllMessage(roomId);
 
     }
-    private void setupToolbar(){
+
+    private void setupToolbar() {
         mToolbar.getCallButton().setVisibility(View.VISIBLE);
         mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
@@ -87,5 +126,9 @@ public class ChatTalksActivity extends BaseActivity {
         super.onReceiverMessage(message);
         listMessage.add(message);
         chatTalksAdapter.notifyDataSetChanged();
+        //Save into Realm Database
+        messagePresenter.insertOrUpdateMessage(message);
     }
+
+
 }
