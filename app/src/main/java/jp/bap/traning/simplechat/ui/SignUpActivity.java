@@ -42,9 +42,20 @@ public class SignUpActivity extends Activity implements SignUpView{
 
     @Click
     void btnSignUp() {
-        if (edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())){
-            mSignUpPresenter.signUp(edtUsername.getText().toString(), edtFirstname.getText().toString(),
-                    edtLastname.getText().toString(), edtPassword.getText().toString());}
+        if (edtUsername.getText().toString().isEmpty()||
+                edtFirstname.getText().toString().isEmpty() ||
+                edtLastname.getText().toString().isEmpty() ||
+                edtPassword.getText().toString().isEmpty() ||
+                edtConfirmPassword.getText().toString().isEmpty()){
+            Toast.makeText(this, "Empty field!", Toast.LENGTH_SHORT).show();
+        }else{
+            if (edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())){
+                mSignUpPresenter.signUp(edtUsername.getText().toString(), edtFirstname.getText().toString(),
+                        edtLastname.getText().toString(), edtPassword.getText().toString());
+            }else {
+                Toast.makeText(this, "Password is not confirm!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Click
@@ -60,13 +71,18 @@ public class SignUpActivity extends Activity implements SignUpView{
 
     @Override
     public void onSiginUpSuccess(SignUpResponse signUpResponse) {
+        edtUsername.getText().clear();
+        edtFirstname.getText().clear();
+        edtLastname.getText().clear();
+        edtPassword.getText().clear();
+        edtConfirmPassword.getText().clear();
         Toast.makeText(this, "Register success!", Toast.LENGTH_SHORT).show();
         LoginActivity_.intent(this).start();
     }
 
     @Override
     public void onSignUpFailed() {
-
+        Toast.makeText(this, "Sign up fail. Please check again!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.presenter.login;
 
+import android.util.Log;
 import jp.bap.traning.simplechat.response.UserResponse;
 
 public class LoginPresenter implements LoginView {
@@ -13,6 +14,7 @@ public class LoginPresenter implements LoginView {
 
     public void logIn(String userName, String password) {
         mLoginInteractor.login(userName, password, mLoginView);
+        Log.e("login", "loginPresenter");
     }
 
     @Override
