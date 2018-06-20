@@ -16,6 +16,7 @@ import io.realm.RealmList;
 import java.util.List;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
@@ -80,8 +81,9 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
                 //TODO: Save to Realm, Start ChatActivity
                 //Save to Realm
                 Room mRoom = new Room();
-                mRoom.setRoomId(addRoomResponse.getData().getRoomId());
-                mRoom.setType(sTYPE_2PERSON);
+                RoomData roomData = addRoomResponse.getData();
+                mRoom.setRoomId(roomData.getRoomId());
+                mRoom.setType(roomData.getType());
                 mRoom.setUsers(mUserRealmList);
                 new RoomDAO().insertOrUpdate(mRoom);
                 //Start ChatActivity
@@ -165,7 +167,6 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
             mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
         }
     }
-
 
     //Chat
     @Override
