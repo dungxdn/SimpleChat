@@ -33,7 +33,7 @@ public class RoomDAO {
     }
 
     public Room getRoomWithUser(int userId) {
-        Room room = new Room();
+        Room room = null;
         Realm mRealm = Realm.getDefaultInstance();
         RealmResults<Room> results =
                 mRealm.where(Room.class).findAll();

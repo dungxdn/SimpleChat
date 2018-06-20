@@ -1,6 +1,9 @@
 package jp.bap.traning.simplechat.presenter.rooms;
 
+import android.util.Log;
+
 import jp.bap.traning.simplechat.response.RoomResponse;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by dungpv on 6/15/18.

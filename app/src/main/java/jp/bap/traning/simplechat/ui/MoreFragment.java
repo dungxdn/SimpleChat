@@ -15,6 +15,7 @@ import io.realm.Realm;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
@@ -66,6 +67,8 @@ public class MoreFragment extends BaseFragment {
 
         //Stop Connect Server
         getBaseActivity().stopService(new Intent(getBaseActivity(), ChatService.class));
+
+        ApiClient.stopApilient();
 
         //back to SplashActivity
         SplashActivity_.intent(this).start();
