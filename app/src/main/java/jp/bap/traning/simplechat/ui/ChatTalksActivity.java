@@ -25,7 +25,7 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_chat_talks)
-public class ChatTalksActivity extends BaseActivity{
+public class ChatTalksActivity extends BaseActivity {
     private MessagePresenter messagePresenter;
     ArrayList<Message> listMessage;
     ChatTalksAdapter chatTalksAdapter;
@@ -79,18 +79,18 @@ public class ChatTalksActivity extends BaseActivity{
         this.messagePresenter = new MessagePresenter(new MessageView() {
             @Override
             public void insertMessage(Message message) {
-                Toast.makeText(ChatTalksActivity.this,"Insert thanh cong Message "+message.getContent(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ChatTalksActivity.this, "Insert thanh cong Message " + message.getContent(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void errorInsertMessage(Message message) {
-                Toast.makeText(ChatTalksActivity.this,"Khong insert duoc Message "+message.getContent(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ChatTalksActivity.this, "Khong insert duoc Message " + message.getContent(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void getAllMessage(ArrayList<Message> messagesList) {
-                Toast.makeText(ChatTalksActivity.this,"Lay thanh cong toan bo Message "+messagesList.size()+"--"+messagesList.get(0).getContent(),Toast.LENGTH_LONG).show();
-                for(int i=0; i<messagesList.size(); i++) {
+                Toast.makeText(ChatTalksActivity.this, "Lay thanh cong toan bo Message " + messagesList.size() + "--" + messagesList.get(0).getContent(), Toast.LENGTH_LONG).show();
+                for (int i = 0; i < messagesList.size(); i++) {
                     listMessage.add(messagesList.get(i));
                 }
                 chatTalksAdapter.notifyDataSetChanged();
@@ -98,7 +98,7 @@ public class ChatTalksActivity extends BaseActivity{
 
             @Override
             public void errorGetAllMessage(int roomID) {
-                Toast.makeText(ChatTalksActivity.this,"Khong getALLMessage dc "+roomID,Toast.LENGTH_LONG).show();
+                Toast.makeText(ChatTalksActivity.this, "Khong getALLMessage dc " + roomID, Toast.LENGTH_LONG).show();
             }
         }) {
 
@@ -107,7 +107,8 @@ public class ChatTalksActivity extends BaseActivity{
         messagePresenter.getAllMessage(roomId);
 
     }
-    private void setupToolbar(){
+
+    private void setupToolbar() {
         mToolbar.getCallButton().setVisibility(View.VISIBLE);
         mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
@@ -128,7 +129,6 @@ public class ChatTalksActivity extends BaseActivity{
         //Save into Realm Database
         messagePresenter.insertOrUpdateMessage(message);
     }
-
 
 
 }
