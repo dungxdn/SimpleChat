@@ -137,6 +137,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
         for (int i = 0; i < users.size(); i++) {
             mUserList.add(users.get(i));
         }
+        Collections.sort(mUserList, userComparator);
         mFriendAdapter.notifyDataSetChanged();
         mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
 
