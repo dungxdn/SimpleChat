@@ -21,6 +21,12 @@ public class RoomDAO {
         mRealm.close();
     }
 
+    public void insertOrUpdate(Room room) {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(room));
+        mRealm.close();
+    }
+
     public ArrayList<Room> getAllRoom() {
         ArrayList<Room> list = new ArrayList<>();
         Realm mRealm = Realm.getDefaultInstance();
