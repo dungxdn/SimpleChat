@@ -1,11 +1,15 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
@@ -45,6 +49,7 @@ public class ChatTalksActivity extends BaseActivity {
     public void afterView() {
         setupToolbar();
         init();
+        addEvents();
     }
 
     @Click
@@ -57,55 +62,14 @@ public class ChatTalksActivity extends BaseActivity {
                 message = new Message(edtMessage.getText().toString(), mMineId, roomId);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
+                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
                 //Send event to the Socket
                 ChatService.getChat().sendMessage(message, message.getRoomID());
                 edtMessage.setText("");
                 //Save into Realm Database
                 messagePresenter.insertOrUpdateMessage(message);
-
             }
         }
-    }
-
-    private void init() {
-        listMessage = new ArrayList<>();
-        chatTalksAdapter = new ChatTalksAdapter(this, listMessage);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        listViewChat.setLayoutManager(mLayoutManager);
-        listViewChat.setItemAnimator(new DefaultItemAnimator());
-        listViewChat.setAdapter(chatTalksAdapter);
-        chatTalksAdapter.notifyDataSetChanged();
-        //Create MessagePresenter
-        this.messagePresenter = new MessagePresenter(new MessageView() {
-            @Override
-            public void insertMessage(Message message) {
-                Toast.makeText(ChatTalksActivity.this, "Insert thanh cong Message " + message.getContent(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void errorInsertMessage(Message message) {
-                Toast.makeText(ChatTalksActivity.this, "Khong insert duoc Message " + message.getContent(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void getAllMessage(ArrayList<Message> messagesList) {
-                Toast.makeText(ChatTalksActivity.this, "Lay thanh cong toan bo Message " + messagesList.size() + "--" + messagesList.get(0).getContent(), Toast.LENGTH_LONG).show();
-                for (int i = 0; i < messagesList.size(); i++) {
-                    listMessage.add(messagesList.get(i));
-                }
-                chatTalksAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void errorGetAllMessage(int roomID) {
-                Toast.makeText(ChatTalksActivity.this, "Khong getALLMessage dc " + roomID, Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-        };
-        //GetConverstation
-        messagePresenter.getAllMessage(roomId);
-
     }
 
     private void setupToolbar() {
@@ -121,14 +85,79 @@ public class ChatTalksActivity extends BaseActivity {
         });
     }
 
+    private void init() {
+        listMessage = new ArrayList<>();
+        chatTalksAdapter = new ChatTalksAdapter(this, listMessage);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        listViewChat.setLayoutManager(mLayoutManager);
+        listViewChat.setItemAnimator(new DefaultItemAnimator());
+        listViewChat.setAdapter(chatTalksAdapter);
+        chatTalksAdapter.notifyDataSetChanged();
+        //Create MessagePresenter
+        this.messagePresenter = new MessagePresenter(new MessageView() {
+            @Override
+            public void insertMessage(Message message) {
+            }
+
+            @Override
+            public void errorInsertMessage(Message message) {
+            }
+
+            @Override
+            public void getAllMessage(ArrayList<Message> messagesList) {
+                for (int i = 0; i < messagesList.size(); i++) {
+                    listMessage.add(messagesList.get(i));
+                }
+                chatTalksAdapter.notifyDataSetChanged();
+                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+            }
+
+            @Override
+            public void errorGetAllMessage(int roomID) {
+            }
+        }) {
+
+        };
+        //GetConverstation
+        messagePresenter.getAllMessage(roomId);
+    }
+
+    public void addEvents() {
+        listViewChat.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            if (bottom < oldBottom) {
+                listViewChat.postDelayed(() -> {
+                    int scrollTo = listViewChat.getAdapter().getItemCount() - 1;
+                    scrollTo = (scrollTo >= 0) ? scrollTo : 0;
+                    listViewChat.scrollToPosition(scrollTo);
+                }, 10);
+            }
+        });
+
+        listViewChat.setOnTouchListener((view, motionEvent) -> {
+            hideKeyboard((Activity) view.getContext());
+            return false;
+        });
+
+    }
+
     @Override
     public void onReceiverMessage(Message message) {
         super.onReceiverMessage(message);
-        listMessage.add(message);
-        chatTalksAdapter.notifyDataSetChanged();
-        //Save into Realm Database
-        messagePresenter.insertOrUpdateMessage(message);
+        if (message.getRoomID() == roomId) {
+            listMessage.add(message);
+            chatTalksAdapter.notifyDataSetChanged();
+            //Save into Realm Database
+            messagePresenter.insertOrUpdateMessage(message);
+            listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+        }
     }
 
-
+    public void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

@@ -67,31 +67,15 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     }
 
 
-    class MessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MessageViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtMessage = itemView.findViewById(R.id.txtMessage);
         }
-
-        @Override
-        public void onClick(View view) {
-            hideKeyboard((Activity) view.getContext());
-        }
-
-        public void hideKeyboard(Activity activity) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            View view = activity.getCurrentFocus();
-            if (view == null) {
-                view = new View(activity);
-            }
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
-
 
 }
