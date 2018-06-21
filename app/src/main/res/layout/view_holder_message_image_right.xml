@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_5sdp"
+
+    >
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatMessageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cmv_arrowGravity="end"
+        app:cmv_arrowMargin="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:cmv_arrowPosition="right"
+        app:cmv_backgroundColorPressed="#FFBABABA"
+        app:cmv_contentPadding="@dimen/_5sdp"
+        app:cmv_cornerRadius="@dimen/_5sdp"
+        app:cmv_showArrow="true"
+        >
+
+        <ImageView
+            android:id="@+id/imageMessageChatContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/_200sdp"
+            android:minHeight="@dimen/_200sdp"
+            android:maxWidth="@dimen/_350sdp"
+            android:maxHeight="@dimen/_350sdp"
+            android:adjustViewBounds="true"
+            />
+
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+
+</RelativeLayout>

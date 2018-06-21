@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.model.Message;
 
-public class MesssageInteractor {
+public class MessageInteractor {
     MessageDAO messageDAO;
-    public MesssageInteractor() {
+    public MessageInteractor() {
         messageDAO = new MessageDAO();
     }
 
