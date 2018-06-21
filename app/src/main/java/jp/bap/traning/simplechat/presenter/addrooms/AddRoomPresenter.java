@@ -1,43 +1,37 @@
 package jp.bap.traning.simplechat.presenter.addrooms;
 
-import android.util.Log;
 import java.util.List;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 
-public class AddRoomPresenter implements AddRoomView{
+public class AddRoomPresenter {
 
-    private AddRoomView mAddRoomView;
+    //    private AddRoomView mAddRoomView;
     private AddRoomInteractor mAddRoomInteractor;
     private int type;
 
-    public AddRoomPresenter(AddRoomView addRoomView) {
+    public AddRoomPresenter(/*AddRoomView addRoomView*/) {
         this.mAddRoomInteractor = new AddRoomInteractor();
-        mAddRoomView = addRoomView;
+        //        mAddRoomView = addRoomView;
     }
 
-    public void addroom(List<Integer> ids, int type){
+    public void addroom(List<Integer> ids, int type, AddRoomView callback) {
         this.type = type;
-        mAddRoomInteractor.addRoom(ids, type, mAddRoomView);
-    }
+        mAddRoomInteractor.addRoom(ids, type, new AddRoomView() {
+            @Override
+            public void onSuccess(AddRoomResponse result) {
+                result.getData().setType(type);
+                callback.onSuccess(result);
+            }
 
-    @Override
-    public void onAddRoomSuccess(AddRoomResponse addRoomResponse) {
-        addRoomResponse.getData().setType(type);
-        mAddRoomView.onAddRoomSuccess(addRoomResponse);
-    }
+            @Override
+            public void onError(String message, int code) {
+                callback.onError(message, code);
+            }
 
-    @Override
-    public void onAddRoomFail() {
-        mAddRoomView.onAddRoomFail();
-    }
-
-    @Override
-    public void onSuccess(AddRoomResponse result) {
-
-    }
-
-    @Override
-    public void onError(String message, int code) {
-
+            @Override
+            public void onFailure() {
+                callback.onFailure();
+            }
+        });
     }
 }

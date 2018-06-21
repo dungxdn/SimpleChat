@@ -44,13 +44,19 @@ public class SplashActivity extends BaseActivity {
         new GetRoomsPresenter(new GetRoomsView() {
             @Override
             public void onSuccess(RoomResponse result) {
-                int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+                int mMineId =
+                        SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
                 Common.connectToServerSocket(SplashActivity.this, Common.URL_SERVER, mMineId);
             }
 
             @Override
             public void onError(String message, int code) {
                 Log.e(TAG, "onError: " + message);
+            }
+
+            @Override
+            public void onFailure() {
+
             }
         }).request();
     }
