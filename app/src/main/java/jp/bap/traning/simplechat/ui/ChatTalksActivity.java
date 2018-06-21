@@ -96,14 +96,6 @@ public class ChatTalksActivity extends BaseActivity {
         //Create MessagePresenter
         this.messagePresenter = new MessagePresenter(new MessageView() {
             @Override
-            public void insertMessage(Message message) {
-            }
-
-            @Override
-            public void errorInsertMessage(Message message) {
-            }
-
-            @Override
             public void getAllMessage(ArrayList<Message> messagesList) {
                 for (int i = 0; i < messagesList.size(); i++) {
                     listMessage.add(messagesList.get(i));
@@ -146,8 +138,6 @@ public class ChatTalksActivity extends BaseActivity {
         if (message.getRoomID() == roomId) {
             listMessage.add(message);
             chatTalksAdapter.notifyDataSetChanged();
-            //Save into Realm Database
-            messagePresenter.insertOrUpdateMessage(message);
             listViewChat.smoothScrollToPosition(listMessage.size() - 1);
         }
     }

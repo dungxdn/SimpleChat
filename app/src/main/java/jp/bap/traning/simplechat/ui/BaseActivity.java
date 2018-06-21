@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
+import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 
@@ -64,6 +66,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     String objectMessage = data.get("chatMessage").toString();
                     Message message = gson.fromJson(objectMessage, Message.class);
                     onReceiverMessage(message);
+                    new MessagePresenter().insertOrUpdateMessage(message);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

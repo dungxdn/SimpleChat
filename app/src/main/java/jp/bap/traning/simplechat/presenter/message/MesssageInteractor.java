@@ -11,9 +11,8 @@ public class MesssageInteractor {
         messageDAO = new MessageDAO();
     }
 
-    public void insertOrUpdateMessage(Message message, MessageView callBack) {
+    public void insertOrUpdateMessage(Message message) {
         messageDAO.insertOrUpdateMessage(message);
-        callBack.insertMessage(message);
     }
 
     public void getAllMessage(int roomID, MessageView callBack) {
