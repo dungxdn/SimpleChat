@@ -138,7 +138,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             return view;
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ChatService.setChatManagerNull();
     }
 
     @Override

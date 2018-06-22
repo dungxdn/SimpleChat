@@ -51,7 +51,7 @@ public class FriendAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         User user = mListUser.get(position);
         FriendViewHolder friendholder = (FriendViewHolder) holder;
-        friendholder.mUserName.setText(user.getFirstName());
+        friendholder.mUserName.setText(user.getFirstName()+""+user.getLastName());
         friendholder.mAvatar.setOnClickListener(view -> {
             Dialog mDialog = new Dialog(mContext);
             mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
