@@ -9,6 +9,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,18 +80,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.setTitle(FRIEND_TITLE);
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 break;
 
             case 1:
-                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
             case 2:
-//                mToolbar.setTitle(MORE_TITLE);
-                mToolbar.setVisibility(View.GONE);
+                mToolbar.getTvTitle().setVisibility(View.GONE);
                 break;
         }
     }
@@ -138,11 +138,5 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             return view;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ChatService.setChatManagerNull();
     }
 }

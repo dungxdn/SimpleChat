@@ -67,7 +67,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     }
 
 
-    class MessageViewHolder extends RecyclerView.ViewHolder{
+    class MessageViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
 
