@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_20sdp"
+        android:orientation="vertical">
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_profile"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="center"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mImgAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:src="@drawable/ic_avatar_default" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mTvUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nhi Nguyen"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/colorGreen"
+            android:layout_marginTop="@dimen/_20sdp"/>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:id="@+id/mBtnEdit"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGreen"
+            android:background="@android:color/transparent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lnContactFriend"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/mBtnChat"
+                android:text="Chat"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGreen"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGreen"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:textAllCaps="false"
+                android:id="@+id/mBtnCall"
+                android:text="Call"
+                android:textColor="@color/colorGreen"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGreen"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:textAllCaps="false"
+                android:id="@+id/mBtnCallVideo"
+                android:text="Call video"
+                android:textColor="@color/colorGreen"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

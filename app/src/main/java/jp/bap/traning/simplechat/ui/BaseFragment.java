@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -90,6 +91,14 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     e.printStackTrace();
                 }
                 break;
+            }
+            case CREATE_ROOM: {
+                try{
+                    Log.e("Create Room: ","Data: "+data);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

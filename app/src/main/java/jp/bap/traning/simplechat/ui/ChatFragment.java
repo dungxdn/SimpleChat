@@ -57,9 +57,6 @@ public class ChatFragment extends BaseFragment {
         mChatAdapter.notifyDataSetChanged();
 
     }
-//    @ItemClick(R.id.mRecyclerRoom)
-//    void setItemClick(int position){
-//        Toast.makeText(getContext(), "on item click", Toast.LENGTH_SHORT).show();
-//    }
+
 
 }

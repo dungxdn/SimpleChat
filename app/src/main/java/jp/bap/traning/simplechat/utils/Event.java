@@ -15,7 +15,8 @@ public enum Event {
     UNKNOWN(""),
     USER_ONLINE("getUsersOnline"),
     ON_USER_ONLINE("onUserOnline"),
-    ON_USER_OFFLINE("onUserOffline");
+    ON_USER_OFFLINE("onUserOffline"),
+    CREATE_ROOM("onCreatedRoom");
 
     String mEvent;
     Event(String e) {

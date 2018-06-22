@@ -31,7 +31,8 @@ public class ChatManager {
                 Event.MESSAGE_RECEIVER,
                 Event.USER_ONLINE,
                 Event.ON_USER_OFFLINE,
-                Event.ON_USER_ONLINE
+                Event.ON_USER_ONLINE,
+                Event.CREATE_ROOM
         );
     }
 
