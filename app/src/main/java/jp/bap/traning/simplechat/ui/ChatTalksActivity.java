@@ -3,13 +3,9 @@ package jp.bap.traning.simplechat.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,16 +14,11 @@ import android.widget.Toast;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
-
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
-
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
@@ -68,7 +59,12 @@ public class ChatTalksActivity extends BaseActivity {
         } else {
             if (ChatService.getChat() != null) {
                 //show in the UI
-                message = new Message(edtMessage.getText().toString(), mMineId, roomId, Common.typeText);
+                String messageChat = edtMessage.getText().toString();
+                if (containsLink(messageChat) == true) {
+                    message = new Message(messageChat, mMineId, roomId, Common.typeLink);
+                } else {
+                    message = new Message(messageChat, mMineId, roomId, Common.typeText);
+                }
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -120,13 +116,10 @@ public class ChatTalksActivity extends BaseActivity {
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
             }
-
             @Override
-            public void errorGetAllMessage(int roomID) {
-            }
-        }) {
+            public void errorGetAllMessage(int roomID) {}
+        }) {};
 
-        };
         //GetConverstation
         messagePresenter.getAllMessage(roomId);
     }
@@ -169,6 +162,19 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
     //Test
+    public static boolean containsLink(String input) {
+        boolean result = false;
+        String[] parts = input.split("\\s+");
+        for (String item : parts) {
+            if (android.util.Patterns.WEB_URL.matcher(item).matches()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    //Test
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -183,7 +189,6 @@ public class ChatTalksActivity extends BaseActivity {
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
-                Log.e("ChatMessageImage: ", bitMapImage);
                 //Save into Realm Database
                 messagePresenter.insertOrUpdateMessage(message);
                 //Send event to the Socket
@@ -193,4 +198,7 @@ public class ChatTalksActivity extends BaseActivity {
             }
         }
     }
+
+    //Test
+
 }

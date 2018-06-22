@@ -27,6 +27,7 @@ public class Common {
     private static final String TAG = "Common";
     public static final String typeText = "text";
     public static final String typeImage = "image";
+    public static final String typeLink = "link";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
