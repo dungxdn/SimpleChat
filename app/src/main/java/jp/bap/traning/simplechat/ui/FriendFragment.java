@@ -36,7 +36,7 @@ import static jp.bap.traning.simplechat.model.User.userComparator;
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendExpandLvAdapter.Listener {
     private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-//    @ViewById
+    //    @ViewById
 //    CircleImageView mImgAvatar;
 //    @ViewById
 //    AppCompatTextView mTvUserName;

@@ -31,7 +31,9 @@ public class FriendAdapter extends RecyclerView.Adapter {
 
     interface Listener {
         void onChat(User user);
+
         void onCallVideo(int userId);
+
         void onCallAudio(int userId);
     }
 
@@ -51,7 +53,7 @@ public class FriendAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         User user = mListUser.get(position);
         FriendViewHolder friendholder = (FriendViewHolder) holder;
-        friendholder.mUserName.setText(user.getFirstName()+""+user.getLastName());
+        friendholder.mUserName.setText(user.getFirstName() + "" + user.getLastName());
         friendholder.mAvatar.setOnClickListener(view -> {
             Dialog mDialog = new Dialog(mContext);
             mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -72,7 +74,7 @@ public class FriendAdapter extends RecyclerView.Adapter {
                 mListener.onCallVideo(user.getId());
                 mDialog.dismiss();
             });
-            tvUsername.setText(user.getFirstName()+" "+user.getLastName());
+            tvUsername.setText(user.getFirstName() + " " + user.getLastName());
             mDialog.show();
         });
 //        friendholder.mAvatar.setOnClickListener(view -> mListener.onChat(user));
