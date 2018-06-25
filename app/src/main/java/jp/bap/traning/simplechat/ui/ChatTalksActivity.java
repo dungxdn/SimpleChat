@@ -41,7 +41,6 @@ public class ChatTalksActivity extends BaseActivity {
     EditText edtMessage;
     @ViewById
     CustomToolbar_ mToolbar;
-
     @Extra
     int roomId;
 
@@ -139,7 +138,6 @@ public class ChatTalksActivity extends BaseActivity {
             hideKeyboard((Activity) view.getContext());
             return false;
         });
-
     }
 
     @Override
@@ -174,7 +172,7 @@ public class ChatTalksActivity extends BaseActivity {
         return result;
     }
 
-    //Test
+    //Test: send Image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
