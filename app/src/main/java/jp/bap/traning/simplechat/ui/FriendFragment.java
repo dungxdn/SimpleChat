@@ -5,6 +5,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import io.realm.RealmList;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 
 import jp.bap.traning.simplechat.response.GetRoomResponse;
+
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -144,10 +146,10 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
             ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
         } else {
             // add Room
-            if (mUserRealmList.size() != 0){
+            if (mUserRealmList.size() != 0) {
                 mUserRealmList.clear();
             }
-            if (mListUserId.size() != 0){
+            if (mListUserId.size() != 0) {
                 mListUserId.clear();
             }
             mListUserId.add(user.getId());
@@ -163,7 +165,7 @@ public class FriendFragment extends BaseFragment implements FriendAdapter.Listen
                         @Override
                         public void onSuccess(GetRoomResponse result) {
                             List<User> mUserInRoomList = result.getData().getUsers();
-                            for (User u : mUserInRoomList){
+                            for (User u : mUserInRoomList) {
                                 mUserRealmList.add(u);
                             }
                             mRoom.setUsers(mUserRealmList);
