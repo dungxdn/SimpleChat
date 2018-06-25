@@ -74,37 +74,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         }
         mUserList = new ArrayList<>();
 
-        mAddRoomPresenter = new AddRoomPresenter(new AddRoomView() {
-            @Override
-            public void onAddRoomSuccess(AddRoomResponse addRoomResponse) {
-                //TODO: Save to Realm, Start ChatActivity
-                //Save to Realm
-                Room mRoom = new Room();
-                RoomData roomData = addRoomResponse.getData();
-                mRoom.setRoomId(roomData.getRoomId());
-                mRoom.setType(roomData.getType());
-                mRoom.setUsers(mUserRealmList);
-                new RoomDAO().insertOrUpdate(mRoom);
-                //Start ChatActivity
-                ChatTalksActivity_.intent(FriendFragment.this)
-                        .roomId(addRoomResponse.getData().getRoomId())
-                        .start();
-            }
-
-            @Override
-            public void onAddRoomFail() {
-            }
-
-            @Override
-            public void onSuccess(AddRoomResponse result) {
-
-            }
-
-            @Override
-            public void onError(String message, int code) {
-
-            }
-        });
+        mAddRoomPresenter = new AddRoomPresenter();
         mListUserId = new ArrayList<>();
         mGetRoomPresenter = new GetRoomPresenter();
         mUserRealmList = new RealmList<>();
