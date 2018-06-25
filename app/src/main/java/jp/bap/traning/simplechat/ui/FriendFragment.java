@@ -36,14 +36,7 @@ import static jp.bap.traning.simplechat.model.User.userComparator;
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendExpandLvAdapter.Listener {
     private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-    //    @ViewById
-//    CircleImageView mImgAvatar;
-//    @ViewById
-//    AppCompatTextView mTvUserName;
-//    @ViewById
-//    AppCompatTextView mTvTitleFriend;
-//    @ViewById
-//    AppCompatTextView mtvStatus;
+
     @ViewById
     ExpandableListView mExpandFriend;
     private ArrayList<User> mUserList;
@@ -119,24 +112,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         for (int i = 0; i < mListheader.size(); i++) {
             mExpandFriend.expandGroup(i);
         }
-//        mExpandFriend.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                Log.d("onGroupClick:", "worked");
-//                parent.expandGroup(groupPosition);
-//                return false;
-//            }
-//        });
 
-
-//        mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-//        mRecyclerFriend.setLayoutManager(mLayoutManager);
-//        mRecyclerFriend.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerFriend.setAdapter(mFriendAdapter);
-//        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(), 1);
-//        mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
-//        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -158,7 +134,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         }
         Collections.sort(mUserList, userComparator);
         mFriendAdapter.notifyDataSetChanged();
-//        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
 
     }
 
