@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);

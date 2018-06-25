@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_settings" />
         <android.support.v7.widget.AppCompatImageButton
