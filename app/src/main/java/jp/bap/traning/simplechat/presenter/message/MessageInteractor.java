@@ -18,10 +18,9 @@ public class MessageInteractor {
     public void getAllMessage(int roomID, MessageView callBack) {
         ArrayList<Message> messsagesList = new ArrayList<>();
         messsagesList = messageDAO.getAllMessage(roomID);
-        if(messsagesList.size()>0) {
+        if (messsagesList.size() > 0) {
             callBack.getAllMessage(messsagesList);
-        }
-        else {
+        } else {
             callBack.errorGetAllMessage(roomID);
         }
     }
