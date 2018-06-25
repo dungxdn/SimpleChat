@@ -35,7 +35,7 @@ public class ApiClient {
         return sInstance;
     }
 
-    public synchronized static ApiService getService() {
+    public static ApiService getService() {
         return getInstance().mApiService;
     }
 
