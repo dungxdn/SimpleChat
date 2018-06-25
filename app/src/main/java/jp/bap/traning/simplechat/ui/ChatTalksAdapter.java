@@ -1,13 +1,16 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,7 +66,8 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         return messageArrayList.size();
     }
 
-    class MessageViewHolder extends RecyclerView.ViewHolder {
+
+    class MessageViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
 
@@ -73,4 +77,5 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             txtMessage = itemView.findViewById(R.id.txtMessage);
         }
     }
+
 }

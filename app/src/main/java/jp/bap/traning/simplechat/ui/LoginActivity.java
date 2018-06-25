@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity {
     void btnSignUp() {
         indicatorView.hide();
         startActivity(new Intent(this, SignUpActivity_.class));
+        finish();
     }
 
     public void init() {

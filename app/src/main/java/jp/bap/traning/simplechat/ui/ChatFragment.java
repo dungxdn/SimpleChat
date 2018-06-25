@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
@@ -29,6 +30,10 @@ public class ChatFragment extends BaseFragment {
     private ArrayList<Room> mListRoom;
     private ChatAdapter mChatAdapter;
 
+    @Click
+    void mBtnAddGroupChat(){
+        AddGroupChatActivity_.intent(getContext()).start();
+    }
 
     @Override
     public void afterView() {
@@ -57,9 +62,5 @@ public class ChatFragment extends BaseFragment {
         mChatAdapter.notifyDataSetChanged();
 
     }
-//    @ItemClick(R.id.mRecyclerRoom)
-//    void setItemClick(int position){
-//        Toast.makeText(getContext(), "on item click", Toast.LENGTH_SHORT).show();
-//    }
 
 }

@@ -5,13 +5,11 @@ import jp.bap.traning.simplechat.response.AddRoomResponse;
 
 public class AddRoomPresenter {
 
-    //    private AddRoomView mAddRoomView;
     private AddRoomInteractor mAddRoomInteractor;
     private int type;
 
-    public AddRoomPresenter(/*AddRoomView addRoomView*/) {
+    public AddRoomPresenter() {
         this.mAddRoomInteractor = new AddRoomInteractor();
-        //        mAddRoomView = addRoomView;
     }
 
     public void addroom(List<Integer> ids, int type, AddRoomView callback) {

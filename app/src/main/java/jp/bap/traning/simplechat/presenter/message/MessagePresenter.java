@@ -6,13 +6,16 @@ public class MessagePresenter {
     private MessageView mCallback;
     private MesssageInteractor mInteractor;
 
+    public MessagePresenter() {
+        mInteractor = new MesssageInteractor();
+    }
     public MessagePresenter(MessageView callback) {
         mCallback = callback;
         mInteractor = new MesssageInteractor();
     }
 
     public void insertOrUpdateMessage(Message message) {
-        mInteractor.insertOrUpdateMessage(message,mCallback);
+        mInteractor.insertOrUpdateMessage(message);
     }
 
     public void getAllMessage(int roomID) {

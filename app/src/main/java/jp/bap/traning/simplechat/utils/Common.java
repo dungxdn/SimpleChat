@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.util.Log;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
+
+import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
  * Created by dungpv on 6/13/18.
@@ -39,19 +42,30 @@ public class Common {
         String nameRoom = "";
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
-            for (User user : room.getUsers()) {
-                if (user.getId() != SharedPrefs.getInstance()
-                        .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
-                    nameRoom = user.getFirstName()
-                            + " "
-                            + user.getLastName()
-                            + "("
-                            + user.getId()
-                            + ")";
-                    break;
+            if (room.getType() == 0) {
+                for (User user : room.getUsers()) {
+                    if (user.getId() != SharedPrefs.getInstance()
+                            .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
+                        nameRoom = user.getFirstName()
+                                + " "
+                                + user.getLastName()
+                                + "("
+                                + user.getId()
+                                + ")";
+                        break;
+                    }
                 }
+            } else {
+                nameRoom = "Group";
             }
         }
         return nameRoom;
+    }
+
+
+    public static User getUserLogin() {
+        int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
+        //get user from Realm
+        return new UserDAO().getUser(id);
     }
 }

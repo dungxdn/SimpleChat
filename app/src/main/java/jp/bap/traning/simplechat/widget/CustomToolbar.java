@@ -61,17 +61,6 @@ public class CustomToolbar extends RelativeLayout {
         public String getFragment() {
             return this.fragment;
         }
-    };
-
-
-    @Click
-    void mImgButtonBack() {
-        Toast.makeText(context, "Back", Toast.LENGTH_SHORT).show();
-    }
-
-    @Click
-    void mImgButtonSetting() {
-        Toast.makeText(context, "Setting", Toast.LENGTH_SHORT).show();
     }
 
     public void setTitle(String title) {
@@ -85,11 +74,9 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatImageButton getBackButton() {
         return mImgButtonBack;
     }
-
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
     }
-
     public AppCompatImageButton getSettingButton() {
         return mImgButtonSetting;
     }

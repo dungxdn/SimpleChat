@@ -19,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_main)
@@ -137,6 +138,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             return view;
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ChatService.setChatManagerNull();
     }
 }

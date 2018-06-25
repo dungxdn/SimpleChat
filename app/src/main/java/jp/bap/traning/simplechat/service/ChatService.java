@@ -102,4 +102,9 @@ public class ChatService extends Service implements ChatManager.Listener {
         mSocket.disconnect();
         sChatManager = null;
     }
+
+    public static void setChatManagerNull() {
+        sChatManager=null;
+    }
+
 }
