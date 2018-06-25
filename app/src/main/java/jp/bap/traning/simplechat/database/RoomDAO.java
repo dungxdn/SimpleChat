@@ -45,7 +45,9 @@ public class RoomDAO {
                 mRealm.where(Room.class).findAll();
 
         for (Room c : results) {
-            if (c.getType() == 0 && (c.getUsers().get(0).getId() == userId || c.getUsers().get(1).getId() == userId)) {
+            if (c.getType() == 0 &&
+                    (c.getUsers().get(0).getId() == userId ||
+                            c.getUsers().get(1).getId() == userId)) {
                 room = mRealm.copyFromRealm(c);
                 break;
             }

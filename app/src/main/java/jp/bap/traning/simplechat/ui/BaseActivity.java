@@ -72,6 +72,47 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     e.printStackTrace();
                 }
                 break;
+            case USER_ONLINE: {
+                try {
+                    if (data.length() == 0) return;
+                    JSONArray jsonArray = data.getJSONArray("users");
+                    ArrayList<User> usersOnline = new ArrayList<>();
+                    Gson gson = new Gson();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String objectUser = jsonArray.getString(i);
+                        User user = gson.fromJson(objectUser, User.class);
+                        usersOnline.add(user);
+                    }
+                    onReceiverListUsersOnline(usersOnline);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
+            case ON_USER_OFFLINE: {
+                try {
+                    String objectUserOffline = data.getString("user");
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(objectUserOffline,User.class);
+                    onUserOffline(user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
+            case ON_USER_ONLINE: {
+                try {
+                    String objectUserOffline = data.getString("user");
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(objectUserOffline,User.class);
+                    onUserOnline(user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
@@ -79,5 +120,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onReceiverMessage(Message message) {
+    }
+
+
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
+    }
+
+    public void onUserOffline(User users) {
+    }
+
+    public void onUserOnline(User users) {
     }
 }

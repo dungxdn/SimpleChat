@@ -6,5 +6,8 @@ package jp.bap.traning.simplechat.presenter;
 
 public interface BaseView<R> {
     void onSuccess(R result);
+
     void onError(String message, int code);
+
+    void onFailure();
 }

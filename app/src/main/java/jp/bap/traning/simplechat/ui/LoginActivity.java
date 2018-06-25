@@ -47,7 +47,26 @@ LoginActivity extends BaseActivity {
             Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
         } else {
             indicatorView.show();
-            mLoginPresenter.logIn(userName, password);
+            mLoginPresenter.logIn(userName, password, new LoginView() {
+                @Override
+                public void onSuccess(UserResponse result) {
+                    indicatorView.hide();
+                    setResult(Common.REQUEST_LOGIN);
+                    Log.d("LogIn", "LogIn Activity");
+                    finish();
+                }
+
+                @Override
+                public void onError(String message, int code) {
+                    indicatorView.hide();
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
         }
     }
 
@@ -55,33 +74,10 @@ LoginActivity extends BaseActivity {
     void btnSignUp() {
         indicatorView.hide();
         startActivity(new Intent(this, SignUpActivity_.class));
+        finish();
     }
 
     public void init() {
-        this.mLoginPresenter = new LoginPresenter(new LoginView() {
-            @Override
-            public void onLoginSuccess(UserResponse userResponse) {
-                indicatorView.hide();
-                setResult(Common.REQUEST_LOGIN);
-                Log.e("login", "loginActivity");
-                finish();
-            }
-
-            @Override
-            public void onLoginFailed() {
-                indicatorView.hide();
-                Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSuccess(UserResponse result) {
-
-            }
-
-            @Override
-            public void onError(String message, int code) {
-
-            }
-        });
+        this.mLoginPresenter = new LoginPresenter();
     }
 }
