@@ -61,7 +61,6 @@ public class ChatFragment extends BaseFragment {
         mListMessage.clear();
 
         for (Room room : new RoomDAO().getAllRoom()) {
-            mListRoom.add(room);
             //Create MessagePresenter
             this.messagePresenter = new MessagePresenter(new MessageView() {
                 @Override
@@ -71,14 +70,14 @@ public class ChatFragment extends BaseFragment {
                         if (messagesList.get(i).getId() > newMessage.getId()) {
                             newMessage = messagesList.get(i);
                         }
+
                     }
                     mListMessage.add(newMessage);
-
+                    mListRoom.add(room);
                 }
 
                 @Override
                 public void errorGetAllMessage(int roomID) {
-                    mListMessage.add(null);
                 }
             }) ;
             //GetConverstation
