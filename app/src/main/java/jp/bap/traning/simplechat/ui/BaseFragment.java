@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -91,16 +92,36 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 }
                 break;
             }
+            case CREATE_ROOM: {
+                try{
+                    if (data.length()==0) return;
+                    Log.e("Create Room: ","Data: "+data);
+                    String roomID = data.getString("roomId");
+                    String typeRoom = data.getString("type");
+                    ArrayList<User> arrayUserRoom = new ArrayList<>();
+                    JSONArray jsonArray = data.getJSONArray("users");
+                    Gson gson = new Gson();
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        String userRoom = jsonArray.getString(i);
+                        User user = gson.fromJson(userRoom, User.class);
+                        arrayUserRoom.add(user);
+                    }
+                    createUserRoom(roomID,typeRoom,arrayUserRoom);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    public void onReceiverListUsersOnline(ArrayList<User> users) {
-    }
+    public void onReceiverListUsersOnline(ArrayList<User> users) {}
 
-    public void onUserOffline(User users) {
-    }
+    public void onUserOffline(User users) {}
 
-    public void onUserOnline(User users) {
-    }
+    public void onUserOnline(User users) {}
+
+    public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom){}
+
 
 }
