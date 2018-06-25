@@ -4,6 +4,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import io.realm.RealmList;
 
 import java.util.List;
 
@@ -16,6 +22,7 @@ import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 
 import jp.bap.traning.simplechat.response.GetRoomResponse;
+
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 

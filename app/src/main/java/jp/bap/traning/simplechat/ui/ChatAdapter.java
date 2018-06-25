@@ -72,8 +72,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 chatHolder.mTvTime.setText(strtime);
             }
 
-
-
         }
 
     }
