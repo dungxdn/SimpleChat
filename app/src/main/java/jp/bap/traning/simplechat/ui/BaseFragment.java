@@ -94,7 +94,19 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
             }
             case CREATE_ROOM: {
                 try{
+                    if (data.length()==0) return;
                     Log.e("Create Room: ","Data: "+data);
+                    String roomID = data.getString("roomId");
+                    String typeRoom = data.getString("type");
+                    ArrayList<User> arrayUserRoom = new ArrayList<>();
+                    JSONArray jsonArray = data.getJSONArray("users");
+                    Gson gson = new Gson();
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        String userRoom = jsonArray.getString(i);
+                        User user = gson.fromJson(userRoom, User.class);
+                        arrayUserRoom.add(user);
+                    }
+                    createUserRoom(roomID,typeRoom,arrayUserRoom);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -103,13 +115,13 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
         }
     }
 
-    public void onReceiverListUsersOnline(ArrayList<User> users) {
-    }
+    public void onReceiverListUsersOnline(ArrayList<User> users) {}
 
-    public void onUserOffline(User users) {
-    }
+    public void onUserOffline(User users) {}
 
-    public void onUserOnline(User users) {
-    }
+    public void onUserOnline(User users) {}
+
+    public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom){}
+
 
 }
