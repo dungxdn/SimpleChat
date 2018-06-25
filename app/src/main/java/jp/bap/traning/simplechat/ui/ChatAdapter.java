@@ -1,9 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,16 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by Admin on 6/16/2018.
@@ -59,7 +57,23 @@ public class ChatAdapter extends RecyclerView.Adapter {
             chatHolder.mTvContent.setText(message.getContent());
             Calendar time = Calendar.getInstance();
             time.setTimeInMillis(message.getId());
-            chatHolder.mTvTime.setText(time.get(Calendar.HOUR_OF_DAY)+ ":"+time.get(Calendar.MINUTE));
+            Date dateMessage = time.getTime();
+            Date current = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+
+            if (sdf.format(dateMessage).equals(sdf.format(current))){
+                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm");
+                String strtime = sdf1.format(dateMessage);
+
+                chatHolder.mTvTime.setText(strtime);
+            }else{
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM");
+                String strtime = sdf1.format(dateMessage);
+                chatHolder.mTvTime.setText(strtime);
+            }
+
+
+
         }
 
     }
