@@ -20,9 +20,7 @@ public class LoginInteractor {
     }
 
     public void login(String userName, String password, LoginView callback) {
-        Log.e("login", "loginIniteractor");
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Common.URL_SERVER)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Common.URL_SERVER)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
@@ -35,16 +33,17 @@ public class LoginInteractor {
                     //save db
                     new UserDAO().insertOrUpdate(user);
                     SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, user.getId());
-                    callback.onLoginSuccess(response.body());
+                    callback.onSuccess(response.body());
                 } else {
-                    callback.onLoginFailed();
+                    callback.onError(response.body().getMessage(), response.body().getStatus());
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                callback.onLoginFailed();
+                callback.onFailure();
             }
         });
+        Log.d("LogIn", "LogIn Interactor");
     }
 }

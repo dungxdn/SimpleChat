@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
@@ -39,6 +40,10 @@ public class ChatFragment extends BaseFragment {
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
 
+    @Click
+    void mBtnAddGroupChat(){
+        AddGroupChatActivity_.intent(getContext()).start();
+    }
 
     @Override
     public void afterView() {

@@ -7,14 +7,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
+
+import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
  * Created by dungpv on 6/13/18.
@@ -24,6 +26,7 @@ public class Common {
     public static final String URL_SERVER = "http://18.216.126.225:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
+    public static final int STATUS_SUCCESS = 200;
     private static final String TAG = "Common";
     public static final String typeText = "text";
     public static final String typeImage = "image";
@@ -48,11 +51,21 @@ public class Common {
         String nameRoom = "";
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
-            for (User user : room.getUsers()) {
-                if (user.getId() != SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
-                    nameRoom = user.getFirstName() + " " + user.getLastName() + "(" + user.getId() + ")";
-                    break;
+            if (room.getType() == 0) {
+                for (User user : room.getUsers()) {
+                    if (user.getId() != SharedPrefs.getInstance()
+                            .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
+                        nameRoom = user.getFirstName()
+                                + " "
+                                + user.getLastName()
+                                + "("
+                                + user.getId()
+                                + ")";
+                        break;
+                    }
                 }
+            } else {
+                nameRoom = "Group";
             }
         }
         return nameRoom;
@@ -105,4 +118,11 @@ public class Common {
     }
 
 
+
+
+    public static User getUserLogin() {
+        int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
+        //get user from Realm
+        return new UserDAO().getUser(id);
+    }
 }
