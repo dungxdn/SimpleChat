@@ -45,36 +45,36 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Room room = mListRoom.get(position);
-        Message message = mListMessage.get(position);
+//        Message message = mListMessage.get(position);
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
         chatHolder.mTvUserChat.setText(Common.getNameRoomFromRoomId(room.getRoomId()));
-        if (message == null) {
-            chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
-            chatHolder.mTvTime.setVisibility(View.GONE);
-        } else {
-            chatHolder.mTvTime.setVisibility(View.VISIBLE);
-            chatHolder.mTvContent.setText(message.getContent());
-            Calendar time = Calendar.getInstance();
-            time.setTimeInMillis(message.getId());
-            Date dateMessage = time.getTime();
-            Date current = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-
-            if (sdf.format(dateMessage).equals(sdf.format(current))){
-                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm");
-                String strtime = sdf1.format(dateMessage);
-
-                chatHolder.mTvTime.setText(strtime);
-            }else{
-                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM");
-                String strtime = sdf1.format(dateMessage);
-                chatHolder.mTvTime.setText(strtime);
-            }
-
-
-
-        }
+//        if (message == null) {
+//            chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
+//            chatHolder.mTvTime.setVisibility(View.GONE);
+//        } else {
+//            chatHolder.mTvTime.setVisibility(View.VISIBLE);
+//            chatHolder.mTvContent.setText(message.getContent());
+//            Calendar time = Calendar.getInstance();
+//            time.setTimeInMillis(message.getId());
+//            Date dateMessage = time.getTime();
+//            Date current = new Date();
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+//
+//            if (sdf.format(dateMessage).equals(sdf.format(current))){
+//                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm");
+//                String strtime = sdf1.format(dateMessage);
+//
+//                chatHolder.mTvTime.setText(strtime);
+//            }else{
+//                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM");
+//                String strtime = sdf1.format(dateMessage);
+//                chatHolder.mTvTime.setText(strtime);
+//            }
+//
+//
+//
+//        }
 
     }
 

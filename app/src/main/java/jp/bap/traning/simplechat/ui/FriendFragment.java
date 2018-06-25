@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 
 import java.util.List;
