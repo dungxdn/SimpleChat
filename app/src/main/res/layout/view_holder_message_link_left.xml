@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_3sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/mAvatar"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/ic_avatar_default"
+        android:layout_marginEnd="@dimen/_3sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/mLnChat"/>
+
+    <LinearLayout
+        android:id="@+id/mLnChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_message_friend"
+        app:layout_constraintLeft_toRightOf="@+id/mAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtLinkMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlue"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_14ssp"
+            android:text="Helloooooooooooo"
+            android:autoLink="web"
+            android:linksClickable="true"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
