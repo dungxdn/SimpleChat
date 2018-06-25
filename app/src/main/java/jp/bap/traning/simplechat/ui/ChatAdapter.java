@@ -1,6 +1,8 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Context;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Common;
@@ -24,11 +28,13 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 public class ChatAdapter extends RecyclerView.Adapter {
     private ArrayList<Room> mListRoom;
+    private ArrayList<Message> mListMessage;
     private Context mContext;
     private String TAG = "ChatAdapter";
 
-    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom) {
+    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom, ArrayList<Message> mListMessage) {
         this.mListRoom = mListRoom;
+        this.mListMessage = mListMessage;
         this.mContext = mContext;
     }
 
@@ -41,10 +47,20 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Room room = mListRoom.get(position);
-
+        Message message = mListMessage.get(position);
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
         chatHolder.mTvUserChat.setText(Common.getNameRoomFromRoomId(room.getRoomId()));
+        if (message == null) {
+            chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
+            chatHolder.mTvTime.setVisibility(View.GONE);
+        } else {
+            chatHolder.mTvTime.setVisibility(View.VISIBLE);
+            chatHolder.mTvContent.setText(message.getContent());
+            Calendar time = Calendar.getInstance();
+            time.setTimeInMillis(message.getId());
+            chatHolder.mTvTime.setText(time.get(Calendar.HOUR_OF_DAY)+ ":"+time.get(Calendar.MINUTE));
+        }
 
     }
 

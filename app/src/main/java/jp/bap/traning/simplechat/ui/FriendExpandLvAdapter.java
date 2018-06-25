@@ -20,6 +20,7 @@ import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by Admin on 6/20/2018.
@@ -30,6 +31,7 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
     private ArrayList<String> mHeaderGroup;
     private HashMap<String, ArrayList<User>> mDataChild;
     private Listener mListener;
+    private int mineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     interface Listener {
         void onChat(User user);
@@ -91,7 +93,7 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         }
         AppCompatTextView tvGroupName = view.findViewById(R.id.mTvGroupName);
         AppCompatImageView btnUpDown = view.findViewById(R.id.btnUpDown);
-        if (getChildrenCount(i) == 0 || i==0) {
+        if (getChildrenCount(i) == 0 || i == 0) {
             tvGroupName.setText(mHeaderGroup.get(i));
         } else {
             tvGroupName.setText(mHeaderGroup.get(i) + " (" + getChildrenCount(i) + ")");
@@ -118,12 +120,16 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         AppCompatImageButton mImgButtonCallVideo = view.findViewById(R.id.mImgButtonCallVideo);
 
         User user = mDataChild.get(mHeaderGroup.get(i)).get(i1);
-        if(i == 0){
+
+        if (user.getId() == mineId){
             mImgButtonCall.setVisibility(View.GONE);
             mImgButtonCallVideo.setVisibility(View.GONE);
+        } else{
+            mImgButtonCall.setVisibility(View.VISIBLE);
+            mImgButtonCallVideo.setVisibility(View.VISIBLE);
         }
 
-        mUserName.setText(user.getFirstName()+" "+user.getLastName());
+        mUserName.setText(user.getFirstName() + " " + user.getLastName());
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,10 +143,10 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
                 AppCompatButton mBtnEdit = mDialog.findViewById(R.id.mBtnEdit);
                 LinearLayout lnContactFriend = mDialog.findViewById(R.id.lnContactFriend);
 
-                if(i == 0){
+                if (user.getId() == mineId) {
                     mBtnEdit.setVisibility(View.VISIBLE);
                     lnContactFriend.setVisibility(View.GONE);
-                } else{
+                } else {
                     mBtnEdit.setVisibility(View.GONE);
                     lnContactFriend.setVisibility(View.VISIBLE);
                 }
@@ -163,7 +169,7 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         });
         mImgButtonCall.setOnClickListener(view1 ->
                 mListener.onCallAudio(user.getId())
-            );
+        );
         mImgButtonCallVideo.setOnClickListener(view1 ->
                 mListener.onCallVideo(user.getId())
         );
