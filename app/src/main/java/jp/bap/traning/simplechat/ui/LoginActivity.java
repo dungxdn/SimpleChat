@@ -22,7 +22,8 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends BaseActivity {
+public class
+LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
 
     @ViewById

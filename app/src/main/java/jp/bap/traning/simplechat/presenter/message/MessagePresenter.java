@@ -4,14 +4,14 @@ import jp.bap.traning.simplechat.model.Message;
 
 public class MessagePresenter {
     private MessageView mCallback;
-    private MesssageInteractor mInteractor;
+    private MessageInteractor mInteractor;
 
     public MessagePresenter() {
-        mInteractor = new MesssageInteractor();
+        mInteractor = new MessageInteractor();
     }
     public MessagePresenter(MessageView callback) {
         mCallback = callback;
-        mInteractor = new MesssageInteractor();
+        mInteractor = new MessageInteractor();
     }
 
     public void insertOrUpdateMessage(Message message) {

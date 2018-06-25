@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.model.Message;
 
-public class MesssageInteractor {
+public class MessageInteractor {
     MessageDAO messageDAO;
-    public MesssageInteractor() {
+    public MessageInteractor() {
         messageDAO = new MessageDAO();
     }
 
@@ -18,10 +18,9 @@ public class MesssageInteractor {
     public void getAllMessage(int roomID, MessageView callBack) {
         ArrayList<Message> messsagesList = new ArrayList<>();
         messsagesList = messageDAO.getAllMessage(roomID);
-        if(messsagesList.size()>0) {
+        if (messsagesList.size() > 0) {
             callBack.getAllMessage(messsagesList);
-        }
-        else {
+        } else {
             callBack.errorGetAllMessage(roomID);
         }
     }
