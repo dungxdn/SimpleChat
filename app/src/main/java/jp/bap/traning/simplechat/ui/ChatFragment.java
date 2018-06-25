@@ -40,10 +40,7 @@ public class ChatFragment extends BaseFragment {
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
 
-    @Click
-    void mBtnAddGroupChat(){
-        AddGroupChatActivity_.intent(getContext()).start();
-    }
+
 
     @Override
     public void afterView() {

@@ -57,10 +57,7 @@ public class Common {
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
                         nameRoom = user.getFirstName()
                                 + " "
-                                + user.getLastName()
-                                + "("
-                                + user.getId()
-                                + ")";
+                                + user.getLastName();
                         break;
                     }
                 }
