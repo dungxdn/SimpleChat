@@ -15,20 +15,32 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/mLnChat"/>
 
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Helloooooo"
+        android:textColor="@color/colorGray"
+        android:textSize="@dimen/_10ssp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        app:layout_constraintLeft_toRightOf="@id/mAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/mLnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+
         android:background="@drawable/bg_message_friend"
         app:layout_constraintLeft_toRightOf="@+id/mAvatar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtName"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtLinkMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlue"
             android:textStyle="bold"
             android:layout_gravity="center"
             android:textSize="@dimen/_14ssp"

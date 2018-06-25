@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
@@ -102,21 +103,27 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         if(Common.typeText.equals(mMessage.getType())) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
             messageViewHolder.txtMessage.setText(mMessage.getContent());
+            if(mMineId != mMessage.getUserID()) {
+                messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
+            }
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
-//            linkMessageViewHolder.linkMessage.setText(mMessage.getContent());
-            //=============Test
-            linkMessageViewHolder.textCrawler.makePreview(linkMessageViewHolder.linkPreviewCallback,mMessage.getContent());
-            //=========Test
-
+            linkMessageViewHolder.linkMessage.setText(mMessage.getContent());
+            linkMessageViewHolder.linkMessage.setTextColor(Color.BLUE);
+            if(mMineId != mMessage.getUserID()) {
+                linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
+            }
         }
-        else {
+        else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
 //            Glide.with(mContext).load(mMessage.getContent()).into(imageMessageViewHolder.imageView);
             //Test
             Bitmap bitmap = Common.StringToBitMap(mMessage.getContent());
             imageMessageViewHolder.imageView.setImageBitmap(bitmap);
+            if(mMineId != mMessage.getUserID()) {
+                imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
+            }
         }
     }
 
@@ -129,53 +136,36 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     class MessageViewHolder extends RecyclerView.ViewHolder{
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
-
+        TextView txtName;
         public MessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtMessage = itemView.findViewById(R.id.txtMessage);
+            txtName = itemView.findViewById(R.id.txtName);
         }
     }
 
     class ImageMessageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-
+        CircleImageView mAvatar;
+        TextView txtName;
         public ImageMessageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageMessageChatContent);
+            mAvatar = itemView.findViewById(R.id.mAvatar);
+            txtName = itemView.findViewById(R.id.txtName);
         }
     }
 
     class LinkMessageViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mAvatar;
-//        TextView linkMessage;
-        TextView title, url, description;
-        private TextCrawler textCrawler;
-        private LinkPreviewCallback linkPreviewCallback;
-
+        TextView linkMessage;
+        TextView txtName;
         public LinkMessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mAvatar);
-//            linkMessage = itemView.findViewById(R.id.txtLinkMessage);
-            title = itemView.findViewById(R.id.title);
-            url = itemView.findViewById(R.id.url);
-            description = itemView.findViewById(R.id.description);
-
-            //
-            textCrawler = new TextCrawler();
-            linkPreviewCallback = new LinkPreviewCallback() {
-                @Override
-                public void onPre() {}
-
-                @Override
-                public void onPos(SourceContent sourceContent, boolean b) {
-                    String temp = sourceContent.getTitle();
-                    String temp2 = sourceContent.getDescription();
-                    title.setText(sourceContent.getTitle());
-                    url.setText(sourceContent.getUrl());
-                    description.setText(sourceContent.getDescription());
-                }
-            };
+            linkMessage = itemView.findViewById(R.id.txtLinkMessage);
+            txtName = itemView.findViewById(R.id.txtName);
         }
 
     }
