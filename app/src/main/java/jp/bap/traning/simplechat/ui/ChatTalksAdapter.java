@@ -3,8 +3,6 @@ package jp.bap.traning.simplechat.ui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,18 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
-
 import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.service.PareseURL;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
@@ -111,6 +103,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
             linkMessageViewHolder.linkMessage.setText(mMessage.getContent());
             linkMessageViewHolder.linkMessage.setTextColor(Color.BLUE);
+            new PareseURL().execute(new String[]{Common.insertHTTPToLink(mMessage.getContent())});
             if(mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
@@ -167,7 +160,6 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             linkMessage = itemView.findViewById(R.id.txtLinkMessage);
             txtName = itemView.findViewById(R.id.txtName);
         }
-
     }
 
 }

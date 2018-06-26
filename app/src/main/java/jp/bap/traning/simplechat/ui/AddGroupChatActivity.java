@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import io.realm.RealmList;
@@ -58,17 +57,20 @@ public class AddGroupChatActivity extends BaseActivity {
     @Click
     void mBtnCreate(){
         showProgressBar(mProgressBar);
+        //if haven't pick someone
         if (mIdList.size() <= 0){
             Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
             hiddenProgressBar(mProgressBar);
             return;
         }
+        //
         List<Integer> mIdListFully = new ArrayList<>();
         mIdListFully.clear();
         mIdListFully.add(Common.getUserLogin().getId());
         for (Integer i : mIdList) {
             mIdListFully.add(i);
         }
+        //if group have 2 people
         if (mIdListFully.size() == 2){
             int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
             sTYPE_GROUP = 0;
@@ -84,6 +86,7 @@ public class AddGroupChatActivity extends BaseActivity {
         } else {
             sTYPE_GROUP = 1;
         }
+        //init RealmList
         mUserRealmList.clear();
         for (Integer i : mIdList) {
             for (User u : mUserList) {
@@ -94,9 +97,11 @@ public class AddGroupChatActivity extends BaseActivity {
             }
         }
         mUserRealmList.add(Common.getUserLogin());
+        //add Room to server
         mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
+                //insert or update room to Realm
                 hiddenProgressBar(mProgressBar);
                 Room mRoom = new Room();
                 RoomData mRoomData = result.getData();
@@ -116,13 +121,13 @@ public class AddGroupChatActivity extends BaseActivity {
             @Override
             public void onError(String message, int code) {
                 hiddenProgressBar(mProgressBar);
-
+                Toast.makeText(AddGroupChatActivity.this, code + ", " +message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure() {
                 hiddenProgressBar(mProgressBar);
-
+                Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
