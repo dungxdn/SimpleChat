@@ -117,12 +117,20 @@ public class Common {
         return inSampleSize;
     }
 
-
-
-
     public static User getUserLogin() {
         int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
         //get user from Realm
         return new UserDAO().getUser(id);
+    }
+
+    public static String insertHTTPToLink(String link) {
+        String result="";
+        if(link.startsWith("http") || link.startsWith("Http")) {
+            result = link;
+        }
+        else {
+            result = "http://"+link;
+        }
+        return result;
     }
 }
