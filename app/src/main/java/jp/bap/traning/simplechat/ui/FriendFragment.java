@@ -212,12 +212,12 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
                 @Override
                 public void onError(String message, int code) {
-
+                    return;
                 }
 
                 @Override
                 public void onFailure() {
-
+                    return;
                 }
             });
         }

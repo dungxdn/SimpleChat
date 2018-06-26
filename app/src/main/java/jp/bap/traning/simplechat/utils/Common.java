@@ -60,6 +60,8 @@ public class Common {
                                 + user.getLastName()
                                 + "("
                                 + user.getId()
+                                + ")("
+                                + room.getRoomId()
                                 + ")";
                         break;
                     }
