@@ -122,7 +122,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     public void onReceiverMessage(Message message) {
     }
 
-
     public void onReceiverListUsersOnline(ArrayList<User> users) {
     }
 
