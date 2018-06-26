@@ -4,6 +4,8 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.ArrayList;
@@ -41,6 +43,9 @@ public class AddGroupChatActivity extends BaseActivity {
     @ViewById
     RecyclerView mRecyclerFriend;
 
+    @ViewById
+    ProgressBar mProgressBar;
+
     @AfterViews
     public void afterView() {
         setupToolbar();
@@ -49,7 +54,9 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @Click
     void mBtnCreate(){
+        showProgressBar(mProgressBar);
         if (mIdList.size() <= 1){
+            hiddenProgressBar(mProgressBar);
             Toast.makeText(this, "can not create group, please check!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -66,6 +73,7 @@ public class AddGroupChatActivity extends BaseActivity {
         mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
+                hiddenProgressBar(mProgressBar);
                 Room mRoom = new Room();
                 RoomData mRoomData = result.getData();
                 mRoom.setRoomId(mRoomData.getRoomId());
@@ -82,11 +90,13 @@ public class AddGroupChatActivity extends BaseActivity {
 
             @Override
             public void onError(String message, int code) {
+                hiddenProgressBar(mProgressBar);
 
             }
 
             @Override
             public void onFailure() {
+                hiddenProgressBar(mProgressBar);
 
             }
         });
@@ -99,6 +109,7 @@ public class AddGroupChatActivity extends BaseActivity {
     }
 
     public void init(){
+        mProgressBar.setVisibility(View.GONE);
         if (ChatService.getChat() != null) {
             ChatService.getChat().getUsersOnline();
         }

@@ -68,8 +68,9 @@ public class ChatFragment extends BaseFragment {
         super.onResume();
         mListRoom.clear();
         mListMessage.clear();
-
         for (Room room : new RoomDAO().getAllRoom()) {
+            mListRoom.add(room);
+
             //Create MessagePresenter
             this.messagePresenter = new MessagePresenter(new MessageView() {
                 @Override
@@ -82,7 +83,6 @@ public class ChatFragment extends BaseFragment {
 
                     }
                     mListMessage.add(newMessage);
-                    mListRoom.add(room);
                 }
 
                 @Override

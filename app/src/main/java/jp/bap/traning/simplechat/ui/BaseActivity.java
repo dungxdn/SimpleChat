@@ -3,8 +3,11 @@ package jp.bap.traning.simplechat.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -129,5 +132,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onUserOnline(User users) {
+    }
+
+    public void showProgressBar(ProgressBar progressBar){
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hiddenProgressBar(ProgressBar progressBar){
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 }
