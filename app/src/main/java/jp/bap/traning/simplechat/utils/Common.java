@@ -71,35 +71,6 @@ public class Common {
         return nameRoom;
     }
 
-    public static String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
-    }
-
-    public static Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
-    }
-
-    //Test
-    public static Bitmap readBitmapAndScale(String path) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;                              //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
-        BitmapFactory.decodeFile(path, options);                          //Đọc thông tin ảnh
-        options.inSampleSize = 4; //Scale bitmap xuống 4 lần
-        options.inJustDecodeBounds = false; //Cho phép đọc dữ liệu ảnh ảnh
-        return BitmapFactory.decodeFile(path, options);
-    }
-
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -123,14 +94,5 @@ public class Common {
         return new UserDAO().getUser(id);
     }
 
-    public static String insertHTTPToLink(String link) {
-        String result="";
-        if(link.startsWith("http") || link.startsWith("Http")) {
-            result = link;
-        }
-        else {
-            result = "http://"+link;
-        }
-        return result;
-    }
+
 }

@@ -6,30 +6,41 @@ import android.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
+
 public class PareseURL extends AsyncTask<String,Void,String>{
+    private ChatTalksListener mCallBack;
+    private static String link="";
+
+    public PareseURL(ChatTalksListener callBack) {
+        mCallBack = callBack;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
-        StringBuffer stringBuffer = new StringBuffer();
+        String title="";
         try{
+            link = strings[0];
             Document document = Jsoup.connect(strings[0]).get();
             // Get document (HTML page) title
-            String title = document.title();
-            stringBuffer.append("TiTle: "+title);
+            title = document.title();
         }
         catch (Exception e) {
             e.printStackTrace();
+
         }
-        return stringBuffer.toString();
+        return title;
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if(s != null) {
-            Log.e("ParseLink: ",s);
+        if(s.trim().isEmpty() == false) {
+            mCallBack.onRequestURLSuccess(link,s);
         }
         else {
             Log.e("ParseLink","Khong Parse duoc Link");
+            mCallBack.onRequestURLFailed(link);
         }
     }
 }
