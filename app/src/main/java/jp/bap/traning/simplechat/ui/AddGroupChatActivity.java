@@ -35,7 +35,7 @@ public class AddGroupChatActivity extends BaseActivity {
     private ArrayList<User> mUserList;
     private List<Integer> mIdList;
     private AddRoomPresenter mAddRoomPresenter;
-    private static final int sTYPE_GROUP = 1;
+    private static int sTYPE_GROUP = 1;
     private RealmList<User> mUserRealmList;
     private static final int sDEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
     private static String TAG = "AddGroupChat";
@@ -69,13 +69,20 @@ public class AddGroupChatActivity extends BaseActivity {
         for (Integer i : mIdList) {
             mIdListFully.add(i);
         }
-        if (isRoomExits(new RoomDAO().getAllRoom(), mIdListFully) != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
-            Log.d(TAG, "Get Exists Group");
-            ChatTalksActivity_.intent(AddGroupChatActivity.this)
-                    .roomId(isRoomExits(new RoomDAO().getAllRoom(), mIdList))
-                    .start();
-            finish();
-            return;
+        if (mIdListFully.size() == 2){
+            int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
+            sTYPE_GROUP = 0;
+            if (result != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
+                Log.d(TAG, "Get Exists Group (" + result +")");
+                ChatTalksActivity_.intent(AddGroupChatActivity.this)
+                        .roomId(result)
+                        .start();
+                hiddenProgressBar(mProgressBar);
+                finish();
+                return;
+            }
+        } else {
+            sTYPE_GROUP = 1;
         }
         mUserRealmList.clear();
         for (Integer i : mIdList) {

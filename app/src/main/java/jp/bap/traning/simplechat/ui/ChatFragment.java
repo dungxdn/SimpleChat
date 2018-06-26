@@ -113,7 +113,7 @@ public class ChatFragment extends BaseFragment {
             room.setType(typeRoom);
             room.setUsers(usersRealmList);
             new RoomDAO().insertOrUpdate(room);
-            getALlRoom();
+//            getALlRoom();
         }
     }
 
