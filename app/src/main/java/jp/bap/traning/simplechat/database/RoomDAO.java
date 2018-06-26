@@ -68,4 +68,8 @@ public class RoomDAO {
         mRealm.close();
         return result;
     }
+
+    interface Listener {
+        void onRealmChange();
+    }
 }
