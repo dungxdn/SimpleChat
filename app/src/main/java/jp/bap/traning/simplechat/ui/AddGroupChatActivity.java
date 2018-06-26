@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -36,6 +37,8 @@ public class AddGroupChatActivity extends BaseActivity {
     private AddRoomPresenter mAddRoomPresenter;
     private static final int sTYPE_GROUP = 1;
     private RealmList<User> mUserRealmList;
+    private static final int sDEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
+    private static String TAG = "AddGroupChat";
 
     @ViewById
     CustomToolbar_ mToolbar;
@@ -55,9 +58,23 @@ public class AddGroupChatActivity extends BaseActivity {
     @Click
     void mBtnCreate(){
         showProgressBar(mProgressBar);
-        if (mIdList.size() <= 1){
+        if (mIdList.size() <= 0){
+            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "can not create group, please check!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<Integer> mIdListFully = new ArrayList<>();
+        mIdListFully.clear();
+        mIdListFully.add(Common.getUserLogin().getId());
+        for (Integer i : mIdList) {
+            mIdListFully.add(i);
+        }
+        if (isRoomExits(new RoomDAO().getAllRoom(), mIdListFully) != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
+            Log.d(TAG, "Get Exists Group");
+            ChatTalksActivity_.intent(AddGroupChatActivity.this)
+                    .roomId(isRoomExits(new RoomDAO().getAllRoom(), mIdList))
+                    .start();
+            finish();
             return;
         }
         mUserRealmList.clear();
@@ -82,6 +99,7 @@ public class AddGroupChatActivity extends BaseActivity {
                 new RoomDAO().insertOrUpdate(mRoom);
                 mUserRealmList.clear();
                 //Start ChatActivity
+                Log.d(TAG, "Create New Group");
                 ChatTalksActivity_.intent(AddGroupChatActivity.this)
                         .roomId(result.getData().getRoomId())
                         .start();
@@ -162,5 +180,28 @@ public class AddGroupChatActivity extends BaseActivity {
         super.onUserOffline(users);
         mUserList.remove(users);
         mAddGroupChatAdapter.notifyDataSetChanged();
+    }
+
+    public int isRoomExits(List<Room> roomList, List<Integer> idList ){
+        for (Room r : roomList){
+            if (r.getUsers().size() == idList.size()) {
+                if (isListIdExitInRoom(r, idList)) return r.getRoomId();
+            }
+        }
+        return sDEFAULT_VALUE_IF_NOT_EXITS_GROUP;
+    }
+
+    public boolean isListIdExitInRoom(Room room, List<Integer> listId){
+        for (Integer i : listId){
+            if (!isIdExitsInListUser(room.getUsers(), i)) return false;
+        }
+        return true;
+    }
+
+    public boolean isIdExitsInListUser(List<User> userList, int id){
+        for (User u : userList){
+            if (id == u.getId()) return true;
+        }
+        return false;
     }
 }
