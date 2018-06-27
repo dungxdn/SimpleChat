@@ -1,5 +1,7 @@
 package jp.bap.traning.simplechat.presenter.message;
 
+import android.content.ClipboardManager;
+
 import jp.bap.traning.simplechat.model.Message;
 
 public class MessagePresenter {
@@ -26,4 +28,20 @@ public class MessagePresenter {
            mInteractor.getAllMessage(roomID,mCallback);
        }
     }
+
+    public Message getAMessage(long idMessage) {
+        if(idMessage<0) {
+            return null;
+        }
+        else {
+            return mInteractor.getAMessage(idMessage);
+        }
+    }
+
+    public void deleteMessage(long idMessage) {
+        mInteractor.deleteMessage(idMessage);
+    }
+
+
+
 }

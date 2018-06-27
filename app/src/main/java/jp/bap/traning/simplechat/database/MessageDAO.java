@@ -1,5 +1,7 @@
 package jp.bap.traning.simplechat.database;
 
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -27,6 +29,25 @@ public class MessageDAO {
         }
 //        mRealm.close();
         return messageList;
+    }
+
+    public Message getAMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        Message result = mRealm.copyFromRealm(message);
+        mRealm.close();
+        return result;
+    }
+
+    public void deleteMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        mRealm.executeTransaction(realm -> message.deleteFromRealm());
+        mRealm.close();
     }
 
 }

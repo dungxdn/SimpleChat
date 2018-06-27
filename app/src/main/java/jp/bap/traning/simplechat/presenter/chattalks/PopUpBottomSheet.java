@@ -1,24 +1,34 @@
 package jp.bap.traning.simplechat.presenter.chattalks;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
+import jp.bap.traning.simplechat.ui.ChatTalksActivity_;
 
 public class PopUpBottomSheet extends BottomSheetDialogFragment {
 
     private static final String LAYOUT_ID = "LAYOUT_POPUP";
     private static final int layout = R.layout.popup_grid_bottom_sheet;
-
-    public static PopUpBottomSheet getInstance() {
+    private static long idMessage= -1;
+    private static int roomId = -1;
+    public static PopUpBottomSheet getInstance(long id, int room) {
+        idMessage = id;
+        roomId = room;
         Bundle bundle = new Bundle();
         bundle.putInt(LAYOUT_ID,layout);
         PopUpBottomSheet popUpBottomSheet = new PopUpBottomSheet();
@@ -78,23 +88,75 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
 
     @OnClick({R.id.popUpCopy,R.id.popUpShare,R.id.popUpDelete})
     public void onClickBottomSheet(View view) {
-        int id = view.getId();
         switch (view.getId()) {
             case R.id.popUpCopy: {
-                Toast.makeText(getContext(), "Day la copy", Toast.LENGTH_SHORT).show();
-                dismiss();
-                break;
+                try{
+                    Message message = new MessagePresenter().getAMessage(idMessage);
+                    if(message==null) {
+                    } else {
+                        Toast.makeText(getActivity(),"Đã sao chép văn bản",Toast.LENGTH_SHORT).show();
+                        copyTextMessage(message.getContent());
+                    }
+                    dismiss();
+                    break;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             case R.id.popUpShare: {
-                Toast.makeText(getContext(), "Day la share", Toast.LENGTH_SHORT).show();
+                try{
+                    Toast.makeText(getActivity(),"Shared the text",Toast.LENGTH_SHORT).show();
+                    dismiss();
+                    break;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 dismiss();
                 break;
             }
             case R.id.popUpDelete: {
-                Toast.makeText(getContext(), "Day la xoa", Toast.LENGTH_SHORT).show();
+                try{
+                    confirmDialog(idMessage);
+                    dismiss();
+                    break;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 dismiss();
                 break;
             }
         }
     }
+
+    private void copyTextMessage(String text) {
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("simpletext", text);
+        clipboard.setPrimaryClip(clip);
+    }
+
+    private void confirmDialog(long idMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Xóa tin nhắn?")
+                .setMessage("Bạn không thể hoàn tác sau khi xóa bản sao của những tin nhắn này")
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    try{
+                        Toast.makeText(builder.getContext(),"Đã xóa",Toast.LENGTH_SHORT).show();
+                        new MessagePresenter().deleteMessage(idMessage);
+                        ChatTalksActivity_.intent(builder.getContext()).roomId(roomId).start();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setNegativeButton("No", (dialog, id) -> dialog.cancel())
+                .show();
+
+    }
+
+
+
+
 }
