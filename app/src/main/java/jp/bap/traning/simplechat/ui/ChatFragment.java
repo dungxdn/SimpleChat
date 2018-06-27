@@ -36,14 +36,10 @@ public class ChatFragment extends BaseFragment {
     @ViewById
     RecyclerView mRecyclerRoom;
     private ArrayList<Room> mListRoom;
-    private ArrayList<Message> mListMessage;
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
 
-    @Click
-    void mBtnAddGroupChat(){
-        AddGroupChatActivity_.intent(getContext()).start();
-    }
+
 
     @Override
     public void afterView() {
@@ -53,8 +49,7 @@ public class ChatFragment extends BaseFragment {
 
     private void init() {
         mListRoom = new ArrayList<>();
-        mListMessage = new ArrayList<>();
-        mChatAdapter = new ChatAdapter(getContext(), mListRoom, mListMessage);
+        mChatAdapter = new ChatAdapter(getContext(), mListRoom);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerRoom.setLayoutManager(mLayoutManager);
         mRecyclerRoom.setItemAnimator(new DefaultItemAnimator());
@@ -67,22 +62,20 @@ public class ChatFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         mListRoom.clear();
-        mListMessage.clear();
-        for (Room room : new RoomDAO().getAllRoom()) {
-            mListRoom.add(room);
 
+        for (Room room : new RoomDAO().getAllRoom()) {
             //Create MessagePresenter
             this.messagePresenter = new MessagePresenter(new MessageView() {
                 @Override
                 public void getAllMessage(ArrayList<Message> messagesList) {
-                    Message newMessage = messagesList.get(0);
+                    Message lastMessage = messagesList.get(0);
                     for (int i = 0; i < messagesList.size(); i++) {
-                        if (messagesList.get(i).getId() > newMessage.getId()) {
-                            newMessage = messagesList.get(i);
+                        if (messagesList.get(i).getId() > lastMessage.getId()) {
+                            lastMessage = messagesList.get(i);
                         }
 
                     }
-                    mListMessage.add(newMessage);
+                    room.setLastMessage(lastMessage);
                 }
 
                 @Override
@@ -91,9 +84,10 @@ public class ChatFragment extends BaseFragment {
             }) ;
             //GetConverstation
             messagePresenter.getAllMessage(room.getRoomId());
+            mListRoom.add(room);
+
         }
 
-        Log.d(TAG, "onResume: mListMessage "+mListMessage.size());
         Log.d(TAG, "onResume: mListRoom "+mListRoom.size());
         mChatAdapter.notifyDataSetChanged();
     }

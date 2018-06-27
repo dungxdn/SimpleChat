@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
@@ -79,18 +80,23 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
             case 1:
-                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
             case 2:
-//                mToolbar.setTitle(MORE_TITLE);
-                mToolbar.setVisibility(View.GONE);
+                mToolbar.getTvTitle().setVisibility(View.GONE);
+                mToolbar.getSettingButton().setVisibility(View.VISIBLE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 break;
         }
     }
