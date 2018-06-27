@@ -95,6 +95,4 @@ public class Common {
         //get user from Realm
         return new UserDAO().getUser(id);
     }
-
-
 }

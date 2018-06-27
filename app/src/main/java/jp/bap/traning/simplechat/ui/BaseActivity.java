@@ -20,7 +20,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
@@ -71,6 +73,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     onReceiverMessage(message);
                     new MessagePresenter().insertOrUpdateMessage(message);
 
+                    //update lastMessage in Room into Realm
+                    RoomDAO roomDAO = new RoomDAO();
+                    Room room = roomDAO.getRoomFromRoomId(message.getRoomID());
+                    room.setLastMessage(message);
+                    roomDAO.insertOrUpdate(room);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 try {
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
-                    User user = gson.fromJson(objectUserOffline,User.class);
+                    User user = gson.fromJson(objectUserOffline, User.class);
                     onUserOffline(user);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -109,7 +117,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 try {
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
-                    User user = gson.fromJson(objectUserOffline,User.class);
+                    User user = gson.fromJson(objectUserOffline, User.class);
                     onUserOnline(user);
                 } catch (Exception e) {
                     e.printStackTrace();
