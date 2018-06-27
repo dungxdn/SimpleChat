@@ -15,6 +15,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.service.PareseURL;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
@@ -101,9 +102,9 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
-            linkMessageViewHolder.linkMessage.setText(mMessage.getContent());
-            linkMessageViewHolder.linkMessage.setTextColor(Color.BLUE);
-            new PareseURL().execute(new String[]{Common.insertHTTPToLink(mMessage.getContent())});
+            String arr[] = mMessage.getContent().split(";");
+            linkMessageViewHolder.linkMessage.setText(arr[0]);
+            linkMessageViewHolder.linkDescription.setText(arr[1]);
             if(mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
@@ -112,7 +113,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
 //            Glide.with(mContext).load(mMessage.getContent()).into(imageMessageViewHolder.imageView);
             //Test
-            Bitmap bitmap = Common.StringToBitMap(mMessage.getContent());
+            Bitmap bitmap = new ChatTalksPresenter().StringToBitMap(mMessage.getContent());
             imageMessageViewHolder.imageView.setImageBitmap(bitmap);
             if(mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
@@ -152,13 +153,16 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
 
     class LinkMessageViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mAvatar;
-        TextView linkMessage;
         TextView txtName;
+        AppCompatTextView linkMessage;
+        AppCompatTextView linkDescription;
+
         public LinkMessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mAvatar);
-            linkMessage = itemView.findViewById(R.id.txtLinkMessage);
             txtName = itemView.findViewById(R.id.txtName);
+            linkMessage = itemView.findViewById(R.id.txtLink);
+            linkDescription = itemView.findViewById(R.id.txtLinkDescription);
         }
     }
 

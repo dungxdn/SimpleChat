@@ -7,10 +7,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
@@ -21,6 +19,8 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
+import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.service.ChatService;
@@ -31,6 +31,7 @@ import jp.bap.traning.simplechat.widget.CustomToolbar_;
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
     private MessagePresenter messagePresenter;
+    private ChatTalksPresenter chatTalksPresenter;
     ArrayList<Message> listMessage;
     ChatTalksAdapter chatTalksAdapter;
     Message message;
@@ -59,19 +60,19 @@ public class ChatTalksActivity extends BaseActivity {
             if (ChatService.getChat() != null) {
                 //show in the UI
                 String messageChat = edtMessage.getText().toString();
-                if (containsLink(messageChat) == true) {
-                    message = new Message(messageChat, mMineId, roomId, Common.typeLink);
+                if (chatTalksPresenter.containsLink(messageChat) == true) {
+                    chatTalksPresenter.requestURL(messageChat);
                 } else {
                     message = new Message(messageChat, mMineId, roomId, Common.typeText);
+                    listMessage.add(message);
+                    chatTalksAdapter.notifyDataSetChanged();
+                    listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+                    //Send event to the Socket
+                    ChatService.getChat().sendMessage(message, message.getRoomID());
+                    //Save into Realm Database
+                    messagePresenter.insertOrUpdateMessage(message);
                 }
-                listMessage.add(message);
-                chatTalksAdapter.notifyDataSetChanged();
-                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
-                //Send event to the Socket
-                ChatService.getChat().sendMessage(message, message.getRoomID());
                 edtMessage.setText("");
-                //Save into Realm Database
-                messagePresenter.insertOrUpdateMessage(message);
             }
         }
     }
@@ -121,6 +122,33 @@ public class ChatTalksActivity extends BaseActivity {
 
         //GetConverstation
         messagePresenter.getAllMessage(roomId);
+
+        //Create ChatTalksPresenter
+        this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
+            @Override
+            public void onRequestURLSuccess(String link, String title) {
+                message = new Message(link+";"+title, mMineId, roomId, Common.typeLink);
+                listMessage.add(message);
+                chatTalksAdapter.notifyDataSetChanged();
+                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+                //Send event to the Socket
+                ChatService.getChat().sendMessage(message, message.getRoomID());
+                //Save into Realm Database
+                messagePresenter.insertOrUpdateMessage(message);
+            }
+
+            @Override
+            public void onRequestURLFailed(String link) {
+                message = new Message(link+";"+"No preview available", mMineId, roomId, Common.typeLink);
+                listMessage.add(message);
+                chatTalksAdapter.notifyDataSetChanged();
+                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+                //Send event to the Socket
+                ChatService.getChat().sendMessage(message, message.getRoomID());
+                //Save into Realm Database
+                messagePresenter.insertOrUpdateMessage(message);
+            }
+        });
     }
 
     public void addEvents() {
@@ -135,7 +163,7 @@ public class ChatTalksActivity extends BaseActivity {
         });
 
         listViewChat.setOnTouchListener((view, motionEvent) -> {
-            hideKeyboard((Activity) view.getContext());
+            chatTalksPresenter.hideKeyboard((Activity) view.getContext());
             return false;
         });
     }
@@ -144,32 +172,10 @@ public class ChatTalksActivity extends BaseActivity {
     public void onReceiverMessage(Message message) {
         super.onReceiverMessage(message);
         if (message.getRoomID() == roomId) {
-            listMessage.add(message);
-            chatTalksAdapter.notifyDataSetChanged();
-            listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+           listMessage.add(message);
+           chatTalksAdapter.notifyDataSetChanged();
+           listViewChat.smoothScrollToPosition(listMessage.size() - 1);
         }
-    }
-
-    public void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    //Test
-    public static boolean containsLink(String input) {
-        boolean result = false;
-        String[] parts = input.split("\\s+");
-        for (String item : parts) {
-            if (android.util.Patterns.WEB_URL.matcher(item).matches()) {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 
     //Test: send Image
@@ -180,8 +186,8 @@ public class ChatTalksActivity extends BaseActivity {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
                 //Create a bitmap covert to String : sendMessage
-                Bitmap bitmap = Common.readBitmapAndScale(image.getPath());
-                String bitMapImage = Common.BitMapToString(bitmap);
+                Bitmap bitmap = chatTalksPresenter.readBitmapAndScale(image.getPath());
+                String bitMapImage = chatTalksPresenter.BitMapToString(bitmap);
                 //Create a message model and sendChatMessage
                 Message message = new Message(bitMapImage, mMineId, roomId, Common.typeImage);
                 listMessage.add(message);
@@ -196,7 +202,4 @@ public class ChatTalksActivity extends BaseActivity {
             }
         }
     }
-
-    //Test
-
 }

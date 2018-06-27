@@ -16,24 +16,37 @@
         app:layout_constraintBottom_toBottomOf="@id/mLnChat"/>
 
     <LinearLayout
-        android:id="@+id/mLnChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_message_mine"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:background="@drawable/quick_edit_large_shadow"
+        android:orientation="vertical"
         app:layout_constraintRight_toLeftOf="@+id/mAvatar"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
+        >
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtLinkMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textSize="@dimen/_14ssp"
-            android:text="Helloooooooooooo"
+            android:id="@+id/txtLink"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:textSize="@dimen/_15ssp"
+            android:text="Link Web"
+            android:padding="@dimen/_5sdp"
             android:autoLink="web"
-            android:linksClickable="true"/>
+            android:linksClickable="true"
+            android:background="@android:color/transparent"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtLinkDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:text="Link Description"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/backgroundforlinkdescription"
+            />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
