@@ -61,6 +61,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @Click
     void mBtnCreate(){
+        Common.hideKeyboard(AddGroupChatActivity.this);
         showProgressBar(mProgressBar);
         //if haven't pick someone
         if (mIdList.size() <= 0){
