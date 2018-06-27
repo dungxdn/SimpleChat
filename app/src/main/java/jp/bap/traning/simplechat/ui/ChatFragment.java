@@ -7,6 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import io.realm.ObjectChangeSet;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.RealmResults;
+import javax.annotation.Nullable;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
@@ -96,6 +100,14 @@ public class ChatFragment extends BaseFragment {
         Log.d(TAG, "onResume: mListMessage "+mListMessage.size());
         Log.d(TAG, "onResume: mListRoom "+mListRoom.size());
         mChatAdapter.notifyDataSetChanged();
+        //Listener Message changed
+        new RoomDAO().realmChanged(new RoomDAO.Listener() {
+            @Override
+            public void onRealmChange(RealmResults<Message> messages) {
+                Log.d("onResume: MessageChange", messages.toString());
+                mChatAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
