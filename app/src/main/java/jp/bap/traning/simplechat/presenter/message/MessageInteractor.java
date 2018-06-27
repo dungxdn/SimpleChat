@@ -24,4 +24,19 @@ public class MessageInteractor {
             callBack.errorGetAllMessage(roomID);
         }
     }
+
+    public Message getAMessage(long idMessage) {
+        Message message = new Message();
+        message = messageDAO.getAMessage(idMessage);
+        if(message.getContent()==null) {
+            return null;
+        }
+        else {
+            return message;
+        }
+    }
+
+    public void deleteMessage(long idMessage) {
+        messageDAO.deleteMessage(idMessage);
+    }
 }
