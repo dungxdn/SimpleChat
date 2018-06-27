@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.model;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
 public class Room extends RealmObject {
     @PrimaryKey
     int roomId;
+    @Nullable
     String roomName;
     /*
     Room 2 person -> type = 0;

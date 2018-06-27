@@ -35,7 +35,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/room")
     Call<AddRoomResponse> createRoom(@Field("ids") List<Integer> ids,
-                                     @Field("type") int type);
+                                     @Field("type") int type,
+                                     @Field("roomName") String roomName);
 
     @GET("/room/{roomId}")
     Call<GetRoomResponse> getRoom(@Path("roomId") int roomId);

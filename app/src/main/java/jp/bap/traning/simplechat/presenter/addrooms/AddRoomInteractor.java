@@ -16,9 +16,9 @@ public class AddRoomInteractor {
     public AddRoomInteractor() {
     }
 
-    public void addRoom(List<Integer> ids, int type, AddRoomView callback) {
+    public void addRoom(List<Integer> ids, int type, String roomName, AddRoomView callback) {
 
-        Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type);
+        Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type, roomName);
         mCallUser.enqueue(new Callback<AddRoomResponse>() {
             @Override
             public void onResponse(Call<AddRoomResponse> call, Response<AddRoomResponse> response) {

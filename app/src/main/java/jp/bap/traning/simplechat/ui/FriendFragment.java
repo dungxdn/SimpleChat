@@ -102,11 +102,9 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mExpandFriend.setAdapter(mFriendAdapter);
         mExpandFriend.setGroupIndicator(null);
 
-
         for (int i = 0; i < mListheader.size(); i++) {
             mExpandFriend.expandGroup(i);
         }
-
     }
 
     @Override
@@ -124,7 +122,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         }
         Collections.sort(mUserList, userComparator);
         mFriendAdapter.notifyDataSetChanged();
-//        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        //        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size
+        // () + ")");
 
     }
 
@@ -134,7 +133,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         super.onUserOffline(user);
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
-//        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        //        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" +
+        // mUserList.size() + ")");
     }
 
     //insert user online
@@ -150,7 +150,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             mUserList.add(users);
             Collections.sort(mUserList, userComparator);
             mFriendAdapter.notifyDataSetChanged();
-//            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+            //            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" +
+            // mUserList.size() + ")");
         }
     }
 
@@ -163,14 +164,14 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
         } else {
             // add Room
-            if (mUserRealmList.size() != 0){
+            if (mUserRealmList.size() != 0) {
                 mUserRealmList.clear();
             }
-            if (mListUserId.size() != 0){
+            if (mListUserId.size() != 0) {
                 mListUserId.clear();
             }
             mListUserId.add(user.getId());
-            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON, new AddRoomView() {
+            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON, null, new AddRoomView() {
                 @Override
                 public void onSuccess(AddRoomResponse result) {
                     //Save to Realm
@@ -182,7 +183,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                         @Override
                         public void onSuccess(GetRoomResponse result) {
                             List<User> mUserInRoomList = result.getData().getUsers();
-                            for (User u : mUserInRoomList){
+                            for (User u : mUserInRoomList) {
                                 mUserRealmList.add(u);
                             }
                             mRoom.setUsers(mUserRealmList);

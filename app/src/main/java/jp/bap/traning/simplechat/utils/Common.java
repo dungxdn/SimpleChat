@@ -67,7 +67,7 @@ public class Common {
                     }
                 }
             } else {
-                nameRoom = "Group";
+                nameRoom = room.getRoomName();
             }
         }
         return nameRoom;

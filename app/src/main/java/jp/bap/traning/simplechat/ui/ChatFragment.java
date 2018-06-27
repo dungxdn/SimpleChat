@@ -43,12 +43,9 @@ public class ChatFragment extends BaseFragment {
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
 
-
-
     @Override
     public void afterView() {
         init();
-
     }
 
     private void init() {
@@ -66,8 +63,9 @@ public class ChatFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         mListRoom.clear();
+        RoomDAO roomDAO = new RoomDAO();
 
-        for (Room room : new RoomDAO().getAllRoom()) {
+        for (Room room : roomDAO.getAllRoom()) {
             //Create MessagePresenter
             this.messagePresenter = new MessagePresenter(new MessageView() {
                 @Override
@@ -77,7 +75,6 @@ public class ChatFragment extends BaseFragment {
                         if (messagesList.get(i).getId() > lastMessage.getId()) {
                             lastMessage = messagesList.get(i);
                         }
-
                     }
                     room.setLastMessage(lastMessage);
                 }
@@ -85,21 +82,20 @@ public class ChatFragment extends BaseFragment {
                 @Override
                 public void errorGetAllMessage(int roomID) {
                 }
-            }) ;
+            });
             //GetConverstation
             messagePresenter.getAllMessage(room.getRoomId());
             mListRoom.add(room);
-
         }
 
-        Log.d(TAG, "onResume: mListRoom "+mListRoom.size());
+        Log.d(TAG, "onResume: mListRoom " + mListRoom.size());
         mChatAdapter.notifyDataSetChanged();
+
         //Listener Message changed
-        new RoomDAO().realmChanged(new RoomDAO.Listener() {
+        roomDAO.realmChanged(new RoomDAO.Listener() {
             @Override
             public void onRealmChange(RealmResults<Message> messages) {
-                Log.d("onResume: MessageChange", messages.toString());
-                mChatAdapter.notifyDataSetChanged();
+                Log.d("onResume: MessageChange", messages.size() + "");
             }
         });
     }
@@ -107,9 +103,9 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom) {
         super.createUserRoom(roomId, type, usersRoom);
-        if (checkValidUser(usersRoom)==true) {
+        if (checkValidUser(usersRoom) == true) {
             RealmList<User> usersRealmList = new RealmList<>();
-            for(User u : usersRoom) {
+            for (User u : usersRoom) {
                 usersRealmList.add(u);
             }
             int roomID = Integer.parseInt(roomId);
@@ -126,9 +122,9 @@ public class ChatFragment extends BaseFragment {
     }
 
     private boolean checkValidUser(ArrayList<User> users) {
-        int i=0;
-        while (i<users.size()) {
-            if(users.get(i).getId()==mMineId) {
+        int i = 0;
+        while (i < users.size()) {
+            if (users.get(i).getId() == mMineId) {
                 return true;
             }
             i++;

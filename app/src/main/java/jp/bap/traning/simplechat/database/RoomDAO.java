@@ -86,6 +86,7 @@ public class RoomDAO {
                         listener.onRealmChange(messages);
                     }
                 });
+        mRealm.close();
     }
 
     public interface Listener {
