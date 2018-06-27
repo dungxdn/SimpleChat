@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.bap.traning.simplechat">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".BaseApp_"
@@ -14,24 +14,23 @@
         android:theme="@style/MyAppTheme">
         <activity android:name=".ui.SplashActivity_">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity_">
-        </activity>
-        <activity android:name=".ui.LoginActivity_"/>
-        <activity android:name=".ui.SignUpActivity_"/>
-        <activity android:name=".ui.ChatTalksActivity_"/>
+        <activity android:name=".ui.MainActivity_"></activity>
+        <activity android:name=".ui.LoginActivity_" />
+        <activity android:name=".ui.SignUpActivity_" />
+        <activity android:name=".ui.ChatTalksActivity_" />
+        <activity android:name=".ui.FullScreenImageActivity_"/>
+        <activity android:name=".ui.AddGroupChatActivity_"></activity>
 
         <service
             android:name=".service.ChatService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <activity android:name=".ui.AddGroupChatActivity_">
-        </activity>
     </application>
 
 </manifest>

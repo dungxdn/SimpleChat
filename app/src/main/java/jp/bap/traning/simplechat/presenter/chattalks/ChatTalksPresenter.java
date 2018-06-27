@@ -6,12 +6,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.ByteArrayOutputStream;
-
-import jp.bap.traning.simplechat.service.PareseURL;
 
 public class ChatTalksPresenter {
     private ChatTalksListener chatTalksListener;
@@ -90,7 +86,6 @@ public class ChatTalksPresenter {
     //Request to URL
     public void requestURL(String link) {
         new PareseURL(chatTalksListener).execute(new String[]{insertHTTPToLink(link)});
-
 
     }
 
