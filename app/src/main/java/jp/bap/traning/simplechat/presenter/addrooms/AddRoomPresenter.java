@@ -12,9 +12,9 @@ public class AddRoomPresenter {
         this.mAddRoomInteractor = new AddRoomInteractor();
     }
 
-    public void addroom(List<Integer> ids, int type, AddRoomView callback) {
+    public void addroom(List<Integer> ids, int type, String roomName,  AddRoomView callback) {
         this.type = type;
-        mAddRoomInteractor.addRoom(ids, type, new AddRoomView() {
+        mAddRoomInteractor.addRoom(ids, type, roomName, new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
                 result.getData().setType(type);

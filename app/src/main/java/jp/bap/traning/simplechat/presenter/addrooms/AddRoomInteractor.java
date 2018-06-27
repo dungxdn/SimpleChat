@@ -16,15 +16,15 @@ public class AddRoomInteractor {
     public AddRoomInteractor() {
     }
 
-    public void addRoom(List<Integer> ids, int type, AddRoomView callback) {
+    public void addRoom(List<Integer> ids, int type, String roomName, AddRoomView callback) {
 
-        Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type);
+        Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type, roomName);
         mCallUser.enqueue(new Callback<AddRoomResponse>() {
             @Override
             public void onResponse(Call<AddRoomResponse> call, Response<AddRoomResponse> response) {
                 if (response.body().getStatus() == Common.STATUS_SUCCESS) {
                     callback.onSuccess(response.body());
-                    Log.e("addRoom", "success");
+                    Log.d("addRoom", "success");
                 } else {
                     callback.onError(response.body().getMessage(), response.body().getStatus());
                 }
@@ -33,7 +33,7 @@ public class AddRoomInteractor {
             @Override
             public void onFailure(Call<AddRoomResponse> call, Throwable t) {
                 callback.onFailure();
-                Log.e("addRoom", "fail");
+                Log.d("addRoom", "failed");
             }
         });
     }

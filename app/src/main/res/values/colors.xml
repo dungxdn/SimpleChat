@@ -25,5 +25,7 @@
     <color name="colorGray">#a4a6a5</color>
     <color name="colorGrayDark">#595959</color>
     <color name="soft_grey_split">#d0d0d0</color>
+    <item name="bottomsheet_highlight" type="color">#c9c5c5</item>
+
 
 </resources>

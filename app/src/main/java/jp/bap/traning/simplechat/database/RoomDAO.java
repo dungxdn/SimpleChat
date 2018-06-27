@@ -2,11 +2,18 @@ package jp.bap.traning.simplechat.database;
 
 import android.util.Log;
 
+import io.realm.ObjectChangeSet;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.RealmChangeListener;
+import io.realm.RealmObjectChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import javax.annotation.Nullable;
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 
 /**
@@ -69,7 +76,20 @@ public class RoomDAO {
         return result;
     }
 
-    interface Listener {
-        void onRealmChange();
+    public void realmChanged(Listener listener){
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.where(Message.class)
+                .findAllAsync()
+                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
+                    @Override
+                    public void onChange(RealmResults<Message> messages) {
+                        listener.onRealmChange(messages);
+                    }
+                });
+        mRealm.close();
+    }
+
+    public interface Listener {
+        void onRealmChange(RealmResults<Message> messages);
     }
 }

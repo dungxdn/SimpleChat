@@ -1,8 +1,12 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
-import jp.bap.traning.simplechat.service.PareseURL;
+import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
@@ -131,11 +141,20 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
         TextView txtName;
+
         public MessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtMessage = itemView.findViewById(R.id.txtMessage);
             txtName = itemView.findViewById(R.id.txtName);
+            ButterKnife.bind(itemView);
+
+            itemView.setOnLongClickListener((View view) -> {
+                Message message = messageArrayList.get(getAdapterPosition());
+                PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance();
+                popUpBottomSheet.show( ((AppCompatActivity)mContext).getSupportFragmentManager(),PopUpBottomSheet.class.getSimpleName() );
+                return false;
+            });
         }
     }
 
@@ -148,6 +167,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             imageView = itemView.findViewById(R.id.imageMessageChatContent);
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtName = itemView.findViewById(R.id.txtName);
+
+            imageView.setOnClickListener(view -> {
+                Message message = messageArrayList.get(getAdapterPosition());
+                FullScreenImageActivity_.intent(mContext).urlImage(message.getContent()).start();
+            });
         }
     }
 

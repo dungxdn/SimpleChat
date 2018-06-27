@@ -1,4 +1,4 @@
-package jp.bap.traning.simplechat.service;
+package jp.bap.traning.simplechat.presenter.chattalks;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -39,7 +39,6 @@ public class PareseURL extends AsyncTask<String,Void,String>{
             mCallBack.onRequestURLSuccess(link,s);
         }
         else {
-            Log.e("ParseLink","Khong Parse duoc Link");
             mCallBack.onRequestURLFailed(link);
         }
     }

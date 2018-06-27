@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import io.realm.RealmList;
@@ -38,6 +39,7 @@ public class AddGroupChatActivity extends BaseActivity {
     private RealmList<User> mUserRealmList;
     private static final int sDEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
     private static String TAG = "AddGroupChat";
+    private static String sGroupName = null;
 
     @ViewById
     CustomToolbar_ mToolbar;
@@ -47,6 +49,9 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @ViewById
     ProgressBar mProgressBar;
+
+    @ViewById
+    EditText mEdtGroupName;
 
     @AfterViews
     public void afterView() {
@@ -59,8 +64,8 @@ public class AddGroupChatActivity extends BaseActivity {
         showProgressBar(mProgressBar);
         //if haven't pick someone
         if (mIdList.size() <= 0){
-            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
             hiddenProgressBar(mProgressBar);
+            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
             return;
         }
         //
@@ -74,6 +79,7 @@ public class AddGroupChatActivity extends BaseActivity {
         if (mIdListFully.size() == 2){
             int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
             sTYPE_GROUP = 0;
+            sGroupName = null;
             if (result != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
                 Log.d(TAG, "Get Exists Group (" + result +")");
                 ChatTalksActivity_.intent(AddGroupChatActivity.this)
@@ -85,6 +91,12 @@ public class AddGroupChatActivity extends BaseActivity {
             }
         } else {
             sTYPE_GROUP = 1;
+        }
+        //if haven't input groups's name
+        if (mIdListFully.size() > 2 && mEdtGroupName.getText().toString().isEmpty()) {
+            hiddenProgressBar(mProgressBar);
+            Toast.makeText(this, "Please, insert group's name", Toast.LENGTH_SHORT).show();
+            return;
         }
         //init RealmList
         mUserRealmList.clear();
@@ -98,7 +110,8 @@ public class AddGroupChatActivity extends BaseActivity {
         }
         mUserRealmList.add(Common.getUserLogin());
         //add Room to server
-        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, new AddRoomView() {
+        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, mEdtGroupName.getText().toString().trim(),
+                new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
                 //insert or update room to Realm
@@ -108,6 +121,7 @@ public class AddGroupChatActivity extends BaseActivity {
                 mRoom.setRoomId(mRoomData.getRoomId());
                 mRoom.setType(mRoomData.getType());
                 mRoom.setUsers(mUserRealmList);
+                mRoom.setRoomName(mRoomData.getRoomName());
                 new RoomDAO().insertOrUpdate(mRoom);
                 mUserRealmList.clear();
                 //Start ChatActivity
@@ -139,6 +153,7 @@ public class AddGroupChatActivity extends BaseActivity {
     }
 
     public void init(){
+        sGroupName = mEdtGroupName.getText().toString();
         mProgressBar.setVisibility(View.GONE);
         if (ChatService.getChat() != null) {
             ChatService.getChat().getUsersOnline();
