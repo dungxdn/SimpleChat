@@ -3,8 +3,11 @@ package jp.bap.traning.simplechat.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -19,7 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import jp.bap.traning.simplechat.R;
 
 @EActivity(R.layout.activity_sign_up)
-public class SignUpActivity extends Activity {
+public class SignUpActivity extends BaseActivity {
 
     private SignUpPresenter mSignUpPresenter;
 
@@ -35,10 +38,13 @@ public class SignUpActivity extends Activity {
     EditText edtPassword;
     @ViewById
     EditText edtConfirmPassword;
+    @ViewById
+    ProgressBar mProgressBar;
 
-    @AfterViews
-    void afterView() {
+    @Override
+    public void afterView() {
         mSignUpPresenter = new SignUpPresenter();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Click
@@ -52,6 +58,7 @@ public class SignUpActivity extends Activity {
         } else {
             if (edtPassword.getText().toString().
                     equals(edtConfirmPassword.getText().toString())) {
+                showProgressBar(mProgressBar);
                 mSignUpPresenter.signUp(edtUsername.getText().toString(),
                         edtFirstname.getText().toString(), edtLastname.getText().toString(),
                         edtPassword.getText().toString(), new SignUpView() {
@@ -63,6 +70,7 @@ public class SignUpActivity extends Activity {
                                 edtLastname.getText().clear();
                                 edtPassword.getText().clear();
                                 edtConfirmPassword.getText().clear();
+                                hiddenProgressBar(mProgressBar);
                                 Toast.makeText(SignUpActivity.this, "Register success!",
                                         Toast.LENGTH_SHORT).show();
                                 LoginActivity_.intent(SignUpActivity.this).start();

@@ -3,7 +3,9 @@ package jp.bap.traning.simplechat.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.ArrayList;
@@ -32,14 +34,19 @@ public class AddGroupChatActivity extends BaseActivity {
     private ArrayList<User> mUserList;
     private List<Integer> mIdList;
     private AddRoomPresenter mAddRoomPresenter;
-    private static final int sTYPE_GROUP = 1;
+    private static int sTYPE_GROUP = 1;
     private RealmList<User> mUserRealmList;
+    private static final int sDEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
+    private static String TAG = "AddGroupChat";
 
     @ViewById
     CustomToolbar_ mToolbar;
 
     @ViewById
     RecyclerView mRecyclerFriend;
+
+    @ViewById
+    ProgressBar mProgressBar;
 
     @AfterViews
     public void afterView() {
@@ -49,10 +56,37 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @Click
     void mBtnCreate(){
-        if (mIdList.size() <= 1){
-            Toast.makeText(this, "can not create group, please check!", Toast.LENGTH_SHORT).show();
+        showProgressBar(mProgressBar);
+        //if haven't pick someone
+        if (mIdList.size() <= 0){
+            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
+            hiddenProgressBar(mProgressBar);
             return;
         }
+        //
+        List<Integer> mIdListFully = new ArrayList<>();
+        mIdListFully.clear();
+        mIdListFully.add(Common.getUserLogin().getId());
+        for (Integer i : mIdList) {
+            mIdListFully.add(i);
+        }
+        //if group have 2 people
+        if (mIdListFully.size() == 2){
+            int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
+            sTYPE_GROUP = 0;
+            if (result != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
+                Log.d(TAG, "Get Exists Group (" + result +")");
+                ChatTalksActivity_.intent(AddGroupChatActivity.this)
+                        .roomId(result)
+                        .start();
+                hiddenProgressBar(mProgressBar);
+                finish();
+                return;
+            }
+        } else {
+            sTYPE_GROUP = 1;
+        }
+        //init RealmList
         mUserRealmList.clear();
         for (Integer i : mIdList) {
             for (User u : mUserList) {
@@ -63,9 +97,12 @@ public class AddGroupChatActivity extends BaseActivity {
             }
         }
         mUserRealmList.add(Common.getUserLogin());
+        //add Room to server
         mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
+                //insert or update room to Realm
+                hiddenProgressBar(mProgressBar);
                 Room mRoom = new Room();
                 RoomData mRoomData = result.getData();
                 mRoom.setRoomId(mRoomData.getRoomId());
@@ -74,6 +111,7 @@ public class AddGroupChatActivity extends BaseActivity {
                 new RoomDAO().insertOrUpdate(mRoom);
                 mUserRealmList.clear();
                 //Start ChatActivity
+                Log.d(TAG, "Create New Group");
                 ChatTalksActivity_.intent(AddGroupChatActivity.this)
                         .roomId(result.getData().getRoomId())
                         .start();
@@ -82,12 +120,14 @@ public class AddGroupChatActivity extends BaseActivity {
 
             @Override
             public void onError(String message, int code) {
-
+                hiddenProgressBar(mProgressBar);
+                Toast.makeText(AddGroupChatActivity.this, code + ", " +message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure() {
-
+                hiddenProgressBar(mProgressBar);
+                Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -99,6 +139,7 @@ public class AddGroupChatActivity extends BaseActivity {
     }
 
     public void init(){
+        mProgressBar.setVisibility(View.GONE);
         if (ChatService.getChat() != null) {
             ChatService.getChat().getUsersOnline();
         }
@@ -151,5 +192,28 @@ public class AddGroupChatActivity extends BaseActivity {
         super.onUserOffline(users);
         mUserList.remove(users);
         mAddGroupChatAdapter.notifyDataSetChanged();
+    }
+
+    public int isRoomExits(List<Room> roomList, List<Integer> idList ){
+        for (Room r : roomList){
+            if (r.getUsers().size() == idList.size()) {
+                if (isListIdExitInRoom(r, idList)) return r.getRoomId();
+            }
+        }
+        return sDEFAULT_VALUE_IF_NOT_EXITS_GROUP;
+    }
+
+    public boolean isListIdExitInRoom(Room room, List<Integer> listId){
+        for (Integer i : listId){
+            if (!isIdExitsInListUser(room.getUsers(), i)) return false;
+        }
+        return true;
+    }
+
+    public boolean isIdExitsInListUser(List<User> userList, int id){
+        for (User u : userList){
+            if (id == u.getId()) return true;
+        }
+        return false;
     }
 }
