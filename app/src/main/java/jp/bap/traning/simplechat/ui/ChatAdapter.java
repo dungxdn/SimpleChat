@@ -26,13 +26,11 @@ import jp.bap.traning.simplechat.utils.Common;
 
 public class ChatAdapter extends RecyclerView.Adapter {
     private ArrayList<Room> mListRoom;
-    private ArrayList<Message> mListMessage;
     private Context mContext;
     private String TAG = "ChatAdapter";
 
-    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom, ArrayList<Message> mListMessage) {
+    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom) {
         this.mListRoom = mListRoom;
-        this.mListMessage = mListMessage;
         this.mContext = mContext;
     }
 
@@ -45,18 +43,18 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Room room = mListRoom.get(position);
-        Message message = mListMessage.get(position);
+        Message lastMessage = room.getLastMessage();
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
         chatHolder.mTvUserChat.setText(Common.getNameRoomFromRoomId(room.getRoomId()));
-        if (message == null) {
+        if (lastMessage == null) {
             chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
             chatHolder.mTvTime.setVisibility(View.GONE);
         } else {
             chatHolder.mTvTime.setVisibility(View.VISIBLE);
-            chatHolder.mTvContent.setText(message.getContent());
+            chatHolder.mTvContent.setText(lastMessage.getContent());
             Calendar time = Calendar.getInstance();
-            time.setTimeInMillis(message.getId());
+            time.setTimeInMillis(lastMessage.getId());
             Date dateMessage = time.getTime();
             Date current = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
