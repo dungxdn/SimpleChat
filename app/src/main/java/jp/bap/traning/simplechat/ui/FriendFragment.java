@@ -93,7 +93,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
         //Create list include mine user to add to HashMap
         ArrayList<User> me = new ArrayList<>();
-        me.add(getUserLogin());
+        me.add(Common.getUserLogin());
 
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
@@ -112,12 +112,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    private User getUserLogin() {
-        int id = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-        //get user from Realm
-        return new UserDAO().getUser(id);
+        //loi cua nhi, mai nhi sua
     }
 
     @Override

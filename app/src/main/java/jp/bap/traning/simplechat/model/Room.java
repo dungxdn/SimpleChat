@@ -12,10 +12,12 @@ import lombok.EqualsAndHashCode;
 public class Room extends RealmObject {
     @PrimaryKey
     int roomId;
+    String roomName;
     /*
     Room 2 person -> type = 0;
     Group -> type = 1;
      */
     int type;
     RealmList<User> users;
+    Message lastMessage;
 }
