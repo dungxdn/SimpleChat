@@ -28,6 +28,7 @@ import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.ui.BaseFragment;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -36,7 +37,6 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 @EFragment(R.layout.fragment_chat)
 public class ChatFragment extends BaseFragment {
     private static final String TAG = "ChatFragment";
-    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     @ViewById
     RecyclerView mRecyclerRoom;
     private ArrayList<Room> mListRoom;
@@ -101,36 +101,13 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom) {
-        super.createUserRoom(roomId, type, usersRoom);
-        if (checkValidUser(usersRoom) == true) {
-            RealmList<User> usersRealmList = new RealmList<>();
-            for (User u : usersRoom) {
-                usersRealmList.add(u);
-            }
-            int roomID = Integer.parseInt(roomId);
-            int typeRoom = Integer.parseInt(type);
-            Room room = new Room();
-            room.setRoomId(roomID);
-            room.setType(typeRoom);
-            room.setUsers(usersRealmList);
-            new RoomDAO().insertOrUpdate(room);
-            //show in UI
+    public void createUserRoom(Room room) {
+        super.createUserRoom(room);
             mListRoom.add(room);
             mChatAdapter.notifyDataSetChanged();
-        }
     }
 
-    private boolean checkValidUser(ArrayList<User> users) {
-        int i = 0;
-        while (i < users.size()) {
-            if (users.get(i).getId() == mMineId) {
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
+
 
     private void getALlRoom() {
         mListRoom.clear();

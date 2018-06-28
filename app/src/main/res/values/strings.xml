@@ -22,6 +22,15 @@
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
+    <string name="popupcopy">Copy</string>
+    <string name="popupshare">Share</string>
+    <string name="popupdelete">Delete</string>
+    //SharingMessage Activity
+    <string name="button_sharing_message">Sharing</string>
+    <string name="text_message_send">message send...</string>
+    <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
+
+    //
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
     <string name="title_tab_more">More</string>
@@ -30,9 +39,6 @@
     <string name="str_logout">Logout</string>
     <string name="str_not_have_room">You not have room chat</string>
     <string name="empty" translatable="false" />
-    <string name="popupcopy">Copy</string>
-    <string name="popupshare">Share</string>
-    <string name="popupdelete">Delete</string>
 
     <string name="str_profile">Profile</string>
 </resources>

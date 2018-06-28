@@ -17,8 +17,12 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.CallbackManager;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.Event;
 
 /**
@@ -95,7 +99,6 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
             case CREATE_ROOM: {
                 try{
                     if (data.length()==0) return;
-                    Log.e("Create Room: ","Data: "+data);
                     String roomID = data.getString("roomId");
                     String typeRoom = data.getString("type");
                     ArrayList<User> arrayUserRoom = new ArrayList<>();
@@ -106,7 +109,20 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                         User user = gson.fromJson(userRoom, User.class);
                         arrayUserRoom.add(user);
                     }
-                    createUserRoom(roomID,typeRoom,arrayUserRoom);
+                    if (Common.checkValidUser(arrayUserRoom) == true) {
+                        RealmList<User> usersRealmList = new RealmList<>();
+                        for (User u : arrayUserRoom) {
+                            usersRealmList.add(u);
+                        }
+                        int mRoomID = Integer.parseInt(roomID);
+                        int mTypeRoom = Integer.parseInt(typeRoom);
+                        Room room = new Room();
+                        room.setRoomId(mRoomID);
+                        room.setType(mTypeRoom);
+                        room.setUsers(usersRealmList);
+                        new RoomDAO().insertOrUpdate(room);
+                        createUserRoom(room);
+                    }
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -121,7 +137,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
 
     public void onUserOnline(User users) {}
 
-    public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom){}
+    public void createUserRoom(Room room){}
 
 
 }
