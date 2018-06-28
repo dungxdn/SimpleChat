@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,16 +10,25 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
+import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
@@ -35,6 +45,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
+
+    private MoreFragment_ moreFragment = new MoreFragment_();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +70,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
         mViewpagerAdapter.addFragment(new ChatFragment_(), getResources().getString(R.string.title_tab_chat), R.drawable.selection_icon_chat_tablayout);
-        mViewpagerAdapter.addFragment(new MoreFragment_(), getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
+        mViewpagerAdapter.addFragment(moreFragment, getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -150,5 +162,33 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onDestroy() {
         super.onDestroy();
         ChatService.setChatManagerNull();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        moreFragment.onActivityResult(requestCode,resultCode,data);
+//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//            Image image = ImagePicker.getFirstImageOrNull(data);
+//            Log.d(TAG, "onActivityResult: "+image.getPath());
+//            File mFile = new File(image.getPath());
+//            new UploadImagePresenter().uploadImage("NHI", "", "", "", mFile, new UploadImageView() {
+//                @Override
+//                public void onSuccess(ImageResponse result) {
+//                    Log.d("MoreFragment", "onSuccess: "+result.toString());
+////                    Glide.with(this).load(result.getData().getLink()).into(mImgAvata);
+//                }
+//
+//                @Override
+//                public void onError(String message, int code) {
+//                    Log.d("MoreFragment", "onError: ");
+//                }
+//
+//                @Override
+//                public void onFailure() {
+//                    Log.d("MoreFragment", "onFailure: ");
+//                }
+//            });
+//        }
     }
 }

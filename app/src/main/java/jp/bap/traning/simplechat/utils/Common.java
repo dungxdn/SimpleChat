@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -7,6 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
 
 import java.io.ByteArrayOutputStream;
 
@@ -94,5 +98,12 @@ public class Common {
         int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
         //get user from Realm
         return new UserDAO().getUser(id);
+    }
+
+    public static void selectImage(Activity activity) {
+        ImagePicker.create(activity)
+                .returnMode(ReturnMode.GALLERY_ONLY)
+                .single()
+                .start();
     }
 }

@@ -79,10 +79,7 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Click
     void imgImage() {
-        ImagePicker.create(this)
-                .returnMode(ReturnMode.GALLERY_ONLY)
-                .single()
-                .start();
+        Common.selectImage(this);
     }
 
     private void setupToolbar() {

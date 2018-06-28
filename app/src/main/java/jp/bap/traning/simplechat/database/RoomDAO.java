@@ -23,6 +23,7 @@ import jp.bap.traning.simplechat.model.Room;
 public class RoomDAO {
 
     public void insertOrUpdate(List<Room> rooms) {
+
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(rooms));
         mRealm.close();
@@ -76,20 +77,4 @@ public class RoomDAO {
         return result;
     }
 
-    public void realmChanged(Listener listener){
-        Realm mRealm = Realm.getDefaultInstance();
-        mRealm.where(Message.class)
-                .findAllAsync()
-                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
-                    @Override
-                    public void onChange(RealmResults<Message> messages) {
-                        listener.onRealmChange(messages);
-                    }
-                });
-        mRealm.close();
-    }
-
-    public interface Listener {
-        void onRealmChange(RealmResults<Message> messages);
-    }
 }

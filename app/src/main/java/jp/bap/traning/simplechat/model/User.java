@@ -20,6 +20,7 @@ public class User extends RealmObject implements Parcelable {
     private int id;
     private String firstName;
     private String lastName;
+    private String avata;
 
     public User() {
     }
