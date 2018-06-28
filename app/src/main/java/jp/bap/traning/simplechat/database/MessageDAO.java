@@ -30,6 +30,25 @@ public class MessageDAO {
         return messageList;
     }
 
+    public Message getAMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        Message result = mRealm.copyFromRealm(message);
+        mRealm.close();
+        return result;
+    }
+
+    public void deleteMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        mRealm.executeTransaction(realm -> message.deleteFromRealm());
+        mRealm.close();
+    }
+
     public void realmChanged(Listener listener){
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.where(Message.class)

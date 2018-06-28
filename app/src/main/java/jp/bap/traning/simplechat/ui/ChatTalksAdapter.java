@@ -151,7 +151,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
 
             itemView.setOnLongClickListener((View view) -> {
                 Message message = messageArrayList.get(getAdapterPosition());
-                PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance();
+                PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance(message.getId(),message.getRoomID());
                 popUpBottomSheet.show( ((AppCompatActivity)mContext).getSupportFragmentManager(),PopUpBottomSheet.class.getSimpleName() );
                 return false;
             });
