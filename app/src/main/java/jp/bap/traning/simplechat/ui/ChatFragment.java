@@ -1,16 +1,22 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import io.realm.ObjectChangeSet;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.RealmResults;
 import javax.annotation.Nullable;
+import jp.bap.traning.simplechat.database.MessageDAO;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
@@ -60,6 +66,11 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
+    public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mListRoom.clear();
@@ -91,13 +102,12 @@ public class ChatFragment extends BaseFragment {
         Log.d(TAG, "onResume: mListRoom " + mListRoom.size());
         mChatAdapter.notifyDataSetChanged();
 
-        //Listener Message changed
-        roomDAO.realmChanged(new RoomDAO.Listener() {
-            @Override
-            public void onRealmChange(RealmResults<Message> messages) {
-                Log.d("onResume: MessageChange", messages.size() + "");
-            }
-        });
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

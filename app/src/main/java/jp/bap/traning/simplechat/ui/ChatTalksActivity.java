@@ -169,7 +169,7 @@ public class ChatTalksActivity extends BaseActivity {
         });
 
         listViewChat.setOnTouchListener((view, motionEvent) -> {
-            chatTalksPresenter.hideKeyboard((Activity) view.getContext());
+            Common.hideKeyboard((Activity) view.getContext());
             return false;
         });
     }
