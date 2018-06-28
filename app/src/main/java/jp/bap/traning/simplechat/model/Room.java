@@ -15,6 +15,7 @@ public class Room extends RealmObject {
     int roomId;
     @Nullable
     String roomName;
+    String avatar;
     /*
     Room 2 person -> type = 0;
     Group -> type = 1;

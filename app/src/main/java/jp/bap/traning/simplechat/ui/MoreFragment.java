@@ -69,15 +69,16 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     public void afterView() {
-        userLogin = getUserLogin();
+        userLogin = Common.getUserLogin();
         mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
+        linkImage = userLogin.getAvata();
         mUploadImagePresenter = new UploadImagePresenter();
+        if(linkImage != null){
+            Glide.with(getContext()).load(linkImage).into(mImgAvata);
+        }
     }
 
-    private User getUserLogin() {
-        int id = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-        return new UserDAO().getUser(id);
-    }
+
 
     @Click
     void mButtonLogout() {

@@ -14,6 +14,8 @@ import android.view.Window;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -120,7 +122,10 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         AppCompatImageButton mImgButtonCallVideo = view.findViewById(R.id.mImgButtonCallVideo);
 
         User user = mDataChild.get(mHeaderGroup.get(i)).get(i1);
-
+        String avata = user.getAvatar();
+        if(avata!= null) {
+            Glide.with(mContext).load(avata).into(mAvatar);
+        }
         if (user.getId() == mineId){
             mImgButtonCall.setVisibility(View.GONE);
             mImgButtonCallVideo.setVisibility(View.GONE);

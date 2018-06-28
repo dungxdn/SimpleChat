@@ -51,31 +51,33 @@ public class Common {
         return new RoomDAO().getRoomWithUser(userId);
     }
 
-    public static String getNameRoomFromRoomId(int roomId) {
+    public static Room getFullRoomFromRoomId(int roomId) {
         String nameRoom = "";
+        String avatar = "";
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
             if (room.getType() == 0) {
                 for (User user : room.getUsers()) {
                     if (user.getId() != SharedPrefs.getInstance()
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
-                        nameRoom = user.getFirstName()
+                        room.setRoomName(user.getFirstName()
                                 + " "
                                 + user.getLastName()
                                 + "("
                                 + user.getId()
                                 + ")("
                                 + room.getRoomId()
-                                + ")";
+                                + ")");
+                        room.setAvatar(user.getAvatar());
                         break;
                     }
                 }
-            } else {
-                nameRoom = room.getRoomName();
             }
         }
-        return nameRoom;
+        return room;
     }
+
+
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
