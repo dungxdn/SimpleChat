@@ -110,7 +110,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onResume() {
         super.onResume();
-        //loi cua nhi, mai nhi sua
     }
 
     @Override

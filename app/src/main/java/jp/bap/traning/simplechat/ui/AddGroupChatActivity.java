@@ -61,6 +61,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @Click
     void mBtnCreate(){
+        Common.hideKeyboard(AddGroupChatActivity.this);
         showProgressBar(mProgressBar);
         //if haven't pick someone
         if (mIdList.size() <= 0){
@@ -80,6 +81,7 @@ public class AddGroupChatActivity extends BaseActivity {
             int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
             sTYPE_GROUP = 0;
             sGroupName = null;
+            //if existsed room
             if (result != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
                 Log.d(TAG, "Get Exists Group (" + result +")");
                 ChatTalksActivity_.intent(AddGroupChatActivity.this)
@@ -98,7 +100,7 @@ public class AddGroupChatActivity extends BaseActivity {
             Toast.makeText(this, "Please, insert group's name", Toast.LENGTH_SHORT).show();
             return;
         }
-        //init RealmList
+        //init RealmList to add to realm
         mUserRealmList.clear();
         for (Integer i : mIdList) {
             for (User u : mUserList) {
