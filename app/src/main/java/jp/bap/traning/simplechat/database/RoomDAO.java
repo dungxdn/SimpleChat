@@ -75,21 +75,4 @@ public class RoomDAO {
         mRealm.close();
         return result;
     }
-
-    public void realmChanged(Listener listener){
-        Realm mRealm = Realm.getDefaultInstance();
-        mRealm.where(Message.class)
-                .findAllAsync()
-                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
-                    @Override
-                    public void onChange(RealmResults<Message> messages) {
-                        listener.onRealmChange(messages);
-                    }
-                });
-        mRealm.close();
-    }
-
-    public interface Listener {
-        void onRealmChange(RealmResults<Message> messages);
-    }
 }
