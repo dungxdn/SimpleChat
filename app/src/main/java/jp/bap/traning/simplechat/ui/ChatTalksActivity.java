@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
+
+import butterknife.OnClick;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
@@ -85,6 +88,8 @@ public class ChatTalksActivity extends BaseActivity {
                 .start();
     }
 
+
+
     private void setupToolbar() {
         mToolbar.getCallButton().setVisibility(View.VISIBLE);
         mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
@@ -110,6 +115,7 @@ public class ChatTalksActivity extends BaseActivity {
         this.messagePresenter = new MessagePresenter(new MessageView() {
             @Override
             public void getAllMessage(ArrayList<Message> messagesList) {
+                listMessage.clear();
                 for (int i = 0; i < messagesList.size(); i++) {
                     listMessage.add(messagesList.get(i));
                 }
@@ -201,5 +207,17 @@ public class ChatTalksActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ChatTalksActivity","onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
