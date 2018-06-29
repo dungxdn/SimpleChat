@@ -91,15 +91,10 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: ");
         //Listener Message changed
-        new MessageDAO().realmChanged(new MessageDAO.Listener() {
-            @Override
-            public void onRealmChange(RealmResults<Message> messages) {
-                Log.d("onResume: MessageChange", messages.size() + "");
-                getRoomData();
-                mChatAdapter.notifyDataSetChanged();
-            }
+        new MessageDAO().realmChanged((o, check) -> {
+            getRoomData();
+            mChatAdapter.notifyDataSetChanged();
         });
 
 
