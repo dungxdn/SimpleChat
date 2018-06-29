@@ -19,7 +19,6 @@ import io.realm.OrderedCollectionChangeSet;
 import io.realm.RealmResults;
 
 import javax.annotation.Nullable;
-
 import jp.bap.traning.simplechat.database.MessageDAO;
 
 import org.androidannotations.annotations.Click;
@@ -106,7 +105,6 @@ public class ChatFragment extends BaseFragment {
         mListRoom.clear();
         RoomDAO roomDAO = new RoomDAO();
 
-
         for (Room room : roomDAO.getAllRoom()) {
             //Create MessagePresenter
             this.messagePresenter = new MessagePresenter(new MessageView() {
@@ -143,7 +141,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom) {
         super.createUserRoom(roomId, type, usersRoom);
-        Log.d(TAG, "createUserRoom: ");
         if (checkValidUser(usersRoom) == true) {
             RealmList<User> usersRealmList = new RealmList<>();
             for (User u : usersRoom) {
