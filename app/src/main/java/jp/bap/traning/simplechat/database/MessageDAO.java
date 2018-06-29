@@ -1,13 +1,19 @@
 package jp.bap.traning.simplechat.database;
 
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.RealmChangeListener;
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.model.Message;
 
 public class MessageDAO {
+
+    Realm mRealmforListener = Realm.getDefaultInstance();
 
     public MessageDAO(){}
 
@@ -50,8 +56,7 @@ public class MessageDAO {
     }
 
     public void realmChanged(Listener listener){
-        Realm mRealm = Realm.getDefaultInstance();
-        mRealm.where(Message.class)
+        mRealmforListener.where(Message.class)
                 .findAllAsync()
                 .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
                     @Override
@@ -59,10 +64,15 @@ public class MessageDAO {
                         listener.onRealmChange(messages);
                     }
                 });
-        mRealm.close();
+    }
+
+    public void removeRealmChangeListener(){
+        mRealmforListener.where(Message.class).findAll().removeAllChangeListeners();
+        mRealmforListener.close();
     }
 
     public interface Listener {
         void onRealmChange(RealmResults<Message> messages);
     }
+
 }

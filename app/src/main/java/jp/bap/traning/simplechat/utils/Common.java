@@ -12,6 +12,8 @@ import android.util.Log;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import java.io.ByteArrayOutputStream;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
@@ -67,8 +69,7 @@ public class Common {
                                 + user.getId()
                                 + ")("
                                 + room.getRoomId()
-                                + ")");
-                        room.setAvatar(user.getAvatar());
+                                + ")";
                         break;
                     }
                 }
@@ -107,5 +108,16 @@ public class Common {
                 .returnMode(ReturnMode.GALLERY_ONLY)
                 .single()
                 .start();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -15,6 +15,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import io.realm.RealmResults;
+import jp.bap.traning.simplechat.database.MessageDAO;
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Message;
 import com.bumptech.glide.Glide;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
@@ -35,6 +39,7 @@ import jp.bap.traning.simplechat.widget.CustomToolbar_;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private final String TAG = getClass().getSimpleName();
+    private MessageDAO mMessageDAOForListener;
     @ViewById
     TabLayout mTabLayout;
     @ViewById
@@ -55,8 +60,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void afterView() {
+        Log.d(TAG, "onCreate: ");
         init();
-
     }
 
     private void init() {
@@ -82,6 +87,37 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             mTabLayout.getTabAt(i).setCustomView(mViewpagerAdapter.getTabView(i));
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        mMessageDAOForListener = new MessageDAO();
+        //Listener Message changed
+        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
+            @Override
+            public void onRealmChange(RealmResults<Message> messages) {
+                Log.d("MessageChanged: ", messages.size() + "");
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+        Log.d(TAG, "onStop: MessageChange");
+        //rove MessageListener
+        mMessageDAOForListener.removeRealmChangeListener();
+    }
+
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -161,7 +197,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
         ChatService.setChatManagerNull();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
     }
 
     @Override

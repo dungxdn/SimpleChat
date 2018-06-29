@@ -1,5 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,6 +9,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import io.realm.ObjectChangeSet;
@@ -14,6 +19,7 @@ import io.realm.OrderedCollectionChangeSet;
 import io.realm.RealmResults;
 
 import javax.annotation.Nullable;
+import jp.bap.traning.simplechat.database.MessageDAO;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -68,6 +74,11 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
+    public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
@@ -105,6 +116,16 @@ public class ChatFragment extends BaseFragment {
             messagePresenter.getAllMessage(room.getRoomId());
             mListRoom.add(room);
         }
+
+        Log.d(TAG, "onResume: mListRoom " + mListRoom.size());
+        mChatAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

@@ -23,7 +23,6 @@ import jp.bap.traning.simplechat.model.Room;
 public class RoomDAO {
 
     public void insertOrUpdate(List<Room> rooms) {
-
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(rooms));
         mRealm.close();
