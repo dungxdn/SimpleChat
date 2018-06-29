@@ -50,7 +50,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
         chatHolder.setRoomId(room.getRoomId());
 
         chatHolder.mTvUserChat.setText(Common.getFullRoomFromRoomId(room.getRoomId()).getRoomName());
-        Glide.with(mContext).load(Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar()).into(chatHolder.mAvatar);
+        String avatar =Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar();
+        if(avatar != null){
+            Glide.with(mContext).load(avatar).into(chatHolder.mAvatar);
+
+        }
 
 
         if (lastMessage == null) {

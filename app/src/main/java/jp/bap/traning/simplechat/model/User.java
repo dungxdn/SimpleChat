@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class User extends RealmObject implements Parcelable {
+public class User extends RealmObject implements Parcelable  {
     @PrimaryKey
     private int id;
     private String firstName;
@@ -30,6 +30,22 @@ public class User extends RealmObject implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
     }
+
+
+
+    public static Comparator<User> userComparator = new Comparator<User>() {
+        @Override
+        //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < -> return <0
+        public int compare(User user, User t1) {
+            if(user.getLastName().compareTo(t1.getLastName())==0) {
+                return user.getFirstName().compareTo(t1.getFirstName());
+            }
+            else {
+                return user.getLastName().compareTo(t1.getLastName());
+            }
+
+        }
+    };
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
@@ -49,23 +65,10 @@ public class User extends RealmObject implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(firstName);
-        dest.writeString(lastName);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(avatar);
     }
-
-    public static Comparator<User> userComparator = new Comparator<User>() {
-        @Override
-        //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < -> return <0
-        public int compare(User user, User t1) {
-            if(user.getLastName().compareTo(t1.getLastName())==0) {
-                return user.getFirstName().compareTo(t1.getFirstName());
-            }
-            else {
-                return user.getLastName().compareTo(t1.getLastName());
-            }
-
-        }
-    };
 }

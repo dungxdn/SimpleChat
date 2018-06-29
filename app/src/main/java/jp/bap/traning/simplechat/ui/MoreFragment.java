@@ -37,8 +37,11 @@ import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserPresenter;
+import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserView;
 import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
 import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
+import jp.bap.traning.simplechat.response.BaseResponse;
 import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.service.ChatService;
@@ -62,6 +65,7 @@ public class MoreFragment extends BaseFragment {
     @ViewById
     AppCompatButton mButtonLogout;
     UploadImagePresenter mUploadImagePresenter;
+    UpdateUserPresenter mUpdateUserPresenter;
 
     private String linkImage;
     private CircleImageView dialogImgAvata;
@@ -69,16 +73,25 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     public void afterView() {
-        userLogin = Common.getUserLogin();
-        mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
-        linkImage = userLogin.getAvata();
+
         mUploadImagePresenter = new UploadImagePresenter();
-        if(linkImage != null){
-            Glide.with(getContext()).load(linkImage).into(mImgAvata);
-        }
+        mUpdateUserPresenter = new UpdateUserPresenter();
+
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        userLogin = Common.getUserLogin();
+        mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
+
+        linkImage = userLogin.getAvatar();
+        Log.d("MoreFragment", "onResume: "+linkImage);
+        if (linkImage != null) {
+            Glide.with(getContext()).load(linkImage).into(mImgAvata);
+        }
+    }
 
     @Click
     void mButtonLogout() {
@@ -99,7 +112,7 @@ public class MoreFragment extends BaseFragment {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
                 File mFile = new File(image.getPath());
-                mUploadImagePresenter.uploadImage("NHI", "", "", "", mFile, new UploadImageView() {
+                mUploadImagePresenter.uploadImage("", "", "", "", mFile, new UploadImageView() {
                     @Override
                     public void onSuccess(ImageResponse result) {
                         Log.d("MoreFragment", "onSuccess: " + result.toString());
@@ -163,7 +176,27 @@ public class MoreFragment extends BaseFragment {
         dialogImgAvata.setOnClickListener(view -> Common.selectImage(getActivity()));
         btnCancel.setOnClickListener(view -> mDialog.dismiss());
         btnSave.setOnClickListener(view -> {
+            mUpdateUserPresenter.updateUser(edtFirstName.getText().toString(), edtLastName.getText().toString(), linkImage, new UpdateUserView() {
+                @Override
+                public void onSuccess(BaseResponse result) {
+                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
+                    userLogin.setAvatar(linkImage);
+                    new UserDAO().insertOrUpdate(userLogin);
+                    mDialog.dismiss();
+                }
 
+                @Override
+                public void onError(String message, int code) {
+                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onFailure() {
+                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
+
+                }
+            });
         });
         mDialog.show();
     }

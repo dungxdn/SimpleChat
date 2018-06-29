@@ -70,6 +70,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private User mUserLogin = getUserLogin();
     private GetRoomPresenter mGetRoomPresenter;
     private RealmList<User> mUserRealmList;
+    private ArrayList<User> me;
 
     @Override
     public void afterView() {
@@ -92,8 +93,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mListheader.add(getString(R.string.title_friend));
 
         //Create list include mine user to add to HashMap
-        ArrayList<User> me = new ArrayList<>();
-        me.add(Common.getUserLogin());
+        me = new ArrayList<>();
+
 
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
@@ -110,6 +111,9 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onResume() {
         super.onResume();
+        me.clear();
+        me.add(Common.getUserLogin());
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override

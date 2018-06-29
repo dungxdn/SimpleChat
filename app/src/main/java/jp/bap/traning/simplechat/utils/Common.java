@@ -69,7 +69,8 @@ public class Common {
                                 + user.getId()
                                 + ")("
                                 + room.getRoomId()
-                                + ")";
+                                + ")");
+                        room.setAvatar(user.getAvatar());
                         break;
                     }
                 }
