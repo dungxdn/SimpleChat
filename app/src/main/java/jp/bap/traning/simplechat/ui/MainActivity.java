@@ -39,7 +39,6 @@ import jp.bap.traning.simplechat.widget.CustomToolbar_;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private final String TAG = getClass().getSimpleName();
-    private MessageDAO mMessageDAOForListener;
     @ViewById
     TabLayout mTabLayout;
     @ViewById
@@ -89,32 +88,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-        mMessageDAOForListener = new MessageDAO();
-        //Listener Message changed
-        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
-            @Override
-            public void onRealmChange(RealmResults<Message> messages) {
-                Log.d("MessageChanged: ", messages.size() + "");
-            }
-        });
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-        Log.d(TAG, "onStop: MessageChange");
-        //rove MessageListener
-        mMessageDAOForListener.removeRealmChangeListener();
     }
 
 

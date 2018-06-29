@@ -59,7 +59,7 @@ LoginActivity extends BaseActivity {
                     hiddenProgressBar(mProgressBar);
                     indicatorView.hide();
                     setResult(Common.REQUEST_LOGIN);
-                    Log.d("LogIn", "LogIn Activity");
+                    Log.d("Login", "onSuccess: " + result.getData().getAvatar());
                     finish();
                 }
 

@@ -53,6 +53,7 @@ public class ChatFragment extends BaseFragment {
     private ArrayList<Room> mListRoom;
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
+    private MessageDAO mMessageDAOForListener;
 
     @Override
     public void afterView() {
@@ -74,8 +75,17 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        mMessageDAOForListener = new MessageDAO();
+        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
+            @Override
+            public void onRealmChanged(Object o, int check) {
+                Log.d(TAG, "onRMessageChanged: " + check);
+                // TODO : RealmChangedListener
+            }
+        });
     }
 
     @Override
@@ -126,6 +136,9 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause: MessageChange");
+        //rove MessageListener
+        mMessageDAOForListener.removeRealmChanged();
     }
 
     @Override
@@ -158,13 +171,5 @@ public class ChatFragment extends BaseFragment {
             i++;
         }
         return false;
-    }
-
-    private void getALlRoom() {
-        mListRoom.clear();
-        for (Room room : new RoomDAO().getAllRoom()) {
-            mListRoom.add(room);
-        }
-        mChatAdapter.notifyDataSetChanged();
     }
 }
