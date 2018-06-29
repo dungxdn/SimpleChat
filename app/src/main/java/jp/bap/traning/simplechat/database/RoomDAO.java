@@ -2,11 +2,18 @@ package jp.bap.traning.simplechat.database;
 
 import android.util.Log;
 
+import io.realm.ObjectChangeSet;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.RealmChangeListener;
+import io.realm.RealmObjectChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import javax.annotation.Nullable;
+import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 
 /**
@@ -45,7 +52,9 @@ public class RoomDAO {
                 mRealm.where(Room.class).findAll();
 
         for (Room c : results) {
-            if (c.getType() == 0 && (c.getUsers().get(0).getId() == userId || c.getUsers().get(1).getId() == userId)) {
+            if (c.getType() == 0 &&
+                    (c.getUsers().get(0).getId() == userId ||
+                            c.getUsers().get(1).getId() == userId)) {
                 room = mRealm.copyFromRealm(c);
                 break;
             }
@@ -66,4 +75,5 @@ public class RoomDAO {
         mRealm.close();
         return result;
     }
+
 }

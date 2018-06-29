@@ -13,14 +13,16 @@ public class Message extends RealmObject {
     private String content;
     private int userID;
     private int roomID;
+    private String type;
 
     public Message() {
     }
 
-    public Message(String content, int userID, int roomID) {
+    public Message(String content, int userID, int roomID, String type) {
         this.id = System.currentTimeMillis();
         this.content = content;
         this.userID = userID;
         this.roomID = roomID;
+        this.type = type;
     }
 }

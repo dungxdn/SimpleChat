@@ -12,6 +12,7 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.ui.AddGroupChatActivity_;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -22,6 +23,8 @@ public class CustomToolbar extends RelativeLayout {
     AppCompatTextView mTvTitle;
     @ViewById
     AppCompatImageButton mImgButtonBack;
+    @ViewById
+    AppCompatImageButton mImgButtonAddGroup;
     @ViewById
     AppCompatImageButton mImgButtonSetting;
     @ViewById
@@ -46,34 +49,6 @@ public class CustomToolbar extends RelativeLayout {
     }
 
 
-    enum FRAGMENT {
-
-        FRIEND("FriendFragment"),
-        CHAT("ChatFragment"),
-        MORE("MoreFragment");
-
-        private String fragment;
-
-        FRAGMENT(String fragment) {
-            this.fragment = fragment;
-        }
-
-        public String getFragment() {
-            return this.fragment;
-        }
-    };
-
-
-    @Click
-    void mImgButtonBack() {
-        Toast.makeText(context, "Back", Toast.LENGTH_SHORT).show();
-    }
-
-    @Click
-    void mImgButtonSetting() {
-        Toast.makeText(context, "Setting", Toast.LENGTH_SHORT).show();
-    }
-
     public void setTitle(String title) {
         mTvTitle.setText(title);
     }
@@ -85,11 +60,9 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatImageButton getBackButton() {
         return mImgButtonBack;
     }
-
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
     }
-
     public AppCompatImageButton getSettingButton() {
         return mImgButtonSetting;
     }
@@ -98,5 +71,14 @@ public class CustomToolbar extends RelativeLayout {
     }
     public AppCompatImageButton getCallVideoButton() {
         return mImgButtonCallVideo;
+    }
+    public AppCompatImageButton getImgButtonAddGroup() {
+        return mImgButtonAddGroup;
+    }
+
+    @Click(R.id.mImgButtonAddGroup
+    )
+    public void addGroupChat(){
+        AddGroupChatActivity_.intent(getContext()).start();
     }
 }

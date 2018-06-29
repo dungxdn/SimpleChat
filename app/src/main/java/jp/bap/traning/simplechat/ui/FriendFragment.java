@@ -3,7 +3,26 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import io.realm.RealmList;
+
+import java.util.List;
+
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.RoomData;
+import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
+import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
+import jp.bap.traning.simplechat.presenter.getroom.GetRoomPresenter;
+import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
+import jp.bap.traning.simplechat.response.AddRoomResponse;
+
+import jp.bap.traning.simplechat.response.GetRoomResponse;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -29,6 +48,8 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 import static jp.bap.traning.simplechat.model.User.userComparator;
+import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
+import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -36,14 +57,7 @@ import static jp.bap.traning.simplechat.model.User.userComparator;
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendExpandLvAdapter.Listener {
     private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-    //    @ViewById
-//    CircleImageView mImgAvatar;
-//    @ViewById
-//    AppCompatTextView mTvUserName;
-//    @ViewById
-//    AppCompatTextView mTvTitleFriend;
-//    @ViewById
-//    AppCompatTextView mtvStatus;
+
     @ViewById
     ExpandableListView mExpandFriend;
     private ArrayList<User> mUserList;
@@ -52,8 +66,11 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private HashMap<String, ArrayList<User>> mDataUser;
     private AddRoomPresenter mAddRoomPresenter;
     private List<Integer> mListUserId;
-    private RealmList<User> mUserRealmList;
     private static int sTYPE_2PERSON = 0;
+    private User mUserLogin = getUserLogin();
+    private GetRoomPresenter mGetRoomPresenter;
+    private RealmList<User> mUserRealmList;
+    private ArrayList<User> me;
 
     @Override
     public void afterView() {
@@ -66,38 +83,9 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         }
         mUserList = new ArrayList<>();
 
-        mAddRoomPresenter = new AddRoomPresenter(new AddRoomView() {
-            @Override
-            public void onAddRoomSuccess(AddRoomResponse addRoomResponse) {
-                //TODO: Save to Realm, Start ChatActivity
-                //Save to Realm
-                Room mRoom = new Room();
-                RoomData roomData = addRoomResponse.getData();
-                mRoom.setRoomId(roomData.getRoomId());
-                mRoom.setType(roomData.getType());
-                mRoom.setUsers(mUserRealmList);
-                new RoomDAO().insertOrUpdate(mRoom);
-                //Start ChatActivity
-                ChatTalksActivity_.intent(FriendFragment.this)
-                        .roomId(addRoomResponse.getData().getRoomId())
-                        .start();
-            }
-
-            @Override
-            public void onAddRoomFail() {
-            }
-
-            @Override
-            public void onSuccess(AddRoomResponse result) {
-
-            }
-
-            @Override
-            public void onError(String message, int code) {
-
-            }
-        });
+        mAddRoomPresenter = new AddRoomPresenter();
         mListUserId = new ArrayList<>();
+        mGetRoomPresenter = new GetRoomPresenter();
         mUserRealmList = new RealmList<>();
 
         mListheader = new ArrayList<>();
@@ -105,8 +93,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mListheader.add(getString(R.string.title_friend));
 
         //Create list include mine user to add to HashMap
-        ArrayList<User> me = new ArrayList<>();
-        me.add(getUserLogin());
+        me = new ArrayList<>();
+
 
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
@@ -115,50 +103,30 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mExpandFriend.setAdapter(mFriendAdapter);
         mExpandFriend.setGroupIndicator(null);
 
-
         for (int i = 0; i < mListheader.size(); i++) {
             mExpandFriend.expandGroup(i);
         }
-//        mExpandFriend.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                Log.d("onGroupClick:", "worked");
-//                parent.expandGroup(groupPosition);
-//                return false;
-//            }
-//        });
-
-
-//        mFriendAdapter = new FriendAdapter(getContext(), mUserList, this);
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-//        mRecyclerFriend.setLayoutManager(mLayoutManager);
-//        mRecyclerFriend.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerFriend.setAdapter(mFriendAdapter);
-//        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerFriend.getContext(), 1);
-//        mRecyclerFriend.addItemDecoration(mDividerItemDecoration);
-//        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    private User getUserLogin() {
-        int id = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-        //get user from Realm
-        return new UserDAO().getUser(id);
+        me.clear();
+        me.add(Common.getUserLogin());
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onReceiverListUsersOnline(ArrayList<User> users) {
         super.onReceiverListUsersOnline(users);
+        mUserList.clear();
         for (int i = 0; i < users.size(); i++) {
             mUserList.add(users.get(i));
         }
         Collections.sort(mUserList, userComparator);
         mFriendAdapter.notifyDataSetChanged();
-//        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        //        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size
+        // () + ")");
 
     }
 
@@ -168,7 +136,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         super.onUserOffline(user);
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
-//        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+        //        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" +
+        // mUserList.size() + ")");
     }
 
     //insert user online
@@ -178,30 +147,78 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         boolean checkValidUser = mUserList.contains(users);
         if (users.getId() == mMineId) {
 
-        } else if (checkValidUser == true) {
+        } else if (checkValidUser) {
 
         } else {
             mUserList.add(users);
             Collections.sort(mUserList, userComparator);
             mFriendAdapter.notifyDataSetChanged();
-//            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size() + ")");
+            //            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" +
+            // mUserList.size() + ")");
         }
     }
 
     //Chat
     @Override
     public void onChat(User user) {
+        //get room from realm.
         Room room = Common.getRoomWithUser(user.getId());
         if (room != null) {
-            ChatTalksActivity_.intent(this)
-                    .roomId(room.getRoomId())
-                    .start();
+            ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
         } else {
-            // TODO: 6/18/18 Tao room bang API
             // add Room
+            if (mUserRealmList.size() != 0) {
+                mUserRealmList.clear();
+            }
+            if (mListUserId.size() != 0) {
+                mListUserId.clear();
+            }
             mListUserId.add(user.getId());
-            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON);
-            mUserRealmList.add(user);
+            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON, null, new AddRoomView() {
+                @Override
+                public void onSuccess(AddRoomResponse result) {
+                    //Save to Realm
+                    Room mRoom = new Room();
+                    RoomData roomData = result.getData();
+                    mRoom.setRoomId(roomData.getRoomId());
+                    mRoom.setType(roomData.getType());
+                    mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
+                        @Override
+                        public void onSuccess(GetRoomResponse result) {
+                            List<User> mUserInRoomList = result.getData().getUsers();
+                            for (User u : mUserInRoomList) {
+                                mUserRealmList.add(u);
+                            }
+                            mRoom.setUsers(mUserRealmList);
+                            new RoomDAO().insertOrUpdate(mRoom);
+                        }
+
+                        @Override
+                        public void onError(String message, int code) {
+
+                        }
+
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    });
+                    //Start ChatActivity
+                    ChatTalksActivity_.intent(FriendFragment.this)
+                            .roomId(result.getData().getRoomId())
+                            .start();
+                }
+
+                @Override
+                public void onError(String message, int code) {
+                    return;
+                }
+
+                @Override
+                public void onFailure() {
+                    return;
+                }
+            });
         }
     }
 

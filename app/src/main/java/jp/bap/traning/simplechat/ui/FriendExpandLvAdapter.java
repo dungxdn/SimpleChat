@@ -14,6 +14,8 @@ import android.view.Window;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -120,7 +122,10 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         AppCompatImageButton mImgButtonCallVideo = view.findViewById(R.id.mImgButtonCallVideo);
 
         User user = mDataChild.get(mHeaderGroup.get(i)).get(i1);
-
+        String avata = user.getAvatar();
+        if(avata!= null) {
+            Glide.with(mContext).load(avata).into(mAvatar);
+        }
         if (user.getId() == mineId){
             mImgButtonCall.setVisibility(View.GONE);
             mImgButtonCallVideo.setVisibility(View.GONE);
@@ -136,13 +141,18 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
                 Dialog mDialog = new Dialog(mContext);
                 mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 mDialog.setContentView(R.layout.dialog_detail_profile_layout);
+                CircleImageView mImgAvatar = mDialog.findViewById(R.id.mImgAvatar);
                 AppCompatTextView tvUsername = mDialog.findViewById(R.id.mTvUserName);
                 AppCompatButton btnChat = mDialog.findViewById(R.id.mBtnChat);
                 AppCompatButton btnCall = mDialog.findViewById(R.id.mBtnCall);
                 AppCompatButton btnCallVideo = mDialog.findViewById(R.id.mBtnCallVideo);
                 AppCompatButton mBtnEdit = mDialog.findViewById(R.id.mBtnEdit);
                 LinearLayout lnContactFriend = mDialog.findViewById(R.id.lnContactFriend);
-
+                if(user.getAvatar()!=null){
+                    Glide.with(mContext).load(user.getAvatar()).into(mImgAvatar);
+                } else{
+                    mImgAvatar.setImageResource(R.drawable.ic_avatar_default);
+                }
                 if (user.getId() == mineId) {
                     mBtnEdit.setVisibility(View.VISIBLE);
                     lnContactFriend.setVisibility(View.GONE);

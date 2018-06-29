@@ -1,9 +1,6 @@
 package jp.bap.traning.simplechat.presenter.rooms;
 
-import android.util.Log;
-
 import jp.bap.traning.simplechat.response.RoomResponse;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by dungpv on 6/15/18.
@@ -28,6 +25,11 @@ public class GetRoomsPresenter {
             @Override
             public void onError(String message, int code) {
                 mCallback.onError(message, code);
+            }
+
+            @Override
+            public void onFailure() {
+
             }
         });
     }

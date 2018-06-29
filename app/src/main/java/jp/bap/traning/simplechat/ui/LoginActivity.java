@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
@@ -22,7 +25,8 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends BaseActivity {
+public class
+LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
 
     @ViewById
@@ -31,6 +35,8 @@ public class LoginActivity extends BaseActivity {
     EditText edtPassword;
     @ViewById
     AVLoadingIndicatorView indicatorView;
+    @ViewById
+    ProgressBar mProgressBar;
 
     @Override
     public void afterView() {
@@ -45,8 +51,30 @@ public class LoginActivity extends BaseActivity {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
         } else {
+            showProgressBar(mProgressBar);
             indicatorView.show();
-            mLoginPresenter.logIn(userName, password);
+            mLoginPresenter.logIn(userName, password, new LoginView() {
+                @Override
+                public void onSuccess(UserResponse result) {
+                    hiddenProgressBar(mProgressBar);
+                    indicatorView.hide();
+                    setResult(Common.REQUEST_LOGIN);
+                    Log.d("Login", "onSuccess: " + result.getData().getAvatar());
+                    finish();
+                }
+
+                @Override
+                public void onError(String message, int code) {
+                    hiddenProgressBar(mProgressBar);
+                    indicatorView.hide();
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure() {
+                    hiddenProgressBar(mProgressBar);
+                }
+            });
         }
     }
 
@@ -54,33 +82,11 @@ public class LoginActivity extends BaseActivity {
     void btnSignUp() {
         indicatorView.hide();
         startActivity(new Intent(this, SignUpActivity_.class));
+        finish();
     }
 
     public void init() {
-        this.mLoginPresenter = new LoginPresenter(new LoginView() {
-            @Override
-            public void onLoginSuccess(UserResponse userResponse) {
-                indicatorView.hide();
-                setResult(Common.REQUEST_LOGIN);
-                Log.e("login", "loginActivity");
-                finish();
-            }
-
-            @Override
-            public void onLoginFailed() {
-                indicatorView.hide();
-                Toast.makeText(LoginActivity.this, "Email or Password wrong ! Please try again !", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSuccess(UserResponse result) {
-
-            }
-
-            @Override
-            public void onError(String message, int code) {
-
-            }
-        });
+        mProgressBar.setVisibility(View.GONE);
+        this.mLoginPresenter = new LoginPresenter();
     }
 }

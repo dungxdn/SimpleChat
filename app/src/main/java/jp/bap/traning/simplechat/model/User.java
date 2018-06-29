@@ -20,6 +20,7 @@ public class User extends RealmObject implements Parcelable {
     private int id;
     private String firstName;
     private String lastName;
+    private String avatar;
 
     public User() {
     }
@@ -28,6 +29,7 @@ public class User extends RealmObject implements Parcelable {
         id = in.readInt();
         firstName = in.readString();
         lastName = in.readString();
+        avatar = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -52,19 +54,19 @@ public class User extends RealmObject implements Parcelable {
         dest.writeInt(id);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeString(avatar);
     }
 
     public static Comparator<User> userComparator = new Comparator<User>() {
         @Override
-        //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < -> return <0
+        //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < ->
+        // return <0
         public int compare(User user, User t1) {
-            if(user.getLastName().compareTo(t1.getLastName())==0) {
+            if (user.getLastName().compareTo(t1.getLastName()) == 0) {
                 return user.getFirstName().compareTo(t1.getFirstName());
-            }
-            else {
+            } else {
                 return user.getLastName().compareTo(t1.getLastName());
             }
-
         }
     };
 }

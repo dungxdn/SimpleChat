@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,12 +15,24 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import io.realm.RealmResults;
+import jp.bap.traning.simplechat.database.MessageDAO;
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Message;
+import com.bumptech.glide.Glide;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
+import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
@@ -37,6 +50,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
 
+    private MoreFragment_ moreFragment = new MoreFragment_();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +59,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void afterView() {
+        Log.d(TAG, "onCreate: ");
         init();
-
     }
 
     private void init() {
         mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
@@ -58,7 +74,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
         mViewpagerAdapter.addFragment(new ChatFragment_(), getResources().getString(R.string.title_tab_chat), R.drawable.selection_icon_chat_tablayout);
-        mViewpagerAdapter.addFragment(new MoreFragment_(), getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
+        mViewpagerAdapter.addFragment(moreFragment, getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -72,6 +88,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
@@ -80,17 +104,23 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                mToolbar.setTitle(FRIEND_TITLE);
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
+                mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
             case 1:
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
             case 2:
                 mToolbar.getTvTitle().setVisibility(View.GONE);
+                mToolbar.getSettingButton().setVisibility(View.VISIBLE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 break;
         }
     }
@@ -138,5 +168,46 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             return view;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+        ChatService.setChatManagerNull();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        moreFragment.onActivityResult(requestCode,resultCode,data);
+//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//            Image image = ImagePicker.getFirstImageOrNull(data);
+//            Log.d(TAG, "onActivityResult: "+image.getPath());
+//            File mFile = new File(image.getPath());
+//            new UploadImagePresenter().uploadImage("NHI", "", "", "", mFile, new UploadImageView() {
+//                @Override
+//                public void onSuccess(ImageResponse result) {
+//                    Log.d("MoreFragment", "onSuccess: "+result.toString());
+////                    Glide.with(this).load(result.getData().getLink()).into(mImgAvata);
+//                }
+//
+//                @Override
+//                public void onError(String message, int code) {
+//                    Log.d("MoreFragment", "onError: ");
+//                }
+//
+//                @Override
+//                public void onFailure() {
+//                    Log.d("MoreFragment", "onFailure: ");
+//                }
+//            });
+//        }
     }
 }

@@ -1,9 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by Admin on 6/16/2018.
@@ -28,13 +28,11 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 public class ChatAdapter extends RecyclerView.Adapter {
     private ArrayList<Room> mListRoom;
-    private ArrayList<Message> mListMessage;
     private Context mContext;
     private String TAG = "ChatAdapter";
 
-    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom, ArrayList<Message> mListMessage) {
+    public ChatAdapter(Context mContext, ArrayList<Room> mListRoom) {
         this.mListRoom = mListRoom;
-        this.mListMessage = mListMessage;
         this.mContext = mContext;
     }
 
@@ -47,19 +45,43 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Room room = mListRoom.get(position);
-        Message message = mListMessage.get(position);
+        Message lastMessage = room.getLastMessage();
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
-        chatHolder.mTvUserChat.setText(Common.getNameRoomFromRoomId(room.getRoomId()));
-        if (message == null) {
+
+        chatHolder.mTvUserChat.setText(Common.getFullRoomFromRoomId(room.getRoomId()).getRoomName());
+        String avatar =Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar();
+        if(avatar != null){
+            Glide.with(mContext).load(avatar).into(chatHolder.mAvatar);
+
+        }
+
+
+        if (lastMessage == null) {
             chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
             chatHolder.mTvTime.setVisibility(View.GONE);
         } else {
             chatHolder.mTvTime.setVisibility(View.VISIBLE);
-            chatHolder.mTvContent.setText(message.getContent());
+            chatHolder.mTvContent.setText(lastMessage.getContent());
             Calendar time = Calendar.getInstance();
-            time.setTimeInMillis(message.getId());
-            chatHolder.mTvTime.setText(time.get(Calendar.HOUR_OF_DAY)+ ":"+time.get(Calendar.MINUTE));
+            time.setTimeInMillis(lastMessage.getId());
+            Date dateMessage = time.getTime();
+            Date current = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+
+            if (sdf.format(dateMessage).equals(sdf.format(current))){
+                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm");
+                String strtime = sdf1.format(dateMessage);
+
+                chatHolder.mTvTime.setText(strtime);
+            }else{
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM");
+                String strtime = sdf1.format(dateMessage);
+                chatHolder.mTvTime.setText(strtime);
+            }
+
+
+
         }
 
     }

@@ -17,15 +17,22 @@
     <string name="hint_lastname">Lastname</string>
     <string name="hint_confirm_pass">Confirm password</string>
     <string name="hint_firstname">Firstname</string>
+    <string name="hint_groupname">Group Name</string>
+    <string name="hint_search">Search</string>
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
-      <string name="title_tab_friend">Friends</string>
+    <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
     <string name="title_tab_more">More</string>
     <string name="title_me">Me</string>
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
     <string name="str_not_have_room">You not have room chat</string>
+    <string name="empty" translatable="false" />
+    <string name="popupcopy">Copy</string>
+    <string name="popupshare">Share</string>
+    <string name="popupdelete">Delete</string>
+
     <string name="str_profile">Profile</string>
 </resources>

@@ -3,36 +3,30 @@ package jp.bap.traning.simplechat.presenter.login;
 import android.util.Log;
 import jp.bap.traning.simplechat.response.UserResponse;
 
-public class LoginPresenter implements LoginView {
-    private LoginView mLoginView;
+public class LoginPresenter {
     private LoginInteractor mLoginInteractor;
 
-    public LoginPresenter(LoginView loginView) {
+    public LoginPresenter() {
         mLoginInteractor = new LoginInteractor();
-        mLoginView = loginView;
     }
 
-    public void logIn(String userName, String password) {
-        mLoginInteractor.login(userName, password, mLoginView);
-        Log.e("login", "loginPresenter");
-    }
+    public void logIn(String userName, String password, LoginView callback) {
+        mLoginInteractor.login(userName, password, new LoginView() {
+            @Override
+            public void onSuccess(UserResponse result) {
+                callback.onSuccess(result);
+            }
 
-    @Override
-    public void onLoginSuccess(UserResponse userResponse) {
-        mLoginView.onSuccess(userResponse);
+            @Override
+            public void onError(String message, int code) {
+                callback.onError(message, code);
+            }
 
-    }
-
-    @Override
-    public void onLoginFailed() {
-        mLoginView.onLoginFailed();
-    }
-
-    @Override
-    public void onSuccess(UserResponse result) {
-    }
-
-    @Override
-    public void onError(String message, int code) {
+            @Override
+            public void onFailure() {
+                callback.onFailure();
+            }
+        });
+        Log.d("LogIn", "LogIn Presenter");
     }
 }

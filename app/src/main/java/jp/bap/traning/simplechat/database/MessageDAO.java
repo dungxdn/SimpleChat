@@ -1,12 +1,22 @@
 package jp.bap.traning.simplechat.database;
 
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.RealmChangeListener;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.model.Message;
 
 public class MessageDAO {
+
+    Realm mRealmforListener = Realm.getDefaultInstance();
+
+    private static int check = 0;
+    private RealmChangeListener mRealmChangeListener;
 
     public MessageDAO(){}
 
@@ -27,6 +37,62 @@ public class MessageDAO {
         }
 //        mRealm.close();
         return messageList;
+    }
+
+    public Message getAMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        Message result = mRealm.copyFromRealm(message);
+        mRealm.close();
+        return result;
+    }
+
+    public void deleteMessage(long idMessage) {
+        Realm mRealm = Realm.getDefaultInstance();
+        Message message = mRealm.where(Message.class)
+                .equalTo("id", idMessage)
+                .findFirst();
+        mRealm.executeTransaction(realm -> message.deleteFromRealm());
+        mRealm.close();
+    }
+
+//    public void realmChanged(Listener listener){
+//        mRealmforListener.where(Message.class)
+//                .findAllAsync()
+//                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
+//                    @Override
+//                    public void onChange(RealmResults<Message> messages) {
+//                        listener.onRealmChange(messages, check);
+//                        check++ ;
+//                    }
+//                });
+//    }
+
+//    public void removeRealmChangeListener(){
+//        mRealmforListener.where(Message.class).findAll().removeAllChangeListeners();
+//        mRealmforListener.close();
+//    }
+
+    public void realmChanged(Listener listener){
+        mRealmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                listener.onRealmChanged(o, check);
+                check++ ;
+            }
+        };
+        mRealmforListener.addChangeListener(mRealmChangeListener);
+    }
+
+    public void removeRealmChanged(){
+        mRealmforListener.removeChangeListener(mRealmChangeListener);
+        mRealmforListener.close();
+    }
+
+    public interface Listener {
+    void onRealmChanged(Object o, int check);
     }
 
 }

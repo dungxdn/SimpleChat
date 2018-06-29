@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_3sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/mAvatar"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/ic_avatar_default"
+        android:layout_marginEnd="@dimen/_3sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/mLnChat"/>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Helloooooo"
+        android:textColor="@color/colorGray"
+        android:textSize="@dimen/_10ssp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        app:layout_constraintLeft_toRightOf="@id/mAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:background="@drawable/quick_edit_large_shadow"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/mAvatar"
+        app:layout_constraintTop_toTopOf="@id/txtName"
+        android:layout_marginTop="@dimen/_15sdp"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtLink"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:textSize="@dimen/_15ssp"
+            android:text="Link Web"
+            android:padding="@dimen/_5sdp"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:background="@android:color/transparent"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtLinkDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:text="Link Description"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/backgroundforlinkdescription"
+            />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

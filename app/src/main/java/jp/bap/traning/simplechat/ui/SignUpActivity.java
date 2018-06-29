@@ -2,8 +2,12 @@ package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -18,7 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import jp.bap.traning.simplechat.R;
 
 @EActivity(R.layout.activity_sign_up)
-public class SignUpActivity extends Activity implements SignUpView{
+public class SignUpActivity extends BaseActivity {
 
     private SignUpPresenter mSignUpPresenter;
 
@@ -34,25 +38,58 @@ public class SignUpActivity extends Activity implements SignUpView{
     EditText edtPassword;
     @ViewById
     EditText edtConfirmPassword;
+    @ViewById
+    ProgressBar mProgressBar;
 
-    @AfterViews
-    void afterView(){
-        mSignUpPresenter = new SignUpPresenter(this);
+    @Override
+    public void afterView() {
+        mSignUpPresenter = new SignUpPresenter();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Click
     void btnSignUp() {
-        if (edtUsername.getText().toString().isEmpty()||
-                edtFirstname.getText().toString().isEmpty() ||
-                edtLastname.getText().toString().isEmpty() ||
-                edtPassword.getText().toString().isEmpty() ||
-                edtConfirmPassword.getText().toString().isEmpty()){
+        if (edtUsername.getText().toString().isEmpty() || edtFirstname.getText()
+                .toString()
+                .isEmpty() || edtLastname.getText().toString().isEmpty() || edtPassword.getText()
+                .toString()
+                .isEmpty() || edtConfirmPassword.getText().toString().isEmpty()) {
             Toast.makeText(this, "Empty field!", Toast.LENGTH_SHORT).show();
-        }else{
-            if (edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())){
-                mSignUpPresenter.signUp(edtUsername.getText().toString(), edtFirstname.getText().toString(),
-                        edtLastname.getText().toString(), edtPassword.getText().toString());
-            }else {
+        } else {
+            if (edtPassword.getText().toString().
+                    equals(edtConfirmPassword.getText().toString())) {
+                showProgressBar(mProgressBar);
+                mSignUpPresenter.signUp(edtUsername.getText().toString(),
+                        edtFirstname.getText().toString(), edtLastname.getText().toString(),
+                        edtPassword.getText().toString(), new SignUpView() {
+
+                            @Override
+                            public void onSuccess(SignUpResponse result) {
+                                edtUsername.getText().clear();
+                                edtFirstname.getText().clear();
+                                edtLastname.getText().clear();
+                                edtPassword.getText().clear();
+                                edtConfirmPassword.getText().clear();
+                                hiddenProgressBar(mProgressBar);
+                                Toast.makeText(SignUpActivity.this, "Register success!",
+                                        Toast.LENGTH_SHORT).show();
+                                LoginActivity_.intent(SignUpActivity.this).start();
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(String message, int code) {
+                                Log.d("SignUp Error: ", message + ", " + code);
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                Toast.makeText(SignUpActivity.this,
+                                        "Sign up fail. Please check again!", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
+            } else {
                 Toast.makeText(this, "Password is not confirm!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -63,36 +100,8 @@ public class SignUpActivity extends Activity implements SignUpView{
         finish();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onSiginUpSuccess(SignUpResponse signUpResponse) {
-        edtUsername.getText().clear();
-        edtFirstname.getText().clear();
-        edtLastname.getText().clear();
-        edtPassword.getText().clear();
-        edtConfirmPassword.getText().clear();
-        Toast.makeText(this, "Register success!", Toast.LENGTH_SHORT).show();
-        LoginActivity_.intent(this).start();
-        finish();
-    }
-
-    @Override
-    public void onSignUpFailed() {
-        Toast.makeText(this, "Sign up fail. Please check again!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSuccess(SignUpResponse result) {
-
-    }
-
-    @Override
-    public void onError(String message, int code) {
-
     }
 }
