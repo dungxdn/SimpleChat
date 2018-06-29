@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -109,6 +112,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             if(mMineId != mMessage.getUserID()) {
                 messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(messageViewHolder.mAvatar);
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
@@ -118,6 +126,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             if(mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(linkMessageViewHolder.mAvatar);
         }
         else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
@@ -128,6 +141,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             if(mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(imageMessageViewHolder.mAvatar);
         }
     }
 

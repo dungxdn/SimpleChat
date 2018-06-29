@@ -54,8 +54,6 @@ public class Common {
     }
 
     public static Room getFullRoomFromRoomId(int roomId) {
-        String nameRoom = "";
-        String avatar = "";
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
             if (room.getType() == 0) {

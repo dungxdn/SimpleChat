@@ -1,5 +1,7 @@
 package jp.bap.traning.simplechat.model;
 
+import java.util.Comparator;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

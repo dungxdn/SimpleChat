@@ -19,6 +19,7 @@ import io.realm.OrderedCollectionChangeSet;
 import io.realm.RealmResults;
 
 import javax.annotation.Nullable;
+
 import jp.bap.traning.simplechat.database.MessageDAO;
 
 import org.androidannotations.annotations.Click;
@@ -27,6 +28,8 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import io.realm.RealmList;
@@ -39,6 +42,7 @@ import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.ui.BaseFragment;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -61,6 +65,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void init() {
+        mMessageDAOForListener = new MessageDAO();
         mListRoom = new ArrayList<>();
         mChatAdapter = new ChatAdapter(getContext(), mListRoom);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -78,12 +83,14 @@ public class ChatFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-        mMessageDAOForListener = new MessageDAO();
         mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
             @Override
             public void onRealmChanged(Object o, int check) {
                 Log.d(TAG, "onRMessageChanged: " + check);
                 // TODO : RealmChangedListener
+                getRoomData();
+                mChatAdapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -92,22 +99,13 @@ public class ChatFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        //Listener Message changed
-        new MessageDAO().realmChanged(new MessageDAO.Listener() {
-            @Override
-            public void onRealmChange(RealmResults<Message> messages) {
-                Log.d("onResume: MessageChange", messages.size() + "");
-                getRoomData();
-                mChatAdapter.notifyDataSetChanged();
-            }
-        });
-
-
+        getRoomData();
     }
 
     private void getRoomData() {
         mListRoom.clear();
         RoomDAO roomDAO = new RoomDAO();
+
 
         for (Room room : roomDAO.getAllRoom()) {
             //Create MessagePresenter
@@ -124,9 +122,10 @@ public class ChatFragment extends BaseFragment {
             });
             //GetConverstation
             messagePresenter.getAllMessage(room.getRoomId());
+            room.setRoomName(Common.getFullRoomFromRoomId(room.getRoomId()).getRoomName());
+            room.setAvatar(Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar());
             mListRoom.add(room);
         }
-
         Log.d(TAG, "onResume: mListRoom " + mListRoom.size());
         mChatAdapter.notifyDataSetChanged();
 
@@ -144,6 +143,7 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void createUserRoom(String roomId, String type, ArrayList<User> usersRoom) {
         super.createUserRoom(roomId, type, usersRoom);
+        Log.d(TAG, "createUserRoom: ");
         if (checkValidUser(usersRoom) == true) {
             RealmList<User> usersRealmList = new RealmList<>();
             for (User u : usersRoom) {

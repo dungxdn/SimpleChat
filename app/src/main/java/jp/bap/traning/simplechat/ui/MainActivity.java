@@ -187,27 +187,5 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         moreFragment.onActivityResult(requestCode,resultCode,data);
-//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-//            Image image = ImagePicker.getFirstImageOrNull(data);
-//            Log.d(TAG, "onActivityResult: "+image.getPath());
-//            File mFile = new File(image.getPath());
-//            new UploadImagePresenter().uploadImage("NHI", "", "", "", mFile, new UploadImageView() {
-//                @Override
-//                public void onSuccess(ImageResponse result) {
-//                    Log.d("MoreFragment", "onSuccess: "+result.toString());
-////                    Glide.with(this).load(result.getData().getLink()).into(mImgAvata);
-//                }
-//
-//                @Override
-//                public void onError(String message, int code) {
-//                    Log.d("MoreFragment", "onError: ");
-//                }
-//
-//                @Override
-//                public void onFailure() {
-//                    Log.d("MoreFragment", "onFailure: ");
-//                }
-//            });
-//        }
     }
 }

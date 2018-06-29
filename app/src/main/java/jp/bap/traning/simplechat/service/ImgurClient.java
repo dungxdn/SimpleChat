@@ -39,5 +39,7 @@ public class ImgurClient {
     public synchronized static ImgurService getService() {
         return getInstance().mImgurService;
     }
-
+    public static void stopImgurClient() {
+        sInstance = null;
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,12 +50,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
 
-        chatHolder.mTvUserChat.setText(Common.getFullRoomFromRoomId(room.getRoomId()).getRoomName());
-        String avatar =Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar();
-        if(avatar != null){
-            Glide.with(mContext).load(avatar).into(chatHolder.mAvatar);
-
-        }
+        chatHolder.mTvUserChat.setText(room.getRoomName());
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(mContext).load(room.getAvatar()).apply(options).into(chatHolder.mAvatar);
 
 
         if (lastMessage == null) {
