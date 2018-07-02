@@ -4,13 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.support.v7.widget.SearchView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
+import jp.bap.traning.simplechat.ui.SearchGroupChatActivity_;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.ui.AddGroupChatActivity_;
 
@@ -31,6 +30,10 @@ public class CustomToolbar extends RelativeLayout {
     AppCompatImageButton mImgButtonCall;
     @ViewById
     AppCompatImageButton mImgButtonCallVideo;
+    @ViewById
+    AppCompatImageButton mImgButtonSearch;
+    @ViewById
+    SearchView mSearchView;
     private Context context;
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -48,7 +51,6 @@ public class CustomToolbar extends RelativeLayout {
         this.context = context;
     }
 
-
     public void setTitle(String title) {
         mTvTitle.setText(title);
     }
@@ -60,25 +62,42 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatImageButton getBackButton() {
         return mImgButtonBack;
     }
+
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
     }
+
     public AppCompatImageButton getSettingButton() {
         return mImgButtonSetting;
     }
+
     public AppCompatImageButton getCallButton() {
         return mImgButtonCall;
     }
+
     public AppCompatImageButton getCallVideoButton() {
         return mImgButtonCallVideo;
     }
+
     public AppCompatImageButton getImgButtonAddGroup() {
         return mImgButtonAddGroup;
     }
 
-    @Click(R.id.mImgButtonAddGroup
-    )
-    public void addGroupChat(){
+    public AppCompatImageButton getImgButtonSearch() {
+        return mImgButtonSearch;
+    }
+
+    public SearchView getSearchView() {
+        return mSearchView;
+    }
+
+    @Click(R.id.mImgButtonAddGroup)
+    public void addGroupChat() {
         AddGroupChatActivity_.intent(getContext()).start();
+    }
+
+    @Click(R.id.mImgButtonSearch)
+    public void showSearchView() {
+        SearchGroupChatActivity_.intent(getContext()).start();
     }
 }
