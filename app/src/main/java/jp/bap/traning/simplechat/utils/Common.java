@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
@@ -34,6 +35,7 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
+    public static final int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
@@ -97,6 +99,17 @@ public class Common {
         int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
         //get user from Realm
         return new UserDAO().getUser(id);
+    }
+
+    public static boolean checkValidUser(ArrayList<User> users) {
+        int i = 0;
+        while (i < users.size()) {
+            if (users.get(i).getId() == Common.mMineId) {
+                return true;
+            }
+            i++;
+        }
+        return false;
     }
 
     public static void hideKeyboard(Activity activity) {
