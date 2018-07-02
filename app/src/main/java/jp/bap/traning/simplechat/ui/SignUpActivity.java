@@ -1,20 +1,15 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
-
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.wang.avi.AVLoadingIndicatorView;
-
 import jp.bap.traning.simplechat.presenter.signup.SignUpPresenter;
 import jp.bap.traning.simplechat.presenter.signup.SignUpView;
 import jp.bap.traning.simplechat.response.SignUpResponse;
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -73,7 +68,6 @@ public class SignUpActivity extends BaseActivity {
                                 hiddenProgressBar(mProgressBar);
                                 Toast.makeText(SignUpActivity.this, "Register success!",
                                         Toast.LENGTH_SHORT).show();
-                                LoginActivity_.intent(SignUpActivity.this).start();
                                 finish();
                             }
 

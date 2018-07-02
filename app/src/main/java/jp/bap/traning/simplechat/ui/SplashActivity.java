@@ -3,11 +3,13 @@ package jp.bap.traning.simplechat.ui;
 import android.content.Intent;
 import android.util.Log;
 
+import io.realm.Realm;
+import jp.bap.traning.simplechat.service.ApiClient;
+import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.service.ImgurClient;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.OnActivityResult;
-
-import io.realm.Realm;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
@@ -26,9 +28,10 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        Intent intent = getIntent();
-        if(intent != null){
-            if(intent.getIntExtra(Common.REQUEST_LOGOUT_KEY,-1) == Common.REQUEST_LOGOUT_VALUE){
+        Intent i = getIntent();
+        if (i != null) {
+            if (i.getIntExtra(Common.REQUEST_LOGOUT_KEY, -1) == Common.REQUEST_LOGOUT) {
+                //Delete Realm
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
                 realm.deleteAll();

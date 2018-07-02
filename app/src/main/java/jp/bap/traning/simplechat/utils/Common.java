@@ -33,9 +33,11 @@ public class Common {
     public static final String URL_SERVER = "http://18.216.126.225:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
-    public static final int STATUS_SUCCESS = 200;
-    public static final int REQUEST_LOGOUT_VALUE = 101;
+    public static final int REQUEST_LOGOUT = 101;
     public static final String REQUEST_LOGOUT_KEY = "KEY_LOGOUT";
+    public static final int STATUS_SUCCESS = 200;
+    public static final int TYPE_GROUP_TWO_PEOPLE = 0;
+    public static final int TYPE_GROUP_MORE_PEOPLE = 1;
     private static final String TAG = "Common";
     public static final String typeText = "text";
     public static final String typeImage = "image";
@@ -123,10 +125,12 @@ public class Common {
     }
 
     public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        //If no view currently has focus, create a new one, just so we can grab a window token
+        // from it
         if (view == null) {
             view = new View(activity);
         }
