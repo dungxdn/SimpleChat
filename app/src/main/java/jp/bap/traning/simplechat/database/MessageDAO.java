@@ -52,5 +52,4 @@ public class MessageDAO {
         mRealm.executeTransaction(realm -> message.deleteFromRealm());
         mRealm.close();
     }
-
 }

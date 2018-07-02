@@ -51,7 +51,7 @@ public class MoreFragment extends BaseFragment {
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
-    private String linkImage;
+    private static String linkImage;
     private CircleImageView dialogImgAvata;
     private User userLogin;
     private RequestOptions options;
