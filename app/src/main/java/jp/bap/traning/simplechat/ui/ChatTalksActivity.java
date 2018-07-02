@@ -18,18 +18,19 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
-
-import butterknife.OnClick;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
+import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
+
+import static jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet.checkChange;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
@@ -38,7 +39,6 @@ public class ChatTalksActivity extends BaseActivity {
     ArrayList<Message> listMessage;
     ChatTalksAdapter chatTalksAdapter;
     Message message;
-    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     @ViewById
     RecyclerView listViewChat;
     @ViewById
@@ -66,7 +66,7 @@ public class ChatTalksActivity extends BaseActivity {
                 if (chatTalksPresenter.containsLink(messageChat) == true) {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
-                    message = new Message(messageChat, mMineId, roomId, Common.typeText);
+                    message = new Message(messageChat, Common.mMineId, roomId, Common.typeText);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -130,7 +130,7 @@ public class ChatTalksActivity extends BaseActivity {
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
             public void onRequestURLSuccess(String link, String title) {
-                message = new Message(link+";"+title, mMineId, roomId, Common.typeLink);
+                message = new Message(link+";"+title, Common.mMineId, roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -142,7 +142,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link+";"+"No preview available", mMineId, roomId, Common.typeLink);
+                message = new Message(link+";"+"No preview available", Common.mMineId, roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -192,7 +192,7 @@ public class ChatTalksActivity extends BaseActivity {
                 Bitmap bitmap = chatTalksPresenter.readBitmapAndScale(image.getPath());
                 String bitMapImage = chatTalksPresenter.BitMapToString(bitmap);
                 //Create a message model and sendChatMessage
-                Message message = new Message(bitMapImage, mMineId, roomId, Common.typeImage);
+                Message message = new Message(bitMapImage, Common.mMineId, roomId, Common.typeImage);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -215,6 +215,9 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
+        if (PopUpBottomSheet.checkChange ==1) {
+            PopUpBottomSheet.checkChange = -1;
+            finish();
+        }
     }
 }

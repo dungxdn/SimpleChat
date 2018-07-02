@@ -76,8 +76,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     //update lastMessage in Room into Realm
                     RoomDAO roomDAO = new RoomDAO();
                     Room room = roomDAO.getRoomFromRoomId(message.getRoomID());
-                    room.setLastMessage(message);
-                    roomDAO.insertOrUpdate(room);
+                    if(room!=null) {
+                        room.setLastMessage(message);
+                        roomDAO.insertOrUpdate(room);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

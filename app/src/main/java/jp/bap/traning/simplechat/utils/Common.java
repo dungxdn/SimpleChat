@@ -15,6 +15,7 @@ import com.esafirm.imagepicker.features.ReturnMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
@@ -37,6 +38,7 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
+    public static final int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
@@ -77,8 +79,6 @@ public class Common {
         return room;
     }
 
-
-
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -107,6 +107,17 @@ public class Common {
                 .returnMode(ReturnMode.GALLERY_ONLY)
                 .single()
                 .start();
+    }
+
+    public static boolean checkValidUser(ArrayList<User> users) {
+        int i = 0;
+        while (i < users.size()) {
+            if (users.get(i).getId() == Common.mMineId) {
+                return true;
+            }
+            i++;
+        }
+        return false;
     }
 
     public static void hideKeyboard(Activity activity) {

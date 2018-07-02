@@ -57,7 +57,6 @@ import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
  */
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendExpandLvAdapter.Listener {
-    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     @ViewById
     ExpandableListView mExpandFriend;
@@ -168,7 +167,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     public void onUserOnline(User users) {
         super.onUserOnline(users);
         boolean checkValidUser = mUserList.contains(users);
-        if (users.getId() == mMineId) {
+        if (users.getId() == Common.mMineId) {
 
         } else if (checkValidUser) {
 
