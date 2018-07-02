@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -39,7 +42,6 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_IMAGE_RECEIVED = 4;
     private static final int VIEW_TYPE_MESSAGE_LINK_SEND = 5;
     private static final int VIEW_TYPE_MESSAGE_LINK_RECEIVED = 6;
-    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList) {
         this.messageArrayList = messageArrayList;
@@ -50,7 +52,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         Message mMessage = messageArrayList.get(position);
         //Check Who is owner message
-        if (mMessage.getUserID() == mMineId) {
+        if (mMessage.getUserID() == Common.mMineId) {
             //Check message is String or Image
             if(Common.typeImage.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_IMAGE_SEND;
@@ -106,18 +108,28 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         if(Common.typeText.equals(mMessage.getType())) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
             messageViewHolder.txtMessage.setText(mMessage.getContent());
-            if(mMineId != mMessage.getUserID()) {
+            if(Common.mMineId != mMessage.getUserID()) {
                 messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(messageViewHolder.mAvatar);
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
             String arr[] = mMessage.getContent().split(";");
             linkMessageViewHolder.linkMessage.setText(arr[0]);
             linkMessageViewHolder.linkDescription.setText(arr[1]);
-            if(mMineId != mMessage.getUserID()) {
+            if(Common.mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(linkMessageViewHolder.mAvatar);
         }
         else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
@@ -125,9 +137,14 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             //Test
             Bitmap bitmap = new ChatTalksPresenter().StringToBitMap(mMessage.getContent());
             imageMessageViewHolder.imageView.setImageBitmap(bitmap);
-            if(mMineId != mMessage.getUserID()) {
+            if(Common.mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.ic_avatar_default);
+            options.error(R.drawable.ic_avatar_default);
+            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(imageMessageViewHolder.mAvatar);
         }
     }
 
@@ -147,11 +164,9 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtMessage = itemView.findViewById(R.id.txtMessage);
             txtName = itemView.findViewById(R.id.txtName);
-            ButterKnife.bind(itemView);
-
             itemView.setOnLongClickListener((View view) -> {
                 Message message = messageArrayList.get(getAdapterPosition());
-                PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance(message.getId(),message.getRoomID());
+                PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance(message);
                 popUpBottomSheet.show( ((AppCompatActivity)mContext).getSupportFragmentManager(),PopUpBottomSheet.class.getSimpleName() );
                 return false;
             });

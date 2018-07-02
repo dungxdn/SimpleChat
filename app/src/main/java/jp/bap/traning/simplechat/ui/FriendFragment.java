@@ -4,6 +4,9 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.List;
+
+import jp.bap.traning.simplechat.database.MessageDAO;
+import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
@@ -45,6 +48,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private User mUserLogin = getUserLogin();
     private GetRoomPresenter mGetRoomPresenter;
     private RealmList<User> mUserRealmList;
+    private ArrayList<User> me;
+    private RealmDAO mRealmDAO;
 
     @Override
     public void afterView() {
@@ -58,6 +63,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mUserList = new ArrayList<>();
 
         mAddRoomPresenter = new AddRoomPresenter();
+        mRealmDAO = new RealmDAO();
         mListUserId = new ArrayList<>();
         mGetRoomPresenter = new GetRoomPresenter();
         mUserRealmList = new RealmList<>();
@@ -67,8 +73,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mListheader.add(getString(R.string.title_friend));
 
         //Create list include mine user to add to HashMap
-        ArrayList<User> me = new ArrayList<>();
-        me.add(Common.getUserLogin());
+        me = new ArrayList<>();
+
 
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
@@ -83,8 +89,31 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mRealmDAO.realmChanged(new RealmDAO.Listener() {
+            @Override
+            public void onRealmChanged(Object o, int check) {
+                // TODO: 6/29/2018
+                me.clear();
+                me.add(Common.getUserLogin());
+                mFriendAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //rove MessageListener
+        mRealmDAO.removeRealmChanged();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        me.clear();
+        me.add(Common.getUserLogin());
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -116,7 +145,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     public void onUserOnline(User users) {
         super.onUserOnline(users);
         boolean checkValidUser = mUserList.contains(users);
-        if (users.getId() == mMineId) {
+        if (users.getId() == Common.mMineId) {
 
         } else if (checkValidUser) {
 

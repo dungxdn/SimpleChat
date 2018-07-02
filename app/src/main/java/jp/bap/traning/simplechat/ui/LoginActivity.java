@@ -75,6 +75,8 @@ public class LoginActivity extends BaseActivity {
     @Click
     void btnSignUp() {
         indicatorView.hide();
+        edtUserName.setText("");
+        edtPassword.setText("");
         startActivity(new Intent(this, SignUpActivity_.class));
     }
 

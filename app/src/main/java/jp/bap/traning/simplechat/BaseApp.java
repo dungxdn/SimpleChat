@@ -23,8 +23,8 @@ import jp.bap.traning.simplechat.utils.AllModule;
 
 @EApplication
 public class BaseApp extends MultiDexApplication {
-    private static BaseApp sInstance = null;
-    public static synchronized BaseApp getInstance() {
+    private volatile static BaseApp sInstance = null;
+    public static BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();
         }

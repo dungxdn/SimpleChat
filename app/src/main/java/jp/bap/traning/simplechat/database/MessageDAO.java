@@ -6,16 +6,12 @@ import io.realm.RealmChangeListener;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.model.Message;
 
 public class MessageDAO {
-
-    Realm mRealmforListener = Realm.getDefaultInstance();
-
-    private static int check = 0;
-    private RealmChangeListener mRealmChangeListener;
 
     public MessageDAO(){}
 
@@ -55,26 +51,6 @@ public class MessageDAO {
                 .findFirst();
         mRealm.executeTransaction(realm -> message.deleteFromRealm());
         mRealm.close();
-    }
-
-    public void realmChanged(Listener listener){
-        mRealmChangeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object o) {
-                listener.onRealmChanged(o, check);
-                check++ ;
-            }
-        };
-        mRealmforListener.addChangeListener(mRealmChangeListener);
-    }
-
-    public void removeRealmChanged(){
-        mRealmforListener.removeChangeListener(mRealmChangeListener);
-        mRealmforListener.close();
-    }
-
-    public interface Listener {
-    void onRealmChanged(Object o, int check);
     }
 
 }

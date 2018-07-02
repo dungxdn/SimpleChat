@@ -3,10 +3,20 @@ package jp.bap.traning.simplechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
+
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
@@ -23,6 +33,8 @@ public class Common {
     public static final String URL_SERVER = "http://18.216.126.225:3000";
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
+    public static final int REQUEST_LOGOUT = 101;
+    public static final String REQUEST_LOGOUT_KEY = "KEY_LOGOUT";
     public static final int STATUS_SUCCESS = 200;
     public static final int TYPE_GROUP_TWO_PEOPLE = 0;
     public static final int TYPE_GROUP_MORE_PEOPLE = 1;
@@ -30,6 +42,7 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
+    public static final int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
@@ -46,34 +59,31 @@ public class Common {
         return new RoomDAO().getRoomWithUser(userId);
     }
 
-    public static String getNameRoomFromRoomId(int roomId) {
-        String nameRoom = "";
+    public static Room getFullRoomFromRoomId(int roomId) {
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
             if (room.getType() == 0) {
                 for (User user : room.getUsers()) {
                     if (user.getId() != SharedPrefs.getInstance()
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
-                        nameRoom = user.getFirstName()
+                        room.setRoomName(user.getFirstName()
                                 + " "
                                 + user.getLastName()
                                 + "("
                                 + user.getId()
                                 + ")("
                                 + room.getRoomId()
-                                + ")";
+                                + ")");
+                        room.setAvatar(user.getAvatar());
                         break;
                     }
                 }
-            } else {
-                nameRoom = room.getRoomName();
             }
         }
-        return nameRoom;
+        return room;
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-            int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -83,8 +93,7 @@ public class Common {
             final int halfWidth = width / 2;
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
@@ -95,6 +104,24 @@ public class Common {
         int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
         //get user from Realm
         return new UserDAO().getUser(id);
+    }
+
+    public static void selectImage(Activity activity) {
+        ImagePicker.create(activity)
+                .returnMode(ReturnMode.GALLERY_ONLY)
+                .single()
+                .start();
+    }
+
+    public static boolean checkValidUser(ArrayList<User> users) {
+        int i = 0;
+        while (i < users.size()) {
+            if (users.get(i).getId() == Common.mMineId) {
+                return true;
+            }
+            i++;
+        }
+        return false;
     }
 
     public static void hideKeyboard(Activity activity) {

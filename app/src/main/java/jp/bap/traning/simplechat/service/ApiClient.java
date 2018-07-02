@@ -21,14 +21,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     private static final long TIME_OUT = 300000;
     private static final String AUTHORIZATION = "Authorization";
-    private static ApiClient sInstance;
+    private volatile static ApiClient sInstance;
     private ApiService mApiService;
 
     private ApiClient() {
 
     }
 
-    private synchronized static ApiClient getInstance() {
+    private static ApiClient getInstance() {
         if (sInstance == null) {
             sInstance = new ApiClient();
             sInstance.init();

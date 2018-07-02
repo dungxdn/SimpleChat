@@ -12,6 +12,7 @@ import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -87,6 +88,8 @@ public class SearchGroupChatActivity extends BaseActivity {
             });
             //GetConverstation
             messagePresenter.getAllMessage(room.getRoomId());
+            room.setRoomName(Common.getFullRoomFromRoomId(room.getRoomId()).getRoomName());
+            room.setAvatar(Common.getFullRoomFromRoomId(room.getRoomId()).getAvatar());
             mListRoom.add(room);
         }
         mChatAdapter.notifyDataSetChanged();

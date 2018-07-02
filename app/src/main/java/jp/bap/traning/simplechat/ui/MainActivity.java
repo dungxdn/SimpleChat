@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,10 +15,27 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import io.realm.RealmResults;
+import jp.bap.traning.simplechat.database.MessageDAO;
+import jp.bap.traning.simplechat.database.RealmDAO;
+import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Message;
+import com.bumptech.glide.Glide;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
+
+import lombok.Data;
+import lombok.Getter;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.io.File;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
+import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
@@ -33,9 +51,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @ViewById
     ProgressBar mProgressBar;
 
+    @Getter
+    private RealmDAO mRealmDAO;
+
     private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
+
+    private MoreFragment_ moreFragment = new MoreFragment_();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,5 +203,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     public void hiddenProgressBar() {
         hiddenProgressBar(mProgressBar);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        moreFragment.onActivityResult(requestCode,resultCode,data);
     }
 }
