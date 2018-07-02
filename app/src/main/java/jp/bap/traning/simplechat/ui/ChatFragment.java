@@ -1,48 +1,27 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
-import io.realm.ObjectChangeSet;
-import io.realm.OrderedCollectionChangeSet;
-import io.realm.RealmResults;
-
-import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.database.MessageDAO;
 
-import org.androidannotations.annotations.Click;
+import jp.bap.traning.simplechat.database.RealmDAO;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 
-import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
-import jp.bap.traning.simplechat.ui.BaseFragment;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -55,7 +34,7 @@ public class ChatFragment extends BaseFragment {
     private ArrayList<Room> mListRoom;
     private ChatAdapter mChatAdapter;
     private MessagePresenter messagePresenter;
-    private MessageDAO mMessageDAOForListener;
+    private RealmDAO mRealmDAO;
 
     @Override
     public void afterView() {
@@ -63,7 +42,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void init() {
-        mMessageDAOForListener = new MessageDAO();
+        mRealmDAO = new RealmDAO();
         mListRoom = new ArrayList<>();
         mChatAdapter = new ChatAdapter(getContext(), mListRoom);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -73,23 +52,17 @@ public class ChatFragment extends BaseFragment {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(getContext(), 1);
         mRecyclerRoom.addItemDecoration(mDividerItemDecoration);
         getRoomData();
-
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
-            @Override
-            public void onRealmChanged(Object o, int check) {
+        mRealmDAO.realmChanged((o, check) -> {
                 Log.d(TAG, "onRMessageChanged: " + check);
                 // TODO : RealmChangedListener
                 getRoomData();
                 mChatAdapter.notifyDataSetChanged();
-
-            }
         });
     }
 
@@ -133,8 +106,8 @@ public class ChatFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: MessageChange");
-        //rove MessageListener
-        mMessageDAOForListener.removeRealmChanged();
+        //remove MessageListener
+        mRealmDAO.removeRealmChanged();
     }
 
     @Override

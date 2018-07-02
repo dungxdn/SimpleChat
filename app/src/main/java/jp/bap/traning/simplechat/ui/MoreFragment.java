@@ -1,43 +1,27 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
-
+import jp.bap.traning.simplechat.database.RealmDAO;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
-import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserPresenter;
 import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserView;
@@ -49,10 +33,7 @@ import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.service.ImgurClient;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -74,13 +55,12 @@ public class MoreFragment extends BaseFragment {
     private CircleImageView dialogImgAvata;
     private User userLogin;
     private RequestOptions options;
-    private MessageDAO mMessageDAOForListener;
+    private RealmDAO mRealmDAO;
     @Override
     public void afterView() {
-
         mUploadImagePresenter = new UploadImagePresenter();
         mUpdateUserPresenter = new UpdateUserPresenter();
-        mMessageDAOForListener = new MessageDAO();
+        mRealmDAO = new RealmDAO();
 
         options = new RequestOptions();
         options.centerCrop();
@@ -98,18 +78,15 @@ public class MoreFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
-            @Override
-            public void onRealmChanged(Object o, int check) {
+        mRealmDAO.realmChanged((o, check) -> {
                 loadDataUserLogin();
-            }
         });
     }
     @Override
     public void onPause() {
         super.onPause();
         //rove MessageListener
-        mMessageDAOForListener.removeRealmChanged();
+        mRealmDAO.removeRealmChanged();
     }
     private void loadDataUserLogin(){
         userLogin = Common.getUserLogin();
@@ -167,12 +144,6 @@ public class MoreFragment extends BaseFragment {
         //Delete session
         SharedPrefs.getInstance().clear();
 
-        //Delete Realm
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-
         //Stop Connect Server
         getBaseActivity().stopService(new Intent(getBaseActivity(), ChatService.class));
 
@@ -180,10 +151,8 @@ public class MoreFragment extends BaseFragment {
         ImgurClient.stopImgurClient();
 
         //back to SplashActivity
-        SplashActivity_.intent(this).start();
+        SplashActivity_.intent(this).extra(Common.REQUEST_LOGOUT_KEY, Common.REQUEST_LOGOUT).start();
         getActivity().finish();
-
-
     }
 
     private void setDialogEditProfile() {
