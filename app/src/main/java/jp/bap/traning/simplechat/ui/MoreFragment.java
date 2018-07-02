@@ -70,7 +70,7 @@ public class MoreFragment extends BaseFragment {
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
-    private String linkImage;
+    private static String linkImage;
     private CircleImageView dialogImgAvata;
     private User userLogin;
     private RequestOptions options;
@@ -167,12 +167,6 @@ public class MoreFragment extends BaseFragment {
         //Delete session
         SharedPrefs.getInstance().clear();
 
-        //Delete Realm
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-
         //Stop Connect Server
         getBaseActivity().stopService(new Intent(getBaseActivity(), ChatService.class));
 
@@ -180,9 +174,8 @@ public class MoreFragment extends BaseFragment {
         ImgurClient.stopImgurClient();
 
         //back to SplashActivity
-        SplashActivity_.intent(this).start();
+        SplashActivity_.intent(this).extra(Common.REQUEST_LOGOUT_KEY,Common.REQUEST_LOGOUT_VALUE).start();
         getActivity().finish();
-
 
     }
 
@@ -190,6 +183,7 @@ public class MoreFragment extends BaseFragment {
         Dialog mDialog = new Dialog(getContext());
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_edit_profile_layout);
+        mDialog.setCancelable(false);
 
         dialogImgAvata = mDialog.findViewById(R.id.mImgAvatar);
         AppCompatEditText edtFirstName = mDialog.findViewById(R.id.mEdtFirstName);

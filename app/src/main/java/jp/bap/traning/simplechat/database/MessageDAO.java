@@ -88,7 +88,7 @@ public class MessageDAO {
 
     public void removeRealmChanged(){
         mRealmforListener.removeChangeListener(mRealmChangeListener);
-        mRealmforListener.close();
+//        mRealmforListener.close();
     }
 
     public interface Listener {

@@ -34,6 +34,8 @@ public class Common {
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
     public static final int STATUS_SUCCESS = 200;
+    public static final int REQUEST_LOGOUT_VALUE = 101;
+    public static final String REQUEST_LOGOUT_KEY = "KEY_LOGOUT";
     private static final String TAG = "Common";
     public static final String typeText = "text";
     public static final String typeImage = "image";
