@@ -71,7 +71,7 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Click
     void imgSendMessage() {
-        
+
         if (edtMessage.getText().toString().trim().isEmpty()) {
             Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
         } else {

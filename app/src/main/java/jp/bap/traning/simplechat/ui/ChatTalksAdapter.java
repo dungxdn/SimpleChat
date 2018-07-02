@@ -207,7 +207,6 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
-        String temp = new UserDAO().getUser(id).getAvatar();
         Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
     }
 }

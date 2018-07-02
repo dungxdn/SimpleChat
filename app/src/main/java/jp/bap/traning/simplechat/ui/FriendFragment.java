@@ -166,6 +166,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         Room room = Common.getRoomWithUser(user.getId());
         if (room != null) {
             ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
+            ((MainActivity) getActivity()).hiddenProgressBar();
         } else {
             // add Room
             if (mUserRealmList.size() != 0) {
