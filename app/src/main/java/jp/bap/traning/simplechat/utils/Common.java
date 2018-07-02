@@ -9,6 +9,9 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import java.io.ByteArrayOutputStream;
@@ -52,30 +55,28 @@ public class Common {
         return new RoomDAO().getRoomWithUser(userId);
     }
 
-    public static String getNameRoomFromRoomId(int roomId) {
-        String nameRoom = "";
+    public static Room getFullRoomFromRoomId(int roomId) {
         Room room = new RoomDAO().getRoomFromRoomId(roomId);
         if (room != null) {
             if (room.getType() == 0) {
                 for (User user : room.getUsers()) {
                     if (user.getId() != SharedPrefs.getInstance()
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
-                        nameRoom = user.getFirstName()
+                        room.setRoomName(user.getFirstName()
                                 + " "
                                 + user.getLastName()
                                 + "("
                                 + user.getId()
                                 + ")("
                                 + room.getRoomId()
-                                + ")";
+                                + ")");
+                        room.setAvatar(user.getAvatar());
                         break;
                     }
                 }
-            } else {
-                nameRoom = room.getRoomName();
             }
         }
-        return nameRoom;
+        return room;
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -99,6 +100,13 @@ public class Common {
         int id = SharedPrefs.getInstance().getData(KEY_SAVE_ID, Integer.class);
         //get user from Realm
         return new UserDAO().getUser(id);
+    }
+
+    public static void selectImage(Activity activity) {
+        ImagePicker.create(activity)
+                .returnMode(ReturnMode.GALLERY_ONLY)
+                .single()
+                .start();
     }
 
     public static boolean checkValidUser(ArrayList<User> users) {

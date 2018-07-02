@@ -6,6 +6,7 @@ import io.realm.RealmChangeListener;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.model.Message;

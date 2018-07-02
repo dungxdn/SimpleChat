@@ -14,6 +14,7 @@ import io.realm.RealmList;
 
 import java.util.List;
 
+import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
@@ -69,6 +70,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private User mUserLogin = getUserLogin();
     private GetRoomPresenter mGetRoomPresenter;
     private RealmList<User> mUserRealmList;
+    private ArrayList<User> me;
+    private MessageDAO mMessageDAOForListener;
 
     @Override
     public void afterView() {
@@ -82,6 +85,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mUserList = new ArrayList<>();
 
         mAddRoomPresenter = new AddRoomPresenter();
+        mMessageDAOForListener = new MessageDAO();
         mListUserId = new ArrayList<>();
         mGetRoomPresenter = new GetRoomPresenter();
         mUserRealmList = new RealmList<>();
@@ -91,8 +95,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mListheader.add(getString(R.string.title_friend));
 
         //Create list include mine user to add to HashMap
-        ArrayList<User> me = new ArrayList<>();
-        me.add(Common.getUserLogin());
+        me = new ArrayList<>();
+
 
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
@@ -107,8 +111,31 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mMessageDAOForListener.realmChanged(new MessageDAO.Listener() {
+            @Override
+            public void onRealmChanged(Object o, int check) {
+                // TODO: 6/29/2018
+                me.clear();
+                me.add(Common.getUserLogin());
+                mFriendAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //rove MessageListener
+        mMessageDAOForListener.removeRealmChanged();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        me.clear();
+        me.add(Common.getUserLogin());
+        mFriendAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -186,6 +213,11 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                             }
                             mRoom.setUsers(mUserRealmList);
                             new RoomDAO().insertOrUpdate(mRoom);
+
+                            //Start ChatActivity
+                            ChatTalksActivity_.intent(FriendFragment.this)
+                                    .roomId(result.getData().getRoomId())
+                                    .start();
                         }
 
                         @Override
@@ -198,10 +230,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
                         }
                     });
-                    //Start ChatActivity
-                    ChatTalksActivity_.intent(FriendFragment.this)
-                            .roomId(result.getData().getRoomId())
-                            .start();
                 }
 
                 @Override

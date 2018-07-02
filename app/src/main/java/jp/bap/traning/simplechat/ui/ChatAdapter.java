@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,7 +49,15 @@ public class ChatAdapter extends RecyclerView.Adapter {
         Message lastMessage = room.getLastMessage();
         ChatViewHolder chatHolder = (ChatViewHolder) holder;
         chatHolder.setRoomId(room.getRoomId());
-        chatHolder.mTvUserChat.setText(Common.getNameRoomFromRoomId(room.getRoomId()));
+
+        chatHolder.mTvUserChat.setText(room.getRoomName());
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(mContext).load(room.getAvatar()).apply(options).into(chatHolder.mAvatar);
+
+
         if (lastMessage == null) {
             chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
             chatHolder.mTvTime.setVisibility(View.GONE);

@@ -1,5 +1,7 @@
 package jp.bap.traning.simplechat.model;
 
+import java.util.Comparator;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -15,6 +17,7 @@ public class Room extends RealmObject {
     int roomId;
     @Nullable
     String roomName;
+    String avatar;
     /*
     Room 2 person -> type = 0;
     Group -> type = 1;

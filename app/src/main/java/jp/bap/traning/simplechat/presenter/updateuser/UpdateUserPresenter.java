@@ -6,8 +6,8 @@ public class UpdateUserPresenter {
 
     private UpdateUserInteractor mUpdateUserInteractor;
 
-    public UpdateUserPresenter(UpdateUserInteractor updateUserInteractor) {
-        mUpdateUserInteractor = updateUserInteractor;
+    public UpdateUserPresenter() {
+        mUpdateUserInteractor = new UpdateUserInteractor();
     }
 
     public void updateUser(String firstName, String lastName, String avatar, UpdateUserView callback){

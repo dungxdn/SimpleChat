@@ -8,19 +8,11 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/_20sdp"
         android:orientation="vertical">
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorGreen"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16ssp"
-            android:gravity="center"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvatar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:src="@drawable/ic_avatar_default" />
+            android:layout_height="@dimen/_110sdp"
+            android:src="@drawable/ic_avatar_default"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvUserName"
@@ -28,6 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Nhi Nguyen"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />
 
