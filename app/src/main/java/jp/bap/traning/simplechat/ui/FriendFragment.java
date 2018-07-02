@@ -1,19 +1,9 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ExpandableListView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
+import android.widget.Toast;
 import io.realm.RealmList;
-
 import java.util.List;
-
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
@@ -21,35 +11,20 @@ import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
 import jp.bap.traning.simplechat.presenter.getroom.GetRoomPresenter;
 import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
-
 import jp.bap.traning.simplechat.response.GetRoomResponse;
-
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.database.RoomDAO;
-import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
-import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
-import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
-
 import static jp.bap.traning.simplechat.model.User.userComparator;
 import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
-import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -157,6 +132,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     //Chat
     @Override
     public void onChat(User user) {
+        ((MainActivity) getActivity()).showProgressBar();
         //get room from realm.
         Room room = Common.getRoomWithUser(user.getId());
         if (room != null) {
@@ -181,37 +157,47 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
                         @Override
                         public void onSuccess(GetRoomResponse result) {
+                            ((MainActivity) getActivity()).hiddenProgressBar();
                             List<User> mUserInRoomList = result.getData().getUsers();
                             for (User u : mUserInRoomList) {
                                 mUserRealmList.add(u);
                             }
                             mRoom.setUsers(mUserRealmList);
                             new RoomDAO().insertOrUpdate(mRoom);
+                            //Start ChatActivity
+                            ChatTalksActivity_.intent(FriendFragment.this)
+                                    .roomId(result.getData().getRoomId())
+                                    .start();
+                            return;
                         }
 
                         @Override
                         public void onError(String message, int code) {
-
+                            ((MainActivity) getActivity()).hiddenProgressBar();
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
                         @Override
                         public void onFailure() {
-
+                            ((MainActivity) getActivity()).hiddenProgressBar();
+                            Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                     });
-                    //Start ChatActivity
-                    ChatTalksActivity_.intent(FriendFragment.this)
-                            .roomId(result.getData().getRoomId())
-                            .start();
                 }
 
                 @Override
                 public void onError(String message, int code) {
+                    ((MainActivity) getActivity()).hiddenProgressBar();
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 @Override
                 public void onFailure() {
+                    ((MainActivity) getActivity()).hiddenProgressBar();
+                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                     return;
                 }
             });

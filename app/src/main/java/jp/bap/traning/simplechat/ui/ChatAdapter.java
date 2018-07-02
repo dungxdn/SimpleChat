@@ -7,36 +7,40 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Filter;
+import android.widget.Filterable;
+import io.realm.RealmList;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Common;
 
 /**
  * Created by Admin on 6/16/2018.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter {
+public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
     private ArrayList<Room> mListRoom;
+    private ArrayList<Room> mListRoomFilter;
     private Context mContext;
     private String TAG = "ChatAdapter";
 
     public ChatAdapter(Context mContext, ArrayList<Room> mListRoom) {
         this.mListRoom = mListRoom;
+        this.mListRoomFilter = mListRoom;
         this.mContext = mContext;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.viewholder_fragment_chat, parent, false);
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.viewholder_fragment_chat, parent, false);
         return new ChatViewHolder(view);
     }
 
@@ -59,26 +63,77 @@ public class ChatAdapter extends RecyclerView.Adapter {
             Date current = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 
-            if (sdf.format(dateMessage).equals(sdf.format(current))){
+            if (sdf.format(dateMessage).equals(sdf.format(current))) {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm");
                 String strtime = sdf1.format(dateMessage);
 
                 chatHolder.mTvTime.setText(strtime);
-            }else{
+            } else {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM");
                 String strtime = sdf1.format(dateMessage);
                 chatHolder.mTvTime.setText(strtime);
             }
-
-
-
         }
-
     }
 
     @Override
     public int getItemCount() {
         return mListRoom.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                String charString = constraint.toString();
+
+                if (charString.isEmpty()) {
+                    mListRoom = mListRoomFilter;
+                } else {
+                    ArrayList<Room> filteredlist = new ArrayList<>();
+
+                    for (Room r : mListRoomFilter) {
+                        if (r.getType() == Common.TYPE_GROUP_MORE_PEOPLE) {
+                            if (r.getRoomName().toLowerCase().contains(charString.toLowerCase())) {
+                                if (r.getRoomName().toLowerCase().contains(charString.toLowerCase())
+                                        || isStringExistsInUsers(r.getUsers(), charString)) {
+                                    filteredlist.add(r);
+                                }
+                            }
+                        } else {
+                            if (isStringExistsInUsers(r.getUsers(), charString)) {
+                                filteredlist.add(r);
+                            }
+                        }
+                    }
+
+                    mListRoom = filteredlist;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListRoom;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mListRoom = (ArrayList<Room>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public boolean isStringExistsInUsers(RealmList<User> users, String string) {
+        for (User u : users) {
+            if (u.getFirstName().toLowerCase().contains(string.toLowerCase()) || u.getLastName()
+                    .toLowerCase()
+                    .contains(string.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

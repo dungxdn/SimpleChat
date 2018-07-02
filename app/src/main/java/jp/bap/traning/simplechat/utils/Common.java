@@ -3,16 +3,10 @@ package jp.bap.traning.simplechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
-
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import java.io.ByteArrayOutputStream;
-
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
@@ -30,6 +24,8 @@ public class Common {
     public static final String ACTION_SOCKET_EVENT = "action.socket.event";
     public static final int REQUEST_LOGIN = 100;
     public static final int STATUS_SUCCESS = 200;
+    public static final int TYPE_GROUP_TWO_PEOPLE = 0;
+    public static final int TYPE_GROUP_MORE_PEOPLE = 1;
     private static final String TAG = "Common";
     public static final String typeText = "text";
     public static final String typeImage = "image";
@@ -76,7 +72,8 @@ public class Common {
         return nameRoom;
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+            int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -86,7 +83,8 @@ public class Common {
             final int halfWidth = width / 2;
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
@@ -100,10 +98,12 @@ public class Common {
     }
 
     public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        //If no view currently has focus, create a new one, just so we can grab a window token
+        // from it
         if (view == null) {
             view = new View(activity);
         }

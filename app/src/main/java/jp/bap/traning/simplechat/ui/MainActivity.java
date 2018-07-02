@@ -13,16 +13,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-
-import io.realm.RealmResults;
-import jp.bap.traning.simplechat.database.MessageDAO;
-import jp.bap.traning.simplechat.database.RoomDAO;
-import jp.bap.traning.simplechat.model.Message;
+import android.widget.ProgressBar;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
@@ -36,6 +30,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     ViewPager mViewPager;
     @ViewById
     CustomToolbar_ mToolbar;
+    @ViewById
+    ProgressBar mProgressBar;
 
     private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
@@ -49,6 +45,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void afterView() {
         Log.d(TAG, "onCreate: ");
+        hiddenProgressBar();
         init();
     }
 
@@ -61,9 +58,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mViewpagerAdapter.addFragment(new FriendFragment_(), getResources().getString(R.string.title_tab_friend), R.drawable.selection_icon_list_tablayout);
-        mViewpagerAdapter.addFragment(new ChatFragment_(), getResources().getString(R.string.title_tab_chat), R.drawable.selection_icon_chat_tablayout);
-        mViewpagerAdapter.addFragment(new MoreFragment_(), getResources().getString(R.string.title_tab_more), R.drawable.selection_icon_more_tablayout);
+        mViewpagerAdapter.addFragment(new FriendFragment_(),
+                getResources().getString(R.string.title_tab_friend),
+                R.drawable.selection_icon_list_tablayout);
+        mViewpagerAdapter.addFragment(new ChatFragment_(),
+                getResources().getString(R.string.title_tab_chat),
+                R.drawable.selection_icon_chat_tablayout);
+        mViewpagerAdapter.addFragment(new MoreFragment_(),
+                getResources().getString(R.string.title_tab_more),
+                R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -82,8 +85,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         Log.d(TAG, "onPause: ");
     }
 
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -96,6 +97,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
+                mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
@@ -103,6 +105,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
+                mToolbar.getImgButtonSearch().setVisibility(View.VISIBLE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
@@ -110,6 +113,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getTvTitle().setVisibility(View.GONE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
+                mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 break;
         }
     }
@@ -119,7 +123,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     }
 
-
     private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
         private final ArrayList<String> mTitleList = new ArrayList<>();
@@ -127,7 +130,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
@@ -138,7 +140,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         @Override
         public int getCount() {
             return mFragmentList.size();
-
         }
 
         public void addFragment(Fragment fragment, String title, int icon) {
@@ -148,7 +149,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
         public View getTabView(int position) {
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_custom_tablayout, null);
+            View view = LayoutInflater.from(getApplicationContext())
+                    .inflate(R.layout.layout_custom_tablayout, null);
             AppCompatTextView mTvTitle = view.findViewById(R.id.mTvTitle);
             AppCompatImageView mImgIcon = view.findViewById(R.id.mImgIcon);
 
@@ -170,5 +172,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
+    }
+
+    public void showProgressBar() {
+        showProgressBar(mProgressBar);
+    }
+
+    public void hiddenProgressBar() {
+        hiddenProgressBar(mProgressBar);
     }
 }

@@ -29,7 +29,7 @@
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
     <string name="str_not_have_room">You not have room chat</string>
-    <string name="empty" translatable="false" />
+    <string name="empty" translatable="false"/>
     <string name="popupcopy">Copy</string>
     <string name="popupshare">Share</string>
     <string name="popupdelete">Delete</string>

@@ -57,23 +57,6 @@ public class MessageDAO {
         mRealm.close();
     }
 
-//    public void realmChanged(Listener listener){
-//        mRealmforListener.where(Message.class)
-//                .findAllAsync()
-//                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
-//                    @Override
-//                    public void onChange(RealmResults<Message> messages) {
-//                        listener.onRealmChange(messages, check);
-//                        check++ ;
-//                    }
-//                });
-//    }
-
-//    public void removeRealmChangeListener(){
-//        mRealmforListener.where(Message.class).findAll().removeAllChangeListeners();
-//        mRealmforListener.close();
-//    }
-
     public void realmChanged(Listener listener){
         mRealmChangeListener = new RealmChangeListener() {
             @Override

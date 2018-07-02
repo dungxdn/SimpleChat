@@ -1,32 +1,23 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.wang.avi.AVLoadingIndicatorView;
-
+import jp.bap.traning.simplechat.database.UserDAO;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
 import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.response.UserResponse;
-import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 @EActivity(R.layout.activity_login)
-public class
-LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
 
     @ViewById
@@ -45,11 +36,14 @@ LoginActivity extends BaseActivity {
 
     @Click
     void btnLogin() {
+        Common.hideKeyboard(LoginActivity.this);
+        showProgressBar(mProgressBar);
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
         if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
-            Toast.makeText(LoginActivity.this, "Please input usename and password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Please input usename and password!",
+                    Toast.LENGTH_SHORT).show();
         } else {
             showProgressBar(mProgressBar);
             indicatorView.show();
@@ -59,7 +53,7 @@ LoginActivity extends BaseActivity {
                     hiddenProgressBar(mProgressBar);
                     indicatorView.hide();
                     setResult(Common.REQUEST_LOGIN);
-                    Log.d("Login", "onSuccess: " + result.getData().getAvatar());
+                    new UserDAO().insertOrUpdate(result.getData());
                     finish();
                 }
 
@@ -82,7 +76,6 @@ LoginActivity extends BaseActivity {
     void btnSignUp() {
         indicatorView.hide();
         startActivity(new Intent(this, SignUpActivity_.class));
-        finish();
     }
 
     public void init() {
