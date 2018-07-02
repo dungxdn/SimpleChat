@@ -14,6 +14,9 @@ public class MessageDAO {
 
     Realm mRealmforListener = Realm.getDefaultInstance();
 
+    private static int check = 0;
+    private RealmChangeListener mRealmChangeListener;
+
     public MessageDAO(){}
 
     public void insertOrUpdateMessage(Message message) {
@@ -54,24 +57,41 @@ public class MessageDAO {
         mRealm.close();
     }
 
+//    public void realmChanged(Listener listener){
+//        mRealmforListener.where(Message.class)
+//                .findAllAsync()
+//                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
+//                    @Override
+//                    public void onChange(RealmResults<Message> messages) {
+//                        listener.onRealmChange(messages, check);
+//                        check++ ;
+//                    }
+//                });
+//    }
+
+//    public void removeRealmChangeListener(){
+//        mRealmforListener.where(Message.class).findAll().removeAllChangeListeners();
+//        mRealmforListener.close();
+//    }
+
     public void realmChanged(Listener listener){
-        mRealmforListener.where(Message.class)
-                .findAllAsync()
-                .addChangeListener(new RealmChangeListener<RealmResults<Message>>() {
-                    @Override
-                    public void onChange(RealmResults<Message> messages) {
-                        listener.onRealmChange(messages);
-                    }
-                });
+        mRealmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                listener.onRealmChanged(o, check);
+                check++ ;
+            }
+        };
+        mRealmforListener.addChangeListener(mRealmChangeListener);
     }
 
-    public void removeRealmChangeListener(){
-        mRealmforListener.where(Message.class).findAll().removeAllChangeListeners();
+    public void removeRealmChanged(){
+        mRealmforListener.removeChangeListener(mRealmChangeListener);
         mRealmforListener.close();
     }
 
     public interface Listener {
-        void onRealmChange(RealmResults<Message> messages);
+    void onRealmChanged(Object o, int check);
     }
 
 }
