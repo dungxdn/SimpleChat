@@ -82,15 +82,12 @@ public class MoreFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("MORE", "onResume: ");
         loadDataUserLogin();
         mFirstname = userLogin.getFirstName();
         mLastname = userLogin.getLastName();
     }
-
     @Override
     public void onStart() {
-        Log.d("MORE", "onStart: ");
         super.onStart();
         mRealmDAO.realmChanged((o, check) -> {
             loadDataUserLogin();
@@ -102,12 +99,9 @@ public class MoreFragment extends BaseFragment {
         super.onPause();
         //rove MessageListener
         mRealmDAO.removeRealmChanged();
-        Log.d("MORE", "onPause: ");
     }
-
-    private void loadDataUserLogin() {
+    private void loadDataUserLogin(){
         userLogin = Common.getUserLogin();
-
         mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
         linkImage = userLogin.getAvatar();
         Glide.with(getContext()).load(linkImage).apply(options).into(mImgAvata);
@@ -124,35 +118,6 @@ public class MoreFragment extends BaseFragment {
     }
 
 
-//    public void loadDialogResult(String linkImage) {
-//        this.linkImage = linkImage;
-//        Log.d("MORE", "loadDialogResult: " + linkImage);
-//    }
-
-//    private void uploadImage(File mFile) {
-//
-//        mUploadImagePresenter.uploadImage("", "", "", "", mFile, new UploadImageView() {
-//            @Override
-//            public void onSuccess(ImageResponse result) {
-//                Log.d("MoreFragment", "onSuccess: " + result.toString());
-//                linkImage = result.getData().getLink();
-//                Glide.with(getContext()).load(linkImage).apply(options).into(dialogImgAvata);
-//
-//            }
-//
-//            @Override
-//            public void onError(String message, int code) {
-//                Log.d("MoreFragment", "onError: ");
-////                Toast.makeText(getContext(), "Error when upload image", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                Log.d("MoreFragment", "onFailure: ");
-////                Toast.makeText(getContext(), "Upload image fail", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     private void logout() {
         //Delete session
@@ -168,72 +133,5 @@ public class MoreFragment extends BaseFragment {
         SplashActivity_.intent(this).extra(Common.REQUEST_LOGOUT_KEY, Common.REQUEST_LOGOUT).start();
         getActivity().finish();
     }
-//
-//    private void setDialogEditProfile() {
-//       Dialog mDialog = new Dialog(getContext());
-//        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        mDialog.setContentView(R.layout.dialog_edit_profile_layout);
-//        mDialog.setCancelable(false);
-//
-//        dialogImgAvata = mDialog.findViewById(R.id.mImgAvatar);
-//        AppCompatEditText edtFirstName = mDialog.findViewById(R.id.mEdtFirstName);
-//        AppCompatEditText edtLastName = mDialog.findViewById(R.id.mEdtLastName);
-//        AppCompatButton btnCancel = mDialog.findViewById(R.id.mBtnCancel);
-//        AppCompatButton btnSave = mDialog.findViewById(R.id.mBtnSave);
-//
-//        Glide.with(getContext()).load(linkImage).apply(options).into(dialogImgAvata);
-//        edtFirstName.setText(mFirstname);
-//        edtLastName.setText(mLastname);
-//        dialogImgAvata.setOnClickListener(view -> {
-//                    Common.selectImage(getActivity());
-//                    mLastname = edtLastName.getText().toString();
-//                    mFirstname = edtFirstName.getText().toString();
-//                    mDialog.dismiss();
-//                }
-//        );
-//        mListener = new Listener() {
-//            @Override
-//            public void onChangeImage(String mlinkImage) {
-//                Glide.with(getContext()).load(mlinkImage).apply(options).into(dialogImgAvata);
-//
-//            }
-//        };
-//        btnCancel.setOnClickListener(view -> mDialog.dismiss());
-//        btnSave.setOnClickListener(view -> {
-//            mUpdateUserPresenter.updateUser(edtFirstName.getText().toString(), edtLastName.getText().toString(), linkImage, new UpdateUserView() {
-//                @Override
-//                public void onSuccess(BaseResponse result) {
-//                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-//                    userLogin.setAvatar(linkImage);
-//                    userLogin.setFirstName(edtFirstName.getText().toString());
-//                    userLogin.setLastName(edtLastName.getText().toString());
-//                    new UserDAO().insertOrUpdate(userLogin);
-//                    mDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void onError(String message, int code) {
-//                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure() {
-//                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        });
-//        mDialog.show();
-//    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("MORE", "onDestroy: ");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d("MORE", "onStop: ");
-    }
 }

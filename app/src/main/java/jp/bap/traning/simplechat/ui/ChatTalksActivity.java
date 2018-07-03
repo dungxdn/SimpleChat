@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
@@ -17,6 +20,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import java.io.File;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
@@ -25,6 +30,9 @@ import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
+import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
+import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
@@ -39,6 +47,9 @@ public class ChatTalksActivity extends BaseActivity {
     ArrayList<Message> listMessage;
     ChatTalksAdapter chatTalksAdapter;
     Message message;
+    private RequestOptions options;
+    private UploadImagePresenter mUploadImagePresenter;
+    private static String linkImage="";
     @ViewById
     RecyclerView listViewChat;
     @ViewById
@@ -101,6 +112,7 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
     private void init() {
+        //Initial RecyclerView
         listMessage = new ArrayList<>();
         chatTalksAdapter = new ChatTalksAdapter(this, listMessage);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -122,10 +134,8 @@ public class ChatTalksActivity extends BaseActivity {
             @Override
             public void errorGetAllMessage(int roomID) {}
         }) {};
-
-        //GetConverstation
+        //Get Converstation
         messagePresenter.getAllMessage(roomId);
-
         //Create ChatTalksPresenter
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
@@ -152,6 +162,13 @@ public class ChatTalksActivity extends BaseActivity {
                 messagePresenter.insertOrUpdateMessage(message);
             }
         });
+        // Initial Glide
+        mUploadImagePresenter = new UploadImagePresenter();
+        options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+
     }
 
     public void addEvents() {
@@ -188,18 +205,44 @@ public class ChatTalksActivity extends BaseActivity {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
-                //Create a bitmap covert to String : sendMessage
-                Bitmap bitmap = chatTalksPresenter.readBitmapAndScale(image.getPath());
-                String bitMapImage = chatTalksPresenter.BitMapToString(bitmap);
-                //Create a message model and sendChatMessage
-                Message message = new Message(bitMapImage, Common.mMineId, roomId, Common.typeImage);
-                listMessage.add(message);
-                chatTalksAdapter.notifyDataSetChanged();
-                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
-                //Save into Realm Database
-                messagePresenter.insertOrUpdateMessage(message);
-                //Send event to the Socket
-                ChatService.getChat().sendMessage(message, message.getRoomID());
+                File mFile = new File(image.getPath());
+                mUploadImagePresenter.uploadImage("", "", "", "", mFile, new UploadImageView() {
+                    @Override
+                    public void onSuccess(ImageResponse result) {
+                        linkImage = result.getData().getLink();
+                        message = new Message(linkImage, Common.mMineId, roomId, Common.typeImage);
+                        listMessage.add(message);
+                        chatTalksAdapter.notifyDataSetChanged();
+                        listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+//                        Save into Realm Database
+                        messagePresenter.insertOrUpdateMessage(message);
+                        //Send event to the Socket
+                        ChatService.getChat().sendMessage(message, message.getRoomID());
+                    }
+
+                    @Override
+                    public void onError(String message, int code) {
+                        Log.d("ChatTalksActivity", "onError: ");
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.d("ChatTalksActivity", "onFailure: ");
+                    }
+                });
+
+//                //Create a bitmap covert to String : sendMessage
+//                Bitmap bitmap = chatTalksPresenter.readBitmapAndScale(image.getPath());
+//                String bitMapImage = chatTalksPresenter.BitMapToString(bitmap);
+//                //Create a message model and sendChatMessage
+//                Message message = new Message(bitMapImage, Common.mMineId, roomId, Common.typeImage);
+//                listMessage.add(message);
+//                chatTalksAdapter.notifyDataSetChanged();
+//                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
+//                //Save into Realm Database
+//                messagePresenter.insertOrUpdateMessage(message);
+//                //Send event to the Socket
+//                ChatService.getChat().sendMessage(message, message.getRoomID());
             } catch (Exception e) {
                 e.printStackTrace();
             }
