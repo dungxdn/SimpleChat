@@ -48,8 +48,6 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
 
-import static java.security.AccessController.getContext;
-
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private final String TAG = getClass().getSimpleName();
@@ -219,6 +217,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: ");
         showProgressBar();
+        if(data != null){
+            showProgressBar();
+        }else{
+            hiddenProgressBar();
+        }
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
@@ -281,7 +284,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     mDialog.dismiss();
                 }
         );
-        btnCancel.setOnClickListener(view -> mDialog.dismiss());
+        btnCancel.setOnClickListener(view -> {
+            mDialog.dismiss();
+            mFirstName = user.getFirstName();
+            mLastname = user.getLastName();
+        });
         btnSave.setOnClickListener(view -> {
             new UpdateUserPresenter().updateUser(edtFirstName.getText().toString(), edtLastName.getText().toString(), linkImage, new UpdateUserView() {
                 @Override

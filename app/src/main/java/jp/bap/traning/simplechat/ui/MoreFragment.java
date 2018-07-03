@@ -1,41 +1,23 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
-import android.view.Window;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.model.Image;
-
-import jp.bap.traning.simplechat.database.RealmDAO;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.File;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.realm.Realm;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.database.UserDAO;
+import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserPresenter;
-import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserView;
 import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
-import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
-import jp.bap.traning.simplechat.response.BaseResponse;
-import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.service.ImgurClient;
@@ -58,14 +40,13 @@ public class MoreFragment extends BaseFragment {
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
-    private static String linkImage, mFirstname, mLastname;
-    private CircleImageView dialogImgAvata;
+    private static String linkImage;
     private User userLogin;
     private RequestOptions options;
     private RealmDAO mRealmDAO;
 
 
-        @Override
+    @Override
     public void afterView() {
         mUploadImagePresenter = new UploadImagePresenter();
         mUpdateUserPresenter = new UpdateUserPresenter();
@@ -83,9 +64,8 @@ public class MoreFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         loadDataUserLogin();
-        mFirstname = userLogin.getFirstName();
-        mLastname = userLogin.getLastName();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -100,7 +80,8 @@ public class MoreFragment extends BaseFragment {
         //rove MessageListener
         mRealmDAO.removeRealmChanged();
     }
-    private void loadDataUserLogin(){
+
+    private void loadDataUserLogin() {
         userLogin = Common.getUserLogin();
         mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
         linkImage = userLogin.getAvatar();
@@ -114,9 +95,8 @@ public class MoreFragment extends BaseFragment {
 
     @Click
     void mImgButtonEdit() {
-        ((MainActivity)getActivity()).setDialogEditProfile(userLogin,linkImage);
+        ((MainActivity) getActivity()).setDialogEditProfile(userLogin, linkImage);
     }
-
 
 
     private void logout() {
