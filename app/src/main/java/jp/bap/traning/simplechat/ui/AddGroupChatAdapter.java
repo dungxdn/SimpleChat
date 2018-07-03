@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
@@ -55,6 +59,11 @@ public class AddGroupChatAdapter
                 }
             }
         });
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(mContext).load(user.getAvatar()).apply(options).into(holder.mAvatarAddGroupChat);
     }
 
     @Override

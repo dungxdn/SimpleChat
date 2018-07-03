@@ -13,6 +13,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
