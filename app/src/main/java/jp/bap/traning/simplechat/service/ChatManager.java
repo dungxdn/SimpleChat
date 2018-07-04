@@ -84,4 +84,44 @@ public class ChatManager {
         JSONObject data = new JSONObject();
         emit(Event.USER_ONLINE,data);
     }
+
+    public void emitCallContent(JSONObject message, int roomId) {
+        Log.d("emitMessage", message.toString());
+        try {
+            message.put("roomId", roomId);
+            emit(Event.CALL_CONTENT, message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallStop(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_STOP, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCall(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallAccept(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_ACCEPT, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

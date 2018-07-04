@@ -126,6 +126,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 }
                 break;
             }
+
+            case CALL_CONTENT:
+                onCallContent(data);
+                break;
+
+            case CALL_ACCEPT:
+                onCallAccept();
+                break;
+
+            case CALL_STOP:
+                onCallStop();
+                break;
+
+            case CALL:
+                try {
+                    int roomId = data.getInt("roomId");
+                    onCall(roomId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
     }
 
@@ -154,4 +176,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
+
+    public void onCallStop() {
+    }
+
+    public void onCallContent(JSONObject data) {
+    }
+
+    public void onCallAccept() {
+    }
+
+    public void onCall(int roomId) {
+    }
+
 }
