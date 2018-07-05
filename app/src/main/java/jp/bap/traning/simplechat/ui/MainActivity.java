@@ -315,5 +315,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mDialog.show();
     }
 
-
+    @Override
+    public void onCall(int roomId) {
+        super.onCall(roomId);
+        CallActivity_.intent(this).roomId(roomId).isIncoming(true).start();
+    }
 }

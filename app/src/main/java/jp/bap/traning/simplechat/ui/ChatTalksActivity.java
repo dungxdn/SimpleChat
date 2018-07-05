@@ -109,6 +109,9 @@ public class ChatTalksActivity extends BaseActivity {
                 finish();
             }
         });
+        mToolbar.getCallVideoButton().setOnClickListener(view -> {
+            CallActivity_.intent(this).isIncoming(false).roomId(roomId).start();
+        });
     }
 
     private void init() {

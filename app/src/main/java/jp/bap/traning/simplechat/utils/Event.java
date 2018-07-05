@@ -15,7 +15,12 @@ public enum Event {
     USER_ONLINE("getUsersOnline"),
     ON_USER_ONLINE("onUserOnline"),
     ON_USER_OFFLINE("onUserOffline"),
-    CREATE_ROOM("onCreatedRoom");
+    CREATE_ROOM("onCreatedRoom"),
+
+    ON_CALL("call"),
+    ON_CALL_CONTENT("callContent"),
+    ON_CALL_STOP("callStop"),
+    ON_CALL_ACCEPT("callAccept");
 
     String mEvent;
     Event(String e) {
