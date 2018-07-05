@@ -44,16 +44,15 @@ public class LoginActivity extends BaseActivity {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!",
                     Toast.LENGTH_SHORT).show();
+            hiddenProgressBar(mProgressBar);
         } else {
-            showProgressBar(mProgressBar);
-            indicatorView.show();
             mLoginPresenter.logIn(userName, password, new LoginView() {
                 @Override
                 public void onSuccess(UserResponse result) {
                     hiddenProgressBar(mProgressBar);
                     indicatorView.hide();
                     setResult(Common.REQUEST_LOGIN);
-                    new UserDAO().insertOrUpdate(result.getData());
+//                    new UserDAO().insertOrUpdate(result.getData());
                     finish();
                 }
 

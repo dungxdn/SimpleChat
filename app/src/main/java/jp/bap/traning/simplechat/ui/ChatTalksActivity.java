@@ -81,7 +81,7 @@ public class ChatTalksActivity extends BaseActivity {
                 if (chatTalksPresenter.containsLink(messageChat) == true) {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
-                    message = new Message(messageChat, Common.mMineId, roomId, Common.typeText);
+                    message = new Message(messageChat, Common.getUserLogin().getId(), roomId, Common.typeText);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
