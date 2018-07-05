@@ -29,14 +29,12 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoRenderer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
-import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
+import jp.bap.traning.simplechat.utils.CustomPeerConnectionObserver;
+import jp.bap.traning.simplechat.utils.CustomSdpObserver;
 import jp.bap.traning.simplechat.R;
 
 /**
@@ -51,7 +49,7 @@ public class CallActivity extends BaseActivity {
     @ViewById
     SurfaceViewRenderer mLocalVideoView;
     @ViewById
-    AppCompatTextView mtvStatus;
+    AppCompatTextView mTvStatus;
     @ViewById
     AppCompatButton mButtonAccept;
     @ViewById
@@ -85,21 +83,29 @@ public class CallActivity extends BaseActivity {
         start();
         if (isIncoming) {
             mButtonAccept.setVisibility(View.VISIBLE);
-            mtvStatus.setText("Incoming call from: " + roomId);
+            mTvStatus.setText("Incoming call from: " + roomId);
         } else {
             ChatService.getChat().emitCall(roomId);
             mButtonAccept.setVisibility(View.GONE);
-            mtvStatus.setText("Calling to " + roomId);
+            mTvStatus.setText("Calling to " + roomId);
         }
     }
 
     private void initVideos() {
+        //create an EglBase instance: EglBase is a interface class
         rootEglBase = EglBase.create();
+        //init the SurfaceViewRenderer using the eglContext
         mLocalVideoView.init(rootEglBase.getEglBaseContext(), null);
         mRemoteVideoView.init(rootEglBase.getEglBaseContext(), null);
+        //setZOrderMediaOverlay (boolean isMediaOverlay)
+        //Kiểm soát xem bề mặt của bề mặt xem có được đặt trên đầu của một chế độ xem bề mặt thông
+        // thường khác trong cửa sổ (nhưng vẫn phía sau cửa sổ chính nó).
         mLocalVideoView.setZOrderMediaOverlay(true);
+        mRemoteVideoView.setZOrderMediaOverlay(true);
     }
 
+    //sử dụng ICE để đối phó với NAT và tường lửa
+    // Google chạy một máy chủ STUN công khai, stun.l.google.com:19302, như được sử dụng bởi apprtc.appspot.com
     private void getIceServers() {
         PeerConnection.IceServer peerIceServer = PeerConnection.IceServer
                 .builder(Common.TURN_URL)
@@ -107,8 +113,15 @@ public class CallActivity extends BaseActivity {
         peerIceServers.add(peerIceServer);
     }
 
+    //    public void start()-- The steps to display video stream from camera to view are:
+//    Create and initialize PeerConnectionFactory
+//    Create a VideoCapturer instance which uses the camera of the device
+//    Create a VideoSource from the Capturer
+//    Create a VideoTrack from the source
+//    Create a video renderer using a SurfaceViewRenderer view and add it to the VideoTrack instance
     public void start() {
         //Initialize PeerConnectionFactory globals.
+        //Params are context, initAudio,initVideo and videoCodecHwAcceleration
         PeerConnectionFactory.InitializationOptions initializationOptions =
                 PeerConnectionFactory.InitializationOptions.builder(this)
                         .setEnableVideoHwAcceleration(true)
@@ -140,7 +153,7 @@ public class CallActivity extends BaseActivity {
         audioSource = peerConnectionFactory.createAudioSource(audioConstraints);
         localAudioTrack = peerConnectionFactory.createAudioTrack("101", audioSource);
 
-
+//        IV/ Create a video renderer using a SurfaceViewRenderer view and add it to the VideoTrack instance
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.startCapture(1280, 720, 30);
         }
@@ -151,6 +164,7 @@ public class CallActivity extends BaseActivity {
         // can add our renderer to the VideoTrack.
         localVideoTrack.addRenderer(localRenderer);
 
+        //a small method to provide a mirror effect to the SurfaceViewRenderer
         mLocalVideoView.setMirror(true);
         mRemoteVideoView.setMirror(true);
 
@@ -173,7 +187,7 @@ public class CallActivity extends BaseActivity {
             }
         }
 
-        // Front facing camera not found, try something else
+        // If We were not able to find a front camera, Look for other cameras
         Log.d(TAG, "Looking for other cameras.");
         for (String deviceName : deviceNames) {
             if (!enumerator.isFrontFacing(deviceName)) {
@@ -204,6 +218,8 @@ public class CallActivity extends BaseActivity {
         // Use ECDSA encryption.
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA;
 
+        //Create SDP contrains
+        //+ KeyValuePair : a static class
         sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
@@ -222,7 +238,6 @@ public class CallActivity extends BaseActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -232,7 +247,7 @@ public class CallActivity extends BaseActivity {
                 gotRemoteStream(mediaStream);
             }
         });
-
+        //Creating local media stream
         addStreamToLocalPeer();
     }
 
@@ -251,7 +266,7 @@ public class CallActivity extends BaseActivity {
      * This method is called when the app is initiator - We generate the offer and send it over through socket
      * to remote peer
      */
-    private void doCall() {
+    private void createOffer() {
         localPeer.createOffer(new CustomSdpObserver("localCreateOffer") {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {
@@ -291,13 +306,14 @@ public class CallActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mButtonStop:
-                mtvStatus.setText("Call ended!!!");
+                mTvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
                 stop();
                 break;
 
             case R.id.mButtonAccept:
-                mtvStatus.setText("Call started!!!");
+                mButtonAccept.setEnabled(false);
+                mTvStatus.setText("Call started!!!");
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
         }
@@ -326,7 +342,7 @@ public class CallActivity extends BaseActivity {
     public void onCallAccept() {
         super.onCallAccept();
         createPeerConnection();
-        doCall();
+        createOffer();
     }
 
     @Override
@@ -341,8 +357,9 @@ public class CallActivity extends BaseActivity {
             if (localPeer == null) {
                 createPeerConnection();
             }
-            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"), new SessionDescription(SessionDescription.Type.OFFER, data.getString("sdp")));
-            doAnswer();
+            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"),
+                                                new SessionDescription(SessionDescription.Type.OFFER, data.getString("sdp")));
+            createAnswer();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -351,22 +368,27 @@ public class CallActivity extends BaseActivity {
     public void onAnswerReceived(JSONObject data) {
         Log.d(TAG, "Received Answer");
         try {
-            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"), new SessionDescription(SessionDescription.Type.fromCanonicalForm(data.getString("type").toLowerCase()), data.getString("sdp")));
+            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"),
+                                                new SessionDescription(SessionDescription.Type
+                                                        .fromCanonicalForm(data.getString("type")
+                                                                .toLowerCase()), data.getString("sdp")));
             createPeerConnection();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
+    //    set the Ice candidates received from one peer to another peer.
     public void onIceCandidateReceived(JSONObject data) {
         try {
-            localPeer.addIceCandidate(new IceCandidate(data.getString("id"), data.getInt("label"), data.getString("candidate")));
+            localPeer.addIceCandidate(new IceCandidate(data.getString("id"),
+                                            data.getInt("label"),
+                                            data.getString("candidate")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void doAnswer() {
+    private void createAnswer() {
         localPeer.createAnswer(new CustomSdpObserver("localCreateAns") {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {

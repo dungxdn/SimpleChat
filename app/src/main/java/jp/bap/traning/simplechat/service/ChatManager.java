@@ -32,7 +32,12 @@ public class ChatManager {
                 Event.USER_ONLINE,
                 Event.ON_USER_OFFLINE,
                 Event.ON_USER_ONLINE,
-                Event.CREATE_ROOM
+                Event.CREATE_ROOM,
+                Event.CALL,
+                Event.CALL_CONTENT,
+                Event.CALL_ACCEPT,
+                Event.CALL_STOP
+
         );
     }
 

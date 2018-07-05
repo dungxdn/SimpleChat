@@ -48,6 +48,7 @@ public class Common {
     public static final String typeImage = "image";
     public static final String typeLink = "link";
     public static final int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+    public static final String TURN_URL = "stun:stun.l.google.com:19302";
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
