@@ -69,7 +69,7 @@ public class SharingMessageActivity extends BaseActivity  {
             return;
         }
         for (Integer i : mIdListPick) {
-            if(kiemTraTatCaCacRoomXemDaCoNhomVoiNguoiPickHayChua(roomsExist,i)==true) {
+            if(checkValidUserInAllRoom(roomsExist,i)==true) {
                 if (ChatService.getChat() != null){
                     Message mMessage = new Message(message.getContent(),Common.mMineId,sRoomId,Common.typeText);
                     ChatService.getChat().sendMessage(mMessage, sRoomId);
@@ -189,7 +189,7 @@ public class SharingMessageActivity extends BaseActivity  {
         sharingMessageAdapter.notifyDataSetChanged();
     }
 
-    public boolean kiemTraTatCaCacRoomXemDaCoNhomVoiNguoiPickHayChua(ArrayList<Room> rooms, int id) {
+    public boolean checkValidUserInAllRoom(ArrayList<Room> rooms, int id) {
         for(Room room : rooms) {
             if(room.getType()==0) {
                 for(User user : room.getUsers()) {

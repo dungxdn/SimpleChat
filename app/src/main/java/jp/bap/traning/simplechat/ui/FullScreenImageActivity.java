@@ -16,10 +16,10 @@ import org.androidannotations.annotations.ViewById;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
+import jp.bap.traning.simplechat.utils.Common;
 
 @EActivity(R.layout.activity_full_screen_image)
 public class FullScreenImageActivity extends BaseActivity {
-    private Bitmap bitmap;
     @ViewById
     ImageView fullScreenImage;
     @Extra
@@ -27,12 +27,7 @@ public class FullScreenImageActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        bitmap = new ChatTalksPresenter().StringToBitMap(urlImage);
-        loadImage(bitmap);
-    }
-
-    private void loadImage(Bitmap bitmap) {
-        fullScreenImage.setImageBitmap(bitmap);
+        Common.setImage(FullScreenImageActivity.this,urlImage,fullScreenImage);
     }
 
     @Override

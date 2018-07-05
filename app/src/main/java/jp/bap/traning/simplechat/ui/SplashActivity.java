@@ -10,7 +10,6 @@ import jp.bap.traning.simplechat.service.ImgurClient;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.OnActivityResult;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
@@ -74,5 +73,6 @@ public class SplashActivity extends BaseActivity {
 
             }
         }).request();
+
     }
 }

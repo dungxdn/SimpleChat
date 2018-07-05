@@ -13,6 +13,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
@@ -22,6 +23,9 @@ import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.presenter.message.MessageView;
 import jp.bap.traning.simplechat.utils.Common;
+
+import static jp.bap.traning.simplechat.model.Room.roomComparator;
+import static jp.bap.traning.simplechat.model.User.userComparator;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -97,6 +101,7 @@ public class ChatFragment extends BaseFragment {
             mListRoom.add(room);
         }
         Log.d(TAG, "onResume: mListRoom " + mListRoom.size());
+        Collections.sort(mListRoom, roomComparator);
         mChatAdapter.notifyDataSetChanged();
 
 

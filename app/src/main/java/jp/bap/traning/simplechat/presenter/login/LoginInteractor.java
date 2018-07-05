@@ -32,7 +32,6 @@ public class LoginInteractor {
                     User user = response.body().getData();
                     //save db
                     new UserDAO().insertOrUpdate(user);
-                    new UserDAO().insertOrUpdate(user);
                     SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, user.getId());
                     callback.onSuccess(response.body());
                     Log.d("Login", "onSuccess: " + response.body().getData().getAvatar());

@@ -141,10 +141,12 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
 
     public boolean isStringExistsInUsers(RealmList<User> users, String string) {
         for (User u : users) {
-            if (u.getFirstName().toLowerCase().contains(string.toLowerCase()) || u.getLastName()
-                    .toLowerCase()
-                    .contains(string.toLowerCase())) {
-                return true;
+            if (u.getId() != Common.getUserLogin().getId()) {
+                if (u.getFirstName().toLowerCase().contains(string.toLowerCase()) || u.getLastName()
+                        .toLowerCase()
+                        .contains(string.toLowerCase())) {
+                    return true;
+                }
             }
         }
         return false;

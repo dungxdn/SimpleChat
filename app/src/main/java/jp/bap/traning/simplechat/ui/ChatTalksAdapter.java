@@ -111,11 +111,8 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             if(Common.mMineId != mMessage.getUserID()) {
                 messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
-            RequestOptions options = new RequestOptions();
-            options.centerCrop();
-            options.placeholder(R.drawable.ic_avatar_default);
-            options.error(R.drawable.ic_avatar_default);
-            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(messageViewHolder.mAvatar);
+            //Set Avatar
+            setAvatar(mMessage.getUserID(),messageViewHolder.mAvatar);
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
@@ -125,27 +122,18 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             if(Common.mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
-            RequestOptions options = new RequestOptions();
-            options.centerCrop();
-            options.placeholder(R.drawable.ic_avatar_default);
-            options.error(R.drawable.ic_avatar_default);
-            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(linkMessageViewHolder.mAvatar);
+            //Set Avatar
+            setAvatar(mMessage.getUserID(),linkMessageViewHolder.mAvatar);
         }
         else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
-//            Glide.with(mContext).load(mMessage.getContent()).into(imageMessageViewHolder.imageView);
-            //Test
-            Bitmap bitmap = new ChatTalksPresenter().StringToBitMap(mMessage.getContent());
-            imageMessageViewHolder.imageView.setImageBitmap(bitmap);
+            Common.setImage(mContext,mMessage.getContent(),imageMessageViewHolder.imageView);
             if(Common.mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
-            RequestOptions options = new RequestOptions();
-            options.centerCrop();
-            options.placeholder(R.drawable.ic_avatar_default);
-            options.error(R.drawable.ic_avatar_default);
-            Glide.with(mContext).load(new UserDAO().getUser(mMessage.getUserID()).getAvatar()).apply(options).into(imageMessageViewHolder.mAvatar);
-        }
+            //Set Avatar
+            setAvatar(mMessage.getUserID(),imageMessageViewHolder.mAvatar);
+           }
     }
 
     @Override
@@ -205,4 +193,11 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         }
     }
 
+    private void setAvatar(int id,CircleImageView mAvatar) {
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
+    }
 }
