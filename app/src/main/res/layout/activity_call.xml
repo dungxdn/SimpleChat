@@ -13,9 +13,9 @@
 
     <org.webrtc.SurfaceViewRenderer
         android:id="@+id/mLocalVideoView"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_margin="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -24,7 +24,7 @@
         android:id="@+id/mLinear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -33,13 +33,13 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/mButtonAccept"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/_50sdp"
             android:text="Accept"
             />
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/mButtonStop"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/_50sdp"
             android:text="Stop"
             />
     </LinearLayout>

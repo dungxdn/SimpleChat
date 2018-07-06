@@ -52,7 +52,6 @@ public class ChatManager {
                     Log.d(TAG, "Callback ON: " + event.getEvent() + " - " + args[0]);
                     if (args[args.length - 1] instanceof Ack) {
                         // TODO: 6/7/18
-                        Log.d(TAG, "Callback ON: " + event + " had ack!");
                     }
                     if (mListener != null) {
                         mListener.onEvent(event, (JSONObject) args[0]);

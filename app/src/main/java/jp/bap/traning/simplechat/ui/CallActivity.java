@@ -166,7 +166,7 @@ public class CallActivity extends BaseActivity {
 
         //a small method to provide a mirror effect to the SurfaceViewRenderer
         mLocalVideoView.setMirror(true);
-        mRemoteVideoView.setMirror(true);
+//        mRemoteVideoView.setMirror(true);
 
         gotUserMedia = true;
     }
@@ -180,7 +180,6 @@ public class CallActivity extends BaseActivity {
             if (enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating front facing camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
                 if (videoCapturer != null) {
                     return videoCapturer;
                 }
@@ -223,6 +222,30 @@ public class CallActivity extends BaseActivity {
         sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
+        //
+//        localPeer = peerConnectionFactory.createPeerConnection(peerIceServers,new CustomPeerConnectionObserver("localPeerCreation"){
+//            @Override
+//            public void onIceCandidate(IceCandidate iceCandidate) {
+//                super.onIceCandidate(iceCandidate);
+//                try {
+//                    JSONObject object = new JSONObject();
+//                    object.put("type", "candidate");
+//                    object.put("label", iceCandidate.sdpMLineIndex);
+//                    object.put("id", iceCandidate.sdpMid);
+//                    object.put("candidate", iceCandidate.sdp);
+//                    ChatService.getChat().emitCallContent(object, roomId);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onAddStream(MediaStream mediaStream) {
+//                Log.d(TAG, "Received Remote stream");
+//                super.onAddStream(mediaStream);
+//                gotRemoteStream(mediaStream);
+//            }
+//        });
 
         localPeer = peerConnectionFactory.createPeerConnection(rtcConfig, new CustomPeerConnectionObserver("localPeerCreation") {
             @Override
@@ -247,7 +270,7 @@ public class CallActivity extends BaseActivity {
                 gotRemoteStream(mediaStream);
             }
         });
-        //Creating local media stream
+//        Creating local media stream
         addStreamToLocalPeer();
     }
 
@@ -271,9 +294,9 @@ public class CallActivity extends BaseActivity {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {
                 super.onCreateSuccess(sessionDescription);
-                localPeer.setLocalDescription(new CustomSdpObserver("localSetLocalDesc"), sessionDescription);
-                JSONObject obj = new JSONObject();
                 try {
+                 localPeer.setLocalDescription(new CustomSdpObserver("localSetLocalDesc"), sessionDescription);
+                   JSONObject obj = new JSONObject();
                     obj.put("type", sessionDescription.type.canonicalForm());
                     obj.put("sdp", sessionDescription.description);
                     ChatService.getChat().emitCallContent(obj, roomId);
@@ -343,6 +366,7 @@ public class CallActivity extends BaseActivity {
         super.onCallAccept();
         createPeerConnection();
         createOffer();
+        mTvStatus.setText("Call Started!");
     }
 
     @Override
@@ -413,6 +437,8 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
+        localPeer.close();
+        localPeer=null;
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.dispose();
         }
@@ -423,6 +449,7 @@ public class CallActivity extends BaseActivity {
             mRemoteVideoView.release();
         }
         if(audioSource!=null) {
+            localAudioTrack.dispose();
             audioSource.dispose();
         }
         finish();
