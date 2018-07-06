@@ -100,8 +100,8 @@ public class CallActivity extends BaseActivity {
         //setZOrderMediaOverlay (boolean isMediaOverlay)
         //Kiểm soát xem bề mặt của bề mặt xem có được đặt trên đầu của một chế độ xem bề mặt thông
         // thường khác trong cửa sổ (nhưng vẫn phía sau cửa sổ chính nó).
-        mLocalVideoView.setZOrderMediaOverlay(true);
         mRemoteVideoView.setZOrderMediaOverlay(true);
+        mLocalVideoView.setZOrderMediaOverlay(true);
     }
 
     //sử dụng ICE để đối phó với NAT và tường lửa
@@ -166,7 +166,7 @@ public class CallActivity extends BaseActivity {
 
         //a small method to provide a mirror effect to the SurfaceViewRenderer
         mLocalVideoView.setMirror(true);
-//        mRemoteVideoView.setMirror(true);
+        mRemoteVideoView.setMirror(true);
 
         gotUserMedia = true;
     }
@@ -198,7 +198,6 @@ public class CallActivity extends BaseActivity {
                 }
             }
         }
-
         return null;
     }
 

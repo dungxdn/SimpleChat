@@ -33,6 +33,9 @@ public class LoginInteractor {
                     //save db
                     new UserDAO().insertOrUpdate(user);
                     SharedPrefs.getInstance().putData(SharedPrefs.KEY_SAVE_ID, user.getId());
+                    Log.d("SharePres lúc Login111","MineID getUserLogin.id: "+Common
+                            .getUserLogin().getId());
+                    Log.d("SharePres Luc Login","MineID temp" +Common.mMineId);
                     callback.onSuccess(response.body());
                     Log.d("Login", "onSuccess: " + response.body().getData().getAvatar());
                 } else {
