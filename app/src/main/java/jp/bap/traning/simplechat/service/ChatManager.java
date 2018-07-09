@@ -32,7 +32,12 @@ public class ChatManager {
                 Event.USER_ONLINE,
                 Event.ON_USER_OFFLINE,
                 Event.ON_USER_ONLINE,
-                Event.CREATE_ROOM
+                Event.CREATE_ROOM,
+                Event.CALL,
+                Event.CALL_CONTENT,
+                Event.CALL_ACCEPT,
+                Event.CALL_STOP
+
         );
     }
 
@@ -47,7 +52,6 @@ public class ChatManager {
                     Log.d(TAG, "Callback ON: " + event.getEvent() + " - " + args[0]);
                     if (args[args.length - 1] instanceof Ack) {
                         // TODO: 6/7/18
-                        Log.d(TAG, "Callback ON: " + event + " had ack!");
                     }
                     if (mListener != null) {
                         mListener.onEvent(event, (JSONObject) args[0]);
@@ -83,5 +87,45 @@ public class ChatManager {
     public void getUsersOnline() {
         JSONObject data = new JSONObject();
         emit(Event.USER_ONLINE,data);
+    }
+
+    public void emitCallContent(JSONObject message, int roomId) {
+        Log.d("emitMessage", message.toString());
+        try {
+            message.put("roomId", roomId);
+            emit(Event.CALL_CONTENT, message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallStop(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_STOP, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCall(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallAccept(int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("roomId", roomId);
+            emit(Event.CALL_ACCEPT, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
