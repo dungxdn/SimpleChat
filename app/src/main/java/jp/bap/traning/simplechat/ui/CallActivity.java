@@ -1,9 +1,15 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -36,14 +42,14 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.utils.CustomSdpObserver;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.utils.RequestPermission;
 
-/**
- * Created by dungpv on 6/8/18.
- */
 
 @EActivity(R.layout.activity_call)
 public class CallActivity extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
+    private static boolean permissionCamera =false;
+    private static boolean permissionAudio =false;
     @ViewById
     SurfaceViewRenderer mRemoteVideoView;
     @ViewById
@@ -59,7 +65,7 @@ public class CallActivity extends BaseActivity {
     @Extra
     boolean isIncoming;
 
-
+    private RequestPermission requestPermission;
     private PeerConnectionFactory peerConnectionFactory;
     private MediaConstraints audioConstraints;
     private MediaConstraints videoConstraints;
@@ -78,16 +84,45 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        initVideos();
-        getIceServers();
-        start();
-        if (isIncoming) {
-            mButtonAccept.setVisibility(View.VISIBLE);
-            mTvStatus.setText("Incoming call from: " + roomId);
-        } else {
-            ChatService.getChat().emitCall(roomId);
-            mButtonAccept.setVisibility(View.GONE);
-            mTvStatus.setText("Calling to " + roomId);
+        initPermission();
+        checkPermissionToStart();
+    }
+
+    private void initPermission() {
+        requestPermission = new RequestPermission(CallActivity.this, new RequestPermission.ListenerPermission() {
+            @Override
+            public void onGranted(int permission) {
+                if(permission == Common.MY_PERMISSIONS_REQUEST_CAMERA) {
+                    permissionCamera=true;
+                }
+                else if(permission == Common.MY_PERMISSIONS_REQUEST_AUDIO) {
+                    permissionAudio=true;
+                }
+                checkPermissionToStart();
+
+            }
+        });
+        requestPermission.requestCameraPermission();
+        requestPermission.requestRecordAudioPermission();
+    }
+
+    private void checkPermissionToStart() {
+        if(permissionCamera==true && permissionAudio==true) {
+            mTvStatus.setText("Calling to room "+roomId);
+            initVideos();
+            getIceServers();
+            start();
+            if (isIncoming) {
+                mButtonAccept.setVisibility(View.VISIBLE);
+                mTvStatus.setText("Incoming call from: " + roomId);
+            } else {
+                ChatService.getChat().emitCall(roomId);
+                mButtonAccept.setVisibility(View.GONE);
+                mTvStatus.setText("Calling to " + roomId);
+            }
+        }
+        else {
+
         }
     }
 
@@ -100,7 +135,6 @@ public class CallActivity extends BaseActivity {
         //setZOrderMediaOverlay (boolean isMediaOverlay)
         //Kiểm soát xem bề mặt của bề mặt xem có được đặt trên đầu của một chế độ xem bề mặt thông
         // thường khác trong cửa sổ (nhưng vẫn phía sau cửa sổ chính nó).
-        mRemoteVideoView.setZOrderMediaOverlay(true);
         mLocalVideoView.setZOrderMediaOverlay(true);
     }
 
@@ -121,7 +155,6 @@ public class CallActivity extends BaseActivity {
 //    Create a video renderer using a SurfaceViewRenderer view and add it to the VideoTrack instance
     public void start() {
         //Initialize PeerConnectionFactory globals.
-        //Params are context, initAudio,initVideo and videoCodecHwAcceleration
         PeerConnectionFactory.InitializationOptions initializationOptions =
                 PeerConnectionFactory.InitializationOptions.builder(this)
                         .setEnableVideoHwAcceleration(true)
@@ -153,7 +186,7 @@ public class CallActivity extends BaseActivity {
         audioSource = peerConnectionFactory.createAudioSource(audioConstraints);
         localAudioTrack = peerConnectionFactory.createAudioTrack("101", audioSource);
 
-//        IV/ Create a video renderer using a SurfaceViewRenderer view and add it to the VideoTrack instance
+
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.startCapture(1280, 720, 30);
         }
@@ -180,6 +213,7 @@ public class CallActivity extends BaseActivity {
             if (enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating front facing camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
+
                 if (videoCapturer != null) {
                     return videoCapturer;
                 }
@@ -187,7 +221,6 @@ public class CallActivity extends BaseActivity {
         }
 
         // If We were not able to find a front camera, Look for other cameras
-        Log.d(TAG, "Looking for other cameras.");
         for (String deviceName : deviceNames) {
             if (!enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating other camera capturer.");
@@ -198,6 +231,7 @@ public class CallActivity extends BaseActivity {
                 }
             }
         }
+
         return null;
     }
 
@@ -216,35 +250,10 @@ public class CallActivity extends BaseActivity {
         // Use ECDSA encryption.
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA;
 
-        //Create SDP contrains
-        //+ KeyValuePair : a static class
+        //Create Session Description Protocol contrains
         sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
-        //
-//        localPeer = peerConnectionFactory.createPeerConnection(peerIceServers,new CustomPeerConnectionObserver("localPeerCreation"){
-//            @Override
-//            public void onIceCandidate(IceCandidate iceCandidate) {
-//                super.onIceCandidate(iceCandidate);
-//                try {
-//                    JSONObject object = new JSONObject();
-//                    object.put("type", "candidate");
-//                    object.put("label", iceCandidate.sdpMLineIndex);
-//                    object.put("id", iceCandidate.sdpMid);
-//                    object.put("candidate", iceCandidate.sdp);
-//                    ChatService.getChat().emitCallContent(object, roomId);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onAddStream(MediaStream mediaStream) {
-//                Log.d(TAG, "Received Remote stream");
-//                super.onAddStream(mediaStream);
-//                gotRemoteStream(mediaStream);
-//            }
-//        });
 
         localPeer = peerConnectionFactory.createPeerConnection(rtcConfig, new CustomPeerConnectionObserver("localPeerCreation") {
             @Override
@@ -260,6 +269,7 @@ public class CallActivity extends BaseActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
 
             @Override
@@ -288,14 +298,14 @@ public class CallActivity extends BaseActivity {
      * This method is called when the app is initiator - We generate the offer and send it over through socket
      * to remote peer
      */
-    private void createOffer() {
+    private void doCall() {
         localPeer.createOffer(new CustomSdpObserver("localCreateOffer") {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {
                 super.onCreateSuccess(sessionDescription);
+                localPeer.setLocalDescription(new CustomSdpObserver("localSetLocalDesc"), sessionDescription);
+                JSONObject obj = new JSONObject();
                 try {
-                 localPeer.setLocalDescription(new CustomSdpObserver("localSetLocalDesc"), sessionDescription);
-                   JSONObject obj = new JSONObject();
                     obj.put("type", sessionDescription.type.canonicalForm());
                     obj.put("sdp", sessionDescription.description);
                     ChatService.getChat().emitCallContent(obj, roomId);
@@ -334,7 +344,6 @@ public class CallActivity extends BaseActivity {
                 break;
 
             case R.id.mButtonAccept:
-                mButtonAccept.setEnabled(false);
                 mTvStatus.setText("Call started!!!");
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
@@ -362,10 +371,11 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void onCallAccept() {
+        mButtonAccept.setVisibility(View.GONE);
+        mTvStatus.setText("Call Started!!!");
         super.onCallAccept();
         createPeerConnection();
-        createOffer();
-        mTvStatus.setText("Call Started!");
+        doCall();
     }
 
     @Override
@@ -380,9 +390,8 @@ public class CallActivity extends BaseActivity {
             if (localPeer == null) {
                 createPeerConnection();
             }
-            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"),
-                                                new SessionDescription(SessionDescription.Type.OFFER, data.getString("sdp")));
-            createAnswer();
+            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"), new SessionDescription(SessionDescription.Type.OFFER, data.getString("sdp")));
+            doAnswer();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -391,27 +400,22 @@ public class CallActivity extends BaseActivity {
     public void onAnswerReceived(JSONObject data) {
         Log.d(TAG, "Received Answer");
         try {
-            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"),
-                                                new SessionDescription(SessionDescription.Type
-                                                        .fromCanonicalForm(data.getString("type")
-                                                                .toLowerCase()), data.getString("sdp")));
+            localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemote"), new SessionDescription(SessionDescription.Type.fromCanonicalForm(data.getString("type").toLowerCase()), data.getString("sdp")));
             createPeerConnection();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    //    set the Ice candidates received from one peer to another peer.
+
     public void onIceCandidateReceived(JSONObject data) {
         try {
-            localPeer.addIceCandidate(new IceCandidate(data.getString("id"),
-                                            data.getInt("label"),
-                                            data.getString("candidate")));
+            localPeer.addIceCandidate(new IceCandidate(data.getString("id"), data.getInt("label"), data.getString("candidate")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void createAnswer() {
+    private void doAnswer() {
         localPeer.createAnswer(new CustomSdpObserver("localCreateAns") {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {
@@ -431,13 +435,17 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
     public void stop() {
-        localPeer.close();
-        localPeer=null;
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.dispose();
         }
@@ -447,10 +455,31 @@ public class CallActivity extends BaseActivity {
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
         }
-        if(audioSource!=null) {
-            localAudioTrack.dispose();
-            audioSource.dispose();
-        }
         finish();
     }
+
+        @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Common.MY_PERMISSIONS_REQUEST_CAMERA: {
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionCamera=true;
+                } else {
+                    mTvStatus.setText("You don't accept Camera Permission");
+                }
+                break;
+            }
+            case Common.MY_PERMISSIONS_REQUEST_AUDIO: {
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionAudio=true;
+                } else {
+                    mTvStatus.setText("You don't accept Audio Permission");
+                }
+                break;
+            }
+        }
+        checkPermissionToStart();
+    }
+
 }
