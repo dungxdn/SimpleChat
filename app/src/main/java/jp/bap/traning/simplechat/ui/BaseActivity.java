@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -126,6 +127,31 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 }
                 break;
             }
+
+            case CALL_CONTENT: {
+                onCallContent(data);
+                break;
+            }
+
+            case CALL_ACCEPT: {
+                onCallAccept();
+                break;
+            }
+
+            case CALL_STOP: {
+                onCallStop();
+                break;
+            }
+
+            case CALL: {
+                try {
+                    int roomId = data.getInt("roomId");
+                    onCall(roomId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
@@ -153,5 +179,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     public void hiddenProgressBar(ProgressBar progressBar){
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void onCallStop() {
+    }
+
+    public void onCallContent(JSONObject data) {
+    }
+
+    public void onCallAccept() {
+    }
+
+    public void onCall(int roomId) {
     }
 }
