@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -40,7 +41,12 @@ public class LoginActivity extends BaseActivity {
         showProgressBar(mProgressBar);
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if (userName.isEmpty() || password.isEmpty()) {
+        if (isConnectedNetwork()==false) {
+            Toast.makeText(LoginActivity.this,"Khong co wifi ma oi",Toast.LENGTH_SHORT).show();
+            Log.d("SplashActivity: ","Khong co wifi");
+            hiddenProgressBar(mProgressBar);
+        }
+        else if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!",
                     Toast.LENGTH_SHORT).show();

@@ -1,7 +1,11 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import io.realm.Realm;
 import jp.bap.traning.simplechat.service.ApiClient;
@@ -38,11 +42,17 @@ public class SplashActivity extends BaseActivity {
                 realm.commitTransaction();
             }
         }
-        int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-        if (mMineId == 0) {
-            LoginActivity_.intent(this).startForResult(Common.REQUEST_LOGIN);
-        } else {
-            init();
+        if(isConnectedNetwork()==false) {
+            Toast.makeText(SplashActivity.this,"Khong co wifi ma oi",Toast.LENGTH_SHORT).show();
+            Log.d("SplashActivity: ","Khong co wifi");
+        }
+        else {
+            int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+            if (mMineId == 0) {
+                LoginActivity_.intent(this).startForResult(Common.REQUEST_LOGIN);
+            } else {
+                init();
+            }
         }
     }
 
