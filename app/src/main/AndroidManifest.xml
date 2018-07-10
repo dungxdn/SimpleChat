@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.bap.traning.simplechat">
 
-    <uses-permission android:name="android.permission.CAMERA" android:requiredFeature="true" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BaseApp_"
@@ -34,7 +34,8 @@
         <activity android:name=".ui.SearchGroupChatActivity_" />
         <activity android:name=".ui.SharingMessageActivity_" />
         <activity android:name=".ui.SearchGroupChatActivity" />
-        <activity android:name=".ui.CallActivity_"></activity>
+        <activity android:name=".ui.CallActivity_" />
+        <activity android:name=".ui.NetworkActivity_"></activity>
 
         <service
             android:name=".service.ChatService"

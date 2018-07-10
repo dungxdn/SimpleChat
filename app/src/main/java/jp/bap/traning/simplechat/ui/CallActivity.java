@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
@@ -89,21 +90,19 @@ public class CallActivity extends BaseActivity {
     }
 
     private void initPermission() {
-        requestPermission = new RequestPermission(CallActivity.this, new RequestPermission.ListenerPermission() {
-            @Override
-            public void onGranted(int permission) {
-                if(permission == Common.MY_PERMISSIONS_REQUEST_CAMERA) {
-                    permissionCamera=true;
-                }
-                else if(permission == Common.MY_PERMISSIONS_REQUEST_AUDIO) {
-                    permissionAudio=true;
-                }
-                checkPermissionToStart();
-
-            }
-        });
-        requestPermission.requestCameraPermission();
-        requestPermission.requestRecordAudioPermission();
+        requestPermission = new RequestPermission(CallActivity.this);
+        if (ContextCompat.checkSelfPermission(CallActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            requestPermission.requestCameraPermission();
+        }
+        else {
+            permissionCamera=true;
+        }
+        if (ContextCompat.checkSelfPermission(CallActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            requestPermission.requestRecordAudioPermission();
+        }
+        else {
+            permissionAudio=true;
+        }
     }
 
     private void checkPermissionToStart() {
@@ -122,7 +121,6 @@ public class CallActivity extends BaseActivity {
             }
         }
         else {
-
         }
     }
 
@@ -344,6 +342,7 @@ public class CallActivity extends BaseActivity {
                 break;
 
             case R.id.mButtonAccept:
+                mButtonAccept.setVisibility(View.GONE);
                 mTvStatus.setText("Call started!!!");
                 ChatService.getChat().emitCallAccept(roomId);
                 break;

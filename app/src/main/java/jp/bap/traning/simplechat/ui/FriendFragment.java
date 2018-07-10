@@ -236,7 +236,14 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
     @Override
     public void onCallVideo(int userId) {
-
+        ((MainActivity) getActivity()).showProgressBar();
+        //get room from realm.
+        Room room = Common.getRoomWithUser(userId);
+        CallActivity_.intent(getContext())
+                .roomId(room.getRoomId())
+                .isIncoming(false)
+                .start();
+        ((MainActivity) getActivity()).hiddenProgressBar();
     }
 
     @Override

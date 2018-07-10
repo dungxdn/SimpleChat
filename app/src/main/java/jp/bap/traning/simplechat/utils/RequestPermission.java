@@ -21,36 +21,25 @@ public class RequestPermission extends AppCompatActivity {
     }
     ListenerPermission mListenerPermission;
 
-    public RequestPermission(Activity activity, ListenerPermission listenerPermission) {
+    public RequestPermission(Activity activity ) {
         mActivity = activity;
-        mListenerPermission = listenerPermission;
     }
 
     public void  requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 //Permission don't grant
                 ActivityCompat.requestPermissions(mActivity,
                                             new String[]{Manifest.permission.CAMERA},
                                             Common.MY_PERMISSIONS_REQUEST_CAMERA);
-
-            } else {
-                mListenerPermission.onGranted(Common.MY_PERMISSIONS_REQUEST_CAMERA);
-            }
         }
     }
 
     public void requestRecordAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 //Permission don't grant
                 ActivityCompat.requestPermissions(mActivity,
                         new String[]{Manifest.permission.RECORD_AUDIO},
                         Common.MY_PERMISSIONS_REQUEST_AUDIO);
-
-            } else {
-                mListenerPermission.onGranted(Common.MY_PERMISSIONS_REQUEST_AUDIO);
-            }
         }
     }
 }

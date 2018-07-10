@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -19,7 +20,6 @@ import jp.bap.traning.simplechat.utils.Common;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
-
     @ViewById
     EditText edtUserName;
     @ViewById
@@ -40,7 +40,11 @@ public class LoginActivity extends BaseActivity {
         showProgressBar(mProgressBar);
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if (userName.isEmpty() || password.isEmpty()) {
+        if (isConnectedNetwork()==false) {
+            NetworkActivity_.intent(this).start();
+            hiddenProgressBar(mProgressBar);
+        }
+        else if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!",
                     Toast.LENGTH_SHORT).show();
@@ -82,5 +86,11 @@ public class LoginActivity extends BaseActivity {
     public void init() {
         mProgressBar.setVisibility(View.GONE);
         this.mLoginPresenter = new LoginPresenter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }
