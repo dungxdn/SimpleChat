@@ -20,7 +20,6 @@ import jp.bap.traning.simplechat.utils.Common;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
     private LoginPresenter mLoginPresenter;
-
     @ViewById
     EditText edtUserName;
     @ViewById
@@ -42,8 +41,7 @@ public class LoginActivity extends BaseActivity {
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
         if (isConnectedNetwork()==false) {
-            Toast.makeText(LoginActivity.this,"Khong co wifi ma oi",Toast.LENGTH_SHORT).show();
-            Log.d("SplashActivity: ","Khong co wifi");
+            NetworkActivity_.intent(this).start();
             hiddenProgressBar(mProgressBar);
         }
         else if (userName.isEmpty() || password.isEmpty()) {
@@ -88,5 +86,11 @@ public class LoginActivity extends BaseActivity {
     public void init() {
         mProgressBar.setVisibility(View.GONE);
         this.mLoginPresenter = new LoginPresenter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }
