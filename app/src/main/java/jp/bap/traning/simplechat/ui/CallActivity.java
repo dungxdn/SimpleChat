@@ -77,16 +77,19 @@ public class CallActivity extends BaseActivity {
     private static boolean sIsFrontCamera = true;
     private static boolean isCameraPermission = false;
     private static boolean isRecordAudioPermission = false;
+    private static boolean allGranted = false;
+
+    private String[] permissionRequired = new String[] {Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO};
 
     @Override
     public void afterView() {
-        Permission.initPermission(this, Manifest.permission.CAMERA);
-        Permission.initPermission(this, Manifest.permission.RECORD_AUDIO);
+        Permission.initPermission(this, permissionRequired);
         init();
     }
 
     public void init() {
-        if (isCameraPermission && isRecordAudioPermission) {
+        if (allGranted) {
             initVideos();
             getIceServers();
             start();
@@ -104,23 +107,22 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
             @NonNull int[] grantResults) {
-        if (requestCode == Permission.sREQUEST_CODE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                switch (permissions[0]) {
-                    case Manifest.permission.CAMERA:
-                        isCameraPermission = true;
-                        break;
-                    case Manifest.permission.RECORD_AUDIO:
-                        isRecordAudioPermission = true;
-                        break;
-                }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int r : grantResults) {
+            if (r == PackageManager.PERMISSION_GRANTED) {
+                allGranted = true;
             } else {
-                Toast.makeText(this, "You need to accept permission to continue!",
-                        Toast.LENGTH_SHORT).show();
-                finish();
+                allGranted = false;
+                break;
             }
         }
-        init();
+        if (allGranted) {
+            init();
+        } else {
+            Toast.makeText(this, "You need to accept permission to continue!",
+                                            Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private void initVideos() {
