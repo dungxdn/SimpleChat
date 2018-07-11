@@ -29,6 +29,7 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     ProgressBar mProgressBar;
 
+
     @Override
     public void afterView() {
         init();
@@ -82,5 +83,11 @@ public class LoginActivity extends BaseActivity {
     public void init() {
         mProgressBar.setVisibility(View.GONE);
         this.mLoginPresenter = new LoginPresenter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

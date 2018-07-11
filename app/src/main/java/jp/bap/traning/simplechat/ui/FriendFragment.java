@@ -5,7 +5,6 @@ import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.List;
 
-import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
