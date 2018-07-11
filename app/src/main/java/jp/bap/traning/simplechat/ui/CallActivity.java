@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,8 @@ import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.CameraEnumerator;
 import org.webrtc.DataChannel;
+import org.webrtc.DefaultVideoDecoderFactory;
+import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
 import org.webrtc.MediaConstraints;
@@ -54,9 +57,9 @@ public class CallActivity extends BaseActivity {
     @ViewById
     AppCompatTextView tvStatus;
     @ViewById
-    AppCompatButton btnAccept;
+    AppCompatImageButton btnAccept;
     @ViewById
-    AppCompatButton btnCancel;
+    AppCompatImageButton btnCancel;
     @Extra
     int roomId;
     @Extra
@@ -74,6 +77,7 @@ public class CallActivity extends BaseActivity {
 
     private VideoRenderer localRenderer;
     private VideoRenderer remoteRenderer;
+    private EglBase rootEglBase;
 
     private PeerConnection localPeer, remotePeer;
     private List<PeerConnection.IceServer> iceServers = new ArrayList<>();
@@ -109,9 +113,12 @@ public class CallActivity extends BaseActivity {
                         .createInitializationOptions();
         PeerConnectionFactory.initialize(initializationOptions);
 
-        //Create a new PeerConnectionFactory instance.
+        //Create a new PeerConnectionFactory instance - using Hardware encoder and decoder.
         PeerConnectionFactory.Options options = new PeerConnectionFactory.Options();
-        peerConnectionFactory = new PeerConnectionFactory(options);
+        DefaultVideoEncoderFactory defaultVideoEncoderFactory = new DefaultVideoEncoderFactory(
+                rootEglBase.getEglBaseContext(),  /* enableIntelVp8Encoder */true,  /* enableH264HighProfile */true);
+        DefaultVideoDecoderFactory defaultVideoDecoderFactory = new DefaultVideoDecoderFactory(rootEglBase.getEglBaseContext());
+        peerConnectionFactory = new PeerConnectionFactory(options, defaultVideoEncoderFactory, defaultVideoDecoderFactory);
 
         //Now create a VideoCapturer instance. Callback methods are there if you want to do something! Duh!
         videoCapturerAndroid = createVideoCapturer();
@@ -120,18 +127,22 @@ public class CallActivity extends BaseActivity {
         videoConstraints = new MediaConstraints();
 
         //Create a VideoSource instance
-        videoSource = peerConnectionFactory.createVideoSource(videoCapturerAndroid);
+        if (videoCapturerAndroid != null) {
+            videoSource = peerConnectionFactory.createVideoSource(videoCapturerAndroid);
+        }
         localVideoTrack = peerConnectionFactory.createVideoTrack("100", videoSource);
 
         //create an AudioSource instance
         audioSource = peerConnectionFactory.createAudioSource(audioConstraints);
         localAudioTrack = peerConnectionFactory.createAudioTrack("101", audioSource);
 
-        //we will start capturing the video from the camera
-        //params are width,height and fps
-        videoCapturerAndroid.startCapture(1000, 1000, 30);
+        if (videoCapturerAndroid != null) {
+            videoCapturerAndroid.startCapture(1280, 720, 30);
+        }
+        localSurfaceView.setVisibility(View.VISIBLE);
 
-//create a videoRenderer based on SurfaceViewRenderer instance
+
+        //create a videoRenderer based on SurfaceViewRenderer instance
         localRenderer = new VideoRenderer(localSurfaceView);
         localVideoTrack.addRenderer(localRenderer);
 
@@ -143,6 +154,7 @@ public class CallActivity extends BaseActivity {
     public void btnAccept() {
         tvStatus.setText("Waitting...");
         ChatService.getChat().emitCallAccept(roomId);
+        btnAccept.setVisibility(View.GONE);
     }
 
     @Click(R.id.btnCancel)
@@ -152,11 +164,11 @@ public class CallActivity extends BaseActivity {
     }
 
     private void initVideos() {
-        EglBase rootEglBase = EglBase.create();
+        rootEglBase = EglBase.create();
         localSurfaceView.init(rootEglBase.getEglBaseContext(), null);
         remoteSurfaceView.init(rootEglBase.getEglBaseContext(), null);
         localSurfaceView.setZOrderMediaOverlay(true);
-        remoteSurfaceView.setZOrderMediaOverlay(true);
+//        remoteSurfaceView.setZOrderMediaOverlay(true);
     }
 
     private VideoCapturer createVideoCapturer() {
@@ -193,13 +205,25 @@ public class CallActivity extends BaseActivity {
     }
 
     private void createPeerConnection() {
+        PeerConnection.RTCConfiguration rtcConfig =
+                new PeerConnection.RTCConfiguration(iceServers);
+        // TCP candidates are only useful when connecting to a server that supports
+        // ICE-TCP.
+        rtcConfig.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.DISABLED;
+        rtcConfig.bundlePolicy = PeerConnection.BundlePolicy.MAXBUNDLE;
+        rtcConfig.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE;
+        rtcConfig.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY;
+        // Use ECDSA encryption.
+        rtcConfig.keyType = PeerConnection.KeyType.ECDSA;
+
+
         //create sdpConstraints
         sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveVideo", "true"));
 
         //creating localPeer
-        localPeer = peerConnectionFactory.createPeerConnection(iceServers, sdpConstraints, new CustomPeerConnectionObserver("localPeerCreation") {
+        localPeer = peerConnectionFactory.createPeerConnection(rtcConfig, new CustomPeerConnectionObserver("localPeerCreation") {
             @Override
             public void onIceCandidate(IceCandidate iceCandidate) {
                 super.onIceCandidate(iceCandidate);
@@ -247,15 +271,6 @@ public class CallActivity extends BaseActivity {
             }
         });
 
-    }
-
-    public void onIceCandidateReceived(PeerConnection peer, IceCandidate iceCandidate) {
-        //we have received ice candidate. We can set it to the other peer.
-        if (peer == localPeer) {
-            remotePeer.addIceCandidate(iceCandidate);
-        } else {
-            localPeer.addIceCandidate(iceCandidate);
-        }
     }
 
 
@@ -324,29 +339,35 @@ public class CallActivity extends BaseActivity {
     }
 
     private void createAnswer() {
-        localPeer.createAnswer(new CustomSdpObserver("localCreateAnswer") {
+        localPeer.createAnswer(new CustomSdpObserver("localCreateAns") {
             @Override
             public void onCreateSuccess(SessionDescription sessionDescription) {
                 super.onCreateSuccess(sessionDescription);
                 localPeer.setLocalDescription(new CustomSdpObserver("localSetLocalDescription"), sessionDescription);
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("type", sessionDescription.type.canonicalForm());
-                    data.put("sdp", sessionDescription);
+                    data.put("type", sessionDescription.type.ANSWER);
+                    data.put("sdp", sessionDescription.description);
                     ChatService.getChat().emitCallContent(data, roomId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 createPeerConnection();
             }
-        }, sdpConstraints);
+
+            @Override
+            public void onCreateFailure(String s) {
+                super.onCreateFailure(s);
+            }
+
+        }, new MediaConstraints());
 
     }
 
     private void onReceiveAnswer(JSONObject data) {
         try {
             localPeer.setRemoteDescription(new CustomSdpObserver("localSetRemoteDescription"),
-                    new SessionDescription(SessionDescription.Type.ANSWER, data.getString("sdp")));
+                    new SessionDescription(SessionDescription.Type.fromCanonicalForm(data.getString("type").toLowerCase()), data.getString("sdp")));
             createPeerConnection();
         } catch (JSONException e) {
             e.printStackTrace();
