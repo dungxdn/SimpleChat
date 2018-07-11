@@ -166,6 +166,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         Room room = Common.getRoomWithUser(user.getId());
         if (room != null) {
             ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
+            ((MainActivity) getActivity()).hiddenProgressBar();
         } else {
             // add Room
             if (mUserRealmList.size() != 0) {
@@ -186,13 +187,13 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
                         @Override
                         public void onSuccess(GetRoomResponse result) {
-                            ((MainActivity) getActivity()).hiddenProgressBar();
                             List<User> mUserInRoomList = result.getData().getUsers();
                             for (User u : mUserInRoomList) {
                                 mUserRealmList.add(u);
                             }
                             mRoom.setUsers(mUserRealmList);
                             new RoomDAO().insertOrUpdate(mRoom);
+                            ((MainActivity) getActivity()).hiddenProgressBar();
                             //Start ChatActivity
                             ChatTalksActivity_.intent(FriendFragment.this)
                                     .roomId(result.getData().getRoomId())

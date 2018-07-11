@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -31,6 +33,7 @@ import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
 import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 public class ChatTalksAdapter extends RecyclerView.Adapter {
@@ -42,10 +45,15 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_IMAGE_RECEIVED = 4;
     private static final int VIEW_TYPE_MESSAGE_LINK_SEND = 5;
     private static final int VIEW_TYPE_MESSAGE_LINK_RECEIVED = 6;
+    interface Listener {
+        void onViewDone();
+    }
+    Listener mListener;
 
-    public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList) {
+    public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList,Listener listener) {
         this.messageArrayList = messageArrayList;
         this.mContext = mContext;
+        this.mListener = listener;
     }
 
     @Override
@@ -133,6 +141,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             }
             //Set Avatar
             setAvatar(mMessage.getUserID(),imageMessageViewHolder.mAvatar);
+            mListener.onViewDone();
            }
     }
 
@@ -198,7 +207,6 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
-        String temp = new UserDAO().getUser(id).getAvatar();
         Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
     }
 }

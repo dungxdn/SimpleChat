@@ -101,6 +101,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     if (data.length()==0) return;
                     String roomID = data.getString("roomId");
                     String typeRoom = data.getString("type");
+                    String roomName = data.getString("roomName");
                     ArrayList<User> arrayUserRoom = new ArrayList<>();
                     JSONArray jsonArray = data.getJSONArray("users");
                     Gson gson = new Gson();
@@ -117,6 +118,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                         int mRoomID = Integer.parseInt(roomID);
                         int mTypeRoom = Integer.parseInt(typeRoom);
                         Room room = new Room();
+                        room.setRoomName(roomName);
                         room.setRoomId(mRoomID);
                         room.setType(mTypeRoom);
                         room.setUsers(usersRealmList);

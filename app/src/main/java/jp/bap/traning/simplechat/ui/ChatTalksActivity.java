@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -56,6 +57,8 @@ public class ChatTalksActivity extends BaseActivity {
     EditText edtMessage;
     @ViewById
     CustomToolbar_ mToolbar;
+    @ViewById
+    ProgressBar mProgressBar;
     @Extra
     int roomId;
 
@@ -68,6 +71,7 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Click
     void imgSendMessage() {
+
         if (edtMessage.getText().toString().trim().isEmpty()) {
             Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
         } else {
@@ -77,7 +81,7 @@ public class ChatTalksActivity extends BaseActivity {
                 if (chatTalksPresenter.containsLink(messageChat) == true) {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
-                    message = new Message(messageChat, Common.mMineId, roomId, Common.typeText);
+                    message = new Message(messageChat, Common.getUserLogin().getId(), roomId, Common.typeText);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -94,6 +98,7 @@ public class ChatTalksActivity extends BaseActivity {
     @Click
     void imgImage() {
         Common.selectImage(this);
+        showProgressBar(mProgressBar);
     }
 
 
@@ -115,9 +120,10 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
     private void init() {
+        mProgressBar.setVisibility(View.GONE);
         //Initial RecyclerView
         listMessage = new ArrayList<>();
-        chatTalksAdapter = new ChatTalksAdapter(this, listMessage);
+        chatTalksAdapter = new ChatTalksAdapter(this, listMessage, () -> hiddenProgressBar(mProgressBar));
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         listViewChat.setLayoutManager(mLayoutManager);
         listViewChat.setItemAnimator(new DefaultItemAnimator());
