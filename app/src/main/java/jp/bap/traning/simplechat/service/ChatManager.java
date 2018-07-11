@@ -33,11 +33,11 @@ public class ChatManager {
                 Event.ON_USER_OFFLINE,
                 Event.ON_USER_ONLINE,
                 Event.CREATE_ROOM,
+                //call
                 Event.CALL,
                 Event.CALL_CONTENT,
                 Event.CALL_ACCEPT,
                 Event.CALL_STOP
-
         );
     }
 
@@ -52,6 +52,7 @@ public class ChatManager {
                     Log.d(TAG, "Callback ON: " + event.getEvent() + " - " + args[0]);
                     if (args[args.length - 1] instanceof Ack) {
                         // TODO: 6/7/18
+                        Log.d(TAG, "Callback ON: " + event + " had ack!");
                     }
                     if (mListener != null) {
                         mListener.onEvent(event, (JSONObject) args[0]);
@@ -82,11 +83,6 @@ public class ChatManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void getUsersOnline() {
-        JSONObject data = new JSONObject();
-        emit(Event.USER_ONLINE,data);
     }
 
     public void emitCallContent(JSONObject message, int roomId) {
@@ -127,5 +123,10 @@ public class ChatManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+        public void getUsersOnline() {
+        JSONObject data = new JSONObject();
+        emit(Event.USER_ONLINE,data);
     }
 }

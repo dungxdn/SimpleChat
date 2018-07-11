@@ -29,6 +29,7 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     ProgressBar mProgressBar;
 
+
     @Override
     public void afterView() {
         init();
@@ -44,16 +45,15 @@ public class LoginActivity extends BaseActivity {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!",
                     Toast.LENGTH_SHORT).show();
+            hiddenProgressBar(mProgressBar);
         } else {
-            showProgressBar(mProgressBar);
-            indicatorView.show();
             mLoginPresenter.logIn(userName, password, new LoginView() {
                 @Override
                 public void onSuccess(UserResponse result) {
                     hiddenProgressBar(mProgressBar);
                     indicatorView.hide();
                     setResult(Common.REQUEST_LOGIN);
-                    new UserDAO().insertOrUpdate(result.getData());
+//                    new UserDAO().insertOrUpdate(result.getData());
                     finish();
                 }
 
@@ -83,5 +83,11 @@ public class LoginActivity extends BaseActivity {
     public void init() {
         mProgressBar.setVisibility(View.GONE);
         this.mLoginPresenter = new LoginPresenter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

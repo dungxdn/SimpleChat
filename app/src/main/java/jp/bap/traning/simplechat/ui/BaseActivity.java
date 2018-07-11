@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -127,19 +128,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 break;
             }
 
-            case CALL_CONTENT:
+            case CALL_CONTENT: {
                 onCallContent(data);
                 break;
+            }
 
-            case CALL_ACCEPT:
+            case CALL_ACCEPT: {
                 onCallAccept();
                 break;
+            }
 
-            case CALL_STOP:
+            case CALL_STOP: {
                 onCallStop();
                 break;
+            }
 
-            case CALL:
+            case CALL: {
                 try {
                     int roomId = data.getInt("roomId");
                     onCall(roomId);
@@ -147,7 +151,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     e.printStackTrace();
                 }
                 break;
-
+            }
         }
     }
 
@@ -188,5 +192,4 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
     public void onCall(int roomId) {
     }
-
 }

@@ -5,7 +5,6 @@ import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.List;
 
-import jp.bap.traning.simplechat.database.MessageDAO;
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
@@ -187,13 +186,13 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
                         @Override
                         public void onSuccess(GetRoomResponse result) {
-                            ((MainActivity) getActivity()).hiddenProgressBar();
                             List<User> mUserInRoomList = result.getData().getUsers();
                             for (User u : mUserInRoomList) {
                                 mUserRealmList.add(u);
                             }
                             mRoom.setUsers(mUserRealmList);
                             new RoomDAO().insertOrUpdate(mRoom);
+                            ((MainActivity) getActivity()).hiddenProgressBar();
                             //Start ChatActivity
                             ChatTalksActivity_.intent(FriendFragment.this)
                                     .roomId(result.getData().getRoomId())
@@ -236,7 +235,14 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
     @Override
     public void onCallVideo(int userId) {
-
+        ((MainActivity) getActivity()).showProgressBar();
+        //get room from realm.
+        Room room = Common.getRoomWithUser(userId);
+        CallActivity_.intent(getContext())
+                .roomId(room.getRoomId())
+                .isIncoming(false)
+                .start();
+        ((MainActivity) getActivity()).hiddenProgressBar();
     }
 
     @Override

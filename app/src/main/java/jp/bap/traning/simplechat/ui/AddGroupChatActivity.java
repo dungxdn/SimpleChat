@@ -99,6 +99,9 @@ public class AddGroupChatActivity extends BaseActivity {
             Toast.makeText(this, "Please, insert group's name", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (mIdListFully.size() > 2) {
+            sGroupName = mEdtGroupName.getText().toString().trim();
+        }
         //init RealmList to add to realm
         mUserRealmList.clear();
         for (Integer i : mIdList) {
@@ -111,7 +114,7 @@ public class AddGroupChatActivity extends BaseActivity {
         }
         mUserRealmList.add(Common.getUserLogin());
         //add Room to server
-        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, mEdtGroupName.getText().toString().trim(),
+        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, sGroupName,
                 new AddRoomView() {
                     @Override
                     public void onSuccess(AddRoomResponse result) {

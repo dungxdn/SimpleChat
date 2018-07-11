@@ -3,24 +3,16 @@ package jp.bap.traning.simplechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
-
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
@@ -47,8 +39,10 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
-    public static final int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
+    public static final int mMineId =
+            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+
 
     public static void connectToServerSocket(Context context, String host, int token) {
         if (ChatService.getChat() == null) {
@@ -89,7 +83,8 @@ public class Common {
         return room;
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+            int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -99,7 +94,8 @@ public class Common {
             final int halfWidth = width / 2;
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
@@ -113,10 +109,7 @@ public class Common {
     }
 
     public static void selectImage(Activity activity) {
-        ImagePicker.create(activity)
-                .returnMode(ReturnMode.GALLERY_ONLY)
-                .single()
-                .start();
+        ImagePicker.create(activity).returnMode(ReturnMode.GALLERY_ONLY).single().start();
     }
 
     public static boolean checkValidUser(ArrayList<User> users) {
@@ -143,7 +136,7 @@ public class Common {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void setImage(Context mContext,String linkImage,ImageView circleImageView) {
+    public static void setImage(Context mContext, String linkImage, ImageView circleImageView) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);
