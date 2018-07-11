@@ -60,7 +60,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         Message mMessage = messageArrayList.get(position);
         //Check Who is owner message
-        if (mMessage.getUserID() == Common.getUserLogin().getId()) {
+        if (mMessage.getUserID() == Common.mMineId) {
             //Check message is String or Image
             if(Common.typeImage.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_IMAGE_SEND;
@@ -116,8 +116,8 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         if(Common.typeText.equals(mMessage.getType())) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
             messageViewHolder.txtMessage.setText(mMessage.getContent());
-            if(Common.getUserLogin().getId() != mMessage.getUserID()) {
-                messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName()+"");
+            if(Common.mMineId != mMessage.getUserID()) {
+                messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
             setAvatar(mMessage.getUserID(),messageViewHolder.mAvatar);
@@ -127,7 +127,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             String arr[] = mMessage.getContent().split(";");
             linkMessageViewHolder.linkMessage.setText(arr[0]);
             linkMessageViewHolder.linkDescription.setText(arr[1]);
-            if(Common.getUserLogin().getId() != mMessage.getUserID()) {
+            if(Common.mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
@@ -136,7 +136,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
             Common.setImage(mContext,mMessage.getContent(),imageMessageViewHolder.imageView);
-            if(Common.getUserLogin().getId() != mMessage.getUserID()) {
+            if(Common.mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar

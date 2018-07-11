@@ -30,10 +30,6 @@
     <string name="text_message_send">message send...</string>
     <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
 
-    //NetWork Activity
-    <string name="capture">No Internet Connection</string>
-    <string name="description">Your phone is currently not connected to the internet. Please set up a connection!</string>
-    <string name="button_try_again"><u>Try Again!</u></string>
     //
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
@@ -42,8 +38,7 @@
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
     <string name="str_not_have_room">You not have room chat</string>
-    <string name="empty" translatable="false" />
+    <string name="empty" translatable="false"/>
 
     <string name="str_profile">Profile</string>
-    <string name="title_activity_main2">Main2Activity</string>
 </resources>

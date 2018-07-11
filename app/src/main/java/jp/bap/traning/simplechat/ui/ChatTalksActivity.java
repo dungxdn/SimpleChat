@@ -82,7 +82,6 @@ public class ChatTalksActivity extends BaseActivity {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
                     message = new Message(messageChat, Common.getUserLogin().getId(), roomId, Common.typeText);
-                    Log.d("SharePres luc nhan tin","MineID: "+Common.mMineId);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -147,7 +146,7 @@ public class ChatTalksActivity extends BaseActivity {
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
             public void onRequestURLSuccess(String link, String title) {
-                message = new Message(link+";"+title, Common.getUserLogin().getId() , roomId, Common.typeLink);
+                message = new Message(link+";"+title, Common.mMineId, roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -159,7 +158,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link+";"+"No preview available", Common.mMineId , roomId, Common.typeLink);
+                message = new Message(link+";"+"No preview available", Common.mMineId, roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -179,13 +178,6 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
     public void addEvents() {
-        mToolbar.getCallVideoButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CallActivity_.intent(ChatTalksActivity.this).isIncoming(false).roomId(roomId).start();
-            }
-        });
-
         listViewChat.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (bottom < oldBottom) {
                 listViewChat.postDelayed(() -> {
@@ -216,9 +208,6 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null) {
-            hiddenProgressBar(mProgressBar);
-        }
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
@@ -227,7 +216,7 @@ public class ChatTalksActivity extends BaseActivity {
                     @Override
                     public void onSuccess(ImageResponse result) {
                         linkImage = result.getData().getLink();
-                        message = new Message(linkImage, Common.getUserLogin().getId() , roomId, Common.typeImage);
+                        message = new Message(linkImage, Common.mMineId, roomId, Common.typeImage);
                         listMessage.add(message);
                         chatTalksAdapter.notifyDataSetChanged();
                         listViewChat.smoothScrollToPosition(listMessage.size() - 1);

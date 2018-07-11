@@ -1,7 +1,6 @@
-package jp.bap.traning.simplechat.utils;
+package jp.bap.traning.simplechat.webrtc;
 
 import android.util.Log;
-
 import org.webrtc.DataChannel;
 import org.webrtc.IceCandidate;
 import org.webrtc.MediaStream;
