@@ -12,14 +12,17 @@ import com.esafirm.imagepicker.features.ReturnMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import io.realm.RealmList;
 import java.util.ArrayList;
+import java.util.List;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
+import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.service.ChatService;
-
 import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
@@ -42,6 +45,7 @@ public class Common {
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
     public static final int mMineId =
             SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+    public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
 
     public static void connectToServerSocket(Context context, String host, int token) {
@@ -84,7 +88,7 @@ public class Common {
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-            int reqHeight) {
+                                            int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -142,5 +146,41 @@ public class Common {
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
         Glide.with(mContext).load(linkImage).apply(options).into(circleImageView);
+    }
+
+    public static int isRoomExits(List<Room> roomList, List<Integer> idList) {
+        for (Room r : roomList) {
+            if (r.getUsers().size() == idList.size()) {
+                if (isListIdExitInRoom(r, idList)) return r.getRoomId();
+            }
+        }
+        return DEFAULT_VALUE_IF_NOT_EXITS_GROUP;
+    }
+
+    public static boolean isListIdExitInRoom(Room room, List<Integer> listId) {
+        for (Integer i : listId) {
+            if (!isIdExitsInListUser(room.getUsers(), i)) return false;
+        }
+        return true;
+    }
+
+    public static boolean isIdExitsInListUser(List<User> userList, int id) {
+        for (User u : userList) {
+            if (id == u.getId()) return true;
+        }
+        return false;
+    }
+
+
+
+    public static void insertOrUpdateRoomToRealm(AddRoomResponse result, RealmList<User> realmList) {
+        Room mRoom = new Room();
+        RoomData mRoomData = result.getData();
+        mRoom.setRoomId(mRoomData.getRoomId());
+        mRoom.setType(mRoomData.getType());
+        mRoom.setUsers(realmList);
+        mRoom.setRoomName(mRoomData.getRoomName());
+        new RoomDAO().insertOrUpdate(mRoom);
+        realmList.clear();
     }
 }

@@ -14,8 +14,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mAvatarAddNews"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/ic_avatar_default"
@@ -32,7 +32,7 @@
             android:text="Name"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="@dimen/_20ssp" />
+            android:textSize="@dimen/_15ssp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edtDescription"
