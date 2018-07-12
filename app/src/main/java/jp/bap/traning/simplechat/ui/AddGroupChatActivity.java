@@ -37,7 +37,6 @@ public class AddGroupChatActivity extends BaseActivity {
     private AddRoomPresenter mAddRoomPresenter;
     private static int sTYPE_GROUP = 1;
     private RealmList<User> mUserRealmList;
-    private static final int sDEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
     private static String TAG = "AddGroupChat";
     @Nullable
     private static String sGroupName = null;
@@ -79,11 +78,11 @@ public class AddGroupChatActivity extends BaseActivity {
         }
         //if group have 2 people
         if (mIdListFully.size() == 2) {
-            int result = isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
+            int result = Common.isRoomExits(new RoomDAO().getAllRoom(), mIdListFully);
             sTYPE_GROUP = 0;
             sGroupName = null;
             //if existsed room
-            if (result != sDEFAULT_VALUE_IF_NOT_EXITS_GROUP) {
+            if (result != Common.DEFAULT_VALUE_IF_NOT_EXITS_GROUP) {
                 Log.d(TAG, "Get Exists Group (" + result + ")");
                 ChatTalksActivity_.intent(AddGroupChatActivity.this).roomId(result).start();
                 hiddenProgressBar(mProgressBar);
@@ -114,42 +113,33 @@ public class AddGroupChatActivity extends BaseActivity {
         }
         mUserRealmList.add(Common.getUserLogin());
         //add Room to server
-        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, sGroupName,
-                new AddRoomView() {
-                    @Override
-                    public void onSuccess(AddRoomResponse result) {
-                        //insert or update room to Realm
-                        hiddenProgressBar(mProgressBar);
-                        Room mRoom = new Room();
-                        RoomData mRoomData = result.getData();
-                        mRoom.setRoomId(mRoomData.getRoomId());
-                        mRoom.setType(mRoomData.getType());
-                        mRoom.setUsers(mUserRealmList);
-                        mRoom.setRoomName(mRoomData.getRoomName());
-                        new RoomDAO().insertOrUpdate(mRoom);
-                        mUserRealmList.clear();
-                        //Start ChatActivity
-                        Log.d(TAG, "Create New Group");
-                        ChatTalksActivity_.intent(AddGroupChatActivity.this)
-                                .roomId(result.getData().getRoomId())
-                                .start();
-                        finish();
-                    }
+        mAddRoomPresenter.addroom(mIdList, sTYPE_GROUP, sGroupName, new AddRoomView() {
+            @Override
+            public void onSuccess(AddRoomResponse result) {
+                hiddenProgressBar(mProgressBar);
+                //insert or update room to Realm
+                Common.insertOrUpdateRoomToRealm(result, mUserRealmList);
+                //Start ChatActivity
+                Log.d(TAG, "Create New Group");
+                ChatTalksActivity_.intent(AddGroupChatActivity.this)
+                        .roomId(result.getData().getRoomId())
+                        .start();
+                finish();
+            }
 
-                    @Override
-                    public void onError(String message, int code) {
-                        hiddenProgressBar(mProgressBar);
-                        Toast.makeText(AddGroupChatActivity.this, code + ", " + message,
-                                Toast.LENGTH_SHORT).show();
-                    }
+            @Override
+            public void onError(String message, int code) {
+                hiddenProgressBar(mProgressBar);
+                Toast.makeText(AddGroupChatActivity.this, code + ", " + message, Toast.LENGTH_SHORT)
+                        .show();
+            }
 
-                    @Override
-                    public void onFailure() {
-                        hiddenProgressBar(mProgressBar);
-                        Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                });
+            @Override
+            public void onFailure() {
+                hiddenProgressBar(mProgressBar);
+                Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void setupToolbar() {
@@ -217,28 +207,5 @@ public class AddGroupChatActivity extends BaseActivity {
             mIdList.remove(new Integer(users.getId()));
         }
         mAddGroupChatAdapter.notifyDataSetChanged();
-    }
-
-    public int isRoomExits(List<Room> roomList, List<Integer> idList) {
-        for (Room r : roomList) {
-            if (r.getUsers().size() == idList.size()) {
-                if (isListIdExitInRoom(r, idList)) return r.getRoomId();
-            }
-        }
-        return sDEFAULT_VALUE_IF_NOT_EXITS_GROUP;
-    }
-
-    public boolean isListIdExitInRoom(Room room, List<Integer> listId) {
-        for (Integer i : listId) {
-            if (!isIdExitsInListUser(room.getUsers(), i)) return false;
-        }
-        return true;
-    }
-
-    public boolean isIdExitsInListUser(List<User> userList, int id) {
-        for (User u : userList) {
-            if (id == u.getId()) return true;
-        }
-        return false;
     }
 }
