@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import org.androidannotations.annotations.EApplication;
 
 import io.realm.Realm;

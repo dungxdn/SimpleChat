@@ -27,6 +27,7 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 
 import jp.bap.traning.simplechat.utils.Event;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -76,7 +77,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void afterView() {
-        Log.d(TAG, "onCreate: ");
+//        Log.d(TAG, "onCreate:aa " + Common.getPermissionCall());
         hiddenProgressBar();
         init();
     }
