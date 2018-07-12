@@ -27,6 +27,7 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 
 import jp.bap.traning.simplechat.utils.Event;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -48,6 +49,7 @@ import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
+
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_main)
@@ -68,6 +70,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String FRIEND_TITLE = "Friends";
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
+    private final String NEWS_TITLE = "News";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void init() {
-        mToolbar.setTitle(FRIEND_TITLE);
+        mToolbar.setTitle(NEWS_TITLE);
         mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
@@ -90,6 +93,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewpagerAdapter.addFragment(new NewsFragment_(),
+                getResources().getString(R.string.title_tab_news),
+                R.drawable.ic_news);
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);
@@ -100,7 +106,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 getResources().getString(R.string.title_tab_more),
                 R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(this);
 
@@ -130,10 +136,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
-                mToolbar.setTitle(FRIEND_TITLE);
+                mToolbar.setTitle(NEWS_TITLE);
                 break;
 
             case 1:
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
+                mToolbar.getImgButtonSearch().setVisibility(View.GONE);
+                mToolbar.setTitle(FRIEND_TITLE);
+                break;
+
+            case 2:
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
@@ -141,7 +155,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
-            case 2:
+            case 3:
                 mToolbar.getTvTitle().setVisibility(View.GONE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
@@ -219,9 +233,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: ");
         showProgressBar();
-        if(data != null){
+        if (data != null) {
             showProgressBar();
-        }else{
+        } else {
             hiddenProgressBar();
         }
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {

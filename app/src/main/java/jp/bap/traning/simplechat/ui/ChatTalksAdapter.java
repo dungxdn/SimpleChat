@@ -90,7 +90,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
-            View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
+                View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
             return new MessageViewHolder(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED){
             View view = layoutInflater.inflate(R.layout.view_holder_chat_receive_message, parent, false);

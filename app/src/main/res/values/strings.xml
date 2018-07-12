@@ -30,15 +30,18 @@
     <string name="text_message_send">message send...</string>
     <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
 
-    //
+    //Fragment
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
     <string name="title_tab_more">More</string>
+    <string name="title_tab_news">News</string>
     <string name="title_me">Me</string>
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
     <string name="str_not_have_room">You not have room chat</string>
-    <string name="empty" translatable="false"/>
+    <string name="empty" translatable="false" />
 
     <string name="str_profile">Profile</string>
+    <string name="title_activity_news_fragment">NewsFragment</string>
+    <string name="action_settings">Settings</string>
 </resources>
