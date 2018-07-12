@@ -2,6 +2,8 @@ package jp.bap.traning.simplechat.ui;
 
 import android.content.Context;
 import android.support.v4.widget.TextViewCompat;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,11 @@ import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.utils.Common;
 
-public class NewsAdapter extends RecyclerView.Adapter{
+public class NewsAdapter extends RecyclerView.Adapter {
     private ArrayList<News> newsArrayList;
     private Context mContext;
 
-    public NewsAdapter(Context mContext, ArrayList<News> newsArrayList ) {
+    public NewsAdapter(Context mContext, ArrayList<News> newsArrayList) {
         this.newsArrayList = newsArrayList;
         this.mContext = mContext;
     }
@@ -40,24 +42,24 @@ public class NewsAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         News mNews = newsArrayList.get(position);
-        NewsViewHolder newsViewHolder  = (NewsViewHolder) holder;
-        newsViewHolder.txtName.setText(mNews.getUser().getFirstName()+mNews.getUser().getLastName());
-        newsViewHolder.txtName2.setText(mNews.getUser().getFirstName()+mNews.getUser().getLastName());
+        NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
+        newsViewHolder.txtName.setText(mNews.getUser().getFirstName() + mNews.getUser().getLastName());
+        newsViewHolder.txtName2.setText(mNews.getUser().getFirstName() + mNews.getUser().getLastName());
         newsViewHolder.txtDescription.setText(mNews.getDescription());
-        Common.setImage(mContext,mNews.getImageView(),newsViewHolder.imageView);
-        setAvatar(mNews.getUser().getId(),newsViewHolder.avatar);
+        Common.setImage(mContext, mNews.getImageView(), newsViewHolder.imageView);
+        setAvatar(mNews.getUser().getId(), newsViewHolder.avatar);
     }
 
     @Override
     public int getItemCount() {
-        return newsArrayList.size() ;
+        return newsArrayList.size();
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
         CircleImageView avatar;
-        TextView txtName, txtName2;
-        ImageView imageView;
-        TextView txtDescription;
+        AppCompatTextView txtName, txtName2;
+        AppCompatImageView imageView;
+        AppCompatTextView txtDescription;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -66,10 +68,15 @@ public class NewsAdapter extends RecyclerView.Adapter{
             txtName2 = itemView.findViewById(R.id.txtName2);
             imageView = itemView.findViewById(R.id.imgNews);
             txtDescription = itemView.findViewById(R.id.txtDescription);
+            imageView.setOnClickListener(view -> {
+                News mNews = newsArrayList.get(getAdapterPosition());
+                FullScreenImageActivity_.intent(mContext).urlImage(mNews.getImageView()).start();
+            });
+
         }
     }
 
-    private void setAvatar(int id,CircleImageView mAvatar) {
+    private void setAvatar(int id, CircleImageView mAvatar) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);

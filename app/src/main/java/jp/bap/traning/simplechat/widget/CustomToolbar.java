@@ -1,10 +1,12 @@
 package jp.bap.traning.simplechat.widget;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.support.v7.widget.SearchView;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import jp.bap.traning.simplechat.ui.SearchGroupChatActivity_;
 import org.androidannotations.annotations.Click;
@@ -21,6 +23,8 @@ public class CustomToolbar extends RelativeLayout {
     @ViewById
     AppCompatTextView mTvTitle;
     @ViewById
+    AppCompatTextView mTvCreateNews;
+    @ViewById
     AppCompatImageButton mImgButtonBack;
     @ViewById
     AppCompatImageButton mImgButtonAddGroup;
@@ -34,6 +38,9 @@ public class CustomToolbar extends RelativeLayout {
     AppCompatImageButton mImgButtonSearch;
     @ViewById
     SearchView mSearchView;
+    @ViewById
+    AppCompatButton mButtonSharing;
+
     private Context context;
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -55,6 +62,10 @@ public class CustomToolbar extends RelativeLayout {
         mTvTitle.setText(title);
     }
 
+    public void setmTvCreateNews(String titleCreateNews) {
+        mTvCreateNews.setText(titleCreateNews);
+    }
+
     public void setTitleColor(int idColor) {
         mTvTitle.setTextColor(idColor);
     }
@@ -65,6 +76,9 @@ public class CustomToolbar extends RelativeLayout {
 
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
+    }
+    public AppCompatTextView getmTvCreateNews() {
+        return mTvCreateNews;
     }
 
     public AppCompatImageButton getSettingButton() {
@@ -89,6 +103,10 @@ public class CustomToolbar extends RelativeLayout {
 
     public SearchView getSearchView() {
         return mSearchView;
+    }
+
+    public AppCompatButton getSharingButton() {
+        return mButtonSharing;
     }
 
     @Click(R.id.mImgButtonAddGroup)

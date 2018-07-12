@@ -14,7 +14,7 @@
         android:src="@drawable/ic_avatar_default"
         />
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:textStyle="bold"
         android:textSize="@dimen/_13ssp" />
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/imgNews"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_300sdp"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="@dimen/_5sdp"
         android:weightSum="7">
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/btnLike"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -51,7 +51,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/like" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/btnComment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -59,7 +59,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/comment" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/btnShare"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -68,7 +68,7 @@
             android:src="@drawable/share" />
     </LinearLayout>
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/countLike"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

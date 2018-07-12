@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
     private final String NEWS_TITLE = "News";
+    private final String ADD_NEWS_TITLE = "Create News";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);
+        mViewpagerAdapter.addFragment(new AddNewsFragment_(),"",
+                R.drawable.ic_add);
         mViewpagerAdapter.addFragment(new ChatFragment_(),
                 getResources().getString(R.string.title_tab_chat),
                 R.drawable.selection_icon_chat_tablayout);
@@ -136,7 +139,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
+                mToolbar.getmTvCreateNews().setVisibility(View.GONE);
                 mToolbar.setTitle(NEWS_TITLE);
+                mToolbar.getSharingButton().setVisibility(View.GONE);
                 break;
 
             case 1:
@@ -144,22 +149,41 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
+                mToolbar.getmTvCreateNews().setVisibility(View.GONE);
+                mToolbar.getSharingButton().setVisibility(View.GONE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
 
             case 2:
+                mToolbar.getTvTitle().setVisibility(View.GONE);
+                mToolbar.getmTvCreateNews().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
+                mToolbar.getImgButtonSearch().setVisibility(View.GONE);
+                mToolbar.getBackButton().setVisibility(View.GONE);
+                mToolbar.getSharingButton().setVisibility(View.VISIBLE);
+                mToolbar.setmTvCreateNews(ADD_NEWS_TITLE);
+                break;
+
+            case 3:
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
                 mToolbar.getImgButtonSearch().setVisibility(View.VISIBLE);
+                mToolbar.getSharingButton().setVisibility(View.GONE);
+                mToolbar.getBackButton().setVisibility(View.GONE);
+                mToolbar.getmTvCreateNews().setVisibility(View.GONE);
+                mToolbar.getSharingButton().setVisibility(View.GONE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
 
-            case 3:
+            case 4:
                 mToolbar.getTvTitle().setVisibility(View.GONE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
+                mToolbar.getmTvCreateNews().setVisibility(View.GONE);
+                mToolbar.getSharingButton().setVisibility(View.GONE);
                 break;
         }
     }
