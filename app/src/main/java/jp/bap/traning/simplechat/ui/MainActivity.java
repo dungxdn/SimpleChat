@@ -72,6 +72,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String MORE_TITLE = "More";
     private final String NEWS_TITLE = "News";
     private final String ADD_NEWS_TITLE = "Create News";
+    private AddNewsFragment_ mAddNewsFragment = new AddNewsFragment_();
+    private MoreFragment_ mMoreFragment = new MoreFragment_();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,12 +102,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);
-        mViewpagerAdapter.addFragment(new AddNewsFragment_(),"",
+        mViewpagerAdapter.addFragment(mAddNewsFragment, "",
                 R.drawable.ic_add);
         mViewpagerAdapter.addFragment(new ChatFragment_(),
                 getResources().getString(R.string.title_tab_chat),
                 R.drawable.selection_icon_chat_tablayout);
-        mViewpagerAdapter.addFragment(new MoreFragment_(),
+        mViewpagerAdapter.addFragment(mMoreFragment,
                 getResources().getString(R.string.title_tab_more),
                 R.drawable.selection_icon_more_tablayout);
         mViewPager.setAdapter(mViewpagerAdapter);
@@ -118,6 +120,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         for (int i = 0; i < length; i++) {
             mTabLayout.getTabAt(i).setCustomView(mViewpagerAdapter.getTabView(i));
         }
+
+        mToolbar.getSharingButton().setOnClickListener(view -> {
+            //Goi Emit
+            if (mAddNewsFragment.getNews() == null) {
+            } else {
+                //Gui su kien toi Server
+                mAddNewsFragment.linkImage="";
+                Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     @Override
@@ -255,104 +268,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: ");
-        showProgressBar();
-        if (data != null) {
-            showProgressBar();
-        } else {
-            hiddenProgressBar();
+        if (mAddNewsFragment.pickImage == true) {
+            mAddNewsFragment.pickImage = false;
+            mAddNewsFragment.onActivityResult(requestCode, resultCode, data);
+        } else if (mMoreFragment.pickAvatar == true) {
+            mMoreFragment.pickAvatar = false;
+            mMoreFragment.onActivityResult(requestCode, resultCode, data);
         }
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            Image image = ImagePicker.getFirstImageOrNull(data);
-            try {
-                File mFile = new File(image.getPath());
-                new UploadImagePresenter().uploadImage("", "", "", "", mFile, new UploadImageView() {
-                    @Override
-                    public void onSuccess(ImageResponse result) {
-                        Log.d(TAG, "onSuccess: " + result.toString());
-                        String linkImage = result.getData().getLink();
-                        setDialogEditProfile(Common.getUserLogin(), linkImage);
-                        hiddenProgressBar();
-                    }
-
-                    @Override
-                    public void onError(String message, int code) {
-                        Log.d(TAG, "onError: ");
-                        Toast.makeText(MainActivity.this, "Error when upload image", Toast.LENGTH_SHORT).show();
-                        hiddenProgressBar();
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        Log.d(TAG, "onFailure: ");
-                        Toast.makeText(MainActivity.this, "Upload image fail", Toast.LENGTH_SHORT).show();
-                        hiddenProgressBar();
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    public static String mFirstName = Common.getUserLogin().getFirstName();
-    public static String mLastname = Common.getUserLogin().getLastName();
-
-    public void setDialogEditProfile(User user, String linkImage) {
-        Dialog mDialog = new Dialog(this);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.dialog_edit_profile_layout);
-        mDialog.setCancelable(false);
-
-        CircleImageView dialogImgAvata = mDialog.findViewById(R.id.mImgAvatar);
-        AppCompatEditText edtFirstName = mDialog.findViewById(R.id.mEdtFirstName);
-        AppCompatEditText edtLastName = mDialog.findViewById(R.id.mEdtLastName);
-        AppCompatButton btnCancel = mDialog.findViewById(R.id.mBtnCancel);
-        AppCompatButton btnSave = mDialog.findViewById(R.id.mBtnSave);
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        options.placeholder(R.drawable.ic_avatar_default);
-        options.error(R.drawable.ic_avatar_default);
-        Glide.with(this).load(linkImage).apply(options).into(dialogImgAvata);
-        edtFirstName.setText(mFirstName);
-        edtLastName.setText(mLastname);
-        dialogImgAvata.setOnClickListener(view -> {
-                    Common.selectImage(this);
-                    mFirstName = edtFirstName.getText().toString();
-                    mLastname = edtLastName.getText().toString();
-                    mDialog.dismiss();
-                }
-        );
-        btnCancel.setOnClickListener(view -> {
-            mDialog.dismiss();
-            mFirstName = user.getFirstName();
-            mLastname = user.getLastName();
-        });
-        btnSave.setOnClickListener(view -> {
-            new UpdateUserPresenter().updateUser(edtFirstName.getText().toString(), edtLastName.getText().toString(), linkImage, new UpdateUserView() {
-                @Override
-                public void onSuccess(BaseResponse result) {
-                    Toast.makeText(getApplicationContext(), "Update success", Toast.LENGTH_SHORT).show();
-                    user.setAvatar(linkImage);
-                    user.setFirstName(edtFirstName.getText().toString());
-                    user.setLastName(edtLastName.getText().toString());
-                    new UserDAO().insertOrUpdate(user);
-                    mDialog.dismiss();
-                }
-
-                @Override
-                public void onError(String message, int code) {
-                    Toast.makeText(getApplicationContext(), "Update success", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure() {
-                    Toast.makeText(getApplicationContext(), "Update success", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-        mDialog.show();
     }
 
     @Override

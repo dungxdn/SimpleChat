@@ -43,6 +43,11 @@ public class CustomToolbar extends RelativeLayout {
 
     private Context context;
 
+    interface Listenner{
+        void onShare();
+    }
+    Listenner mListenner;
+
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
@@ -118,4 +123,7 @@ public class CustomToolbar extends RelativeLayout {
     public void showSearchView() {
         SearchGroupChatActivity_.intent(getContext()).start();
     }
+
+    @Click(R.id.mButtonSharing)
+    public void shareNews(){ mListenner.onShare();}
 }

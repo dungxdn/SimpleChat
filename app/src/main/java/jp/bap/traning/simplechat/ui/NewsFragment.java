@@ -22,6 +22,7 @@ public class NewsFragment extends BaseFragment {
 
     @ViewById
     RecyclerView listViewNews;
+
     @Override
     public void afterView() {
         init();
@@ -30,7 +31,7 @@ public class NewsFragment extends BaseFragment {
 
     private void init() {
         newsArrayList = new ArrayList<>();
-        newsAdapter = new NewsAdapter(getActivity(),newsArrayList);
+        newsAdapter = new NewsAdapter(getActivity(), newsArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         listViewNews.setLayoutManager(mLayoutManager);
         listViewNews.setItemAnimator(new DefaultItemAnimator());
@@ -42,8 +43,8 @@ public class NewsFragment extends BaseFragment {
 
 
     private void fakeData() {
-        News news = new News(Common.getUserLogin(),"I like her","http://www2.pictures.zimbio.com/gi/Alyssa+Lynch+Milly+Presentation+September+Rg9V50kmCHTl.jpg");
-        News news2 = new News(Common.getUserLogin(),"I'm the best","https://vcdn-thethao.vnecdn.net/2018/07/11/ronaldo5-2974-1531298043.jpg");
+        News news = new News(Common.getUserLogin(), "I like her", "http://www2.pictures.zimbio.com/gi/Alyssa+Lynch+Milly+Presentation+September+Rg9V50kmCHTl.jpg");
+        News news2 = new News(Common.getUserLogin(), "I'm the best", "https://vcdn-thethao.vnecdn.net/2018/07/11/ronaldo5-2974-1531298043.jpg");
         newsArrayList.add(news);
         newsArrayList.add(news2);
 

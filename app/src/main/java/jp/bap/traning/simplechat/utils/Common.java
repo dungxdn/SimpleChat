@@ -12,6 +12,8 @@ import com.esafirm.imagepicker.features.ReturnMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.RealmList;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,8 @@ public class Common {
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
     public static final int mMineId =
             SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+    public static String mFirstName = Common.getUserLogin().getFirstName();
+    public static String mLastname = Common.getUserLogin().getLastName();
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
 
@@ -112,8 +116,8 @@ public class Common {
         return new UserDAO().getUser(id);
     }
 
-    public static void selectImage(Activity activity) {
-        ImagePicker.create(activity).returnMode(ReturnMode.GALLERY_ONLY).single().start();
+    public static void selectImage(Context context) {
+        ImagePicker.create((Activity) context).returnMode(ReturnMode.GALLERY_ONLY).single().start();
     }
 
     public static boolean checkValidUser(ArrayList<User> users) {
@@ -143,9 +147,17 @@ public class Common {
     public static void setImage(Context mContext, String linkImage, ImageView circleImageView) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
+        options.placeholder(R.drawable.default_image_news);
+        options.error(R.drawable.default_image_news);
+        Glide.with(mContext).load(linkImage).apply(options).into(circleImageView);
+    }
+
+    public static void setAvatar(Context mContext,int id,CircleImageView mAvatar) {
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
-        Glide.with(mContext).load(linkImage).apply(options).into(circleImageView);
+        Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
     }
 
     public static int isRoomExits(List<Room> roomList, List<Integer> idList) {

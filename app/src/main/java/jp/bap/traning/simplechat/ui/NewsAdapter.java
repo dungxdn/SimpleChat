@@ -43,8 +43,8 @@ public class NewsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         News mNews = newsArrayList.get(position);
         NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-        newsViewHolder.txtName.setText(mNews.getUser().getFirstName() + mNews.getUser().getLastName());
-        newsViewHolder.txtName2.setText(mNews.getUser().getFirstName() + mNews.getUser().getLastName());
+        newsViewHolder.txtName.setText(mNews.getUser().getFirstName() +" "+ mNews.getUser().getLastName());
+        newsViewHolder.txtName2.setText(mNews.getUser().getFirstName() +" "+ mNews.getUser().getLastName());
         newsViewHolder.txtDescription.setText(mNews.getDescription());
         Common.setImage(mContext, mNews.getImageView(), newsViewHolder.imageView);
         setAvatar(mNews.getUser().getId(), newsViewHolder.avatar);

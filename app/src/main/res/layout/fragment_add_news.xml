@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
-    tools:context=".ui.AddNewsFragment">
+    tools:context=".ui.AddNewsFragment"
+    android:id="@+id/addNewsFragment"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,11 +52,10 @@
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/imgAddNews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_300sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_below="@+id/edtDescription"
             android:src="@drawable/default_image_news"
-            android:layout_centerInParent="true"
             />
     </RelativeLayout>
 </ScrollView>

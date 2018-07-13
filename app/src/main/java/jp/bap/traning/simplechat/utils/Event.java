@@ -16,7 +16,7 @@ public enum Event {
     ON_USER_ONLINE("onUserOnline"),
     ON_USER_OFFLINE("onUserOffline"),
     CREATE_ROOM("onCreatedRoom"),
-
+    NEWS("news"),
     //Call
     CALL("call"),
     CALL_CONTENT("callContent"),
