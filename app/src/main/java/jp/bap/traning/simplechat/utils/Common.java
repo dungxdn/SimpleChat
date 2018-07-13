@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.RealmList;
+import io.realm.RealmList;
 import java.util.ArrayList;
 import java.util.List;
 import jp.bap.traning.simplechat.R;
@@ -92,7 +93,7 @@ public class Common {
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-                                            int reqHeight) {
+            int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;

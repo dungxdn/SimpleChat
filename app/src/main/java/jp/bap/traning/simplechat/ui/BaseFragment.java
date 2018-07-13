@@ -101,7 +101,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     if (data.length()==0) return;
                     String roomID = data.getString("roomId");
                     String typeRoom = data.getString("type");
-                    String roomName = data.getString("roomName");
+                    String roomName = (data.getString("roomName") != null) ? data.getString("roomName") : "";
                     ArrayList<User> arrayUserRoom = new ArrayList<>();
                     JSONArray jsonArray = data.getJSONArray("users");
                     Gson gson = new Gson();

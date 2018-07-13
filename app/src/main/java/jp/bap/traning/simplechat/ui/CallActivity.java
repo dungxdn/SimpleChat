@@ -2,6 +2,7 @@ package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.utils.Permission;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
@@ -77,32 +79,30 @@ public class CallActivity extends BaseActivity {
 
     //
     private static boolean sIsFrontCamera = true;
-    private static boolean isCameraPermission = false;
-    private static boolean isRecordAudioPermission = false;
-    private static boolean allGranted = false;
 
-    private String[] permissionRequired = new String[] {Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO};
+    private String[] permissionRequired = new String[] {
+            Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+    };
 
     @Override
     public void afterView() {
-        Permission.initPermission(this, permissionRequired);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Permission.initPermission(this, permissionRequired);
+        }
         init();
     }
 
     public void init() {
-        if (allGranted) {
-            initVideos();
-            getIceServers();
-            start();
-            if (isIncoming) {
-                mBtnAccept.setVisibility(View.VISIBLE);
-                mtvStatus.setText("Incoming call from: " + roomId);
-            } else {
-                ChatService.getChat().emitCall(roomId);
-                mBtnAccept.setVisibility(View.GONE);
-                mtvStatus.setText("Calling to " + roomId);
-            }
+        initVideos();
+        getIceServers();
+        start();
+        if (isIncoming) {
+            mBtnAccept.setVisibility(View.VISIBLE);
+            mtvStatus.setText("Incoming call from: " + roomId);
+        } else {
+            ChatService.getChat().emitCall(roomId);
+            mBtnAccept.setVisibility(View.GONE);
+            mtvStatus.setText("Calling to " + roomId);
         }
     }
 
@@ -111,19 +111,12 @@ public class CallActivity extends BaseActivity {
             @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
-            if (r == PackageManager.PERMISSION_GRANTED) {
-                allGranted = true;
-            } else {
-                allGranted = false;
-                break;
+            if (r != PackageManager.PERMISSION_GRANTED) {
+                ChatService.getChat().emitCallStop(roomId);
+                Toast.makeText(this, "You need to accept permission to continue!",
+                        Toast.LENGTH_SHORT).show();
+                finish();
             }
-        }
-        if (allGranted) {
-            init();
-        } else {
-            Toast.makeText(this, "You need to accept permission to continue!",
-                                            Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 

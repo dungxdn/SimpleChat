@@ -4,7 +4,6 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 import io.realm.RealmList;
 import java.util.List;
-
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
@@ -43,12 +42,13 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private HashMap<String, ArrayList<User>> mDataUser;
     private AddRoomPresenter mAddRoomPresenter;
     private List<Integer> mListUserId;
-    private static int sTYPE_2PERSON = 0;
     private User mUserLogin = getUserLogin();
     private GetRoomPresenter mGetRoomPresenter;
     private RealmList<User> mUserRealmList;
     private ArrayList<User> me;
     private RealmDAO mRealmDAO;
+    private static final String ACTIVITY_CALL = "CallActivity";
+    private static final String ACTIVITY_CHAT = "ChatTalkActivity";
 
     @Override
     public void afterView() {
@@ -74,7 +74,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         //Create list include mine user to add to HashMap
         me = new ArrayList<>();
 
-
         mDataUser = new HashMap<>();
         mDataUser.put(mListheader.get(0), me);
         mDataUser.put(mListheader.get(1), mUserList);
@@ -93,13 +92,13 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         mRealmDAO.realmChanged(new RealmDAO.Listener() {
             @Override
             public void onRealmChanged(Object o, int check) {
-                // TODO: 6/29/2018
                 me.clear();
                 me.add(Common.getUserLogin());
                 mFriendAdapter.notifyDataSetChanged();
             }
         });
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -124,9 +123,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         }
         Collections.sort(mUserList, userComparator);
         mFriendAdapter.notifyDataSetChanged();
-        //        mTvTitleFriend.setText(getString(R.string.title_friend) + " (" + mUserList.size
-        // () + ")");
-
     }
 
     //remove user offline
@@ -135,8 +131,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         super.onUserOffline(user);
         mUserList.remove(user);
         mFriendAdapter.notifyDataSetChanged();
-        //        mTvTitleFriend.setText(getResources().getString(R.string.title_friend) + " (" +
-        // mUserList.size() + ")");
     }
 
     //insert user online
@@ -152,8 +146,6 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             mUserList.add(users);
             Collections.sort(mUserList, userComparator);
             mFriendAdapter.notifyDataSetChanged();
-            //            mTvTitleFriend.setText(getString(R.string.title_friend) + " (" +
-            // mUserList.size() + ")");
         }
     }
 
@@ -167,69 +159,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             ChatTalksActivity_.intent(this).roomId(room.getRoomId()).start();
             ((MainActivity) getActivity()).hiddenProgressBar();
         } else {
-            // add Room
-            if (mUserRealmList.size() != 0) {
-                mUserRealmList.clear();
-            }
-            if (mListUserId.size() != 0) {
-                mListUserId.clear();
-            }
-            mListUserId.add(user.getId());
-            mAddRoomPresenter.addroom(mListUserId, sTYPE_2PERSON, null, new AddRoomView() {
-                @Override
-                public void onSuccess(AddRoomResponse result) {
-                    //Save to Realm
-                    Room mRoom = new Room();
-                    RoomData roomData = result.getData();
-                    mRoom.setRoomId(roomData.getRoomId());
-                    mRoom.setType(roomData.getType());
-                    mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
-                        @Override
-                        public void onSuccess(GetRoomResponse result) {
-                            List<User> mUserInRoomList = result.getData().getUsers();
-                            for (User u : mUserInRoomList) {
-                                mUserRealmList.add(u);
-                            }
-                            mRoom.setUsers(mUserRealmList);
-                            new RoomDAO().insertOrUpdate(mRoom);
-                            ((MainActivity) getActivity()).hiddenProgressBar();
-                            //Start ChatActivity
-                            ChatTalksActivity_.intent(FriendFragment.this)
-                                    .roomId(result.getData().getRoomId())
-                                    .start();
-                            return;
-                        }
-
-                        @Override
-                        public void onError(String message, int code) {
-                            ((MainActivity) getActivity()).hiddenProgressBar();
-                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        @Override
-                        public void onFailure() {
-                            ((MainActivity) getActivity()).hiddenProgressBar();
-                            Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    });
-                }
-
-                @Override
-                public void onError(String message, int code) {
-                    ((MainActivity) getActivity()).hiddenProgressBar();
-                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                @Override
-                public void onFailure() {
-                    ((MainActivity) getActivity()).hiddenProgressBar();
-                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            });
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, user.getId(), ACTIVITY_CHAT);
         }
     }
 
@@ -238,11 +168,87 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         ((MainActivity) getActivity()).showProgressBar();
         //get room from realm.
         Room room = Common.getRoomWithUser(userId);
-        CallActivity_.intent(getContext())
-                .roomId(room.getRoomId())
-                .isIncoming(false)
-                .start();
-        ((MainActivity) getActivity()).hiddenProgressBar();
+        if (room != null) {
+            CallActivity_.intent(getContext()).roomId(room.getRoomId()).isIncoming(false).start();
+            ((MainActivity) getActivity()).hiddenProgressBar();
+        } else {
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_CALL);
+        }
+    }
+
+    public void addRoomAndSaveRoomToRealm(RealmList<User> mUserRealmList, List<Integer> mListUserId,
+            int userId, String activity) {
+        if (mUserRealmList.size() != 0) {
+            mUserRealmList.clear();
+        }
+        if (mListUserId.size() != 0) {
+            mListUserId.clear();
+        }
+        mListUserId.add(userId);
+        mAddRoomPresenter.addroom(mListUserId, Common.TYPE_GROUP_TWO_PEOPLE, "", new AddRoomView() {
+            @Override
+            public void onSuccess(AddRoomResponse result) {
+                Room mRoom = new Room();
+                RoomData roomData = result.getData();
+                mRoom.setRoomId(roomData.getRoomId());
+                mRoom.setType(roomData.getType());
+                mGetRoomPresenter.getRoom(roomData.getRoomId(), new GetRoomView() {
+                    @Override
+                    public void onSuccess(GetRoomResponse result) {
+                        List<User> mUserInRoomList = result.getData().getUsers();
+                        for (User u : mUserInRoomList) {
+                            mUserRealmList.add(u);
+                        }
+                        mRoom.setUsers(mUserRealmList);
+                        new RoomDAO().insertOrUpdate(mRoom);
+                        ((MainActivity) getActivity()).hiddenProgressBar();
+                        //Start Activity
+                        switch (activity) {
+                            case ACTIVITY_CALL:
+                                //Start CallActivity
+                                CallActivity_.intent(getContext())
+                                        .roomId(result.getData().getRoomId())
+                                        .isIncoming(false)
+                                        .start();
+                                ((MainActivity) getActivity()).hiddenProgressBar();
+                                break;
+                            case ACTIVITY_CHAT:
+                                //Start ChatActivity
+                                ChatTalksActivity_.intent(FriendFragment.this)
+                                        .roomId(result.getData().getRoomId())
+                                        .start();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message, int code) {
+                        ((MainActivity) getActivity()).hiddenProgressBar();
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        ((MainActivity) getActivity()).hiddenProgressBar();
+                        Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String message, int code) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).hiddenProgressBar();
+            }
+
+            @Override
+            public void onFailure() {
+                Toast.makeText(getContext(), "Fail!", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).hiddenProgressBar();
+            }
+        });
     }
 
     @Override

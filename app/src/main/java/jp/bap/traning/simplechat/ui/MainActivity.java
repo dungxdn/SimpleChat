@@ -27,7 +27,7 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 
 import jp.bap.traning.simplechat.utils.Event;
-
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -49,7 +49,6 @@ import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
-
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_main)
@@ -82,7 +81,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void afterView() {
-        Log.d(TAG, "onCreate: ");
         hiddenProgressBar();
         init();
     }
