@@ -72,7 +72,7 @@ public class SharingMessageActivity extends BaseActivity  {
             if(checkValidUserInAllRoom(roomsExist,i)==true) {
                 if (ChatService.getChat() != null){
                     Message mMessage = new Message(message.getContent(),Common.mMineId,sRoomId,Common.typeText);
-                    ChatService.getChat().sendMessage(mMessage, sRoomId);
+                    ChatService.getChat().emitSendMessage(mMessage, sRoomId);
                 }
             }
             else {
@@ -98,7 +98,7 @@ public class SharingMessageActivity extends BaseActivity  {
 
                              if (ChatService.getChat() != null){
                                  Message mMessage = new Message(message.getContent(),Common.mMineId,sRoomId,Common.typeText);
-                                 ChatService.getChat().sendMessage(mMessage, sRoomId);
+                                 ChatService.getChat().emitSendMessage(mMessage, sRoomId);
                                  //Save into Realm Database
                                  new MessagePresenter().insertOrUpdateMessage(mMessage);
                              }

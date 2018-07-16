@@ -130,6 +130,17 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     e.printStackTrace();
                 }
             }
+
+            case NEWS: {
+                try{
+                    Log.d("BaseFragment","Event NEWS");
+                    onNewsCome();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
@@ -140,6 +151,8 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
     public void onUserOnline(User users) {}
 
     public void createUserRoom(Room room){}
+
+    public void onNewsCome(){};
 
 
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    tools:context=".ui.AddNewsFragment"
+    android:id="@+id/addNewsFragment"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mAvatarAddNews"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/ic_avatar_default"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_3sdp"
+            android:layout_toRightOf="@+id/mAvatarAddNews"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15ssp" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/edtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mAvatarAddNews"
+            android:hint="@string/edt_description"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_15ssp"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/imgAddNews"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_below="@+id/edtDescription"
+            android:src="@drawable/default_image_news"
+            />
+    </RelativeLayout>
+</ScrollView>

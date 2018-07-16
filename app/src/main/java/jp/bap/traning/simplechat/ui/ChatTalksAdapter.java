@@ -90,7 +90,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
-            View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
+                View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
             return new MessageViewHolder(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED){
             View view = layoutInflater.inflate(R.layout.view_holder_chat_receive_message, parent, false);
@@ -120,7 +120,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
                 messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            setAvatar(mMessage.getUserID(),messageViewHolder.mAvatar);
+            Common.setAvatar(mContext,mMessage.getUserID(),messageViewHolder.mAvatar);
         }
         else if(Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
@@ -131,7 +131,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            setAvatar(mMessage.getUserID(),linkMessageViewHolder.mAvatar);
+            Common.setAvatar(mContext,mMessage.getUserID(),linkMessageViewHolder.mAvatar);
         }
         else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
@@ -140,7 +140,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            setAvatar(mMessage.getUserID(),imageMessageViewHolder.mAvatar);
+            Common.setAvatar(mContext,mMessage.getUserID(),imageMessageViewHolder.mAvatar);
             mListener.onViewDone();
            }
     }
@@ -200,13 +200,5 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             linkMessage = itemView.findViewById(R.id.txtLink);
             linkDescription = itemView.findViewById(R.id.txtLinkDescription);
         }
-    }
-
-    private void setAvatar(int id,CircleImageView mAvatar) {
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        options.placeholder(R.drawable.ic_avatar_default);
-        options.error(R.drawable.ic_avatar_default);
-        Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
     }
 }
