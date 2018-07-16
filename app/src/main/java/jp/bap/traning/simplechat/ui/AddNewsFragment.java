@@ -97,12 +97,12 @@ public class AddNewsFragment extends BaseFragment {
 
                     @Override
                     public void onError(String message, int code) {
-                        Log.d("ChatTalksActivity", "onError: ");
+                        Log.d("AddNewsFragment", "onError: ");
                     }
 
                     @Override
                     public void onFailure() {
-                        Log.d("ChatTalksActivity", "onFailure: ");
+                        Log.d("AddNewsFragment", "onFailure: ");
                     }
                 });
             } catch (Exception e) {

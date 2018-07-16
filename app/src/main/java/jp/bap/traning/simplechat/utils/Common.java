@@ -48,8 +48,6 @@ public class Common {
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
     public static final int mMineId =
             SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-    public static String mFirstName = Common.getUserLogin().getFirstName();
-    public static String mLastname = Common.getUserLogin().getLastName();
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
 

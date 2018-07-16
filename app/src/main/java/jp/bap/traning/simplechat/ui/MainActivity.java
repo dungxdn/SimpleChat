@@ -26,8 +26,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 
+import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.utils.Event;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -49,6 +51,7 @@ import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
+
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_main)
@@ -73,6 +76,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String ADD_NEWS_TITLE = "Create News";
     private AddNewsFragment_ mAddNewsFragment = new AddNewsFragment_();
     private MoreFragment_ mMoreFragment = new MoreFragment_();
+    private NewsFragment_ mNewsFragment = new NewsFragment_();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +98,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         //Setup viewPager
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mViewpagerAdapter.addFragment(new NewsFragment_(),
+        mViewpagerAdapter.addFragment(mNewsFragment,
                 getResources().getString(R.string.title_tab_news),
                 R.drawable.ic_news);
         mViewpagerAdapter.addFragment(new FriendFragment_(),
@@ -124,8 +128,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             if (mAddNewsFragment.getNews() == null) {
             } else {
                 //Gui su kien toi Server
-                mAddNewsFragment.linkImage="";
+                News mNews = mAddNewsFragment.getNews();
+                ChatService.getChat().emitCreateNews(mAddNewsFragment.getNews());
                 Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
+                mAddNewsFragment.linkImage = "";
+                mAddNewsFragment.edtDescription.setText("");
+                mAddNewsFragment.imgAddNews.setImageResource(R.drawable.default_image_news);
             }
 
         });

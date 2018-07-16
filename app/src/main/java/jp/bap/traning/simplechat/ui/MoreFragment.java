@@ -33,8 +33,6 @@ import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.service.ImgurClient;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
-import static jp.bap.traning.simplechat.utils.Common.mFirstName;
-import static jp.bap.traning.simplechat.utils.Common.mLastname;
 
 /**
  * Created by Admin on 6/13/2018.
@@ -109,6 +107,9 @@ public class MoreFragment extends BaseFragment {
         setDialogEditProfile(userLogin, linkImage);
     }
 
+
+    public static String mFirstName = Common.getUserLogin().getFirstName();
+    public static String mLastname = Common.getUserLogin().getLastName();
     public void setDialogEditProfile(User user, String linkImage) {
         Dialog mDialog = new Dialog(getContext());
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
