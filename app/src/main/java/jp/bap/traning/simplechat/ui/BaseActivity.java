@@ -6,29 +6,22 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
@@ -80,11 +73,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     //update lastMessage in Room into Realm
                     RoomDAO roomDAO = new RoomDAO();
                     Room room = roomDAO.getRoomFromRoomId(message.getRoomID());
-                    if(room!=null) {
+                    if (room != null) {
                         room.setLastMessage(message);
                         roomDAO.insertOrUpdate(room);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -149,7 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
             case CALL: {
                 try {
                     int roomId = data.getInt("roomId");
-                    onCall(roomId);
+                    boolean isAudioCall = data.getBoolean("isAudioCall");
+                    onCall(roomId, isAudioCall);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -173,13 +166,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     public void onUserOnline(User users) {
     }
 
-    public void showProgressBar(ProgressBar progressBar){
+    public void showProgressBar(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public void hiddenProgressBar(ProgressBar progressBar){
+    public void hiddenProgressBar(ProgressBar progressBar) {
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
@@ -203,6 +196,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     public void onCallAccept() {
     }
 
-    public void onCall(int roomId) {
+    public void onCall(int roomId, boolean isAudioCall) {
     }
 }
