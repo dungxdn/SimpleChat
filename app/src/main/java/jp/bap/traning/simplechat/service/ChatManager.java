@@ -11,6 +11,7 @@ import io.socket.client.Ack;
 import io.socket.client.Socket;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.News;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Event;
 
 /**
@@ -91,9 +92,23 @@ public class ChatManager {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
-            String objectMessage = gson.toJson(news);
-            data.put("news",objectMessage);
+            String objectNews = gson.toJson(news);
+            data.put("news",objectNews);
             emit(Event.NEWS, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitOnLikeNews(User user, News news){
+        JSONObject data = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            String objectNews = gson.toJson(news);
+            String objectUser = gson.toJson(user);
+            data.put("news",objectNews);
+            data.put("user",objectUser);
+            emit(Event.LIKE_NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -129,11 +129,11 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
             }
 
             case NEWS: {
                 try {
-                    Log.d("BaseFragment", "Event NEWS");
                     String news = data.getString("news");
                     Gson gson = new Gson();
                     News mNews = gson.fromJson(news, News.class);
@@ -141,9 +141,28 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            }
+
+            case LIKE_NEWS: {
+                try {
+                    String news = data.getString("news");
+                    String user = data.getString("user");
+                    Gson gson = new Gson();
+                    News mNews = gson.fromJson(news,News.class);
+                    User mUser = gson.fromJson(user,User.class);
+                    onUserLikeNews(mUser,mNews);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
             }
 
         }
+    }
+
+    public void onUserLikeNews(User mUser, News mNews) {
     }
 
     public void onReceiverListUsersOnline(ArrayList<User> users) {

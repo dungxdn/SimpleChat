@@ -5,25 +5,36 @@ import android.os.Parcelable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
-public class News implements Parcelable {
-
+public class News implements Parcelable{
+    private long idNews;
     private User user;
     private String description;
     private String imageView;
+    private int isLike;
+    private ArrayList<User> usersLike;
 
-    public News() {
+    public News(User mUserm, String mDescription, String mImage) {
+        this.idNews = System.currentTimeMillis();
+        user = mUserm;
+        description = mDescription;
+        imageView = mImage;
+        isLike = 0;
+        usersLike = new ArrayList<>();
     }
 
-
     protected News(Parcel in) {
+        idNews = in.readLong();
         user = in.readParcelable(User.class.getClassLoader());
         description = in.readString();
         imageView = in.readString();
+        isLike = in.readInt();
+        usersLike = in.createTypedArrayList(User.CREATOR);
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -45,8 +56,11 @@ public class News implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(idNews);
         parcel.writeParcelable(user, i);
         parcel.writeString(description);
         parcel.writeString(imageView);
+        parcel.writeInt(isLike);
+        parcel.writeTypedList(usersLike);
     }
 }

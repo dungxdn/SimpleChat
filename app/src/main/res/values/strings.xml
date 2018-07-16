@@ -33,7 +33,8 @@
     <string name="capture">No Internet Connection</string>
     <string name="description">Your phone is currently not connected to the internet. Please set up a connection!</string>
     <string name="button_try_again"><u>Try Again!</u></string>
-    //
+    //Comment Activity
+    <string name="hint_edt_comment"><u>Input your comment</u></string>
     //Fragment
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
