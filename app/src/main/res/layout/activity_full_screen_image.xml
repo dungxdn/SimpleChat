@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.FullScreenImageActivity">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/fullScreenImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

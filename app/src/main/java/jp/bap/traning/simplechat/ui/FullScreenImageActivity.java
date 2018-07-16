@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,7 +22,7 @@ import jp.bap.traning.simplechat.utils.Common;
 @EActivity(R.layout.activity_full_screen_image)
 public class FullScreenImageActivity extends BaseActivity {
     @ViewById
-    ImageView fullScreenImage;
+    AppCompatImageView fullScreenImage;
     @Extra
     String urlImage;
 

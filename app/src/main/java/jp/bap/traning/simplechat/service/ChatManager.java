@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.utils.Event;
 
 /**
@@ -33,6 +34,7 @@ public class ChatManager {
                 Event.ON_USER_OFFLINE,
                 Event.ON_USER_ONLINE,
                 Event.CREATE_ROOM,
+                Event.NEWS,
                 //call
                 Event.CALL,
                 Event.CALL_CONTENT,
@@ -72,7 +74,7 @@ public class ChatManager {
         });
     }
 
-    public void sendMessage(Message message, int roomId) {
+    public void emitSendMessage(Message message, int roomId) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
@@ -80,6 +82,18 @@ public class ChatManager {
             data.put("chatMessage",objectMessage);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCreateNews(News news){
+        JSONObject data = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            String objectMessage = gson.toJson(news);
+            data.put("news",objectMessage);
+            emit(Event.NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

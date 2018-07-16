@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
@@ -75,7 +74,10 @@ public class CallActivity extends BaseActivity {
     private boolean gotUserMedia;
     private VideoCapturer videoCapturerAndroid;
     private List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
+    MediaStream mediaStreamLocal;
+    MediaStream mediaStreamRemote;
 
+    //
     private static boolean sIsFrontCamera = true;
 
     private String[] permissionRequired = new String[] {
@@ -283,7 +285,7 @@ public class CallActivity extends BaseActivity {
                             object.put("id", iceCandidate.sdpMid);
                             object.put("candidate", iceCandidate.sdp);
                             ChatService.getChat().emitCallContent(object, roomId);
-                            mLocalVideoView.setZOrderMediaOverlay(true);
+//                            mLocalVideoView.setZOrderMediaOverlay(true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -292,6 +294,7 @@ public class CallActivity extends BaseActivity {
                     @Override
                     public void onAddStream(MediaStream mediaStream) {
                         Log.d(TAG, "Received Remote stream");
+                        mediaStreamRemote = mediaStream;
                         super.onAddStream(mediaStream);
                         gotRemoteStream(mediaStream);
                     }
@@ -305,10 +308,10 @@ public class CallActivity extends BaseActivity {
      */
     private void addStreamToLocalPeer() {
         //creating local mediastream
-        MediaStream stream = peerConnectionFactory.createLocalMediaStream("102");
-        stream.addTrack(localAudioTrack);
-        stream.addTrack(localVideoTrack);
-        localPeer.addStream(stream);
+        mediaStreamLocal = peerConnectionFactory.createLocalMediaStream("102");
+        mediaStreamLocal.addTrack(localAudioTrack);
+        mediaStreamLocal.addTrack(localVideoTrack);
+        localPeer.addStream(mediaStreamLocal);
     }
 
     /**
@@ -363,6 +366,7 @@ public class CallActivity extends BaseActivity {
 
             case R.id.mBtnAccept:
                 mtvStatus.setText("Call started!!!");
+                mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
         }
@@ -461,17 +465,29 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
+        if(mediaStreamLocal !=null) {
+            mediaStreamLocal.removeTrack(localVideoTrack);
+            mediaStreamLocal.removeTrack(localAudioTrack);
+            mediaStreamLocal.dispose();
+        }
+        if (audioSource != null) {
+            audioSource.dispose();
+        }
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.dispose();
         }
+//        if (remoteRenderer != null) {
+//            remoteRenderer.dispose();
+//        }
+//        if (localRenderer != null) {
+//            localRenderer.dispose();
+//        }
+
         if (mLocalVideoView != null) {
             mLocalVideoView.release();
         }
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
-        }
-        if (localPeer != null) {
-            localPeer.close();
         }
         finish();
     }
