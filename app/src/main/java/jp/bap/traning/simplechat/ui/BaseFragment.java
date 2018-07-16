@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import io.realm.RealmList;
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.CallbackManager;
@@ -77,7 +78,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 try {
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
-                    User user = gson.fromJson(objectUserOffline,User.class);
+                    User user = gson.fromJson(objectUserOffline, User.class);
                     onUserOffline(user);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -89,7 +90,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 try {
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
-                    User user = gson.fromJson(objectUserOffline,User.class);
+                    User user = gson.fromJson(objectUserOffline, User.class);
                     onUserOnline(user);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -97,15 +98,15 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 break;
             }
             case CREATE_ROOM: {
-                try{
-                    if (data.length()==0) return;
+                try {
+                    if (data.length() == 0) return;
                     String roomID = data.getString("roomId");
                     String typeRoom = data.getString("type");
                     String roomName = (data.getString("roomName") != null) ? data.getString("roomName") : "";
                     ArrayList<User> arrayUserRoom = new ArrayList<>();
                     JSONArray jsonArray = data.getJSONArray("users");
                     Gson gson = new Gson();
-                    for(int i=0; i<jsonArray.length(); i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         String userRoom = jsonArray.getString(i);
                         User user = gson.fromJson(userRoom, User.class);
                         arrayUserRoom.add(user);
@@ -125,18 +126,19 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                         new RoomDAO().insertOrUpdate(room);
                         createUserRoom(room);
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             case NEWS: {
-                try{
-                    Log.d("BaseFragment","Event NEWS");
-                    onNewsCome();
-                }
-                catch (Exception e) {
+                try {
+                    Log.d("BaseFragment", "Event NEWS");
+                    String news = data.getString("news");
+                    Gson gson = new Gson();
+                    News mNews = gson.fromJson(news, News.class);
+                    onNewsCome(mNews);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -144,15 +146,22 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
         }
     }
 
-    public void onReceiverListUsersOnline(ArrayList<User> users) {}
+    public void onReceiverListUsersOnline(ArrayList<User> users) {
+    }
 
-    public void onUserOffline(User users) {}
+    public void onUserOffline(User users) {
+    }
 
-    public void onUserOnline(User users) {}
+    public void onUserOnline(User users) {
+    }
 
-    public void createUserRoom(Room room){}
+    public void createUserRoom(Room room) {
+    }
 
-    public void onNewsCome(){};
+    public void onNewsCome(News news) {
+    }
+
+    ;
 
 
 }

@@ -26,7 +26,6 @@ public class NewsFragment extends BaseFragment {
     @Override
     public void afterView() {
         init();
-        fakeData();
     }
 
     private void init() {
@@ -41,13 +40,12 @@ public class NewsFragment extends BaseFragment {
         newsAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onNewsCome(News news) {
+        super.onNewsCome(news);
+        newsArrayList.add(0,news);
+        newsAdapter.notifyItemInserted(0);
+        listViewNews.smoothScrollToPosition(0);
 
-    private void fakeData() {
-        News news = new News(Common.getUserLogin(), "I like her", "http://www2.pictures.zimbio.com/gi/Alyssa+Lynch+Milly+Presentation+September+Rg9V50kmCHTl.jpg");
-        News news2 = new News(Common.getUserLogin(), "I'm the best", "https://vcdn-thethao.vnecdn.net/2018/07/11/ronaldo5-2974-1531298043.jpg");
-        newsArrayList.add(news);
-        newsArrayList.add(news2);
-
-        newsAdapter.notifyDataSetChanged();
     }
 }
