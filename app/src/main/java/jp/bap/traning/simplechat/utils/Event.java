@@ -24,6 +24,7 @@ public enum Event {
     CALL_STOP("callStop");
 
     String mEvent;
+
     Event(String e) {
         mEvent = e;
     }
