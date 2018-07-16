@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(new NewsFragment_(),
                 getResources().getString(R.string.title_tab_news),
-                R.drawable.ic_news);
+                R.drawable.selection_icon_news_tablayout);
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);

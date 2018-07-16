@@ -3,6 +3,7 @@ package jp.bap.traning.simplechat.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,15 +152,9 @@ public class ChatTalksActivity extends BaseActivity {
             listUser.add(u);
         }
         RecyclerView listMember = mDialog.findViewById(R.id.lvMember);
+        AppCompatTextView tvGroupName = mDialog.findViewById(R.id.tvGroupName);
+        tvGroupName.setText(mRoom.getRoomName());
         MemberAdapter memberAdapter = new MemberAdapter(this,listUser);
-//        ArrayList<Room> rooms = new ArrayList<>();
-//        Room room = new Room();
-//        room.setAvatar("hdjhfjkd");
-//        room.setRoomName("HELLO");
-//        room.setRoomId(4);
-//        room.setType(0);
-//        rooms.add(room);
-//        ChatAdapter adapter = new ChatAdapter(this,rooms);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         listMember.setLayoutManager(mLayoutManager);
         listMember.setItemAnimator(new DefaultItemAnimator());
