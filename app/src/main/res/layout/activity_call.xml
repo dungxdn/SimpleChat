@@ -28,16 +28,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <android.support.v7.widget.AppCompatButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnAccept"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/call_come"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_height="@dimen/_40sdp"
             android:text="Accept" />
 
-        <android.support.v7.widget.AppCompatButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnStop"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:background="@drawable/call_end"
+            android:layout_height="@dimen/_40sdp"
             android:text="Stop" />
 
     </LinearLayout>
