@@ -1,12 +1,9 @@
 package jp.bap.traning.simplechat.service;
 
 import android.util.Log;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import io.socket.client.Ack;
 import io.socket.client.Socket;
 import jp.bap.traning.simplechat.model.Message;
@@ -19,28 +16,22 @@ import jp.bap.traning.simplechat.utils.Event;
 
 public class ChatManager {
     private static final String TAG = ChatManager.class.getSimpleName();
+
     interface Listener {
         void onEvent(Event event, JSONObject data);
+
         void onEmit(Event event, JSONObject data);
     }
+
     Socket mSocket;
     Listener mListener;
 
     ChatManager(Socket s) {
         mSocket = s;
-        on(
-                Event.MESSAGE_RECEIVER,
-                Event.USER_ONLINE,
-                Event.ON_USER_OFFLINE,
-                Event.ON_USER_ONLINE,
-                Event.CREATE_ROOM,
-                Event.NEWS,
+        on(Event.MESSAGE_RECEIVER, Event.USER_ONLINE, Event.ON_USER_OFFLINE, Event.ON_USER_ONLINE,
+                Event.CREATE_ROOM, Event.NEWS,
                 //call
-                Event.CALL,
-                Event.CALL_CONTENT,
-                Event.CALL_ACCEPT,
-                Event.CALL_STOP
-        );
+                Event.CALL, Event.CALL_CONTENT, Event.CALL_ACCEPT, Event.CALL_STOP);
     }
 
     public void addListenerSocket(Listener listener) {
@@ -79,7 +70,7 @@ public class ChatManager {
         try {
             Gson gson = new Gson();
             String objectMessage = gson.toJson(message);
-            data.put("chatMessage",objectMessage);
+            data.put("chatMessage", objectMessage);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
@@ -87,12 +78,12 @@ public class ChatManager {
         }
     }
 
-    public void emitCreateNews(News news){
+    public void emitCreateNews(News news) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
             String objectMessage = gson.toJson(news);
-            data.put("news",objectMessage);
+            data.put("news", objectMessage);
             emit(Event.NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -119,10 +110,11 @@ public class ChatManager {
         }
     }
 
-    public void emitCall(int roomId) {
+    public void emitCall(int roomId, boolean isAudioCall) {
         JSONObject data = new JSONObject();
         try {
             data.put("roomId", roomId);
+            data.put("isAudioCall", isAudioCall);
             emit(Event.CALL, data);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -139,8 +131,8 @@ public class ChatManager {
         }
     }
 
-        public void getUsersOnline() {
+    public void getUsersOnline() {
         JSONObject data = new JSONObject();
-        emit(Event.USER_ONLINE,data);
+        emit(Event.USER_ONLINE, data);
     }
 }
