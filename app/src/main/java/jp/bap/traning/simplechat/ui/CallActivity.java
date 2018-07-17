@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +54,7 @@ public class CallActivity extends BaseActivity {
     @ViewById
     AppCompatTextView mtvStatus;
     @ViewById
-    AppCompatButton mBtnAccept;
+    AppCompatImageButton mBtnAccept;
     @Extra
     int roomId;
     @Extra

@@ -3,78 +3,217 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutTop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_140sdp"
-        android:id="@+id/layoutTop">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@color/colorGreen"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom">
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreen"
+        android:gravity="center"
+        android:orientation="vertical">
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/mTvUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:text="@string/title_tab_friend"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.AppCompatImageButton
-                        android:id="@+id/mImgButtonEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/mTvUserName"
-                        android:background="@android:color/transparent"
-                        android:paddingLeft="@dimen/_8sdp"
-                        android:paddingRight="@dimen/_8sdp"
-                        android:src="@drawable/ic_edit" />
-
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvata"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_avatar_default" />
+            android:src="@drawable/ic_avatar_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mTvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:gravity="center"
+            android:text="@string/title_tab_friend"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
 
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mImgButtonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@android:color/transparent"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintLeft_toRightOf="@id/mTvUserName"
+            app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
+    </android.support.constraint.ConstraintLayout>
 
-    </RelativeLayout>
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/mButtonLogout"
+    <LinearLayout
+        android:id="@+id/lncenter"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:elevation="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:text="@string/str_logout"
-        android:textAllCaps="false"
-        android:textColor="@color/red"
-        android:textStyle="normal"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutTop" />
+        app:layout_constraintTop_toBottomOf="@id/layoutTop">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/brightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lnContact"
+                android:background="@drawable/bg_item_more"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:padding="@dimen/_13sdp"
+                    android:src="@drawable/ic_contact" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:text="@string/str_contact"
+                    android:textColor="@color/colorGrayDark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:background="@color/brightGrey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lnLanguage"
+                    android:background="@drawable/bg_item_more"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_12sdp"
+                        android:src="@drawable/ic_language" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:text="@string/str_language"
+                        android:textColor="@color/colorGrayDark"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:background="@color/brightGrey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lnAbout"
+                    android:background="@drawable/bg_item_more"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_12sdp"
+                        android:src="@drawable/ic_info" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/str_about"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorGrayDark" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/brightGrey" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lncenter">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/brightGrey" />
+
+        <LinearLayout
+            android:id="@+id/mlnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_item_more"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_exit" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/str_logout"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorGrayDark" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/brightGrey" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -46,8 +46,6 @@ public class MoreFragment extends BaseFragment {
     AppCompatTextView mTvUserName;
     @ViewById
     AppCompatImageButton mImgButtonEdit;
-    @ViewById
-    AppCompatButton mButtonLogout;
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
@@ -98,7 +96,7 @@ public class MoreFragment extends BaseFragment {
     }
 
     @Click
-    void mButtonLogout() {
+    void mlnLogout() {
         logout();
     }
 
