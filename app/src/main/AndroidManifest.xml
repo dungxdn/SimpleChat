@@ -39,7 +39,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.CommentActivity"></activity>
+        <activity android:name=".ui.CommentActivity_"></activity>
     </application>
 
 </manifest>

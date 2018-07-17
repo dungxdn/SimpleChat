@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/_14ssp"
             android:hint="@string/edittext_input_message"
+            android:background="@android:color/transparent"
             />
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imgSendMessage"

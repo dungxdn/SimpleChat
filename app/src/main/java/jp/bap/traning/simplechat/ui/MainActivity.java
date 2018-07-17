@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
         mToolbar.getSharingButton().setOnClickListener(view -> {
-            //Goi Emit
+//            Goi Emit
             if (mAddNewsFragment.getNews() == null) {
             } else {
                 //Gui su kien toi Server
@@ -135,7 +135,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mAddNewsFragment.edtDescription.setText("");
                 mAddNewsFragment.imgAddNews.setImageResource(R.drawable.default_image_news);
             }
-
         });
     }
 

@@ -36,7 +36,6 @@ public class NewsAdapter extends RecyclerView.Adapter {
         this.mContext = mContext;
     }
 
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -53,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         newsViewHolder.txtDescription.setText(mNews.getDescription());
         newsViewHolder.txtLike.setText(mNews.getIsLike() + " like");
         Common.setImage(mContext, mNews.getImageView(), newsViewHolder.imageView);
-        setAvatar(mNews.getUser().getId(), newsViewHolder.avatar);
+        Common.setAvatar(mContext, mNews.getUser().getId(), newsViewHolder.avatar);
     }
 
     @Override
@@ -78,40 +77,6 @@ public class NewsAdapter extends RecyclerView.Adapter {
             addEvents();
         }
 
-        private void addEvents() {
-            imageView.setOnClickListener(view -> {
-                News mNews = newsArrayList.get(getAdapterPosition());
-                FullScreenImageActivity_.intent(mContext).urlImage(mNews.getImageView()).start();
-            });
-
-            imageButtonShare.setOnClickListener(view -> {
-                News mNews = newsArrayList.get(getAdapterPosition());
-                Message mMessage = new Message(mNews.getImageView(), Common.getUserLogin().getId(), -1, Common.typeImage);
-                SharingMessageActivity_.intent(imageView.getContext()).message(mMessage).start();
-            });
-
-            imageButtonLike.setOnClickListener(view -> {
-                News mNews = newsArrayList.get(getAdapterPosition());
-                if (i==1) {
-                    mNews.setIsLike(mNews.getIsLike() - 1);
-                    imageButtonLike.setImageResource(R.drawable.like);
-                    i=0;
-                } else {
-                    imageButtonLike.setImageResource(R.drawable.heart);
-                    mNews.setIsLike(mNews.getIsLike() + 1);
-                    if (mNews.getUsersLike().contains(Common.getUserLogin())==false){
-                        mNews.getUsersLike().add(Common.getUserLogin());
-                    }
-                    i=1;
-                }
-                txtLike.setText(mNews.getIsLike() + " like");
-                if (ChatService.getChat() != null) {
-                    //Gui su kien bam like
-                    ChatService.getChat().emitOnLikeNews(Common.getUserLogin(),mNews);
-                }
-            });
-        }
-
         private void addControls() {
             avatar = itemView.findViewById(R.id.mAvatarNews);
             txtName = itemView.findViewById(R.id.txtName);
@@ -124,15 +89,40 @@ public class NewsAdapter extends RecyclerView.Adapter {
             txtLike = itemView.findViewById(R.id.countLike);
         }
 
+        private void addEvents() {
+            imageView.setOnClickListener(view -> {
+                News mNews = newsArrayList.get(getAdapterPosition());
+                FullScreenImageActivity_.intent(mContext).urlImage(mNews.getImageView()).start();
+            });
 
+            imageButtonShare.setOnClickListener(view -> {
+                News mNews = newsArrayList.get(getAdapterPosition());
+                Message mMessage = new Message(mNews.getImageView(), Common.getUserLogin().getId(), -1, Common.typeImage);
+                SharingMessageActivity_.intent(mContext).message(mMessage).start();
+            });
 
-    }
+            imageButtonLike.setOnClickListener(view -> {
+                News mNews = newsArrayList.get(getAdapterPosition());
+                if (i == 1) {
+                    mNews.setIsLike(mNews.getIsLike() - 1);
+                    imageButtonLike.setImageResource(R.drawable.like);
+                    i = 0;
+                } else {
+                    imageButtonLike.setImageResource(R.drawable.heart);
+                    mNews.setIsLike(mNews.getIsLike() + 1);
+                    if (mNews.getUsersLike().contains(Common.getUserLogin()) == false) {
+                        mNews.getUsersLike().add(Common.getUserLogin());
+                    }
+                    i = 1;
+                }
+                txtLike.setText(mNews.getIsLike() + " like");
+                if (ChatService.getChat() != null) {
+                    //Gui su kien bam like
+                    ChatService.getChat().emitOnLikeNews(Common.getUserLogin(), mNews);
+                }
+            });
 
-    private void setAvatar(int id, CircleImageView mAvatar) {
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        options.placeholder(R.drawable.ic_avatar_default);
-        options.error(R.drawable.ic_avatar_default);
-        Glide.with(mContext).load(new UserDAO().getUser(id).getAvatar()).apply(options).into(mAvatar);
+            imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).start());
+        }
     }
 }

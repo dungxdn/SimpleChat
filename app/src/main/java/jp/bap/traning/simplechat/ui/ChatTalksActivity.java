@@ -109,12 +109,7 @@ public class ChatTalksActivity extends BaseActivity {
         mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
         mToolbar.setTitle(Common.getFullRoomFromRoomId(roomId).getRoomName());
-        mToolbar.getBackButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mToolbar.getBackButton().setOnClickListener(view -> finish());
     }
 
     private void init() {
