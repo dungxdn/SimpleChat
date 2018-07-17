@@ -47,7 +47,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private RealmList<User> mUserRealmList;
     private ArrayList<User> me;
     private RealmDAO mRealmDAO;
-    private static final String ACTIVITY_CALL = "CallActivity";
+    private static final String ACTIVITY_VIDEO_CALL = "VideoCallActivity";
+    private static final String ACTIVITY_AUDIO_CALL = "AudioCallActivity";
     private static final String ACTIVITY_CHAT = "ChatTalkActivity";
 
     @Override
@@ -164,15 +165,36 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     }
 
     @Override
+    public void onCallAudio(int userId) {
+        ((MainActivity) getActivity()).showProgressBar();
+        //get room from realm.
+        Room room = Common.getRoomWithUser(userId);
+        if (room != null) {
+            CallActivity_.intent(getContext())
+                    .roomId(room.getRoomId())
+                    .isIncoming(false)
+                    .isAudioCall(true)
+                    .start();
+            ((MainActivity) getActivity()).hiddenProgressBar();
+        } else {
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
+        }
+    }
+
+    @Override
     public void onCallVideo(int userId) {
         ((MainActivity) getActivity()).showProgressBar();
         //get room from realm.
         Room room = Common.getRoomWithUser(userId);
         if (room != null) {
-            CallActivity_.intent(getContext()).roomId(room.getRoomId()).isIncoming(false).start();
+            CallActivity_.intent(getContext())
+                    .roomId(room.getRoomId())
+                    .isIncoming(false)
+                    .isAudioCall(false)
+                    .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
         } else {
-            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_CALL);
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
     }
 
@@ -204,11 +226,12 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                         ((MainActivity) getActivity()).hiddenProgressBar();
                         //Start Activity
                         switch (activity) {
-                            case ACTIVITY_CALL:
+                            case ACTIVITY_VIDEO_CALL:
                                 //Start CallActivity
                                 CallActivity_.intent(getContext())
                                         .roomId(result.getData().getRoomId())
                                         .isIncoming(false)
+                                        .isAudioCall(false)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
                                 break;
@@ -217,6 +240,15 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                 ChatTalksActivity_.intent(FriendFragment.this)
                                         .roomId(result.getData().getRoomId())
                                         .start();
+                                break;
+                            case ACTIVITY_AUDIO_CALL:
+                                //Start CallActivity
+                                CallActivity_.intent(getContext())
+                                        .roomId(result.getData().getRoomId())
+                                        .isIncoming(false)
+                                        .isAudioCall(true)
+                                        .start();
+                                ((MainActivity) getActivity()).hiddenProgressBar();
                                 break;
                         }
                     }
@@ -249,10 +281,5 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                 ((MainActivity) getActivity()).hiddenProgressBar();
             }
         });
-    }
-
-    @Override
-    public void onCallAudio(int userId) {
-
     }
 }
