@@ -14,12 +14,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginInteractor {
+class LoginInteractor {
 
-    public LoginInteractor() {
+    LoginInteractor() {
     }
 
-    public void login(String userName, String password, LoginView callback) {
+    void login(String userName, String password, LoginView callback) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Common.URL_SERVER)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

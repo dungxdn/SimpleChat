@@ -11,12 +11,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddRoomInteractor {
+class AddRoomInteractor {
 
-    public AddRoomInteractor() {
+    AddRoomInteractor() {
     }
 
-    public void addRoom(List<Integer> ids, int type, String roomName, AddRoomView callback) {
+    void addRoom(List<Integer> ids, int type, String roomName, AddRoomView callback) {
 
         Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type, roomName);
         mCallUser.enqueue(new Callback<AddRoomResponse>() {

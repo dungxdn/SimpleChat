@@ -7,17 +7,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpdateUserInteractor {
+class UpdateUserInteractor {
 
-    public UpdateUserInteractor(){}
+    UpdateUserInteractor() {
+    }
 
-    public void updateUser(String firstName, String lastName, String avatar, UpdateUserView callback){
+    void updateUser(String firstName, String lastName, String avatar, UpdateUserView callback) {
 
         Call<BaseResponse> mCalluser = ApiClient.getService().updateUser(firstName, lastName, avatar);
         mCalluser.enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                if (response.body().getStatus() == Common.STATUS_SUCCESS){
+                if (response.body().getStatus() == Common.STATUS_SUCCESS) {
                     callback.onSuccess(response.body());
                 } else {
                     callback.onError(response.body().getMessage(), response.body().getStatus());

@@ -28,7 +28,7 @@ public class FullScreenImageActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        Common.setImage(FullScreenImageActivity.this,urlImage,fullScreenImage);
+        Common.setImage(FullScreenImageActivity.this, urlImage, fullScreenImage);
     }
 
     @Override

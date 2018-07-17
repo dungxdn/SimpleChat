@@ -9,6 +9,7 @@ import android.util.Log;
 import jp.bap.traning.simplechat.database.MessageDAO;
 
 import jp.bap.traning.simplechat.database.RealmDAO;
+
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -63,10 +64,10 @@ public class ChatFragment extends BaseFragment {
         super.onStart();
         Log.d(TAG, "onStart: ");
         mRealmDAO.realmChanged((o, check) -> {
-                Log.d(TAG, "onRMessageChanged: " + check);
-                // TODO : RealmChangedListener
-                getRoomData();
-                mChatAdapter.notifyDataSetChanged();
+            Log.d(TAG, "onRMessageChanged: " + check);
+            // TODO : RealmChangedListener
+            getRoomData();
+            mChatAdapter.notifyDataSetChanged();
         });
     }
 
@@ -118,10 +119,9 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void createUserRoom(Room room) {
         super.createUserRoom(room);
-            mListRoom.add(room);
-            mChatAdapter.notifyDataSetChanged();
+        mListRoom.add(room);
+        mChatAdapter.notifyDataSetChanged();
     }
-
 
 
     private void getALlRoom() {
@@ -131,6 +131,7 @@ public class ChatFragment extends BaseFragment {
         }
         mChatAdapter.notifyDataSetChanged();
     }
+
     private boolean checkValidUser(ArrayList<User> users) {
         int i = 0;
         while (i < users.size()) {

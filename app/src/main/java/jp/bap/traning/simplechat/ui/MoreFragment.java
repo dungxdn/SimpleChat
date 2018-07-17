@@ -9,14 +9,18 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
 import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RealmDAO;
@@ -110,6 +114,7 @@ public class MoreFragment extends BaseFragment {
 
     public static String mFirstName = Common.getUserLogin().getFirstName();
     public static String mLastname = Common.getUserLogin().getLastName();
+
     public void setDialogEditProfile(User user, String linkImage) {
         Dialog mDialog = new Dialog(getContext());
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

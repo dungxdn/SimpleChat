@@ -7,19 +7,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GetRoomInteractor {
+class GetRoomInteractor {
 
-    public GetRoomInteractor() {
+    GetRoomInteractor() {
     }
 
-    public void getRoom(int roomId, GetRoomView callback){
+    void getRoom(int roomId, GetRoomView callback) {
         Call<GetRoomResponse> mCallUser = ApiClient.getService().getRoom(roomId);
         mCallUser.enqueue(new Callback<GetRoomResponse>() {
             @Override
             public void onResponse(Call<GetRoomResponse> call, Response<GetRoomResponse> response) {
-                if (response.body().getStatus() == Common.STATUS_SUCCESS){
+                if (response.body().getStatus() == Common.STATUS_SUCCESS) {
                     callback.onSuccess(response.body());
-                }else {
+                } else {
                     callback.onError(response.body().getMessage(), response.body().getStatus());
                 }
             }

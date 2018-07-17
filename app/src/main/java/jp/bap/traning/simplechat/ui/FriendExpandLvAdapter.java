@@ -129,10 +129,10 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
         Glide.with(mContext).load(avatar).apply(options).into(mAvatar);
-        if (user.getId() == mineId){
+        if (user.getId() == mineId) {
             mImgButtonCall.setVisibility(View.GONE);
             mImgButtonCallVideo.setVisibility(View.GONE);
-        } else{
+        } else {
             mImgButtonCall.setVisibility(View.VISIBLE);
             mImgButtonCallVideo.setVisibility(View.VISIBLE);
         }
@@ -152,7 +152,7 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
                 AppCompatButton mBtnEdit = mDialog.findViewById(R.id.mBtnEdit);
                 LinearLayout lnContactFriend = mDialog.findViewById(R.id.lnContactFriend);
 //                if(user.getAvatar()!=null){
-                    Glide.with(mContext).load(user.getAvatar()).apply(options).into(mImgAvatar);
+                Glide.with(mContext).load(user.getAvatar()).apply(options).into(mImgAvatar);
 //                } else{
 //                    mImgAvatar.setImageResource(R.drawable.ic_avatar_default);
 //                }

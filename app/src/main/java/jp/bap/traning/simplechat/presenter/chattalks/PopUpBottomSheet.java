@@ -27,13 +27,13 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
 
     private static final String LAYOUT_ID = "LAYOUT_POPUP";
     private static final int layout = R.layout.popup_grid_bottom_sheet;
-    public static int checkChange= -1;
+    public static int checkChange = -1;
     private static Message mMessage;
 
     public static PopUpBottomSheet getInstance(Message message) {
         mMessage = message;
         Bundle bundle = new Bundle();
-        bundle.putInt(LAYOUT_ID,layout);
+        bundle.putInt(LAYOUT_ID, layout);
         PopUpBottomSheet popUpBottomSheet = new PopUpBottomSheet();
         popUpBottomSheet.setArguments(bundle);
         return popUpBottomSheet;
@@ -69,7 +69,8 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
         }
 
         @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
     };
 
     @SuppressLint("RestrictedApi")
@@ -77,51 +78,48 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
 
-        View contentView = View.inflate(getContext(),getArguments().getInt(LAYOUT_ID),null);
-        ButterKnife.bind(this,contentView);
+        View contentView = View.inflate(getContext(), getArguments().getInt(LAYOUT_ID), null);
+        ButterKnife.bind(this, contentView);
         dialog.setContentView(contentView);
 
         BottomSheetBehavior<View> mViewBottomSheetBehavior = BottomSheetBehavior.from((View) contentView.getParent());
-        if(mViewBottomSheetBehavior != null) {
+        if (mViewBottomSheetBehavior != null) {
             mViewBottomSheetBehavior.setBottomSheetCallback(mBottomSheetCallback);
             mViewBottomSheetBehavior.setPeekHeight(1000);
         }
 
     }
 
-    @OnClick({R.id.popUpCopy,R.id.popUpShare,R.id.popUpDelete})
+    @OnClick({R.id.popUpCopy, R.id.popUpShare, R.id.popUpDelete})
     public void onClickBottomSheet(View view) {
         switch (view.getId()) {
             case R.id.popUpCopy: {
-                try{
-                    Toast.makeText(getActivity(),"Đã sao chép văn bản",Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(getActivity(), "Đã sao chép văn bản", Toast.LENGTH_SHORT).show();
                     copyTextMessage(mMessage.getContent());
                     dismiss();
                     break;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             case R.id.popUpShare: {
-                try{
+                try {
                     SharingMessageActivity_.intent(this).message(mMessage).start();
                     dismiss();
                     break;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 dismiss();
                 break;
             }
             case R.id.popUpDelete: {
-                try{
+                try {
                     confirmDialog();
                     dismiss();
                     break;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 dismiss();
@@ -141,13 +139,12 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
         builder.setTitle("Xóa tin nhắn?")
                 .setMessage("Bạn không thể hoàn tác sau khi xóa bản sao của những tin nhắn này")
                 .setPositiveButton("Yes", (dialog, id) -> {
-                    try{
-                        Toast.makeText(builder.getContext(),"Đã xóa",Toast.LENGTH_SHORT).show();
+                    try {
+                        Toast.makeText(builder.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
                         new MessagePresenter().deleteMessage(mMessage.getId());
-                        checkChange=1;
+                        checkChange = 1;
                         ChatTalksActivity_.intent(builder.getContext()).roomId(mMessage.getRoomID()).start();
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 })
@@ -155,8 +152,6 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
                 .show();
 
     }
-
-
 
 
 }

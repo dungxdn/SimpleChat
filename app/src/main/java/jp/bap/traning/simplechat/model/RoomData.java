@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.model;
 
 import javax.annotation.Nullable;
+
 import lombok.Data;
 
 @Data

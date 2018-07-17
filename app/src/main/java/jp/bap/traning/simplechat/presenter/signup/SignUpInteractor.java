@@ -7,10 +7,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUpInteractor {
+class SignUpInteractor {
 
-    public void signUp(String userName, String firstName, String lastName, String password,
-            SignUpView callback) {
+    void signUp(String userName, String firstName, String lastName, String password,
+                SignUpView callback) {
         Call<SignUpResponse> mCallUser =
                 ApiClient.getService().addUser(userName, firstName, lastName, password);
         mCallUser.enqueue(new Callback<SignUpResponse>() {

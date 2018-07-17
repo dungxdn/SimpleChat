@@ -3,17 +3,21 @@ package jp.bap.traning.simplechat.database;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmChangeListener;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+
 import javax.annotation.Nullable;
+
 import jp.bap.traning.simplechat.model.Message;
 
 public class MessageDAO {
 
-    public MessageDAO(){}
+    public MessageDAO() {
+    }
 
     public void insertOrUpdateMessage(Message message) {
         Realm mRealm = Realm.getDefaultInstance();
@@ -26,8 +30,8 @@ public class MessageDAO {
     public ArrayList<Message> getAllMessage(int roomID) {
         ArrayList<Message> messageList = new ArrayList<>();
         Realm mRealm = Realm.getDefaultInstance();
-        RealmResults<Message> results = mRealm.where(Message.class).equalTo("roomID",roomID).findAll();
-        for(Message message : results) {
+        RealmResults<Message> results = mRealm.where(Message.class).equalTo("roomID", roomID).findAll();
+        for (Message message : results) {
             messageList.add(mRealm.copyFromRealm(message));
         }
 //        mRealm.close();
@@ -39,7 +43,10 @@ public class MessageDAO {
         Message message = mRealm.where(Message.class)
                 .equalTo("id", idMessage)
                 .findFirst();
-        Message result = mRealm.copyFromRealm(message);
+        Message result = null;
+        if (message != null) {
+            result = mRealm.copyFromRealm(message);
+        }
         mRealm.close();
         return result;
     }
@@ -49,7 +56,11 @@ public class MessageDAO {
         Message message = mRealm.where(Message.class)
                 .equalTo("id", idMessage)
                 .findFirst();
-        mRealm.executeTransaction(realm -> message.deleteFromRealm());
+        mRealm.executeTransaction(realm -> {
+            if (message != null) {
+                message.deleteFromRealm();
+            }
+        });
         mRealm.close();
     }
 }

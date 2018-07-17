@@ -1,18 +1,11 @@
 package jp.bap.traning.simplechat.presenter.rooms;
 
-import android.util.Log;
-
 import java.util.List;
 
 import jp.bap.traning.simplechat.database.RoomDAO;
-import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.response.RoomResponse;
-import jp.bap.traning.simplechat.response.UserResponse;
 import jp.bap.traning.simplechat.service.ApiClient;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

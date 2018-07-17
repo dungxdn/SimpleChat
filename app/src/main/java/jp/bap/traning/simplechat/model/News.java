@@ -20,7 +20,7 @@ public class News implements Parcelable {
     }
 
 
-    protected News(Parcel in) {
+    private News(Parcel in) {
         user = in.readParcelable(User.class.getClassLoader());
         description = in.readString();
         imageView = in.readString();

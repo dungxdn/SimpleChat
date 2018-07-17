@@ -8,12 +8,12 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layoutTop"
         android:layout_width="match_parent"
-        android:paddingTop="@dimen/_5sdp"
         android:layout_height="wrap_content"
         android:background="@color/colorGreen"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/_10sdp"
-        android:orientation="vertical">
+        android:paddingTop="@dimen/_5sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvata"

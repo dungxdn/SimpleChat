@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/_24sdp"
     android:paddingTop="@dimen/_24sdp"
-    android:orientation="horizontal"
-    android:weightSum="9"
-    >
+    android:weightSum="9">
 
     <TextView
-        android:layout_weight="3"
+        android:id="@+id/popUpCopy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/popUpCopy"
         android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_weight="3"
         android:drawableTop="@drawable/popupcopy"
         android:text="@string/popupcopy"
-        android:textAlignment="center"
-        />
+        android:textAlignment="center" />
 
     <TextView
-        android:layout_weight="3"
+        android:id="@+id/popUpShare"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/popUpShare"
         android:layout_marginBottom="@dimen/_24sdp"
-        app:layout_constraintLeft_toRightOf="@+id/popUpCopy"
+        android:layout_weight="3"
         android:drawableTop="@drawable/popupshare"
         android:text="@string/popupshare"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        app:layout_constraintLeft_toRightOf="@+id/popUpCopy" />
 
     <TextView
-        android:layout_weight="3"
+        android:id="@+id/popUpDelete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/popUpDelete"
         android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_weight="3"
         android:drawableTop="@drawable/popupdelete"
         android:text="@string/popupdelete"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
 </LinearLayout>
 

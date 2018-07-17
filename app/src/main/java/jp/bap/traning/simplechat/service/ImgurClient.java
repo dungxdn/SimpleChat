@@ -13,7 +13,7 @@ public class ImgurClient {
     private static ImgurClient sInstance;
     private ImgurService mImgurService;
 
-    private void ImgurClient() {
+    private ImgurClient() {
 
     }
 
