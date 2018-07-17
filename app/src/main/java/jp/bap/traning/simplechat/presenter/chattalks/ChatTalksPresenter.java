@@ -16,10 +16,11 @@ public class ChatTalksPresenter {
         chatTalksListener = mCallBack;
     }
 
-    public ChatTalksPresenter() {}
+    public ChatTalksPresenter() {
+    }
 
     // Check if message is a link
-    public  boolean containsLink(String input) {
+    public boolean containsLink(String input) {
         boolean result = false;
         String[] parts = input.split("\\s+");
         for (String item : parts) {
@@ -32,19 +33,18 @@ public class ChatTalksPresenter {
     }
 
     // insert into link
-    public  String insertHTTPToLink(String link) {
-        String result="";
-        if(link.startsWith("http") || link.startsWith("Http")) {
+    private String insertHTTPToLink(String link) {
+        String result = "";
+        if (link.startsWith("http") || link.startsWith("Http")) {
             result = link;
-        }
-        else {
-            result = "http://"+link;
+        } else {
+            result = "http://" + link;
         }
         return result;
     }
 
     //Covert bitmap to string
-    public  String BitMapToString(Bitmap bitmap) {
+    public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
@@ -53,7 +53,7 @@ public class ChatTalksPresenter {
     }
 
     //Covert string to bitmap
-    public  Bitmap StringToBitMap(String encodedString) {
+    public Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
@@ -65,7 +65,7 @@ public class ChatTalksPresenter {
     }
 
     // Scale bitmap less
-    public  Bitmap readBitmapAndScale(String path) {
+    public Bitmap readBitmapAndScale(String path) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;                              //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
         BitmapFactory.decodeFile(path, options);                          //Đọc thông tin ảnh

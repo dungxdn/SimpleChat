@@ -55,12 +55,14 @@
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edtComment"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/background_edt_message"
+            android:padding="@dimen/_5sdp"
             android:textSize="@dimen/_14ssp"
             android:hint="@string/hint_edt_comment"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
             />
 
         <android.support.v7.widget.AppCompatImageButton

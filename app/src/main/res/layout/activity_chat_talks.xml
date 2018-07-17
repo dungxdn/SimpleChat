@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayoutChatTalks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/relativeLayoutChatTalks"
     tools:context=".ui.ChatTalksActivity">
 
     <jp.bap.traning.simplechat.widget.CustomToolbar_
@@ -13,16 +13,16 @@
         android:layout_height="wrap_content">
 
     </jp.bap.traning.simplechat.widget.CustomToolbar_>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listViewChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mToolbar"
         android:layout_above="@+id/view_below_listView"
-        android:paddingLeft="@dimen/_8sdp"
-        android:paddingRight="@dimen/_8sdp"
+        android:layout_below="@+id/mToolbar"
         android:paddingBottom="@dimen/_8sdp"
-        >
+        android:paddingLeft="@dimen/_8sdp"
+        android:paddingRight="@dimen/_8sdp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -30,51 +30,53 @@
         android:id="@+id/view_below_listView"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/viewChatTextField"
-        />
+        android:layout_above="@+id/viewChatTextField" />
 
     <LinearLayout
         android:id="@+id/viewChatTextField"
-        android:layout_alignParentBottom="true"
-        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:padding="@dimen/_2sdp">
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:padding="@dimen/_2sdp"
+        android:weightSum="10">
 
         <ImageButton
             android:id="@+id/imgImage"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_5sdp"
             android:layout_weight="1"
-            android:src="@drawable/image_picker"
-            android:scaleType="centerInside"
-            android:padding="@dimen/_4sdp"
             android:background="@android:color/transparent"
-            />
+            android:padding="@dimen/_4sdp"
+            android:scaleType="centerInside"
+            android:src="@drawable/image_picker" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edtMessage"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_weight="7"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_14ssp"
+            android:background="@drawable/background_edt_message"
             android:hint="@string/edittext_input_message"
-            android:background="@android:color/transparent"
-            />
+            android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_14ssp" />
+
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imgSendMessage"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:src="@android:drawable/ic_menu_send"
-            android:padding="4dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:scaleType="centerInside"
+            android:layout_alignParentRight="true"
+            android:layout_weight="2"
             android:background="@android:color/transparent"
-            />
+            android:padding="4dp"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
+
     <include layout="@layout/activity_progressbar"></include>
 
 </RelativeLayout>

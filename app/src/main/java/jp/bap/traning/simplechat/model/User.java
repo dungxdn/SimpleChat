@@ -2,7 +2,9 @@ package jp.bap.traning.simplechat.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java.util.Comparator;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import lombok.AllArgsConstructor;

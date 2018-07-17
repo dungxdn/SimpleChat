@@ -1,31 +1,33 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
 import java.util.ArrayList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.Room;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
@@ -36,10 +38,7 @@ import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
 import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
-import jp.bap.traning.simplechat.widget.CustomToolbar_;
-
-import static jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet.checkChange;
+import jp.bap.traning.simplechat.widget.CustomToolbar;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
@@ -50,13 +49,14 @@ public class ChatTalksActivity extends BaseActivity {
     Message message;
     private RequestOptions options;
     private UploadImagePresenter mUploadImagePresenter;
-    private static String linkImage="";
+    private static String linkImage = "";
+    private Room mRoom;
     @ViewById
     RecyclerView listViewChat;
     @ViewById
     EditText edtMessage;
     @ViewById
-    CustomToolbar_ mToolbar;
+    CustomToolbar mToolbar;
     @ViewById
     ProgressBar mProgressBar;
     @Extra
@@ -64,8 +64,8 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        setupToolbar();
         init();
+        setupToolbar();
         addEvents();
     }
 
@@ -82,7 +82,6 @@ public class ChatTalksActivity extends BaseActivity {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
                     message = new Message(messageChat, Common.getUserLogin().getId(), roomId, Common.typeText);
-                    Log.d("SharePres luc nhan tin","MineID: "+Common.mMineId);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -103,18 +102,69 @@ public class ChatTalksActivity extends BaseActivity {
     }
 
 
-
     private void setupToolbar() {
         mToolbar.getCallButton().setVisibility(View.VISIBLE);
         mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
+        mToolbar.getSettingButton().setOnClickListener(view -> {
+            PopupMenu popup = new PopupMenu(ChatTalksActivity.this, mToolbar.getSettingButton());
+            popup.getMenuInflater()
+                    .inflate(R.menu.menu_chat_talk, popup.getMenu());
+            if (mRoom.getType() == 0) {
+                popup.getMenu().getItem(0).setVisible(false);
+            }
+            popup.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()){
+
+                    case R.id.member:
+                        showDialogMember();
+                        break;
+                    case R.id.setting:
+                        break;
+                    case R.id.help:
+                        break;
+                }
+                return true;
+            });
+            popup.show();
+        });
+        mToolbar.setTitle(mRoom.getRoomName());
+        mToolbar.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mToolbar.setTitle(Common.getFullRoomFromRoomId(roomId).getRoomName());
         mToolbar.getBackButton().setOnClickListener(view -> finish());
+    }
+
+    private void showDialogMember() {
+        Dialog mDialog = new Dialog(this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.setContentView(R.layout.dialog_member_group);
+        ArrayList<User> listUser = new ArrayList<>();
+        for (User u : mRoom.getUsers()){
+            listUser.add(u);
+        }
+        RecyclerView listMember = mDialog.findViewById(R.id.lvMember);
+        AppCompatTextView tvGroupName = mDialog.findViewById(R.id.tvGroupName);
+        tvGroupName.setText(mRoom.getRoomName());
+        MemberAdapter memberAdapter = new MemberAdapter(this,listUser);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        listMember.setLayoutManager(mLayoutManager);
+        listMember.setItemAnimator(new DefaultItemAnimator());
+
+        listMember.setAdapter(memberAdapter);
+        memberAdapter.notifyDataSetChanged();
+        mDialog.show();
+
     }
 
     private void init() {
         mProgressBar.setVisibility(View.GONE);
         //Initial RecyclerView
+        mRoom = Common.getFullRoomFromRoomId(roomId);
         listMessage = new ArrayList<>();
         chatTalksAdapter = new ChatTalksAdapter(this, listMessage, () -> hiddenProgressBar(mProgressBar));
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -133,6 +183,7 @@ public class ChatTalksActivity extends BaseActivity {
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
             }
+
             @Override
             public void errorGetAllMessage(int roomID) {}
         }) {};
@@ -154,7 +205,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link+";"+"No preview available", Common.mMineId , roomId, Common.typeLink);
+                message = new Message(link+";"+"No preview available", Common.getUserLogin().getId() , roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);

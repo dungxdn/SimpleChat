@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.service;
 
 import android.util.Log;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 

@@ -6,7 +6,7 @@ import io.realm.RealmChangeListener;
 public class RealmDAO {
     private static int check = 0;
     private RealmChangeListener mRealmChangeListener;
-    Realm mRealmforListener;
+    private Realm mRealmforListener;
 
     public RealmDAO() {
         mRealmforListener = Realm.getDefaultInstance();
@@ -14,8 +14,8 @@ public class RealmDAO {
 
     public void realmChanged(Listener listener) {
         mRealmChangeListener = (o) -> {
-                listener.onRealmChanged(o, check);
-                check++ ;
+            listener.onRealmChanged(o, check);
+            check++;
         };
         mRealmforListener.addChangeListener(mRealmChangeListener);
     }

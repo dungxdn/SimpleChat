@@ -18,11 +18,11 @@ import retrofit2.Response;
  * Created by Admin on 6/27/2018.
  */
 
-public class UploadImageInteractor {
-    public UploadImageInteractor() {
+class UploadImageInteractor {
+    UploadImageInteractor() {
     }
 
-    public void uploadImage(String title, String description, String album, String account_url, File file, UploadImageView callback) {
+    void uploadImage(String title, String description, String album, String account_url, File file, UploadImageView callback) {
 
         Call<ImageResponse> call = ImgurClient.getService().postImage(
                 title,

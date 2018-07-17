@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
 
@@ -23,8 +25,9 @@ public class AddGroupChatAdapter
     private Context mContext;
     private Listener mCallback;
 
-    interface Listener{
+    interface Listener {
         void onAddId(int id);
+
         void onRemoveId(int id);
     }
 
@@ -48,11 +51,11 @@ public class AddGroupChatAdapter
         holder.mCheckBoxAddGroupChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!holder.mIscheck){
+                if (!holder.mIscheck) {
                     holder.mCheckBoxAddGroupChat.setChecked(true);
                     mCallback.onAddId(user.getId());
                     holder.mIscheck = true;
-                }else {
+                } else {
                     holder.mCheckBoxAddGroupChat.setChecked(false);
                     mCallback.onRemoveId(user.getId());
                     holder.mIscheck = false;

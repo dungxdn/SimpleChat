@@ -4,16 +4,14 @@
     android:color="#f816a463"
     tools:targetApi="lollipop">
     <item android:id="@android:id/mask">
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android">
-            <solid android:color="@color/colorGreen"/>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@color/colorGreen" />
         </shape>
     </item>
     <item>
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/white" />
         </shape>
     </item>
 </ripple>

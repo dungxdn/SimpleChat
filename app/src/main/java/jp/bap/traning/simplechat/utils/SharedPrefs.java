@@ -12,11 +12,11 @@ public class SharedPrefs {
     private SharedPreferences mSharedPreferences;
 
     private SharedPrefs() {
-       mSharedPreferences = BaseApp.getInstance().getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
+        mSharedPreferences = BaseApp.getInstance().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     public static SharedPrefs getInstance() {
-        if(mInstance == null) {
+        if (mInstance == null) {
             mInstance = new SharedPrefs();
         }
         return mInstance;
@@ -25,20 +25,15 @@ public class SharedPrefs {
     public <T> T getData(String key, Class<T> tClass) {
 
         if (tClass == String.class) {
-            return (T) mSharedPreferences.getString(key,"");
-        }
-        else if (tClass == boolean.class) {
-            return (T) Boolean.valueOf(mSharedPreferences.getBoolean(key,false));
-        }
-        else if (tClass == Float.class) {
-            return (T) Float.valueOf(mSharedPreferences.getFloat(key,0));
-        }
-
-        else if (tClass == Integer.class) {
-            return (T) Integer.valueOf(mSharedPreferences.getInt(key,0));
-        }
-        else if (tClass == Long.class) {
-            return (T) Long.valueOf(mSharedPreferences.getLong(key,0));
+            return (T) mSharedPreferences.getString(key, "");
+        } else if (tClass == boolean.class) {
+            return (T) Boolean.valueOf(mSharedPreferences.getBoolean(key, false));
+        } else if (tClass == Float.class) {
+            return (T) Float.valueOf(mSharedPreferences.getFloat(key, 0));
+        } else if (tClass == Integer.class) {
+            return (T) Integer.valueOf(mSharedPreferences.getInt(key, 0));
+        } else if (tClass == Long.class) {
+            return (T) Long.valueOf(mSharedPreferences.getLong(key, 0));
         }
         return null;
     }

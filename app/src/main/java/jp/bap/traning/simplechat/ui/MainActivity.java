@@ -1,6 +1,5 @@
 package jp.bap.traning.simplechat.ui;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,50 +8,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.model.Image;
-
 import jp.bap.traning.simplechat.model.News;
-import jp.bap.traning.simplechat.utils.Event;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RealmDAO;
-import jp.bap.traning.simplechat.database.UserDAO;
-import jp.bap.traning.simplechat.model.User;
-import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserPresenter;
-import jp.bap.traning.simplechat.presenter.updateuser.UpdateUserView;
-import jp.bap.traning.simplechat.presenter.uploadimage.UploadImagePresenter;
-import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
-import jp.bap.traning.simplechat.response.BaseResponse;
-import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
-
-import org.json.JSONObject;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
@@ -100,7 +77,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ViewPagerAdapter mViewpagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewpagerAdapter.addFragment(mNewsFragment,
                 getResources().getString(R.string.title_tab_news),
-                R.drawable.ic_news);
+                R.drawable.selection_icon_news_tablayout);
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);
@@ -134,6 +111,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mAddNewsFragment.linkImage = "";
                 mAddNewsFragment.edtDescription.setText("");
                 mAddNewsFragment.imgAddNews.setImageResource(R.drawable.default_image_news);
+                Common.hideKeyboard(this);
             }
         });
     }
@@ -283,11 +261,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    public void onCall(int roomId) {
-        super.onCall(roomId);
+    public void onCall(int roomId, boolean isAudioCall) {
+        super.onCall(roomId, isAudioCall);
         CallActivity_.intent(this)
                 .isIncoming(true)
                 .roomId(roomId)
+                .isAudioCall(isAudioCall)
                 .start();
     }
 }

@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.webrtc;
 
 import android.util.Log;
+
 import org.webrtc.SdpObserver;
 import org.webrtc.SessionDescription;
 

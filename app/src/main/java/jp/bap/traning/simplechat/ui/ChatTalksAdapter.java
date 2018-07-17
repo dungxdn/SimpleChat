@@ -45,12 +45,14 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_IMAGE_RECEIVED = 4;
     private static final int VIEW_TYPE_MESSAGE_LINK_SEND = 5;
     private static final int VIEW_TYPE_MESSAGE_LINK_RECEIVED = 6;
+
     interface Listener {
         void onViewDone();
     }
+
     Listener mListener;
 
-    public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList,Listener listener) {
+    public ChatTalksAdapter(Context mContext, ArrayList<Message> messageArrayList, Listener listener) {
         this.messageArrayList = messageArrayList;
         this.mContext = mContext;
         this.mListener = listener;
@@ -62,25 +64,21 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         //Check Who is owner message
         if (mMessage.getUserID() == Common.mMineId) {
             //Check message is String or Image
-            if(Common.typeImage.equals(mMessage.getType())) {
+            if (Common.typeImage.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_IMAGE_SEND;
-            }
-            else  if(Common.typeText.equals(mMessage.getType())){
+            } else if (Common.typeText.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_SENT;
-            }
-            else {  //Common.typeLink.equals(mMessage.getType()))
+            } else {  //Common.typeLink.equals(mMessage.getType()))
                 return VIEW_TYPE_MESSAGE_LINK_SEND;
             }
         }
         //Message from Friend
         else {
-            if(Common.typeImage.equals(mMessage.getType())) {
+            if (Common.typeImage.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_IMAGE_RECEIVED;
-            }
-            else if(Common.typeText.equals(mMessage.getType())){
+            } else if (Common.typeText.equals(mMessage.getType())) {
                 return VIEW_TYPE_MESSAGE_RECEIVED;
-            }
-            else {
+            } else {
                 return VIEW_TYPE_MESSAGE_LINK_RECEIVED;
             }
         }
@@ -90,15 +88,15 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
-                View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
+            View view = layoutInflater.inflate(R.layout.view_holder_chat_my_message, parent, false);
             return new MessageViewHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED){
+        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             View view = layoutInflater.inflate(R.layout.view_holder_chat_receive_message, parent, false);
             return new MessageViewHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_IMAGE_SEND){
+        } else if (viewType == VIEW_TYPE_MESSAGE_IMAGE_SEND) {
             View view = layoutInflater.inflate(R.layout.view_holder_message_image_right, parent, false);
             return new ImageMessageViewHolder(view);
-        } else  if (viewType == VIEW_TYPE_MESSAGE_IMAGE_RECEIVED){
+        } else if (viewType == VIEW_TYPE_MESSAGE_IMAGE_RECEIVED) {
             View view = layoutInflater.inflate(R.layout.view_holder_message_image_left, parent, false);
             return new ImageMessageViewHolder(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_LINK_SEND) {
@@ -113,36 +111,34 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message mMessage = messageArrayList.get(position);
-        if(Common.typeText.equals(mMessage.getType())) {
+        if (Common.typeText.equals(mMessage.getType())) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
             messageViewHolder.txtMessage.setText(mMessage.getContent());
-            if(Common.mMineId != mMessage.getUserID()) {
+            if (Common.mMineId != mMessage.getUserID()) {
                 messageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            Common.setAvatar(mContext,mMessage.getUserID(),messageViewHolder.mAvatar);
-        }
-        else if(Common.typeLink.equals(mMessage.getType())) {
+            Common.setAvatar(mContext, mMessage.getUserID(), messageViewHolder.mAvatar);
+        } else if (Common.typeLink.equals(mMessage.getType())) {
             LinkMessageViewHolder linkMessageViewHolder = (LinkMessageViewHolder) holder;
             String arr[] = mMessage.getContent().split(";");
             linkMessageViewHolder.linkMessage.setText(arr[0]);
             linkMessageViewHolder.linkDescription.setText(arr[1]);
-            if(Common.mMineId != mMessage.getUserID()) {
+            if (Common.mMineId != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            Common.setAvatar(mContext,mMessage.getUserID(),linkMessageViewHolder.mAvatar);
-        }
-        else {      //== Common.typeImage
+            Common.setAvatar(mContext, mMessage.getUserID(), linkMessageViewHolder.mAvatar);
+        } else {      //== Common.typeImage
             ImageMessageViewHolder imageMessageViewHolder = (ImageMessageViewHolder) holder;
-            Common.setImage(mContext,mMessage.getContent(),imageMessageViewHolder.imageView);
-            if(Common.mMineId != mMessage.getUserID()) {
+            Common.setImage(mContext, mMessage.getContent(), imageMessageViewHolder.imageView);
+            if (Common.mMineId != mMessage.getUserID()) {
                 imageMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
             //Set Avatar
-            Common.setAvatar(mContext,mMessage.getUserID(),imageMessageViewHolder.mAvatar);
+            Common.setAvatar(mContext, mMessage.getUserID(), imageMessageViewHolder.mAvatar);
             mListener.onViewDone();
-           }
+        }
     }
 
     @Override
@@ -151,7 +147,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     }
 
 
-    class MessageViewHolder extends RecyclerView.ViewHolder{
+    class MessageViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mAvatar;
         AppCompatTextView txtMessage;
         TextView txtName;
@@ -164,7 +160,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             itemView.setOnLongClickListener((View view) -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 PopUpBottomSheet popUpBottomSheet = PopUpBottomSheet.getInstance(message);
-                popUpBottomSheet.show( ((AppCompatActivity)mContext).getSupportFragmentManager(),PopUpBottomSheet.class.getSimpleName() );
+                popUpBottomSheet.show(((AppCompatActivity) mContext).getSupportFragmentManager(), PopUpBottomSheet.class.getSimpleName());
                 return false;
             });
         }
@@ -174,6 +170,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         ImageView imageView;
         CircleImageView mAvatar;
         TextView txtName;
+
         public ImageMessageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageMessageChatContent);

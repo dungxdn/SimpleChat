@@ -5,19 +5,29 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.utils.Permission;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -53,11 +63,15 @@ public class CallActivity extends BaseActivity {
     @ViewById
     AppCompatTextView mtvStatus;
     @ViewById
-    AppCompatButton mBtnAccept;
+    CircleImageView mImgAvatarCallAudio;
+    @ViewById
+    AppCompatImageButton mBtnAccept;
     @Extra
     int roomId;
     @Extra
     boolean isIncoming;
+    @Extra
+    boolean isAudioCall;
 
     private PeerConnectionFactory peerConnectionFactory;
     private MediaConstraints audioConstraints;
@@ -76,16 +90,18 @@ public class CallActivity extends BaseActivity {
     private List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
     MediaStream mediaStreamLocal;
     MediaStream mediaStreamRemote;
+    private Room mRoom;
 
     //
     private static boolean sIsFrontCamera = true;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
     @Override
     public void afterView() {
+        mRoom = Common.getFullRoomFromRoomId(roomId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Permission.initPermission(this, permissionRequired);
         }
@@ -96,19 +112,45 @@ public class CallActivity extends BaseActivity {
         initVideos();
         getIceServers();
         start();
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(this).load(mRoom.getAvatar()).apply(options).into(mImgAvatarCallAudio);
+        mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+        mLocalVideoView.setVisibility(View.GONE);
+        mRemoteVideoView.setVisibility(View.GONE);
+//        if (isAudioCall) {
+//            Glide.with(this).load(mRoom.getAvatar()).apply(options).into(mImgAvatarCallAudio);
+//            mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+//        } else {
+//            mRemoteVideoView.setVisibility(View.VISIBLE);
+//            mLocalVideoView.setVisibility(View.VISIBLE);
+//        }
         if (isIncoming) {
+            if(isAudioCall){
+                mtvStatus.setText("Incoming call audio from: " + mRoom.getRoomName());
+            }else{
+                mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
+            }
             mBtnAccept.setVisibility(View.VISIBLE);
-            mtvStatus.setText("Incoming call from: " + roomId);
+
         } else {
-            ChatService.getChat().emitCall(roomId);
+            if (isAudioCall) {
+                ChatService.getChat().emitCall(roomId, true);
+                mtvStatus.setText("Calling audio to " + mRoom.getRoomName());
+            } else {
+                ChatService.getChat().emitCall(roomId, false);
+                mtvStatus.setText("Calling video to " + mRoom.getRoomName());
+            }
             mBtnAccept.setVisibility(View.GONE);
-            mtvStatus.setText("Calling to " + roomId);
+
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
@@ -122,9 +164,11 @@ public class CallActivity extends BaseActivity {
 
     private void initVideos() {
         rootEglBase = EglBase.create();
-        mLocalVideoView.init(rootEglBase.getEglBaseContext(), null);
-        mRemoteVideoView.init(rootEglBase.getEglBaseContext(), null);
-        mLocalVideoView.setZOrderMediaOverlay(true);
+        if (!isAudioCall) {
+            mLocalVideoView.init(rootEglBase.getEglBaseContext(), null);
+            mRemoteVideoView.init(rootEglBase.getEglBaseContext(), null);
+            mLocalVideoView.setZOrderMediaOverlay(true);
+        }
     }
 
     private void getIceServers() {
@@ -171,10 +215,14 @@ public class CallActivity extends BaseActivity {
         audioSource = peerConnectionFactory.createAudioSource(audioConstraints);
         localAudioTrack = peerConnectionFactory.createAudioTrack("101", audioSource);
 
-        if (videoCapturerAndroid != null) {
+        if (videoCapturerAndroid != null /*&& isAudioCall == false*/) {
             videoCapturerAndroid.startCapture(1280, 720, 30);
         }
-        mLocalVideoView.setVisibility(View.VISIBLE);
+        if (!isAudioCall) {
+            mLocalVideoView.setVisibility(View.VISIBLE);
+        } else {
+            mLocalVideoView.setVisibility(View.GONE);
+        }
         //create a videoRenderer based on SurfaceViewRenderer instance
         localRenderer = new VideoRenderer(mLocalVideoView);
         // And finally, with our VideoRenderer ready, we
@@ -196,7 +244,6 @@ public class CallActivity extends BaseActivity {
             if (enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating front facing camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
                 if (videoCapturer != null) {
                     return videoCapturer;
                 }
@@ -355,7 +402,7 @@ public class CallActivity extends BaseActivity {
         });
     }
 
-    @Click({ R.id.mBtnAccept, R.id.mBtnStop })
+    @Click({R.id.mBtnAccept, R.id.mBtnStop})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
@@ -366,6 +413,15 @@ public class CallActivity extends BaseActivity {
 
             case R.id.mBtnAccept:
                 mtvStatus.setText("Call started!!!");
+                if(isAudioCall){
+                    mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+                    mRemoteVideoView.setVisibility(View.GONE);
+                    mLocalVideoView.setVisibility(View.GONE);
+                }else{
+                    mImgAvatarCallAudio.setVisibility(View.GONE);
+                    mRemoteVideoView.setVisibility(View.VISIBLE);
+                    mLocalVideoView.setVisibility(View.VISIBLE);
+                }
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
@@ -395,6 +451,14 @@ public class CallActivity extends BaseActivity {
         super.onCallAccept();
         createPeerConnection();
         doCall();
+        if(isAudioCall){
+            mRemoteVideoView.setVisibility(View.GONE);
+            mLocalVideoView.setVisibility(View.GONE);
+        }else{
+            mImgAvatarCallAudio.setVisibility(View.GONE);
+            mRemoteVideoView.setVisibility(View.VISIBLE);
+            mLocalVideoView.setVisibility(View.VISIBLE);
+        }
         mtvStatus.setText("call started!!!");
     }
 
@@ -465,7 +529,7 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
-        if(mediaStreamLocal !=null) {
+        if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
             mediaStreamLocal.dispose();

@@ -104,7 +104,7 @@ public class ChatService extends Service implements ChatManager.Listener {
     }
 
     public static void setChatManagerNull() {
-        sChatManager=null;
+        sChatManager = null;
     }
 
 }

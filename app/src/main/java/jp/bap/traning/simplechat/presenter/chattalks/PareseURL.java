@@ -8,24 +8,23 @@ import org.jsoup.nodes.Document;
 
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
 
-public class PareseURL extends AsyncTask<String,Void,String>{
+public class PareseURL extends AsyncTask<String, Void, String> {
     private ChatTalksListener mCallBack;
-    private static String link="";
+    private static String link = "";
 
-    public PareseURL(ChatTalksListener callBack) {
+    PareseURL(ChatTalksListener callBack) {
         mCallBack = callBack;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String title="";
-        try{
+        String title = "";
+        try {
             link = strings[0];
             Document document = Jsoup.connect(strings[0]).get();
             // Get document (HTML page) title
             title = document.title();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -35,10 +34,9 @@ public class PareseURL extends AsyncTask<String,Void,String>{
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if(s.trim().isEmpty() == false) {
-            mCallBack.onRequestURLSuccess(link,s);
-        }
-        else {
+        if (!s.trim().isEmpty()) {
+            mCallBack.onRequestURLSuccess(link, s);
+        } else {
             mCallBack.onRequestURLFailed(link);
         }
     }

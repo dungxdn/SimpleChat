@@ -6,82 +6,86 @@
     <LinearLayout
         android:layout_width="@dimen/_250sdp"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/_20sdp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_20sdp">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvatar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_110sdp"
-            android:src="@drawable/ic_avatar_default"/>
+            android:src="@drawable/ic_avatar_default" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
             android:text="Nhi Nguyen"
-            android:layout_marginTop="@dimen/_5sdp"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorGreen"
-            android:layout_marginTop="@dimen/_20sdp"/>
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:id="@+id/mBtnEdit"
-            android:text="Edit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorGreen"
-            android:background="@android:color/transparent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@color/colorGreen" />
 
-        <LinearLayout
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/mBtnEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGreen" />
+
+        <LinearLayout
             android:id="@+id/lnContactFriend"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:id="@+id/mBtnChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:text="Chat"
                 android:textAllCaps="false"
-                android:textColor="@color/colorGreen"
-                android:background="@android:color/transparent"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/colorGreen" />
+
             <View
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="match_parent"
-                android:background="@color/colorGreen"/>
+                android:background="@color/colorGreen" />
 
             <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:textAllCaps="false"
                 android:id="@+id/mBtnCall"
-                android:text="Call"
-                android:textColor="@color/colorGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:layout_height="wrap_content" />
+                android:text="Call"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGreen" />
+
             <View
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="match_parent"
-                android:background="@color/colorGreen"/>
+                android:background="@color/colorGreen" />
 
             <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:textAllCaps="false"
                 android:id="@+id/mBtnCallVideo"
-                android:text="Call video"
-                android:textColor="@color/colorGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:layout_height="wrap_content" />
+                android:text="Call video"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGreen" />
 
         </LinearLayout>
     </LinearLayout>

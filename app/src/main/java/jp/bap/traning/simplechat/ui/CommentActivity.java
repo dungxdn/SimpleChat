@@ -1,10 +1,12 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -50,6 +52,7 @@ public class CommentActivity extends BaseActivity {
     public void afterView() {
         setupToolbar();
         init();
+        addEvents();
     }
 
     private void setupToolbar() {
@@ -70,17 +73,27 @@ public class CommentActivity extends BaseActivity {
         recyclerViewComment.setLayoutManager(mLayoutManager);
         recyclerViewComment.setItemAnimator(new DefaultItemAnimator());
         recyclerViewComment.setAdapter(commentAdapter);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(this , 1);
+        recyclerViewComment.addItemDecoration(mDividerItemDecoration);
         commentAdapter.notifyDataSetChanged();
     }
 
+    private void addEvents() {
+        recyclerViewComment.setOnTouchListener((view, motionEvent) -> {
+            Common.hideKeyboard((Activity) view.getContext());
+            return false;
+        });
+    }
+
     @Click(R.id.imgButtonSendComment)
-    private void sendComment() {
+    public void sendComment() {
         if (edtComment.getText().toString().isEmpty()) {
             Toast.makeText(this, "Say your feeling...", Toast.LENGTH_SHORT).show();
         } else {
             listComment.add(0, new Comment(Common.getUserLogin(), edtComment.getText().toString()));
-            commentAdapter.notifyItemChanged(0);
+            commentAdapter.notifyDataSetChanged();
             recyclerViewComment.smoothScrollToPosition(0);
+            edtComment.setText("");
         }
     }
 

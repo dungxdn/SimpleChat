@@ -8,10 +8,13 @@ import android.util.AttributeSet;
 import android.support.v7.widget.SearchView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
 import jp.bap.traning.simplechat.ui.SearchGroupChatActivity_;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.ui.AddGroupChatActivity_;
 
@@ -43,9 +46,10 @@ public class CustomToolbar extends RelativeLayout {
 
     private Context context;
 
-    interface Listenner{
+    interface Listenner {
         void onShare();
     }
+
     Listenner mListenner;
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -82,6 +86,7 @@ public class CustomToolbar extends RelativeLayout {
     public AppCompatTextView getTvTitle() {
         return mTvTitle;
     }
+
     public AppCompatTextView getmTvCreateNews() {
         return mTvCreateNews;
     }
@@ -125,5 +130,7 @@ public class CustomToolbar extends RelativeLayout {
     }
 
     @Click(R.id.mButtonSharing)
-    public void shareNews(){ mListenner.onShare();}
+    public void shareNews() {
+        mListenner.onShare();
+    }
 }

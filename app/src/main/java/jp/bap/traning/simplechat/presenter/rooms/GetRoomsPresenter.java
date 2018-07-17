@@ -7,8 +7,8 @@ import jp.bap.traning.simplechat.response.RoomResponse;
  */
 
 public class GetRoomsPresenter {
-    GetRoomsView mCallback;
-    GetRoomsInteractor mInteractor;
+    private GetRoomsView mCallback;
+    private GetRoomsInteractor mInteractor;
 
     public GetRoomsPresenter(GetRoomsView callback) {
         mCallback = callback;

@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.presenter.login;
 
 import android.util.Log;
+
 import jp.bap.traning.simplechat.response.UserResponse;
 
 public class LoginPresenter {

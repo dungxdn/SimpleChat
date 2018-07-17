@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_30sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="@dimen/_30sdp">
+
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mTvGroupName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="Me"
         android:gravity="center_vertical"
-        android:id="@+id/mTvGroupName"
-        android:textColor="@color/black"
         android:paddingLeft="@dimen/_5sdp"
-        app:layout_constraintRight_toLeftOf="@id/btnUpDown"
+        android:text="Me"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintRight_toLeftOf="@id/btnUpDown"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/btnUpDown"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:paddingLeft="@dimen/_8sdp"
         android:paddingRight="@dimen/_8sdp"
-        android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_up"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

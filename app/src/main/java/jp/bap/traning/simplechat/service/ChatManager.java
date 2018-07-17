@@ -20,10 +20,13 @@ import jp.bap.traning.simplechat.utils.Event;
 
 public class ChatManager {
     private static final String TAG = ChatManager.class.getSimpleName();
+
     interface Listener {
         void onEvent(Event event, JSONObject data);
+
         void onEmit(Event event, JSONObject data);
     }
+
     Socket mSocket;
     Listener mListener;
 
@@ -80,7 +83,7 @@ public class ChatManager {
         try {
             Gson gson = new Gson();
             String objectMessage = gson.toJson(message);
-            data.put("chatMessage",objectMessage);
+            data.put("chatMessage", objectMessage);
             data.put("roomId", roomId);
             emit(Event.MESSAGE_SEND, data);
         } catch (JSONException e) {
@@ -88,26 +91,26 @@ public class ChatManager {
         }
     }
 
-    public void emitCreateNews(News news){
+    public void emitCreateNews(News news) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
             String objectNews = gson.toJson(news);
-            data.put("news",objectNews);
+            data.put("news", objectNews);
             emit(Event.NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void emitOnLikeNews(User user, News news){
+    public void emitOnLikeNews(User user, News news) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
             String objectNews = gson.toJson(news);
             String objectUser = gson.toJson(user);
-            data.put("news",objectNews);
-            data.put("user",objectUser);
+            data.put("news", objectNews);
+            data.put("user", objectUser);
             emit(Event.LIKE_NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -134,10 +137,11 @@ public class ChatManager {
         }
     }
 
-    public void emitCall(int roomId) {
+    public void emitCall(int roomId, boolean isAudioCall) {
         JSONObject data = new JSONObject();
         try {
             data.put("roomId", roomId);
+            data.put("isAudioCall", isAudioCall);
             emit(Event.CALL, data);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -154,8 +158,8 @@ public class ChatManager {
         }
     }
 
-        public void getUsersOnline() {
+    public void getUsersOnline() {
         JSONObject data = new JSONObject();
-        emit(Event.USER_ONLINE,data);
+        emit(Event.USER_ONLINE, data);
     }
 }

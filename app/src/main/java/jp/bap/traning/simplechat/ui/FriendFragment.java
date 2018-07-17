@@ -2,11 +2,8 @@ package jp.bap.traning.simplechat.ui;
 
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-
 import io.realm.RealmList;
-
 import java.util.List;
-
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
@@ -16,14 +13,11 @@ import jp.bap.traning.simplechat.presenter.getroom.GetRoomPresenter;
 import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.response.GetRoomResponse;
-
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
@@ -32,6 +26,7 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 import static io.realm.RealmObject.removeAllChangeListeners;
+
 import static jp.bap.traning.simplechat.model.User.userComparator;
 import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
 
@@ -54,7 +49,8 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     private RealmList<User> mUserRealmList;
     private ArrayList<User> me;
     private RealmDAO mRealmDAO;
-    private static final String ACTIVITY_CALL = "CallActivity";
+    private static final String ACTIVITY_VIDEO_CALL = "VideoCallActivity";
+    private static final String ACTIVITY_AUDIO_CALL = "AudioCallActivity";
     private static final String ACTIVITY_CHAT = "ChatTalkActivity";
 
     @Override
@@ -181,15 +177,36 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     }
 
     @Override
+    public void onCallAudio(int userId) {
+        ((MainActivity) getActivity()).showProgressBar();
+        //get room from realm.
+        Room room = Common.getRoomWithUser(userId);
+        if (room != null) {
+            CallActivity_.intent(getContext())
+                    .roomId(room.getRoomId())
+                    .isIncoming(false)
+                    .isAudioCall(true)
+                    .start();
+            ((MainActivity) getActivity()).hiddenProgressBar();
+        } else {
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
+        }
+    }
+
+    @Override
     public void onCallVideo(int userId) {
         ((MainActivity) getActivity()).showProgressBar();
         //get room from realm.
         Room room = Common.getRoomWithUser(userId);
         if (room != null) {
-            CallActivity_.intent(getContext()).roomId(room.getRoomId()).isIncoming(false).start();
+            CallActivity_.intent(getContext())
+                    .roomId(room.getRoomId())
+                    .isIncoming(false)
+                    .isAudioCall(false)
+                    .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
         } else {
-            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_CALL);
+            addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
     }
 
@@ -221,11 +238,12 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                         ((MainActivity) getActivity()).hiddenProgressBar();
                         //Start Activity
                         switch (activity) {
-                            case ACTIVITY_CALL:
+                            case ACTIVITY_VIDEO_CALL:
                                 //Start CallActivity
                                 CallActivity_.intent(getContext())
                                         .roomId(result.getData().getRoomId())
                                         .isIncoming(false)
+                                        .isAudioCall(false)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
                                 break;
@@ -234,6 +252,15 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                 ChatTalksActivity_.intent(FriendFragment.this)
                                         .roomId(result.getData().getRoomId())
                                         .start();
+                                break;
+                            case ACTIVITY_AUDIO_CALL:
+                                //Start CallActivity
+                                CallActivity_.intent(getContext())
+                                        .roomId(result.getData().getRoomId())
+                                        .isIncoming(false)
+                                        .isAudioCall(true)
+                                        .start();
+                                ((MainActivity) getActivity()).hiddenProgressBar();
                                 break;
                         }
                     }
@@ -266,10 +293,5 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                 ((MainActivity) getActivity()).hiddenProgressBar();
             }
         });
-    }
-
-    @Override
-    public void onCallAudio(int userId) {
-
     }
 }

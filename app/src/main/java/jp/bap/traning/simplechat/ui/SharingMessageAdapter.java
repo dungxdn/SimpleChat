@@ -14,17 +14,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.User;
 
-public class SharingMessageAdapter  extends RecyclerView.Adapter<SharingMessageAdapter.SharingMessageViewHolder> {
+public class SharingMessageAdapter extends RecyclerView.Adapter<SharingMessageAdapter.SharingMessageViewHolder> {
     private ArrayList<User> mListUser;
     private Context mContext;
     private SharingMessageAdapter.Listener mCallback;
 
-    interface Listener{
+    interface Listener {
         void onAddId(int id);
+
         void onRemoveId(int id);
     }
 
-    public SharingMessageAdapter(Context mContext,ArrayList<User> mListUser, SharingMessageAdapter.Listener mCallback) {
+    public SharingMessageAdapter(Context mContext, ArrayList<User> mListUser, SharingMessageAdapter.Listener mCallback) {
         this.mListUser = mListUser;
         this.mContext = mContext;
         this.mCallback = mCallback;
@@ -44,11 +45,11 @@ public class SharingMessageAdapter  extends RecyclerView.Adapter<SharingMessageA
         holder.mCheckBokSharing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!holder.mIscheck){
+                if (!holder.mIscheck) {
                     holder.mCheckBokSharing.setChecked(true);
                     mCallback.onAddId(user.getId());
                     holder.mIscheck = true;
-                }else {
+                } else {
                     holder.mCheckBokSharing.setChecked(false);
                     mCallback.onRemoveId(user.getId());
                     holder.mIscheck = false;
@@ -68,6 +69,7 @@ public class SharingMessageAdapter  extends RecyclerView.Adapter<SharingMessageA
         AppCompatTextView mStatus;
         CheckBox mCheckBokSharing;
         boolean mIscheck = false;
+
         public SharingMessageViewHolder(View itemView) {
             super(itemView);
             mAvatar = itemView.findViewById(R.id.mImgAvatarAddGroupChat);

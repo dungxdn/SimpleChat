@@ -122,7 +122,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).start());
+            imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).mNews(newsArrayList.get(getAdapterPosition())).start());
         }
     }
 }
