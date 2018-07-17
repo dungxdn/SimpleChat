@@ -30,7 +30,7 @@
             android:id="@+id/txtSharingMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/text_message_send"
             android:inputType="text"
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:padding="@dimen/_5sdp"
         android:text="@string/hind_text_view_title"
@@ -58,8 +58,8 @@
         android:id="@+id/mRecyclerUser"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_348sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"></android.support.v7.widget.RecyclerView>
+        android:layout_marginStart="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"/>
 
     <Button
         android:id="@+id/btnShareMessage"
@@ -67,7 +67,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/shape_button_login"
         android:text="@string/button_sharing_message"
         android:textAllCaps="false"
@@ -77,7 +76,9 @@
 
     <include
         layout="@layout/activity_progressbar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"></include>
+        tools:layout_editor_absoluteY="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

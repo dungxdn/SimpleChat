@@ -13,8 +13,6 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
 import android.widget.Toast;
 
-import org.androidannotations.annotations.Click;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.bap.traning.simplechat.R;
