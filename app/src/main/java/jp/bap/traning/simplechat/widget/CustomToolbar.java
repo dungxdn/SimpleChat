@@ -8,9 +8,7 @@ import android.util.AttributeSet;
 import android.support.v7.widget.SearchView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
 import jp.bap.traning.simplechat.ui.SearchGroupChatActivity_;
-
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;

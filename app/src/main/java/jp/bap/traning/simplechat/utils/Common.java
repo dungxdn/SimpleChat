@@ -198,4 +198,19 @@ public class Common {
         new RoomDAO().insertOrUpdate(mRoom);
         realmList.clear();
     }
+
+//    public static ArrayList<User> covertFromRealmListToArrayList(RealmList<User> mRealmList){
+//        ArrayList<User> mArrayList = new ArrayList<>();
+//        for(int i=0; i<mRealmList.size(); i++){
+//            mArrayList.add(mRealmList.get(i));
+//        }
+//        return mArrayList;
+//    }
+    public static <T> ArrayList<T> covertFromRealmListToArrayList(RealmList<T> mRealmList){
+        ArrayList<T> mArrayList = new ArrayList<>();
+        for(int i=0; i<mRealmList.size(); i++){
+            mArrayList.add(mRealmList.get(i));
+        }
+        return mArrayList;
+    }
 }

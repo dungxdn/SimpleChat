@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.User;
@@ -50,7 +51,11 @@ public class NewsAdapter extends RecyclerView.Adapter {
         newsViewHolder.txtName.setText(mNews.getUser().getFirstName() + " " + mNews.getUser().getLastName());
         newsViewHolder.txtName2.setText(mNews.getUser().getFirstName() + " " + mNews.getUser().getLastName());
         newsViewHolder.txtDescription.setText(mNews.getDescription());
-        newsViewHolder.txtLike.setText(mNews.getIsLike() + " like");
+        newsViewHolder.txtLike.setText(mNews.getIsLike() + " like and ");
+        newsViewHolder.txtComment.setText(mNews.getCountComment() + " comment.");
+        if (mNews.getUsersLike().contains(Common.getUserLogin()) == true) {
+            newsViewHolder.imageButtonLike.setImageResource(R.drawable.heart);
+        }
         Common.setImage(mContext, mNews.getImageView(), newsViewHolder.imageView);
         Common.setAvatar(mContext, mNews.getUser().getId(), newsViewHolder.avatar);
     }
@@ -69,6 +74,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         AppCompatImageButton imageButtonComment;
         AppCompatImageButton imageButtonShare;
         AppCompatTextView txtLike;
+        AppCompatTextView txtComment;
         private int i = 0;
 
         public NewsViewHolder(View itemView) {
@@ -87,6 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
             imageButtonShare = itemView.findViewById(R.id.btnShare);
             imageButtonComment = itemView.findViewById(R.id.btnComment);
             txtLike = itemView.findViewById(R.id.countLike);
+            txtComment = itemView.findViewById(R.id.countComment);
         }
 
         private void addEvents() {
@@ -103,19 +110,16 @@ public class NewsAdapter extends RecyclerView.Adapter {
 
             imageButtonLike.setOnClickListener(view -> {
                 News mNews = newsArrayList.get(getAdapterPosition());
-                if (i == 1) {
-                    mNews.setIsLike(mNews.getIsLike() - 1);
-                    imageButtonLike.setImageResource(R.drawable.like);
-                    i = 0;
-                } else {
+                if (mNews.getUsersLike().contains(Common.getUserLogin()) == false) {
+                    mNews.getUsersLike().add(Common.getUserLogin());
                     imageButtonLike.setImageResource(R.drawable.heart);
                     mNews.setIsLike(mNews.getIsLike() + 1);
-                    if (mNews.getUsersLike().contains(Common.getUserLogin()) == false) {
-                        mNews.getUsersLike().add(Common.getUserLogin());
-                    }
-                    i = 1;
+                }else {
+                    mNews.getUsersLike().remove(Common.getUserLogin());
+                    imageButtonLike.setImageResource(R.drawable.like);
+                    mNews.setIsLike(mNews.getIsLike() - 1);
                 }
-                txtLike.setText(mNews.getIsLike() + " like");
+                txtLike.setText(mNews.getIsLike() + " like and");
                 if (ChatService.getChat() != null) {
                     //Gui su kien bam like
                     ChatService.getChat().emitOnLikeNews(Common.getUserLogin(), mNews);

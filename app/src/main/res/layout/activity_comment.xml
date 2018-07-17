@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-
+            android:layout_marginLeft="@dimen/_5sdp"
             android:src="@drawable/send_comment"
             android:layout_gravity="center"
             android:padding="@dimen/_4sdp"

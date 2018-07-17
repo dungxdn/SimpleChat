@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.User;
@@ -40,6 +41,7 @@ public class ChatManager {
                 Event.CREATE_ROOM,
                 Event.NEWS,
                 Event.LIKE_NEWS,
+                Event.COMMENT,
                 //call
                 Event.CALL,
                 Event.CALL_CONTENT,
@@ -99,6 +101,18 @@ public class ChatManager {
             String objectNews = gson.toJson(news);
             data.put("news", objectNews);
             emit(Event.NEWS, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitOnComment(Comment comment){
+        JSONObject data = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            String objectComment = gson.toJson(comment);
+            data.put("comment", objectComment);
+            emit(Event.COMMENT, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

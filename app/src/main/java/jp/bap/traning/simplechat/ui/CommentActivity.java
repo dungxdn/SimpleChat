@@ -24,12 +24,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.News;
+import jp.bap.traning.simplechat.presenter.comment.CommentPresenter;
+import jp.bap.traning.simplechat.presenter.comment.CommentView;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
+import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_comment)
 public class CommentActivity extends BaseActivity {
 
+    private CommentPresenter commentPresenter;
     private ArrayList<Comment> listComment;
     private CommentAdapter commentAdapter;
     @ViewById
@@ -52,6 +57,7 @@ public class CommentActivity extends BaseActivity {
     public void afterView() {
         setupToolbar();
         init();
+        getAllCommentFirst();
         addEvents();
     }
 
@@ -73,9 +79,29 @@ public class CommentActivity extends BaseActivity {
         recyclerViewComment.setLayoutManager(mLayoutManager);
         recyclerViewComment.setItemAnimator(new DefaultItemAnimator());
         recyclerViewComment.setAdapter(commentAdapter);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(this , 1);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(this, 1);
         recyclerViewComment.addItemDecoration(mDividerItemDecoration);
         commentAdapter.notifyDataSetChanged();
+    }
+
+    private void getAllCommentFirst() {
+        commentPresenter = new CommentPresenter(new CommentView() {
+            @Override
+            public void getAllComment(ArrayList<Comment> commentArrayList) {
+                listComment.clear();
+                for (int i = 0; i < commentArrayList.size(); i++) {
+                    listComment.add(commentArrayList.get(i));
+                }
+                commentAdapter.notifyDataSetChanged();
+                recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
+            }
+
+            @Override
+            public void errorGetAllComment(long newsID) {
+
+            }
+        });
+        commentPresenter.getAllComment(mNews.getIdNews());
     }
 
     private void addEvents() {
@@ -90,11 +116,31 @@ public class CommentActivity extends BaseActivity {
         if (edtComment.getText().toString().isEmpty()) {
             Toast.makeText(this, "Say your feeling...", Toast.LENGTH_SHORT).show();
         } else {
-            listComment.add(0, new Comment(Common.getUserLogin(), edtComment.getText().toString()));
+            Comment mComment = new Comment(mNews.getIdNews(), Common.getUserLogin(), edtComment.getText().toString());
+            //Send Event to Server
+            if (ChatService.getChat() != null) {
+                ChatService.getChat().emitOnComment(mComment);
+            }
+            //  Update realm News
+            mNews.setCountComment(mNews.getCountComment() + 1);
+            new NewsPresenter().insertOrUpdateNews(mNews);
+            // Show in UI
+            listComment.add(mComment);
             commentAdapter.notifyDataSetChanged();
-            recyclerViewComment.smoothScrollToPosition(0);
+            recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
             edtComment.setText("");
+
         }
     }
 
+    @Override
+    public void onCommentReceive(Comment comment) {
+        super.onCommentReceive(comment);
+        if (comment.getIdNews() == mNews.getIdNews()) {
+            listComment.add(comment);
+            commentAdapter.notifyDataSetChanged();
+            recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
+        }
+
+    }
 }

@@ -22,6 +22,7 @@ import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.Event;
@@ -138,6 +139,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     Gson gson = new Gson();
                     News mNews = gson.fromJson(news, News.class);
                     onNewsCome(mNews);
+                    new NewsPresenter().insertOrUpdateNews(mNews);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -152,6 +154,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     News mNews = gson.fromJson(news,News.class);
                     User mUser = gson.fromJson(user,User.class);
                     onUserLikeNews(mUser,mNews);
+                    new NewsPresenter().insertOrUpdateNews(mNews);
                 }
                 catch (Exception e){
                     e.printStackTrace();

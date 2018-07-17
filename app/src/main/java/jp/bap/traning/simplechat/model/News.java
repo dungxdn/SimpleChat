@@ -7,17 +7,27 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class News implements Parcelable{
+@EqualsAndHashCode(callSuper = false)
+public class News extends RealmObject implements Parcelable {
+    @PrimaryKey
     private long idNews;
     private User user;
     private String description;
     private String imageView;
     private int isLike;
-    private ArrayList<User> usersLike;
+    private RealmList<User> usersLike;
+    private int countComment;
+
+    public News() {
+    }
 
     public News(User mUserm, String mDescription, String mImage) {
         this.idNews = System.currentTimeMillis();
@@ -25,8 +35,10 @@ public class News implements Parcelable{
         description = mDescription;
         imageView = mImage;
         isLike = 0;
-        usersLike = new ArrayList<>();
+        usersLike = new RealmList<>();
+        countComment=0;
     }
+
 
     protected News(Parcel in) {
         idNews = in.readLong();
@@ -34,7 +46,7 @@ public class News implements Parcelable{
         description = in.readString();
         imageView = in.readString();
         isLike = in.readInt();
-        usersLike = in.createTypedArrayList(User.CREATOR);
+        countComment = in.readInt();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -61,6 +73,6 @@ public class News implements Parcelable{
         parcel.writeString(description);
         parcel.writeString(imageView);
         parcel.writeInt(isLike);
-        parcel.writeTypedList(usersLike);
+        parcel.writeInt(countComment);
     }
 }

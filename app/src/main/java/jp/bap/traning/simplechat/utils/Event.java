@@ -18,6 +18,7 @@ public enum Event {
     CREATE_ROOM("onCreatedRoom"),
     NEWS("news"),
     LIKE_NEWS("likeNews"),
+    COMMENT("comment"),
     //Call
     CALL("call"),
     CALL_CONTENT("callContent"),

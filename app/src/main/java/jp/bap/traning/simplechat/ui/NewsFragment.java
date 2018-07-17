@@ -4,20 +4,24 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
+import jp.bap.traning.simplechat.presenter.news.NewsView;
 import jp.bap.traning.simplechat.utils.Common;
 
 @EFragment(R.layout.fragment_news)
 public class NewsFragment extends BaseFragment {
-
+    private NewsPresenter mNewsPresenter;
     private ArrayList<News> newsArrayList;
     private NewsAdapter newsAdapter;
 
@@ -39,6 +43,25 @@ public class NewsFragment extends BaseFragment {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(getContext(), 1);
         listViewNews.addItemDecoration(mDividerItemDecoration);
         newsAdapter.notifyDataSetChanged();
+        //
+        mNewsPresenter = new NewsPresenter(new NewsView() {
+            @Override
+            public void getAllNews(ArrayList<News> news) {
+                newsArrayList.clear();
+                for (int i = 0; i < news.size(); i++) {
+                    newsArrayList.add(news.get(i));
+                }
+                newsAdapter.notifyDataSetChanged();
+                listViewNews.smoothScrollToPosition(0);
+            }
+
+            @Override
+            public void errorGetAllNews() {
+                Log.d("NewsFragment", "Error Get All News");
+            }
+        });
+        //Get All News
+        mNewsPresenter.getAllNews();
     }
 
     @Override
@@ -56,7 +79,7 @@ public class NewsFragment extends BaseFragment {
         if (mUser.getId() == Common.getUserLogin().getId()) {
         } else if (position >= 0) {
             newsArrayList.get(position).setIsLike(mNews.getIsLike());
-            if (checkValidUser(mUser.getId(), newsArrayList.get(position).getUsersLike()) == false) {
+            if (checkValidUser(mUser.getId(), Common.covertFromRealmListToArrayList(newsArrayList.get(position).getUsersLike())) == false) {
                 newsArrayList.get(position).getUsersLike().add(mUser);
             }
             newsAdapter.notifyItemChanged(position);
