@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,6 @@ import java.util.List;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.utils.Permission;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
@@ -36,6 +36,7 @@ import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.CameraEnumerator;
+import org.webrtc.CameraVideoCapturer;
 import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
@@ -64,6 +65,8 @@ public class CallActivity extends BaseActivity {
     AppCompatButton mBtnAccept;
     @ViewById
     CircleImageView mImgAvatarCallAudio;
+    @ViewById
+    AppCompatImageButton mBtnSwitchCamera;
     @Extra
     int roomId;
     @Extra
@@ -92,7 +95,7 @@ public class CallActivity extends BaseActivity {
     //
     private static boolean sIsFrontCamera = true;
 
-    private String[] permissionRequired = new String[]{
+    private String[] permissionRequired = new String[] {
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -113,11 +116,15 @@ public class CallActivity extends BaseActivity {
             options.centerCrop();
             options.placeholder(R.drawable.ic_avatar_default);
             options.error(R.drawable.ic_avatar_default);
-            Glide.with(this).load(Common.getFullRoomFromRoomId(roomId).getAvatar()).apply(options).into(mImgAvatarCallAudio);
+            Glide.with(this)
+                    .load(Common.getFullRoomFromRoomId(roomId).getAvatar())
+                    .apply(options)
+                    .into(mImgAvatarCallAudio);
             mImgAvatarCallAudio.setVisibility(View.VISIBLE);
         } else {
             mRemoteVideoView.setVisibility(View.VISIBLE);
             mLocalVideoView.setVisibility(View.VISIBLE);
+            mBtnSwitchCamera.setVisibility(View.VISIBLE);
         }
         if (isIncoming) {
             mBtnAccept.setVisibility(View.VISIBLE);
@@ -135,7 +142,7 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
@@ -200,7 +207,7 @@ public class CallActivity extends BaseActivity {
         audioSource = peerConnectionFactory.createAudioSource(audioConstraints);
         localAudioTrack = peerConnectionFactory.createAudioTrack("101", audioSource);
 
-        if (videoCapturerAndroid != null /*&& isAudioCall == false*/) {
+        if (videoCapturerAndroid != null) {
             videoCapturerAndroid.startCapture(1280, 720, 30);
         }
         if (!isAudioCall) {
@@ -251,36 +258,16 @@ public class CallActivity extends BaseActivity {
         return null;
     }
 
-    private VideoCapturer createBackCameraCapturer(CameraEnumerator enumerator) {
-        final String[] deviceNames = enumerator.getDeviceNames();
+    private void switchCamera() {
+        if (videoCapturerAndroid != null) {
+            if (videoCapturerAndroid instanceof CameraVideoCapturer) {
+                CameraVideoCapturer cameraVideoCapturer =
+                        (CameraVideoCapturer) videoCapturerAndroid;
+                cameraVideoCapturer.switchCamera(null);
+            } else {
 
-        // First, try to find front facing camera
-        Log.d(TAG, "Looking for front facing cameras.");
-        for (String deviceName : deviceNames) {
-            if (enumerator.isBackFacing(deviceName)) {
-                Log.d(TAG, "Creating front facing camera capturer.");
-                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
-                if (videoCapturer != null) {
-                    return videoCapturer;
-                }
             }
         }
-
-        // Front facing camera not found, try something else
-        Log.d(TAG, "Looking for other cameras.");
-        for (String deviceName : deviceNames) {
-            if (!enumerator.isBackFacing(deviceName)) {
-                Log.d(TAG, "Creating other camera capturer.");
-                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
-                if (videoCapturer != null) {
-                    return videoCapturer;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -317,7 +304,8 @@ public class CallActivity extends BaseActivity {
                             object.put("id", iceCandidate.sdpMid);
                             object.put("candidate", iceCandidate.sdp);
                             ChatService.getChat().emitCallContent(object, roomId);
-//                            mLocalVideoView.setZOrderMediaOverlay(true);
+                            //                            mLocalVideoView.setZOrderMediaOverlay
+                            // (true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -387,7 +375,7 @@ public class CallActivity extends BaseActivity {
         });
     }
 
-    @Click({R.id.mBtnAccept, R.id.mBtnStop})
+    @Click({ R.id.mBtnAccept, R.id.mBtnStop, R.id.mBtnSwitchCamera })
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
@@ -400,6 +388,9 @@ public class CallActivity extends BaseActivity {
                 mtvStatus.setText("Call started!!!");
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
+                break;
+            case R.id.mBtnSwitchCamera:
+                switchCamera();
                 break;
         }
     }
@@ -508,12 +499,12 @@ public class CallActivity extends BaseActivity {
         if (videoCapturerAndroid != null) {
             videoCapturerAndroid.dispose();
         }
-//        if (remoteRenderer != null) {
-//            remoteRenderer.dispose();
-//        }
-//        if (localRenderer != null) {
-//            localRenderer.dispose();
-//        }
+        //        if (remoteRenderer != null) {
+        //            remoteRenderer.dispose();
+        //        }
+        //        if (localRenderer != null) {
+        //            localRenderer.dispose();
+        //        }
 
         if (mLocalVideoView != null) {
             mLocalVideoView.release();
