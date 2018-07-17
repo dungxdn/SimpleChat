@@ -5,25 +5,48 @@ import android.os.Parcelable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@AllArgsConstructor
 @Data
-public class News implements Parcelable {
-
+@EqualsAndHashCode(callSuper = false)
+public class News extends RealmObject implements Parcelable {
+    @PrimaryKey
+    private long idNews;
     private User user;
     private String description;
     private String imageView;
+    private int isLike;
+    private RealmList<User> usersLike;
+    private int countComment;
 
     public News() {
     }
 
+    public News(User mUserm, String mDescription, String mImage) {
+        this.idNews = System.currentTimeMillis();
+        user = mUserm;
+        description = mDescription;
+        imageView = mImage;
+        isLike = 0;
+        usersLike = new RealmList<>();
+        countComment=0;
+    }
 
-    private News(Parcel in) {
+
+    protected News(Parcel in) {
+        idNews = in.readLong();
         user = in.readParcelable(User.class.getClassLoader());
         description = in.readString();
         imageView = in.readString();
+        isLike = in.readInt();
+        countComment = in.readInt();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -45,8 +68,11 @@ public class News implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(idNews);
         parcel.writeParcelable(user, i);
         parcel.writeString(description);
         parcel.writeString(imageView);
+        parcel.writeInt(isLike);
+        parcel.writeInt(countComment);
     }
 }

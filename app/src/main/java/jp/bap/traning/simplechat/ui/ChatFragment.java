@@ -135,7 +135,7 @@ public class ChatFragment extends BaseFragment {
     private boolean checkValidUser(ArrayList<User> users) {
         int i = 0;
         while (i < users.size()) {
-            if (users.get(i).getId() == Common.mMineId) {
+            if (users.get(i).getId() == Common.getUserLogin().getId()) {
                 return true;
             }
             i++;

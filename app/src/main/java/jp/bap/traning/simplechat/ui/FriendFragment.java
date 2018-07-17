@@ -2,11 +2,8 @@ package jp.bap.traning.simplechat.ui;
 
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-
 import io.realm.RealmList;
-
 import java.util.List;
-
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
@@ -16,20 +13,19 @@ import jp.bap.traning.simplechat.presenter.getroom.GetRoomPresenter;
 import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.response.GetRoomResponse;
-
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+
+import static io.realm.RealmObject.removeAllChangeListeners;
 
 import static jp.bap.traning.simplechat.model.User.userComparator;
 import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
@@ -39,7 +35,6 @@ import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
  */
 @EFragment(R.layout.fragment_friend)
 public class FriendFragment extends BaseFragment implements FriendExpandLvAdapter.Listener {
-    private int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
 
     @ViewById
     ExpandableListView mExpandFriend;
@@ -145,16 +140,26 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onUserOnline(User users) {
         super.onUserOnline(users);
-        boolean checkValidUser = mUserList.contains(users);
-        if (users.getId() == Common.mMineId) {
+        if (users.getId() == Common.getUserLogin().getId()) {
 
-        } else if (checkValidUser) {
-
-        } else {
+        } else if (checkValidUser(users.getId()) >= 0) {        //update User
+            mUserList.set(checkValidUser(users.getId()),users);
+            Collections.sort(mUserList, userComparator);
+            mFriendAdapter.notifyDataSetChanged();
+        } else {                                                //add User
             mUserList.add(users);
             Collections.sort(mUserList, userComparator);
             mFriendAdapter.notifyDataSetChanged();
         }
+    }
+
+    private int checkValidUser(int id) {
+        for (int i = 0; i < mUserList.size(); i++) {
+            if (id == mUserList.get(i).getId()) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     //Chat
