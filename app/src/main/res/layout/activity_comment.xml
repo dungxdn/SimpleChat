@@ -35,14 +35,7 @@
         android:padding="@dimen/_2sdp"
         android:layout_alignParentBottom="true"
         >
-        <!--<android.support.v7.widget.AppCompatImageView-->
-            <!--android:id="@+id/mAvatarComment"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="@dimen/_30sdp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:padding="@dimen/_40sdp"-->
-            <!--android:background="@drawable/ic_avatar_default"/>-->
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mAvatarComment"
             android:layout_width="@dimen/_40sdp"
@@ -56,7 +49,7 @@
             android:id="@+id/edtComment"
             android:layout_width="0dp"
             android:layout_weight="8"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/background_edt_message"
@@ -68,7 +61,7 @@
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imgButtonSendComment"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
 

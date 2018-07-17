@@ -70,7 +70,7 @@ public class SharingMessageActivity extends BaseActivity  {
         for (Integer i : mIdListPick) {
             if (checkValidUserInAllRoom(roomsExist, i) == true) {
                 if (ChatService.getChat() != null) {
-                    Message mMessage = new Message(message.getContent(), Common.mMineId, sRoomId, message.getType());
+                    Message mMessage = new Message(message.getContent(), Common.getUserLogin().getId(), sRoomId, message.getType());
                     ChatService.getChat().emitSendMessage(mMessage, sRoomId);
                     //Save into Realm Database
                     new MessagePresenter().insertOrUpdateMessage(mMessage);

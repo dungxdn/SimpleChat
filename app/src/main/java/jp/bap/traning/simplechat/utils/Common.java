@@ -51,8 +51,8 @@ public class Common {
     public static final String typeImage = "image";
     public static final String typeLink = "link";
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
-    public static final int mMineId =
-            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+//    public static final int mMineId =
+//            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
 
@@ -127,7 +127,7 @@ public class Common {
     public static boolean checkValidUser(ArrayList<User> users) {
         int i = 0;
         while (i < users.size()) {
-            if (users.get(i).getId() == Common.mMineId) {
+            if (users.get(i).getId() == Common.getUserLogin().getId()) {
                 return true;
             }
             i++;

@@ -39,6 +39,7 @@ public class ChatManager {
                 Event.ON_USER_ONLINE,
                 Event.CREATE_ROOM,
                 Event.NEWS,
+                Event.LIKE_NEWS,
                 //call
                 Event.CALL,
                 Event.CALL_CONTENT,

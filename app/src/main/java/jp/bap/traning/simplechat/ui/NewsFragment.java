@@ -49,14 +49,15 @@ public class NewsFragment extends BaseFragment {
         listViewNews.smoothScrollToPosition(0);
     }
 
-    //Co nguoi like
-    public void temp(User user, News news) {
-        int position = checkValidNews(news.getIdNews());
-        if (user.getId() == Common.getUserLogin().getId()) {
+    @Override
+    public void onUserLikeNews(User mUser, News mNews) {
+        super.onUserLikeNews(mUser, mNews);
+        int position = checkValidNews(mNews.getIdNews());
+        if (mUser.getId() == Common.getUserLogin().getId()) {
         } else if (position >= 0) {
-            newsArrayList.get(position).setIsLike(news.getIsLike());
-            if (checkValidUser(user.getId(), newsArrayList.get(position).getUsersLike()) == false) {
-                newsArrayList.get(position).getUsersLike().add(user);
+            newsArrayList.get(position).setIsLike(mNews.getIsLike());
+            if (checkValidUser(mUser.getId(), newsArrayList.get(position).getUsersLike()) == false) {
+                newsArrayList.get(position).getUsersLike().add(mUser);
             }
             newsAdapter.notifyItemChanged(position);
         }

@@ -39,7 +39,10 @@
             android:layout_height="wrap_content"
             android:text="Helloooooooooooo"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/_14ssp"
+            android:ellipsize="none"
+            android:scrollHorizontally="true"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

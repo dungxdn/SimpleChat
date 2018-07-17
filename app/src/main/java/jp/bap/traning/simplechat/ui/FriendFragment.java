@@ -140,7 +140,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onUserOnline(User users) {
         super.onUserOnline(users);
-        if (users.getId() == Common.mMineId) {
+        if (users.getId() == Common.getUserLogin().getId()) {
 
         } else if (checkValidUser(users.getId()) >= 0) {        //update User
             mUserList.set(checkValidUser(users.getId()),users);
