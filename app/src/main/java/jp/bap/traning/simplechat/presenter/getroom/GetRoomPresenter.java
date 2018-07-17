@@ -10,7 +10,7 @@ public class GetRoomPresenter {
         mGetRoomInteractor = new GetRoomInteractor();
     }
 
-    public void getRoom(int roomId, GetRoomView callback){
+    public void getRoom(int roomId, GetRoomView callback) {
         mGetRoomInteractor.getRoom(roomId, new GetRoomView() {
             @Override
             public void onSuccess(GetRoomResponse result) {

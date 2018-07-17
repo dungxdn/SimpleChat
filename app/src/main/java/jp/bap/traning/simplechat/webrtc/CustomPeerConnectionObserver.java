@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.webrtc;
 
 import android.util.Log;
+
 import org.webrtc.DataChannel;
 import org.webrtc.IceCandidate;
 import org.webrtc.MediaStream;
@@ -13,7 +14,7 @@ public class CustomPeerConnectionObserver implements PeerConnection.Observer {
 
     public CustomPeerConnectionObserver(String logTag) {
         this.logTag = this.getClass().getCanonicalName();
-        this.logTag = this.logTag+" "+logTag;
+        this.logTag = this.logTag + " " + logTag;
     }
 
     @Override

@@ -16,6 +16,7 @@ public class NetworkActivity extends BaseActivity {
 
     @ViewById
     AppCompatButton btnTryAgain;
+
     @Override
     public void afterView() {
 
@@ -23,11 +24,10 @@ public class NetworkActivity extends BaseActivity {
 
     @Click
     void btnTryAgain() {
-        if (isConnectedNetwork()==true) {
+        if (isConnectedNetwork() == true) {
             finish();
-        }
-        else {
-            Toast.makeText(NetworkActivity.this,"No Internet. Please Try again!",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(NetworkActivity.this, "No Internet. Please Try again!", Toast.LENGTH_SHORT).show();
         }
     }
 

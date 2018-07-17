@@ -11,6 +11,7 @@ import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+
 import org.androidannotations.annotations.EApplication;
 
 import io.realm.Realm;
@@ -25,6 +26,7 @@ import jp.bap.traning.simplechat.utils.AllModule;
 @EApplication
 public class BaseApp extends MultiDexApplication {
     private volatile static BaseApp sInstance = null;
+
     public static BaseApp getInstance() {
         if (sInstance == null) {
             sInstance = new BaseApp();

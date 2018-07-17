@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SharingMessageActivity"
-    >
+    tools:context=".ui.SharingMessageActivity">
 
     <jp.bap.traning.simplechat.widget.CustomToolbar_
         android:id="@+id/mToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/mCnslGroupname"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mCnslGroupname"
@@ -34,9 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:padding="@dimen/_5sdp"
             android:hint="@string/text_message_send"
             android:inputType="text"
+            android:padding="@dimen/_5sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -48,37 +46,34 @@
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_25sdp"
-        android:text="@string/hind_text_view_title"
-        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname"
-        android:textSize="@dimen/_10ssp"
-        android:padding="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        />
+        android:padding="@dimen/_5sdp"
+        android:text="@string/hind_text_view_title"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerUser"
-        android:layout_marginLeft="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_348sdp"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_marginLeft="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"></android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnShareMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@drawable/shape_button_login"
         android:text="@string/button_sharing_message"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@drawable/shape_button_login"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <include
         layout="@layout/activity_progressbar"

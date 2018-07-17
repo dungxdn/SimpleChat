@@ -6,11 +6,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.wang.avi.AVLoadingIndicatorView;
+
 import jp.bap.traning.simplechat.database.UserDAO;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
 import jp.bap.traning.simplechat.presenter.login.LoginPresenter;
 import jp.bap.traning.simplechat.presenter.login.LoginView;
 import jp.bap.traning.simplechat.R;
@@ -40,11 +44,10 @@ public class LoginActivity extends BaseActivity {
         showProgressBar(mProgressBar);
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if (isConnectedNetwork()==false) {
+        if (isConnectedNetwork() == false) {
             NetworkActivity_.intent(this).start();
             hiddenProgressBar(mProgressBar);
-        }
-        else if (userName.isEmpty() || password.isEmpty()) {
+        } else if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
             Toast.makeText(LoginActivity.this, "Please input usename and password!",
                     Toast.LENGTH_SHORT).show();

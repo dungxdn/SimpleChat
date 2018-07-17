@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".ui.AddGroupChatActivity"
-    >
+    tools:context=".ui.AddGroupChatActivity">
 
     <jp.bap.traning.simplechat.widget.CustomToolbar_
         android:id="@+id/mToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/mCnslGroupname"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mCnslGroupname"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@id/mToolbar"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        >
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mToolbar">
+
         <EditText
             android:id="@+id/mEdtGroupName"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/hint_groupname"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/mImgAvatar"
-            android:layout_width="@dimen/_220sdp"
-            android:layout_height="@dimen/_70sdp"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvatar"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_avatar_default"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerFriend"
-        android:layout_marginLeft="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_348sdp"
-        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_marginLeft="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname"></android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/mBtnCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@drawable/shape_button_login"
         android:text="Create"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@drawable/shape_button_login"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <include layout="@layout/activity_progressbar"></include>
 

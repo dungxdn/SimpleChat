@@ -1,9 +1,12 @@
 package jp.bap.traning.simplechat.service;
 
 import android.util.Log;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import io.socket.client.Ack;
 import io.socket.client.Socket;
 import jp.bap.traning.simplechat.model.Message;
@@ -23,18 +26,25 @@ public class ChatManager {
         void onEmit(Event event, JSONObject data);
     }
 
-    Socket mSocket;
-    Listener mListener;
+    private Socket mSocket;
+    private Listener mListener;
 
     ChatManager(Socket s) {
         mSocket = s;
-        on(Event.MESSAGE_RECEIVER, Event.USER_ONLINE, Event.ON_USER_OFFLINE, Event.ON_USER_ONLINE,
-                Event.CREATE_ROOM, Event.NEWS,
+        on(Event.MESSAGE_RECEIVER,
+                Event.USER_ONLINE,
+                Event.ON_USER_OFFLINE,
+                Event.ON_USER_ONLINE,
+                Event.CREATE_ROOM,
+                Event.NEWS,
                 //call
-                Event.CALL, Event.CALL_CONTENT, Event.CALL_ACCEPT, Event.CALL_STOP);
+                Event.CALL,
+                Event.CALL_CONTENT,
+                Event.CALL_ACCEPT,
+                Event.CALL_STOP);
     }
 
-    public void addListenerSocket(Listener listener) {
+    void addListenerSocket(Listener listener) {
         mListener = listener;
     }
 

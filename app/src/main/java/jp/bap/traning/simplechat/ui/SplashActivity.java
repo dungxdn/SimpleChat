@@ -11,9 +11,11 @@ import io.realm.Realm;
 import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.service.ImgurClient;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.OnActivityResult;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
@@ -30,6 +32,7 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 public class SplashActivity extends BaseActivity {
     private static final String TAG = SplashActivity.class.getClass().getSimpleName();
     private static boolean isNotWifi = false;
+
     @Override
     public void afterView() {
         setUp();
@@ -46,11 +49,10 @@ public class SplashActivity extends BaseActivity {
                 realm.commitTransaction();
             }
         }
-        if(isConnectedNetwork()==false) {
+        if (isConnectedNetwork() == false) {
             isNotWifi = true;
             NetworkActivity_.intent(this).start();
-        }
-        else {
+        } else {
             int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
             if (mMineId == 0) {
                 LoginActivity_.intent(this).startForResult(Common.REQUEST_LOGIN);
@@ -92,7 +94,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isNotWifi==true) {
+        if (isNotWifi == true) {
             isNotWifi = false;
             setUp();
         }

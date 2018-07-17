@@ -11,6 +11,7 @@ public class MessagePresenter {
     public MessagePresenter() {
         mInteractor = new MessageInteractor();
     }
+
     public MessagePresenter(MessageView callback) {
         mCallback = callback;
         mInteractor = new MessageInteractor();
@@ -21,19 +22,17 @@ public class MessagePresenter {
     }
 
     public void getAllMessage(int roomID) {
-       if(roomID<0) {
+        if (roomID < 0) {
             mCallback.errorGetAllMessage(roomID);
-       }
-       else {
-           mInteractor.getAllMessage(roomID,mCallback);
-       }
+        } else {
+            mInteractor.getAllMessage(roomID, mCallback);
+        }
     }
 
     public Message getAMessage(long idMessage) {
-        if(idMessage<0) {
+        if (idMessage < 0) {
             return null;
-        }
-        else {
+        } else {
             return mInteractor.getAMessage(idMessage);
         }
     }
@@ -41,7 +40,6 @@ public class MessagePresenter {
     public void deleteMessage(long idMessage) {
         mInteractor.deleteMessage(idMessage);
     }
-
 
 
 }

@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.wang.avi.AVLoadingIndicatorView;
+
 import jp.bap.traning.simplechat.presenter.signup.SignUpPresenter;
 import jp.bap.traning.simplechat.presenter.signup.SignUpView;
 import jp.bap.traning.simplechat.response.SignUpResponse;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;

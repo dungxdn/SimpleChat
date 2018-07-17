@@ -2,8 +2,11 @@ package jp.bap.traning.simplechat.ui;
 
 import android.widget.ExpandableListView;
 import android.widget.Toast;
+
 import io.realm.RealmList;
+
 import java.util.List;
+
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.RoomData;
@@ -13,17 +16,21 @@ import jp.bap.traning.simplechat.presenter.getroom.GetRoomPresenter;
 import jp.bap.traning.simplechat.presenter.getroom.GetRoomView;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.response.GetRoomResponse;
+
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
+
 import static jp.bap.traning.simplechat.model.User.userComparator;
 import static jp.bap.traning.simplechat.utils.Common.getUserLogin;
 
@@ -199,7 +206,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     }
 
     public void addRoomAndSaveRoomToRealm(RealmList<User> mUserRealmList, List<Integer> mListUserId,
-            int userId, String activity) {
+                                          int userId, String activity) {
         if (mUserRealmList.size() != 0) {
             mUserRealmList.clear();
         }

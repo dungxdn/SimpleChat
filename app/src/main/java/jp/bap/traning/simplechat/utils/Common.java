@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -16,8 +18,10 @@ import android.widget.ImageView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.RealmList;
 import io.realm.RealmList;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.database.UserDAO;
@@ -26,6 +30,7 @@ import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.service.ChatService;
+
 import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
 /**
@@ -91,7 +96,7 @@ public class Common {
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-            int reqHeight) {
+                                            int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -151,7 +156,7 @@ public class Common {
         Glide.with(mContext).load(linkImage).apply(options).into(circleImageView);
     }
 
-    public static void setAvatar(Context mContext,int id,CircleImageView mAvatar) {
+    public static void setAvatar(Context mContext, int id, CircleImageView mAvatar) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
         options.placeholder(R.drawable.ic_avatar_default);
@@ -181,7 +186,6 @@ public class Common {
         }
         return false;
     }
-
 
 
     public static void insertOrUpdateRoomToRealm(AddRoomResponse result, RealmList<User> realmList) {

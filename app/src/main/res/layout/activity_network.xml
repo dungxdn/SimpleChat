@@ -1,53 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.NetworkActivity"
     android:background="@color/white"
     android:orientation="vertical"
-    >
+    tools:context=".ui.NetworkActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:src="@drawable/nowificonnected"
         android:layout_marginTop="@dimen/_50sdp"
         android:background="@android:color/transparent"
-        />
+        android:src="@drawable/nowificonnected" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
-        android:textSize="@dimen/_20ssp"
-        android:text="@string/capture"
         android:gravity="center"
-        android:textStyle="bold"
+        android:text="@string/capture"
         android:textColor="@color/black"
-        />
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
-        android:text="@string/description"
         android:gravity="center"
-        android:textSize="@dimen/_15ssp"
         android:padding="@dimen/_5sdp"
-        />
+        android:text="@string/description"
+        android:textSize="@dimen/_15ssp" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnTryAgain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_try_again"
-        android:padding="@dimen/_5sdp"
-        android:background="@android:color/transparent"
-        android:textSize="@dimen/_15ssp"
         android:layout_marginTop="@dimen/_5sdp"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/_5sdp"
+        android:text="@string/button_try_again"
         android:textColor="@color/colorGreen"
-        android:textStyle="italic"
-        />
+        android:textSize="@dimen/_15ssp"
+        android:textStyle="italic" />
 
 </LinearLayout>

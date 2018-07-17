@@ -11,7 +11,7 @@ public class SignUpPresenter {
     }
 
     public void signUp(String userName, String firstName, String lastName, String password,
-            SignUpView callback) {
+                       SignUpView callback) {
         mSignUpInteractor.signUp(userName, firstName, lastName, password, new SignUpView() {
 
             @Override

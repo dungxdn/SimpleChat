@@ -33,18 +33,19 @@ public class Room extends RealmObject {
         //if String firstName1 > String firstName2 -> return >0; if == -> return 0; if < ->
         // return <0
         public int compare(Room t, Room t1) {
-            if (t1.getLastMessage() != null ) {
-                if(t.getLastMessage() == null){
+            if (t1.getLastMessage() != null) {
+                if (t.getLastMessage() == null) {
                     return 1;
                 } else {
-                    if(t1.getLastMessage().getId()>t.getLastMessage().getId()){
+                    if (t1.getLastMessage().getId() > t.getLastMessage().getId()) {
                         return 1;
-                    } else if(t1.getLastMessage().getId() == t.getLastMessage().getId()){
+                    } else if (t1.getLastMessage().getId() == t.getLastMessage().getId()) {
                         return 0;
                     } else {
-                        return -1;                    }
+                        return -1;
+                    }
                 }
-            }else{
+            } else {
                 return -1;
             }
         }

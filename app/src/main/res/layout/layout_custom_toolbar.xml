@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorGreen"
-        android:elevation="@dimen/_8sdp"
-        >
+        android:elevation="@dimen/_8sdp">
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mImgButtonSetting"
@@ -21,21 +19,20 @@
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_settings"
-            android:visibility="visible"
-            />
+            android:visibility="visible" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/mButtonSharing"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="SHARE"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14ssp"
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
+            android:text="SHARE"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
             android:visibility="gone"
 
             />
@@ -48,8 +45,7 @@
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_group_add"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvTitle"
@@ -60,22 +56,20 @@
             android:gravity="center_vertical"
             android:text="@string/app_name"
             android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
-            />
+            android:textSize="@dimen/_16ssp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvCreateNews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:gravity="center_vertical"
             android:text="@string/title_tab_add_news"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp"
-            android:gravity="center_vertical"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
 
         <android.support.v7.widget.AppCompatImageButton
@@ -85,8 +79,7 @@
             android:layout_alignParentStart="true"
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
-            android:src="@drawable/ic_arrow_back"
-            />
+            android:src="@drawable/ic_arrow_back" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mImgButtonCall"
@@ -96,8 +89,7 @@
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_call_white"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mImgButtonCallVideo"
@@ -107,8 +99,7 @@
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_videocall_white"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mImgButtonSearch"
@@ -118,16 +109,14 @@
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_search"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <android.support.v7.widget.SearchView
             android:id="@+id/mSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:iconifiedByDefault="false"
-            ></android.support.v7.widget.SearchView>
+            app:iconifiedByDefault="false"></android.support.v7.widget.SearchView>
 
     </RelativeLayout>
 

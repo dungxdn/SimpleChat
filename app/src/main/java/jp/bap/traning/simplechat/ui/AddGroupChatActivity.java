@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import io.realm.RealmList;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Room;
@@ -22,6 +26,7 @@ import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;

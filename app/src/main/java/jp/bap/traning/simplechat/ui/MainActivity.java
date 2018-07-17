@@ -16,10 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import jp.bap.traning.simplechat.model.News;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.service.ChatService;

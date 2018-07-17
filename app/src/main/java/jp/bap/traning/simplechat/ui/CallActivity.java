@@ -10,11 +10,15 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.utils.Permission;
@@ -23,6 +27,7 @@ import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -90,7 +95,7 @@ public class CallActivity extends BaseActivity {
     //
     private static boolean sIsFrontCamera = true;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -145,7 +150,7 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
@@ -397,7 +402,7 @@ public class CallActivity extends BaseActivity {
         });
     }
 
-    @Click({ R.id.mBtnAccept, R.id.mBtnStop })
+    @Click({R.id.mBtnAccept, R.id.mBtnStop})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
@@ -524,7 +529,7 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
-        if(mediaStreamLocal !=null) {
+        if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
             mediaStreamLocal.dispose();

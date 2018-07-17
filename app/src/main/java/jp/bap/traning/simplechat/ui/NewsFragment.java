@@ -43,7 +43,7 @@ public class NewsFragment extends BaseFragment {
     @Override
     public void onNewsCome(News news) {
         super.onNewsCome(news);
-        newsArrayList.add(0,news);
+        newsArrayList.add(0, news);
         newsAdapter.notifyItemInserted(0);
         listViewNews.smoothScrollToPosition(0);
 

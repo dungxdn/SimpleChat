@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/mTvTitle"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:gravity="center"
-        android:text="Chat"
-        android:textSize="@dimen/_10ssp"
-        android:textColor="@drawable/selection_color_text_tablayout"
         android:paddingBottom="@dimen/_5sdp"
+        android:text="Chat"
+        android:textColor="@drawable/selection_color_text_tablayout"
+        android:textSize="@dimen/_10ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mImgIcon" />
+
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/mImgIcon"
         android:layout_width="match_parent"
-        android:paddingTop="@dimen/_5sdp"
         android:layout_height="@dimen/_24sdp"
-        android:src="@drawable/selection_icon_chat_tablayout"
-        />
+        android:paddingTop="@dimen/_5sdp"
+        android:src="@drawable/selection_icon_chat_tablayout" />
 
 </android.support.constraint.ConstraintLayout>
