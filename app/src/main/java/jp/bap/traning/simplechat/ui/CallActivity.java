@@ -16,6 +16,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.utils.Permission;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
@@ -57,9 +58,8 @@ public class CallActivity extends BaseActivity {
     @ViewById
     AppCompatTextView mtvStatus;
     @ViewById
-    AppCompatButton mBtnAccept;
-    @ViewById
     CircleImageView mImgAvatarCallAudio;
+    @ViewById
     AppCompatImageButton mBtnAccept;
     @Extra
     int roomId;
@@ -85,6 +85,7 @@ public class CallActivity extends BaseActivity {
     private List<PeerConnection.IceServer> peerIceServers = new ArrayList<>();
     MediaStream mediaStreamLocal;
     MediaStream mediaStreamRemote;
+    private Room mRoom;
 
     //
     private static boolean sIsFrontCamera = true;
@@ -95,6 +96,7 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void afterView() {
+        mRoom = Common.getFullRoomFromRoomId(roomId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Permission.initPermission(this, permissionRequired);
         }
@@ -105,28 +107,39 @@ public class CallActivity extends BaseActivity {
         initVideos();
         getIceServers();
         start();
-        if (isAudioCall) {
-            RequestOptions options = new RequestOptions();
-            options.centerCrop();
-            options.placeholder(R.drawable.ic_avatar_default);
-            options.error(R.drawable.ic_avatar_default);
-            Glide.with(this).load(Common.getFullRoomFromRoomId(roomId).getAvatar()).apply(options).into(mImgAvatarCallAudio);
-            mImgAvatarCallAudio.setVisibility(View.VISIBLE);
-        } else {
-            mRemoteVideoView.setVisibility(View.VISIBLE);
-            mLocalVideoView.setVisibility(View.VISIBLE);
-        }
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.placeholder(R.drawable.ic_avatar_default);
+        options.error(R.drawable.ic_avatar_default);
+        Glide.with(this).load(mRoom.getAvatar()).apply(options).into(mImgAvatarCallAudio);
+        mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+        mLocalVideoView.setVisibility(View.GONE);
+        mRemoteVideoView.setVisibility(View.GONE);
+//        if (isAudioCall) {
+//            Glide.with(this).load(mRoom.getAvatar()).apply(options).into(mImgAvatarCallAudio);
+//            mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+//        } else {
+//            mRemoteVideoView.setVisibility(View.VISIBLE);
+//            mLocalVideoView.setVisibility(View.VISIBLE);
+//        }
         if (isIncoming) {
+            if(isAudioCall){
+                mtvStatus.setText("Incoming call audio from: " + mRoom.getRoomName());
+            }else{
+                mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
+            }
             mBtnAccept.setVisibility(View.VISIBLE);
-            mtvStatus.setText("Incoming call from: " + roomId);
+
         } else {
             if (isAudioCall) {
                 ChatService.getChat().emitCall(roomId, true);
+                mtvStatus.setText("Calling audio to " + mRoom.getRoomName());
             } else {
                 ChatService.getChat().emitCall(roomId, false);
+                mtvStatus.setText("Calling video to " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.GONE);
-            mtvStatus.setText("Calling to " + roomId);
+
         }
     }
 
@@ -395,6 +408,15 @@ public class CallActivity extends BaseActivity {
 
             case R.id.mBtnAccept:
                 mtvStatus.setText("Call started!!!");
+                if(isAudioCall){
+                    mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+                    mRemoteVideoView.setVisibility(View.GONE);
+                    mLocalVideoView.setVisibility(View.GONE);
+                }else{
+                    mImgAvatarCallAudio.setVisibility(View.GONE);
+                    mRemoteVideoView.setVisibility(View.VISIBLE);
+                    mLocalVideoView.setVisibility(View.VISIBLE);
+                }
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
@@ -424,6 +446,14 @@ public class CallActivity extends BaseActivity {
         super.onCallAccept();
         createPeerConnection();
         doCall();
+        if(isAudioCall){
+            mRemoteVideoView.setVisibility(View.GONE);
+            mLocalVideoView.setVisibility(View.GONE);
+        }else{
+            mImgAvatarCallAudio.setVisibility(View.GONE);
+            mRemoteVideoView.setVisibility(View.VISIBLE);
+            mLocalVideoView.setVisibility(View.VISIBLE);
+        }
         mtvStatus.setText("call started!!!");
     }
 
