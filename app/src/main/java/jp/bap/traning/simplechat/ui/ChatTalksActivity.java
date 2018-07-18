@@ -115,7 +115,6 @@ public class ChatTalksActivity extends BaseActivity {
             }
             popup.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()){
-
                     case R.id.member:
                         showDialogMember();
                         break;
