@@ -96,7 +96,7 @@ public class CallActivity extends BaseActivity {
     //
     private static boolean sIsFrontCamera = true;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -122,9 +122,9 @@ public class CallActivity extends BaseActivity {
         mLocalVideoView.setVisibility(View.GONE);
         mRemoteVideoView.setVisibility(View.GONE);
         if (isIncoming) {
-            if(isAudioCall){
+            if (isAudioCall) {
                 mtvStatus.setText("Incoming call audio from: " + mRoom.getRoomName());
-            }else{
+            } else {
                 mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.VISIBLE);
@@ -144,7 +144,7 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
@@ -376,7 +376,7 @@ public class CallActivity extends BaseActivity {
         });
     }
 
-    @Click({ R.id.mBtnAccept, R.id.mBtnStop, R.id.mBtnSwitchCamera })
+    @Click({R.id.mBtnAccept, R.id.mBtnStop, R.id.mBtnSwitchCamera})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
@@ -387,11 +387,11 @@ public class CallActivity extends BaseActivity {
 
             case R.id.mBtnAccept:
                 mtvStatus.setText("Call started!!!");
-                if(isAudioCall){
+                if (isAudioCall) {
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
                     mLocalVideoView.setVisibility(View.GONE);
-                }else{
+                } else {
                     mImgAvatarCallAudio.setVisibility(View.GONE);
                     mRemoteVideoView.setVisibility(View.VISIBLE);
                     mLocalVideoView.setVisibility(View.VISIBLE);
@@ -430,10 +430,10 @@ public class CallActivity extends BaseActivity {
         super.onCallAccept();
         createPeerConnection();
         doCall();
-        if(isAudioCall){
+        if (isAudioCall) {
             mRemoteVideoView.setVisibility(View.GONE);
             mLocalVideoView.setVisibility(View.GONE);
-        }else{
+        } else {
             mImgAvatarCallAudio.setVisibility(View.GONE);
             mRemoteVideoView.setVisibility(View.VISIBLE);
             mLocalVideoView.setVisibility(View.VISIBLE);

@@ -199,18 +199,19 @@ public class Common {
         realmList.clear();
     }
 
-//    public static ArrayList<User> covertFromRealmListToArrayList(RealmList<User> mRealmList){
-//        ArrayList<User> mArrayList = new ArrayList<>();
-//        for(int i=0; i<mRealmList.size(); i++){
-//            mArrayList.add(mRealmList.get(i));
-//        }
-//        return mArrayList;
-//    }
     public static <T> ArrayList<T> covertFromRealmListToArrayList(RealmList<T> mRealmList){
         ArrayList<T> mArrayList = new ArrayList<>();
         for(int i=0; i<mRealmList.size(); i++){
             mArrayList.add(mRealmList.get(i));
         }
         return mArrayList;
+    }
+
+    public static <T> RealmList<T> covertFromArrayListToRealmList(ArrayList<T> mArrayList){
+        RealmList<T> mRealmList = new RealmList<>();
+        for(int i=0; i<mArrayList.size(); i++){
+            mRealmList.add(mArrayList.get(i));
+        }
+        return mRealmList;
     }
 }

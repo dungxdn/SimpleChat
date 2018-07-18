@@ -117,19 +117,15 @@ public class CommentActivity extends BaseActivity {
             Toast.makeText(this, "Say your feeling...", Toast.LENGTH_SHORT).show();
         } else {
             Comment mComment = new Comment(mNews.getIdNews(), Common.getUserLogin(), edtComment.getText().toString());
+            //Update News
+            mNews.setCountComment(mNews.getCountComment()+1);
+            new NewsPresenter().insertOrUpdateNews(mNews);
             //Send Event to Server
             if (ChatService.getChat() != null) {
                 ChatService.getChat().emitOnComment(mComment);
+                ChatService.getChat().emitCreateNews(mNews);
             }
-            //  Update realm News
-            mNews.setCountComment(mNews.getCountComment() + 1);
-            new NewsPresenter().insertOrUpdateNews(mNews);
-            // Show in UI
-            listComment.add(mComment);
-            commentAdapter.notifyDataSetChanged();
-            recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
             edtComment.setText("");
-
         }
     }
 

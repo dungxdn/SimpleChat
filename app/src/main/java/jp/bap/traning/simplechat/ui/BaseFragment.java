@@ -19,9 +19,11 @@ import java.util.ArrayList;
 
 import io.realm.RealmList;
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.comment.CommentPresenter;
 import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Common;
@@ -151,17 +153,15 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     String news = data.getString("news");
                     String user = data.getString("user");
                     Gson gson = new Gson();
-                    News mNews = gson.fromJson(news,News.class);
-                    User mUser = gson.fromJson(user,User.class);
-                    onUserLikeNews(mUser,mNews);
+                    News mNews = gson.fromJson(news, News.class);
+                    User mUser = gson.fromJson(user, User.class);
+                    onUserLikeNews(mUser, mNews);
                     new NewsPresenter().insertOrUpdateNews(mNews);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             }
-
         }
     }
 
