@@ -8,11 +8,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -20,15 +18,12 @@ import android.widget.Toast;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
 import java.util.ArrayList;
-
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
@@ -43,7 +38,7 @@ import jp.bap.traning.simplechat.presenter.uploadimage.UploadImageView;
 import jp.bap.traning.simplechat.response.ImageResponse;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.widget.CustomToolbar_;
+import jp.bap.traning.simplechat.widget.CustomToolbar;
 
 @EActivity(R.layout.activity_chat_talks)
 public class ChatTalksActivity extends BaseActivity {
@@ -61,7 +56,7 @@ public class ChatTalksActivity extends BaseActivity {
     @ViewById
     EditText edtMessage;
     @ViewById
-    CustomToolbar_ mToolbar;
+    CustomToolbar mToolbar;
     @ViewById
     ProgressBar mProgressBar;
     @Extra
@@ -87,7 +82,6 @@ public class ChatTalksActivity extends BaseActivity {
                     chatTalksPresenter.requestURL(messageChat);
                 } else {
                     message = new Message(messageChat, Common.getUserLogin().getId(), roomId, Common.typeText);
-                    Log.d("SharePres luc nhan tin", "MineID: " + Common.mMineId);
                     listMessage.add(message);
                     chatTalksAdapter.notifyDataSetChanged();
                     listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -141,6 +135,8 @@ public class ChatTalksActivity extends BaseActivity {
                 finish();
             }
         });
+        mToolbar.setTitle(Common.getFullRoomFromRoomId(roomId).getRoomName());
+        mToolbar.getBackButton().setOnClickListener(view -> finish());
     }
 
     private void showDialogMember() {
@@ -189,17 +185,15 @@ public class ChatTalksActivity extends BaseActivity {
             }
 
             @Override
-            public void errorGetAllMessage(int roomID) {
-            }
-        }) {
-        };
+            public void errorGetAllMessage(int roomID) {}
+        }) {};
         //Get Converstation
         messagePresenter.getAllMessage(roomId);
         //Create ChatTalksPresenter
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
             public void onRequestURLSuccess(String link, String title) {
-                message = new Message(link + ";" + title, Common.getUserLogin().getId(), roomId, Common.typeLink);
+                message = new Message(link+";"+title, Common.getUserLogin().getId() , roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -211,7 +205,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link + ";" + "No preview available", Common.mMineId, roomId, Common.typeLink);
+                message = new Message(link+";"+"No preview available", Common.getUserLogin().getId() , roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -268,7 +262,7 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
+        if(data==null) {
             hiddenProgressBar(mProgressBar);
         }
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
@@ -279,7 +273,7 @@ public class ChatTalksActivity extends BaseActivity {
                     @Override
                     public void onSuccess(ImageResponse result) {
                         linkImage = result.getData().getLink();
-                        message = new Message(linkImage, Common.getUserLogin().getId(), roomId, Common.typeImage);
+                        message = new Message(linkImage, Common.getUserLogin().getId() , roomId, Common.typeImage);
                         listMessage.add(message);
                         chatTalksAdapter.notifyDataSetChanged();
                         listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -321,13 +315,13 @@ public class ChatTalksActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("ChatTalksActivity", "onResume");
+        Log.d("ChatTalksActivity","onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (PopUpBottomSheet.checkChange == 1) {
+        if (PopUpBottomSheet.checkChange ==1) {
             PopUpBottomSheet.checkChange = -1;
             finish();
         }

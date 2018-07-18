@@ -17,6 +17,8 @@ public enum Event {
     ON_USER_OFFLINE("onUserOffline"),
     CREATE_ROOM("onCreatedRoom"),
     NEWS("news"),
+    LIKE_NEWS("likeNews"),
+    COMMENT("comment"),
     //Call
     CALL("call"),
     CALL_CONTENT("callContent"),

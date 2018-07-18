@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <jp.bap.traning.simplechat.widget.CustomToolbar_
+        android:id="@+id/mToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></jp.bap.traning.simplechat.widget.CustomToolbar_>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mToolbar"
+        android:paddingBottom="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_8sdp"
+        android:paddingRight="@dimen/_8sdp"
+        android:layout_above="@+id/view_below_recycleview">
+    </android.support.v7.widget.RecyclerView>
+
+    <View
+        android:id="@+id/view_below_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_above="@+id/viewInputComment"
+        />
+
+    <LinearLayout
+        android:id="@+id/viewInputComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:padding="@dimen/_2sdp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mAvatarComment"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/ic_avatar_default"
+            />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/edtComment"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/background_edt_message"
+            android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_14ssp"
+            android:hint="@string/hint_edt_comment"
+            />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/imgButtonSendComment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:src="@drawable/send_comment"
+            android:layout_gravity="center"
+            android:padding="@dimen/_4sdp"
+            />
+    </LinearLayout>
+    <include layout="@layout/activity_progressbar"></include>
+
+</RelativeLayout>

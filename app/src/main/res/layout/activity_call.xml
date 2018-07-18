@@ -29,19 +29,33 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mBtnAccept"
+            android:id="@+id/mBtnTurnOnSpeaker"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_on_speaker"
             android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnTurnOffSpeaker"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_off_speaker"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnAccept"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/call_come"
-            android:text="Accept" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnStop"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/call_end"
-            android:text="Stop" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
     </LinearLayout>
 

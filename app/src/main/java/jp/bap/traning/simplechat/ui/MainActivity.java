@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RealmDAO;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.ChatService;
+import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 import lombok.Getter;
 
@@ -100,18 +102,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
         mToolbar.getSharingButton().setOnClickListener(view -> {
-            //Goi Emit
+//            Goi Emit
             if (mAddNewsFragment.getNews() == null) {
             } else {
-                //Gui su kien toi Server
-                News mNews = mAddNewsFragment.getNews();
+                //Send Event to Server
                 ChatService.getChat().emitCreateNews(mAddNewsFragment.getNews());
                 Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
                 mAddNewsFragment.linkImage = "";
                 mAddNewsFragment.edtDescription.setText("");
                 mAddNewsFragment.imgAddNews.setImageResource(R.drawable.default_image_news);
+                Common.hideKeyboard(this);
             }
-
         });
     }
 
