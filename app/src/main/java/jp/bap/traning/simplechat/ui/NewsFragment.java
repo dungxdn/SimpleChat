@@ -49,7 +49,7 @@ public class NewsFragment extends BaseFragment {
             public void getAllNews(ArrayList<News> news) {
                 newsArrayList.clear();
                 for (int i = 0; i < news.size(); i++) {
-                    newsArrayList.add(news.get(i));
+                    newsArrayList.add(0, news.get(i));
                 }
                 newsAdapter.notifyDataSetChanged();
                 listViewNews.smoothScrollToPosition(0);
@@ -67,9 +67,15 @@ public class NewsFragment extends BaseFragment {
     @Override
     public void onNewsCome(News news) {
         super.onNewsCome(news);
-        newsArrayList.add(0, news);
-        newsAdapter.notifyItemInserted(0);
-        listViewNews.smoothScrollToPosition(0);
+        int position = checkValidNews(news.getIdNews());
+        if (position >= 0) {
+            newsArrayList.get(position).setCountComment(news.getCountComment());
+            newsAdapter.notifyItemChanged(position);
+        } else {
+            newsArrayList.add(0, news);
+            newsAdapter.notifyItemInserted(0);
+            listViewNews.smoothScrollToPosition(0);
+        }
     }
 
     @Override
@@ -103,6 +109,4 @@ public class NewsFragment extends BaseFragment {
         }
         return false;
     }
-
-
 }

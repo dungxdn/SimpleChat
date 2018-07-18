@@ -22,4 +22,8 @@ public class NewsPresenter {
     public void getAllNews() {
         mNewsInteractor.getAllNews(mNewsView);
     }
+
+    public News getOneNewsFromID(long newsId) {
+        return mNewsInteractor.getOneNewsFromID(newsId);
+    }
 }

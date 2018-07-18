@@ -26,4 +26,14 @@ public class NewsInteractor {
             mNewsView.errorGetAllNews();
         }
     }
+
+    News getOneNewsFromID(long newsID) {
+        News mNews = new News();
+        mNews = mNewsDAO.getOneNewsFromID(newsID);
+        if (mNews.getDescription() == null) {
+            return null;
+        } else {
+            return mNews;
+        }
+    }
 }

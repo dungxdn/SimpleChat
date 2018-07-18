@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Comment;
@@ -110,12 +111,15 @@ public class NewsAdapter extends RecyclerView.Adapter {
 
             imageButtonLike.setOnClickListener(view -> {
                 News mNews = newsArrayList.get(getAdapterPosition());
+                RealmList<User> temp = mNews.getUsersLike();        //Update list User Like and isLike
                 if (mNews.getUsersLike().contains(Common.getUserLogin()) == false) {
-                    mNews.getUsersLike().add(Common.getUserLogin());
+                    temp.add(Common.getUserLogin());
+                    mNews.setUsersLike(temp);
                     imageButtonLike.setImageResource(R.drawable.heart);
                     mNews.setIsLike(mNews.getIsLike() + 1);
-                }else {
-                    mNews.getUsersLike().remove(Common.getUserLogin());
+                } else {
+                    temp.remove(Common.getUserLogin());
+                    mNews.setUsersLike(temp);
                     imageButtonLike.setImageResource(R.drawable.like);
                     mNews.setIsLike(mNews.getIsLike() - 1);
                 }
@@ -124,6 +128,8 @@ public class NewsAdapter extends RecyclerView.Adapter {
                     //Gui su kien bam like
                     ChatService.getChat().emitOnLikeNews(Common.getUserLogin(), mNews);
                 }
+                //Update Realm
+
             });
 
             imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).mNews(newsArrayList.get(getAdapterPosition())).start());
