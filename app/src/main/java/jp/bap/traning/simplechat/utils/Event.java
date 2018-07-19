@@ -23,7 +23,9 @@ public enum Event {
     CALL("call"),
     CALL_CONTENT("callContent"),
     CALL_ACCEPT("callAccept"),
-    CALL_STOP("callStop");
+    CALL_STOP("callStop"),
+    //camera
+    TURN_ON_CAMERA("turnOnCamera");
 
     String mEvent;
 

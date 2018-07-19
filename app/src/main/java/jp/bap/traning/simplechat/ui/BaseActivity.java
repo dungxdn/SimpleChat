@@ -15,7 +15,6 @@ import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -171,6 +170,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 }
                 break;
             }
+
+            case TURN_ON_CAMERA: {
+                try {
+                    boolean isOn = data.getBoolean("isOn");
+                    int userId = data.getInt("userId");
+                    onTurnOnCamera(isOn, userId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
@@ -223,5 +233,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onCall(int roomId, boolean isAudioCall) {
+    }
+
+    public void onTurnOnCamera(boolean isOn, int userId) {
     }
 }
