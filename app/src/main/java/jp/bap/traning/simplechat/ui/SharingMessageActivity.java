@@ -37,7 +37,7 @@ import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_sharing_message)
-public class SharingMessageActivity extends BaseActivity {
+public class SharingMessageActivity extends BaseActivity  {
     private String TITLE = "Chuyển Tiếp";
     private ArrayList<User> mUserList;
     private List<Integer> mIdListPick;
@@ -59,12 +59,10 @@ public class SharingMessageActivity extends BaseActivity {
     ProgressBar mProgressBar;
     @Extra
     Message message;
-
     @Click
     void btnShareMessage() {
         showProgressBar(mProgressBar);
-        message = new Message(message.getContent(), Common.mMineId, message.getRoomID(), Common.typeText);
-        if (mIdListPick.size() <= 0) {
+        if (mIdListPick.size() <= 0){
             hiddenProgressBar(mProgressBar);
             Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
             return;
@@ -72,49 +70,49 @@ public class SharingMessageActivity extends BaseActivity {
         for (Integer i : mIdListPick) {
             if (checkValidUserInAllRoom(roomsExist, i) == true) {
                 if (ChatService.getChat() != null) {
-                    Message mMessage = new Message(message.getContent(), Common.mMineId, sRoomId, Common.typeText);
+                    Message mMessage = new Message(message.getContent(), Common.getUserLogin().getId(), sRoomId, message.getType());
                     ChatService.getChat().emitSendMessage(mMessage, sRoomId);
+                    //Save into Realm Database
+                    new MessagePresenter().insertOrUpdateMessage(mMessage);
                 }
             } else {
                 listUsersId.clear();
                 listUsersId.add(i);
-                int result = isRoomExits(new RoomDAO().getAllRoom(), listUsersId);
-                if (result == sDEFAULT_VALUE_IF_NOT_EXITS_GROUP) {
-                    //Tao nhom roi gui tin nhan
-                    mAddRoomPresenter2.addroom(listUsersId, 0, null, new AddRoomView() {
-                        @Override
-                        public void onSuccess(AddRoomResponse result) {
-                            mUserRealmList.add(Common.getUserLogin());
-                            mUserRealmList.add(getUserFromId(mUserList, i));
-                            sRoomId = result.getData().getRoomId();
-                            Room mRoom = new Room();
-                            RoomData mRoomData = result.getData();
-                            mRoom.setRoomId(mRoomData.getRoomId());
-                            mRoom.setType(mRoomData.getType());
-                            mRoom.setUsers(mUserRealmList);
-                            mRoom.setRoomName(mRoomData.getRoomName());
-                            new RoomDAO().insertOrUpdate(mRoom);
-                            mUserRealmList.clear();
+                    int result = isRoomExits(new RoomDAO().getAllRoom(), listUsersId);
+                    if (result == sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
+                     //Tao nhom roi gui tin nhan
+                     mAddRoomPresenter2.addroom(listUsersId, 0, null, new AddRoomView() {
+                         @Override
+                         public void onSuccess(AddRoomResponse result) {
+                             mUserRealmList.add(Common.getUserLogin());
+                             mUserRealmList.add(getUserFromId(mUserList,i));
+                             sRoomId = result.getData().getRoomId();
+                             Room mRoom = new Room();
+                             RoomData mRoomData = result.getData();
+                             mRoom.setRoomId(mRoomData.getRoomId());
+                             mRoom.setType(mRoomData.getType());
+                             mRoom.setUsers(mUserRealmList);
+                             mRoom.setRoomName(mRoomData.getRoomName());
+                             new RoomDAO().insertOrUpdate(mRoom);
+                             mUserRealmList.clear();
 
                             if (ChatService.getChat() != null) {
-                                Message mMessage = new Message(message.getContent(), Common.mMineId, sRoomId, Common.typeText);
+                                Message mMessage = new Message(message.getContent(), Common.getUserLogin().getId(), sRoomId, message.getType());
                                 ChatService.getChat().emitSendMessage(mMessage, sRoomId);
                                 //Save into Realm Database
                                 new MessagePresenter().insertOrUpdateMessage(mMessage);
                             }
                         }
 
-                        @Override
-                        public void onError(String message, int code) {
-                        }
+                         @Override
+                         public void onError(String message, int code) {}
 
-                        @Override
-                        public void onFailure() {
-                        }
-                    });
+                         @Override
+                         public void onFailure() {}
+                     });
+                    }
                 }
             }
-        }
         hiddenProgressBar(mProgressBar);
         finish();
 
@@ -136,7 +134,7 @@ public class SharingMessageActivity extends BaseActivity {
             ChatService.getChat().getUsersOnline();
         }
         mIdListPick = new ArrayList<>();
-        if (mIdListPick.size() != 0) {
+        if (mIdListPick.size() != 0){
             mIdListPick.clear();
         }
 
@@ -192,10 +190,10 @@ public class SharingMessageActivity extends BaseActivity {
     }
 
     public boolean checkValidUserInAllRoom(ArrayList<Room> rooms, int id) {
-        for (Room room : rooms) {
-            if (room.getType() == 0) {
-                for (User user : room.getUsers()) {
-                    if (id == user.getId()) {
+        for(Room room : rooms) {
+            if(room.getType()==0) {
+                for(User user : room.getUsers()) {
+                    if(id == user.getId()) {
                         sRoomId = room.getRoomId();
                         return true;
                     }
@@ -205,32 +203,31 @@ public class SharingMessageActivity extends BaseActivity {
         return false;
     }
 
-    public int isRoomExits(List<Room> roomList, List<Integer> idList) {
-        for (Room r : roomList) {
+    public int isRoomExits(List<Room> roomList, List<Integer> idList ){
+        for (Room r : roomList){
             if (r.getUsers().size() == idList.size()) {
                 if (isListIdExitInRoom(r, idList)) return r.getRoomId();
             }
         }
         return sDEFAULT_VALUE_IF_NOT_EXITS_GROUP;
     }
-
-    public boolean isListIdExitInRoom(Room room, List<Integer> listId) {
-        for (Integer i : listId) {
+    public boolean isListIdExitInRoom(Room room, List<Integer> listId){
+        for (Integer i : listId){
             if (!isIdExitsInListUser(room.getUsers(), i)) return false;
         }
         return true;
     }
 
-    public boolean isIdExitsInListUser(List<User> userList, int id) {
-        for (User u : userList) {
+    public boolean isIdExitsInListUser(List<User> userList, int id){
+        for (User u : userList){
             if (id == u.getId()) return true;
         }
         return false;
     }
 
-    public User getUserFromId(ArrayList<User> users, int id) {
-        for (User user : users) {
-            if (user.getId() == id) {
+    public User getUserFromId(ArrayList<User> users,int id) {
+        for(User user : users) {
+            if(user.getId()==id) {
                 return user;
             }
         }

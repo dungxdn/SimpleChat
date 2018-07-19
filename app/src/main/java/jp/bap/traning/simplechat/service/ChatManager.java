@@ -9,8 +9,10 @@ import org.json.JSONObject;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.News;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Event;
 
 /**
@@ -26,25 +28,29 @@ public class ChatManager {
         void onEmit(Event event, JSONObject data);
     }
 
-    private Socket mSocket;
-    private Listener mListener;
+    Socket mSocket;
+    Listener mListener;
 
     ChatManager(Socket s) {
         mSocket = s;
-        on(Event.MESSAGE_RECEIVER,
+        on(
+                Event.MESSAGE_RECEIVER,
                 Event.USER_ONLINE,
                 Event.ON_USER_OFFLINE,
                 Event.ON_USER_ONLINE,
                 Event.CREATE_ROOM,
                 Event.NEWS,
+                Event.LIKE_NEWS,
+                Event.COMMENT,
                 //call
                 Event.CALL,
                 Event.CALL_CONTENT,
                 Event.CALL_ACCEPT,
-                Event.CALL_STOP);
+                Event.CALL_STOP
+        );
     }
 
-    void addListenerSocket(Listener listener) {
+    public void addListenerSocket(Listener listener) {
         mListener = listener;
     }
 
@@ -92,9 +98,35 @@ public class ChatManager {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
-            String objectMessage = gson.toJson(news);
-            data.put("news", objectMessage);
+            String objectNews = gson.toJson(news);
+            data.put("news", objectNews);
             emit(Event.NEWS, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitOnComment(Comment comment){
+        JSONObject data = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            String objectComment = gson.toJson(comment);
+            data.put("comment", objectComment);
+            emit(Event.COMMENT, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitOnLikeNews(User user, News news) {
+        JSONObject data = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            String objectNews = gson.toJson(news);
+            String objectUser = gson.toJson(user);
+            data.put("news", objectNews);
+            data.put("user", objectUser);
+            emit(Event.LIKE_NEWS, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

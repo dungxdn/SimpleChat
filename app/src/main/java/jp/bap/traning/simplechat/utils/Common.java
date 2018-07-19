@@ -51,8 +51,8 @@ public class Common {
     public static final String typeImage = "image";
     public static final String typeLink = "link";
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
-    public static final int mMineId =
-            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
+//    public static final int mMineId =
+//            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
 
@@ -127,7 +127,7 @@ public class Common {
     public static boolean checkValidUser(ArrayList<User> users) {
         int i = 0;
         while (i < users.size()) {
-            if (users.get(i).getId() == Common.mMineId) {
+            if (users.get(i).getId() == Common.getUserLogin().getId()) {
                 return true;
             }
             i++;
@@ -197,5 +197,21 @@ public class Common {
         mRoom.setRoomName(mRoomData.getRoomName());
         new RoomDAO().insertOrUpdate(mRoom);
         realmList.clear();
+    }
+
+    public static <T> ArrayList<T> covertFromRealmListToArrayList(RealmList<T> mRealmList){
+        ArrayList<T> mArrayList = new ArrayList<>();
+        for(int i=0; i<mRealmList.size(); i++){
+            mArrayList.add(mRealmList.get(i));
+        }
+        return mArrayList;
+    }
+
+    public static <T> RealmList<T> covertFromArrayListToRealmList(ArrayList<T> mArrayList){
+        RealmList<T> mRealmList = new RealmList<>();
+        for(int i=0; i<mArrayList.size(); i++){
+            mRealmList.add(mArrayList.get(i));
+        }
+        return mRealmList;
     }
 }

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.WindowFeature;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,12 +23,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.realm.NewsRealmProxy;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.comment.CommentPresenter;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 
@@ -130,6 +136,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 break;
             }
 
+            case COMMENT: {
+                try {
+                    Gson gson = new Gson();
+                    String objectComment = data.getString("comment");
+                    Comment comment = gson.fromJson(objectComment, Comment.class);
+                    onCommentReceive(comment);
+                    new CommentPresenter().insertOrUpdate(comment);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
             case CALL_CONTENT: {
                 onCallContent(data);
                 break;
@@ -156,6 +175,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 break;
             }
         }
+    }
+
+    public void onCommentReceive(Comment comment) {
     }
 
     public void onConnectedSocket() {

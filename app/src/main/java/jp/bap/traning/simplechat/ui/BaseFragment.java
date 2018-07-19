@@ -19,9 +19,12 @@ import java.util.ArrayList;
 
 import io.realm.RealmList;
 import jp.bap.traning.simplechat.database.RoomDAO;
+import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
+import jp.bap.traning.simplechat.presenter.comment.CommentPresenter;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.Event;
@@ -129,21 +132,40 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
             }
 
             case NEWS: {
                 try {
-                    Log.d("BaseFragment", "Event NEWS");
                     String news = data.getString("news");
                     Gson gson = new Gson();
                     News mNews = gson.fromJson(news, News.class);
                     onNewsCome(mNews);
+                    new NewsPresenter().insertOrUpdateNews(mNews);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
             }
 
+            case LIKE_NEWS: {
+                try {
+                    String news = data.getString("news");
+                    String user = data.getString("user");
+                    Gson gson = new Gson();
+                    News mNews = gson.fromJson(news, News.class);
+                    User mUser = gson.fromJson(user, User.class);
+                    onUserLikeNews(mUser, mNews);
+                    new NewsPresenter().insertOrUpdateNews(mNews);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
+    }
+
+    public void onUserLikeNews(User mUser, News mNews) {
     }
 
     public void onReceiverListUsersOnline(ArrayList<User> users) {
