@@ -187,4 +187,12 @@ public class Common {
         }
         return mArrayList;
     }
+
+    public static <T> RealmList<T> covertFromArrayListToRealmList(ArrayList<T> mArrayList){
+        RealmList<T> mRealmList = new RealmList<>();
+        for(int i=0; i<mArrayList.size(); i++){
+            mRealmList.add(mArrayList.get(i));
+        }
+        return mRealmList;
+    }
 }

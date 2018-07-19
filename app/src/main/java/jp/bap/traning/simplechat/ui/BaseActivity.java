@@ -22,13 +22,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.realm.NewsRealmProxy;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
+import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.Room;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.comment.CommentPresenter;
 import jp.bap.traning.simplechat.presenter.message.MessagePresenter;
+import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.CallbackManager;
 import jp.bap.traning.simplechat.utils.Event;
 

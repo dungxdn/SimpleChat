@@ -28,4 +28,17 @@ public class NewsDAO {
 //        mRealm.close();
         return newsList;
     }
+
+    public News getOneNewsFromID(long idNews){
+        Realm mRealm = Realm.getDefaultInstance();
+        News mNews = mRealm.where(News.class)
+                .equalTo("idNews", idNews)
+                .findFirst();
+        News result = null;
+        if (mNews != null) {
+            result = mRealm.copyFromRealm(mNews);
+        }
+        mRealm.close();
+        return result;
+    }
 }
