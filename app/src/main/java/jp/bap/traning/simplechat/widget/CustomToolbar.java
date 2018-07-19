@@ -6,9 +6,13 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import jp.bap.traning.simplechat.ui.AddNewsActivity_;
 import jp.bap.traning.simplechat.ui.SearchGroupChatActivity_;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -43,12 +47,6 @@ public class CustomToolbar extends RelativeLayout {
     AppCompatButton mButtonSharing;
 
     private Context context;
-
-    interface Listenner {
-        void onShare();
-    }
-
-    Listenner mListenner;
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -117,18 +115,34 @@ public class CustomToolbar extends RelativeLayout {
         return mButtonSharing;
     }
 
-    @Click(R.id.mImgButtonAddGroup)
-    public void addGroupChat() {
-        AddGroupChatActivity_.intent(getContext()).start();
-    }
+//    @Click(R.id.mImgButtonAddGroup)
+//    public void addGroupChat() {
+//        AddGroupChatActivity_.intent(getContext()).start();
+//    }
+//
+//    @Click(R.id.mImgButtonSearch)
+//    public void showSearchView() {
+//        SearchGroupChatActivity_.intent(getContext()).start();
+//    }
 
-    @Click(R.id.mImgButtonSearch)
-    public void showSearchView() {
-        SearchGroupChatActivity_.intent(getContext()).start();
-    }
+    @Click({R.id.mImgButtonAddGroup, R.id.mImgButtonSearch, R.id.mImgButtonSetting})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mImgButtonAddGroup: {
+                AddGroupChatActivity_.intent(getContext()).start();
+                break;
+            }
 
-    @Click(R.id.mButtonSharing)
-    public void shareNews() {
-        mListenner.onShare();
+            case R.id.mImgButtonSearch: {
+                SearchGroupChatActivity_.intent(getContext()).start();
+                break;
+            }
+
+            case R.id.mImgButtonSetting: {
+                AddNewsActivity_.intent(getContext()).start();
+                break;
+            }
+
+        }
     }
 }

@@ -43,7 +43,6 @@ public class NewsFragment extends BaseFragment {
         listViewNews.setAdapter(newsAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(getContext(), 1);
         listViewNews.addItemDecoration(mDividerItemDecoration);
-        newsAdapter.notifyDataSetChanged();
         //
         mNewsPresenter = new NewsPresenter(new NewsView() {
             @Override

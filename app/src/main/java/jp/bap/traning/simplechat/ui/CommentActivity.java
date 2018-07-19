@@ -118,7 +118,7 @@ public class CommentActivity extends BaseActivity {
         } else {
             Comment mComment = new Comment(mNews.getIdNews(), Common.getUserLogin(), edtComment.getText().toString());
             //Update News
-            mNews.setCountComment(mNews.getCountComment()+1);
+            mNews.setCountComment(mNews.getCountComment() + 1);
             new NewsPresenter().insertOrUpdateNews(mNews);
             //Send Event to Server
             if (ChatService.getChat() != null) {
@@ -133,10 +133,12 @@ public class CommentActivity extends BaseActivity {
     public void onCommentReceive(Comment comment) {
         super.onCommentReceive(comment);
         if (comment.getIdNews() == mNews.getIdNews()) {
-            listComment.add(comment);
-            commentAdapter.notifyDataSetChanged();
-            recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
+            if (listComment.contains(comment) == true) {
+            } else {
+                listComment.add(comment);
+                commentAdapter.notifyDataSetChanged();
+                recyclerViewComment.smoothScrollToPosition(listComment.size() - 1);
+            }
         }
-
     }
 }

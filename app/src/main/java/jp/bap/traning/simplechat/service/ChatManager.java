@@ -43,6 +43,7 @@ public class ChatManager {
                 Event.LIKE_NEWS,
                 Event.COMMENT,
                 //call
+                Event.CALL_BUSY,
                 Event.CALL,
                 Event.CALL_CONTENT,
                 Event.CALL_ACCEPT,
@@ -106,7 +107,7 @@ public class ChatManager {
         }
     }
 
-    public void emitOnComment(Comment comment){
+    public void emitOnComment(Comment comment) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
@@ -158,6 +159,17 @@ public class ChatManager {
             data.put("roomId", roomId);
             data.put("isAudioCall", isAudioCall);
             emit(Event.CALL, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitCallBusy(int status, int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("status", status);
+            data.put("roomId", roomId);
+            emit(Event.CALL_BUSY, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

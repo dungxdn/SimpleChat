@@ -41,7 +41,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.CommentActivity_"></activity>
+        <activity android:name=".ui.CommentActivity_" />
+        <activity android:name=".ui.CallBusyActivity_" />
+        <activity android:name=".ui.AddNewsActivity_"></activity>
     </application>
 
 </manifest>

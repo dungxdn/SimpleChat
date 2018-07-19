@@ -52,10 +52,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private final String CHAT_TITLE = "Chat";
     private final String MORE_TITLE = "More";
     private final String NEWS_TITLE = "News";
-    private final String ADD_NEWS_TITLE = "Create News";
-    private AddNewsFragment_ mAddNewsFragment = new AddNewsFragment_();
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
+    private static boolean checkCall = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void init() {
         mToolbar.setTitle(NEWS_TITLE);
-        mToolbar.getSettingButton().setVisibility(View.GONE);
+        mToolbar.getSettingButton().setVisibility(View.VISIBLE);
+        mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
@@ -83,8 +83,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewpagerAdapter.addFragment(new FriendFragment_(),
                 getResources().getString(R.string.title_tab_friend),
                 R.drawable.selection_icon_list_tablayout);
-        mViewpagerAdapter.addFragment(mAddNewsFragment, "",
-                R.drawable.ic_add);
         mViewpagerAdapter.addFragment(new ChatFragment_(),
                 getResources().getString(R.string.title_tab_chat),
                 R.drawable.selection_icon_chat_tablayout);
@@ -101,22 +99,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         for (int i = 0; i < length; i++) {
             mTabLayout.getTabAt(i).setCustomView(mViewpagerAdapter.getTabView(i));
         }
-
-        mToolbar.getSharingButton().setOnClickListener(view -> {
-//            Goi Emit
-            if (mAddNewsFragment.getNews() == null) {
-            } else {
-                //Send Event to Server
-                ChatService.getChat().emitCreateNews(mAddNewsFragment.getNews());
-                Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
-                mAddNewsFragment.linkImage = "";
-                mAddNewsFragment.edtDescription.setText("");
-                mAddNewsFragment.imgAddNews.setImageResource(R.drawable.default_image_news);
-                Common.hideKeyboard(this);
-                //Start intent News Fragment
-                mViewPager.setCurrentItem(0);
-            }
-        });
     }
 
     @Override
@@ -133,17 +115,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onPageSelected(int position) {
         switch (position) {
-            case 0:
+            case 0: {
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
-                mToolbar.getSettingButton().setVisibility(View.GONE);
+                mToolbar.getSettingButton().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
                 mToolbar.setTitle(NEWS_TITLE);
                 mToolbar.getSharingButton().setVisibility(View.GONE);
                 break;
+            }
 
-            case 1:
+            case 1: {
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
@@ -152,19 +136,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getSharingButton().setVisibility(View.GONE);
                 mToolbar.setTitle(FRIEND_TITLE);
                 break;
+            }
 
-            case 2:
-                mToolbar.getTvTitle().setVisibility(View.GONE);
-                mToolbar.getmTvCreateNews().setVisibility(View.VISIBLE);
-                mToolbar.getSettingButton().setVisibility(View.GONE);
-                mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
-                mToolbar.getImgButtonSearch().setVisibility(View.GONE);
-                mToolbar.getBackButton().setVisibility(View.GONE);
-                mToolbar.getSharingButton().setVisibility(View.VISIBLE);
-                mToolbar.setmTvCreateNews(ADD_NEWS_TITLE);
-                break;
-
-            case 3:
+            case 2: {
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
@@ -175,15 +149,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getSharingButton().setVisibility(View.GONE);
                 mToolbar.setTitle(CHAT_TITLE);
                 break;
+            }
 
-            case 4:
+            case 3: {
                 mToolbar.getTvTitle().setVisibility(View.GONE);
-                mToolbar.getSettingButton().setVisibility(View.VISIBLE);
+                mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
                 mToolbar.getSharingButton().setVisibility(View.GONE);
                 break;
+            }
         }
     }
 
@@ -241,6 +217,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
+        checkCall = false;
     }
 
     public void showProgressBar() {
@@ -254,10 +231,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mAddNewsFragment.pickImage == true) {
-            mAddNewsFragment.pickImage = false;
-            mAddNewsFragment.onActivityResult(requestCode, resultCode, data);
-        } else if (mMoreFragment.pickAvatar == true) {
+        if (mMoreFragment.pickAvatar == true) {
             mMoreFragment.pickAvatar = false;
             mMoreFragment.onActivityResult(requestCode, resultCode, data);
         }
@@ -266,10 +240,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onCall(int roomId, boolean isAudioCall) {
         super.onCall(roomId, isAudioCall);
-        CallActivity_.intent(this)
-                .isIncoming(true)
-                .roomId(roomId)
-                .isAudioCall(isAudioCall)
-                .start();
+        if (checkCall == false) {
+            checkCall = true;
+            CallActivity_.intent(this)
+                    .isIncoming(true)
+                    .roomId(roomId)
+                    .isAudioCall(isAudioCall)
+                    .start();
+        } else {
+            //Notify the caller
+            if (ChatService.getChat() != null) {
+                ChatService.getChat().emitCallBusy(Common.CALL_BUSY, roomId);
+            }
+        }
     }
 }

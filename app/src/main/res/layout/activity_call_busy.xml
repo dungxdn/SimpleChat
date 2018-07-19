@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CallBusyActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/mAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/mAvatar"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Name"
+        android:gravity="center"
+        android:textSize="@dimen/_20ssp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="@dimen/_5sdp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="busy"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_17ssp"
+        />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/imgBtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cancel"
+        />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
