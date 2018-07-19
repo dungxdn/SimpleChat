@@ -12,8 +12,16 @@ public class AudioPlayer {
     private Vibrator mVibrator;
     private MediaPlayer mMediaPlayer;
 
-    public AudioPlayer(Context context) {
+    private static AudioPlayer mInstance = null;
+
+    private AudioPlayer(Context context) {
         mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    }
+    public static AudioPlayer getInstance(Context context){
+        if(mInstance == null){
+            mInstance = new AudioPlayer(context);
+        }
+        return mInstance;
     }
 
     public void stopMedia() {
@@ -36,17 +44,30 @@ public class AudioPlayer {
 
         mMediaPlayer.start();
 
+    }
+    public void playAndRepeat(Context context, int rid) {
+        stopMedia();
+        mMediaPlayer = MediaPlayer.create(context, rid);
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                playAndRepeat(context, rid);
+            }
+        });
 
+        mMediaPlayer.start();
 
     }
 
-    public void setVibratorRepeat (Context context){
-        long[] mVibratePattern = new long[]{0, 400, 200, 400, 500};
+    public void setVibratorRepeat (){
+        long[] mVibratePattern = new long[]{0, 400, 200, 400, 1000};
         mVibrator.vibrate(mVibratePattern, 0);
     }
-    public void setVibratorNoRepeat (Context context){
-        mVibrator.vibrate(400);
+
+    public void setVibratorNoRepeat (){
+        mVibrator.vibrate(500);
     }
+
     public void stopVibrator(){
         mVibrator.cancel();
     }

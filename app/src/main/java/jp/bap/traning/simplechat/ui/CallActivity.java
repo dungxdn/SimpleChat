@@ -129,8 +129,7 @@ public class CallActivity extends BaseActivity {
             } else {
                 mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
             }
-            SoundManage.getAudioPlayer(this).play(this,R.raw.phone_ringging);
-            SoundManage.getAudioPlayer(this).setVibratorRepeat(this);
+            SoundManage.setAudioForMsgAndCall(this,R.raw.despacito, true);
             mBtnAccept.setVisibility(View.VISIBLE);
 
         } else {
@@ -384,16 +383,14 @@ public class CallActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
-                SoundManage.getAudioPlayer(this).stopMedia();
-                SoundManage.getAudioPlayer(this).stopVibrator();
+                SoundManage.stop(this);
                 mtvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
                 stop();
                 break;
 
             case R.id.mBtnAccept:
-                SoundManage.getAudioPlayer(this).stopMedia();
-                SoundManage.getAudioPlayer(this).stopVibrator();
+                SoundManage.stop(this);
                 if(isAudioCall){
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
@@ -453,6 +450,7 @@ public class CallActivity extends BaseActivity {
     public void onCallStop() {
         super.onCallStop();
         stop();
+        SoundManage.stop(this);
     }
 
     public void onOfferReceived(final JSONObject data) {
