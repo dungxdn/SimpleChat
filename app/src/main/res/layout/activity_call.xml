@@ -29,34 +29,65 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mBtnAccept"
+            android:id="@+id/mBtnTurnOnSpeaker"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_on_speaker"
             android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnTurnOffSpeaker"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_off_speaker"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnTurnOnVideoCam"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_on_videocam_white"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnTurnOffVideoCam"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_off_videocam_white"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnAccept"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/call_come"
-            android:text="Accept" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnStop"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/call_end"
-            android:text="Stop" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/mtvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="248dp"
         android:maxLines="1"
         android:text="Status"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/mLnAction"
-        app:layout_constraintHorizontal_bias="0.501"
+        android:textColor="@color/red"
+        android:layout_marginTop="@dimen/_120sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mAvatar"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/mImgAvatarCallAudio"
@@ -67,21 +98,31 @@
         app:layout_constraintBottom_toBottomOf="@id/mLnAction"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/mBtnSwitchCamera"
         android:visibility="gone"
         android:src="@drawable/ic_switch_camera"
         android:background="@android:color/transparent"
-        android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginLeft="@dimen/_6sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
+        />
+
+    <TextView
+        android:id="@+id/mTvTurnOffVideoCam"
+        android:textColor="@color/red"
+        android:layout_marginBottom="@dimen/_100sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mImgAvatarCallAudio"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 
 </android.support.constraint.ConstraintLayout>
