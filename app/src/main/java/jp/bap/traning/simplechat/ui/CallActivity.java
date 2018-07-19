@@ -1,7 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
@@ -10,6 +9,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.bap.traning.simplechat.R;
+import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Room;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Permission;
 import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
@@ -73,6 +75,12 @@ public class CallActivity extends BaseActivity {
     AppCompatImageButton mBtnTurnOnSpeaker;
     @ViewById
     AppCompatImageButton mBtnTurnOffSpeaker;
+    @ViewById
+    AppCompatImageButton mBtnTurnOnVideoCam;
+    @ViewById
+    AppCompatImageButton mBtnTurnOffVideoCam;
+    @ViewById
+    TextView mTvTurnOffVideoCam;
     @Extra
     int roomId;
     @Extra
@@ -127,9 +135,9 @@ public class CallActivity extends BaseActivity {
         mRemoteVideoView.setVisibility(View.GONE);
         if (isIncoming) {
             if (isAudioCall) {
-                mtvStatus.setText("Incoming call audio from: " + mRoom.getRoomName());
+                mtvStatus.setText("Incoming call audio from " + mRoom.getRoomName());
             } else {
-                mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
+                mtvStatus.setText("Incoming call video from " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.VISIBLE);
         } else {
@@ -196,7 +204,6 @@ public class CallActivity extends BaseActivity {
 
         //set external speaker if video call
         mAudioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
-        mAudioManager.setMode(AudioManager.MODE_NORMAL);
 
         //Now create a VideoCapturer instance.
         videoCapturerAndroid = createFrontCameraCapturer(new Camera1Enumerator(false));
@@ -384,7 +391,7 @@ public class CallActivity extends BaseActivity {
 
     @Click({
             R.id.mBtnAccept, R.id.mBtnStop, R.id.mBtnSwitchCamera, R.id.mBtnTurnOnSpeaker,
-            R.id.mBtnTurnOffSpeaker
+            R.id.mBtnTurnOffSpeaker, R.id.mBtnTurnOnVideoCam, R.id.mBtnTurnOffVideoCam
     })
     void onClick(View view) {
         switch (view.getId()) {
@@ -408,23 +415,55 @@ public class CallActivity extends BaseActivity {
                     mLocalVideoView.setVisibility(View.VISIBLE);
                     mBtnSwitchCamera.setVisibility(View.VISIBLE);
                     mAudioManager.setSpeakerphoneOn(false);
+                    mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
                 }
                 mtvStatus.setVisibility(View.GONE);
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
+
             case R.id.mBtnSwitchCamera:
                 switchCamera();
                 break;
+
             case R.id.mBtnTurnOnSpeaker:
                 mBtnTurnOnSpeaker.setVisibility(View.GONE);
                 mBtnTurnOffSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(true);
                 break;
+
             case R.id.mBtnTurnOffSpeaker:
                 mBtnTurnOffSpeaker.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(false);
+                break;
+
+            case R.id.mBtnTurnOnVideoCam:
+                mBtnTurnOnVideoCam.setVisibility(View.GONE);
+                mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
+                mBtnSwitchCamera.setVisibility(View.VISIBLE);
+                mLocalVideoView.setVisibility(View.VISIBLE);
+                if (videoCapturerAndroid != null) {
+                    videoCapturerAndroid.startCapture(1280, 720, 30);
+                    ChatService.getChat()
+                            .emitTurnOnCamera(roomId, true, Common.getUserLogin().getId());
+                }
+                break;
+
+            case R.id.mBtnTurnOffVideoCam:
+                mBtnTurnOffVideoCam.setVisibility(View.GONE);
+                mBtnTurnOnVideoCam.setVisibility(View.VISIBLE);
+                mBtnSwitchCamera.setVisibility(View.GONE);
+                mLocalVideoView.setVisibility(View.GONE);
+                if (videoCapturerAndroid != null) {
+                    try {
+                        videoCapturerAndroid.stopCapture();
+                        ChatService.getChat()
+                                .emitTurnOnCamera(roomId, false, Common.getUserLogin().getId());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
     }
@@ -463,6 +502,7 @@ public class CallActivity extends BaseActivity {
             mLocalVideoView.setVisibility(View.VISIBLE);
             mBtnSwitchCamera.setVisibility(View.VISIBLE);
             mAudioManager.setSpeakerphoneOn(true);
+            mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
         }
         mtvStatus.setVisibility(View.GONE);
     }
@@ -471,6 +511,27 @@ public class CallActivity extends BaseActivity {
     public void onCallStop() {
         super.onCallStop();
         stop();
+    }
+
+    @Override
+    public void onTurnOnCamera(boolean isOn, int userId) {
+        super.onTurnOnCamera(isOn, userId);
+        if (isOn) {
+            mRemoteVideoView.setVisibility(View.VISIBLE);
+            mTvTurnOffVideoCam.setVisibility(View.GONE);
+            mImgAvatarCallAudio.setVisibility(View.GONE);
+            mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_white);
+            mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_white);
+        } else {
+            User user = new UserDAO().getUser(userId);
+            String userName = user.getFirstName() + " " + user.getLastName();
+            mRemoteVideoView.setVisibility(View.GONE);
+            mTvTurnOffVideoCam.setText(userName + " was turn off camera!");
+            mTvTurnOffVideoCam.setVisibility(View.VISIBLE);
+            mImgAvatarCallAudio.setVisibility(View.VISIBLE);
+            mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_black);
+            mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_black);
+        }
     }
 
     public void onOfferReceived(final JSONObject data) {
@@ -531,6 +592,7 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ChatService.getChat().emitCallStop(roomId);
     }
 
     public void stop() {
@@ -538,6 +600,14 @@ public class CallActivity extends BaseActivity {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
             mediaStreamLocal.dispose();
+        }
+        if (mediaStreamRemote != null) {
+            mediaStreamRemote.removeTrack(localVideoTrack);
+            mediaStreamRemote.removeTrack(localAudioTrack);
+            mediaStreamRemote.dispose();
+        }
+        if (audioConstraints != null) {
+            audioConstraints = null;
         }
         if (audioSource != null) {
             audioSource.dispose();

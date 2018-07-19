@@ -33,21 +33,12 @@ public class ChatManager {
 
     ChatManager(Socket s) {
         mSocket = s;
-        on(
-                Event.MESSAGE_RECEIVER,
-                Event.USER_ONLINE,
-                Event.ON_USER_OFFLINE,
-                Event.ON_USER_ONLINE,
-                Event.CREATE_ROOM,
-                Event.NEWS,
-                Event.LIKE_NEWS,
-                Event.COMMENT,
+        on(Event.MESSAGE_RECEIVER, Event.USER_ONLINE, Event.ON_USER_OFFLINE, Event.ON_USER_ONLINE,
+                Event.CREATE_ROOM, Event.NEWS, Event.LIKE_NEWS, Event.COMMENT,
                 //call
-                Event.CALL,
-                Event.CALL_CONTENT,
-                Event.CALL_ACCEPT,
-                Event.CALL_STOP
-        );
+                Event.CALL, Event.CALL_CONTENT, Event.CALL_ACCEPT, Event.CALL_STOP,
+                //camera
+                Event.TURN_ON_CAMERA);
     }
 
     public void addListenerSocket(Listener listener) {
@@ -106,7 +97,7 @@ public class ChatManager {
         }
     }
 
-    public void emitOnComment(Comment comment){
+    public void emitOnComment(Comment comment) {
         JSONObject data = new JSONObject();
         try {
             Gson gson = new Gson();
@@ -168,6 +159,18 @@ public class ChatManager {
         try {
             data.put("roomId", roomId);
             emit(Event.CALL_ACCEPT, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitTurnOnCamera(int roomId, boolean isOn, int userId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("isOn", isOn);
+            data.put("roomId", roomId);
+            data.put("userId", userId);
+            emit(Event.TURN_ON_CAMERA, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
