@@ -1,8 +1,10 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -127,6 +129,8 @@ public class CallActivity extends BaseActivity {
             }else{
                 mtvStatus.setText("Incoming call video from: " + mRoom.getRoomName());
             }
+            SoundManage.getAudioPlayer(this).play(this,R.raw.phone_ringging);
+            SoundManage.getAudioPlayer(this).setVibratorRepeat(this);
             mBtnAccept.setVisibility(View.VISIBLE);
 
         } else {
@@ -380,13 +384,16 @@ public class CallActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
+                SoundManage.getAudioPlayer(this).stopMedia();
+                SoundManage.getAudioPlayer(this).stopVibrator();
                 mtvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
                 stop();
                 break;
 
             case R.id.mBtnAccept:
-                mtvStatus.setText("Call started!!!");
+                SoundManage.getAudioPlayer(this).stopMedia();
+                SoundManage.getAudioPlayer(this).stopVibrator();
                 if(isAudioCall){
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);

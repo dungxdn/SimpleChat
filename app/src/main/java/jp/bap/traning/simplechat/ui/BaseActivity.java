@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.Room;
@@ -72,6 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     String objectMessage = data.get("chatMessage").toString();
                     Message message = gson.fromJson(objectMessage, Message.class);
                     onReceiverMessage(message);
+                    SoundManage.getAudioPlayer(this).play(this, R.raw.message_ringging);
+                    SoundManage.getAudioPlayer(this).setVibratorNoRepeat(this);
                     new MessagePresenter().insertOrUpdateMessage(message);
 
                     //update lastMessage in Room into Realm
