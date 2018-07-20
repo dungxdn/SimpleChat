@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import jp.bap.traning.simplechat.R;
@@ -176,9 +177,10 @@ public class CallActivity extends BaseActivity {
     }
 
     private void getIceServers() {
-        PeerConnection.IceServer peerIceServer =
-                PeerConnection.IceServer.builder(Common.TURN_URL).createIceServer();
-        peerIceServers.add(peerIceServer);
+        PeerConnection.IceServer peerIceServerSTUN =
+                PeerConnection.IceServer.builder(Common.STUN_URL).createIceServer();
+        peerIceServers.add(peerIceServerSTUN);
+        peerIceServers.add(new PeerConnection.IceServer(Common.TURN_URL, Common.TURN_USER_NAME, Common.TURN_CREDENTIAL));
     }
 
     public void start() {
@@ -202,8 +204,9 @@ public class CallActivity extends BaseActivity {
                 .setVideoDecoderFactory(defaultVideoDecoderFactory)
                 .createPeerConnectionFactory();
 
-        //set external speaker if video call
+        //to set external speaker if video call
         mAudioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
+
         //Now create a VideoCapturer instance.
         videoCapturerAndroid = createFrontCameraCapturer(new Camera1Enumerator(false));
         //Create MediaConstraints - Will be useful for specifying video and audio constraints.
@@ -499,10 +502,15 @@ public class CallActivity extends BaseActivity {
         createPeerConnection();
         doCall();
         if (isAudioCall) {
-            mRemoteVideoView.setVisibility(View.GONE);
-            mLocalVideoView.setVisibility(View.GONE);
-            mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
-            mAudioManager.setSpeakerphoneOn(false);
+            try {
+                mRemoteVideoView.setVisibility(View.GONE);
+                mLocalVideoView.setVisibility(View.GONE);
+                mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
+                mAudioManager.setSpeakerphoneOn(false);
+                videoCapturerAndroid.stopCapture();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             mImgAvatarCallAudio.setVisibility(View.GONE);
             mRemoteVideoView.setVisibility(View.VISIBLE);
@@ -607,11 +615,6 @@ public class CallActivity extends BaseActivity {
             mediaStreamLocal.removeTrack(localAudioTrack);
             mediaStreamLocal.dispose();
         }
-        if (mediaStreamRemote != null) {
-            mediaStreamRemote.removeTrack(localVideoTrack);
-            mediaStreamRemote.removeTrack(localAudioTrack);
-            mediaStreamRemote.dispose();
-        }
         if (audioConstraints != null) {
             audioConstraints = null;
         }
@@ -619,7 +622,12 @@ public class CallActivity extends BaseActivity {
             audioSource.dispose();
         }
         if (videoCapturerAndroid != null) {
-            videoCapturerAndroid.dispose();
+            try {
+                videoCapturerAndroid.stopCapture();
+                videoCapturerAndroid.dispose();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (mLocalVideoView != null) {
             mLocalVideoView.release();
