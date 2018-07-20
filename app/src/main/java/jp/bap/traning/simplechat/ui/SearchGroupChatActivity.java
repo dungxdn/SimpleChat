@@ -113,7 +113,7 @@ public class SearchGroupChatActivity extends BaseActivity {
                     @Override
                     public boolean onQueryTextChange(String newText) {
                         if (mChatAdapter != null) mChatAdapter.getFilter().filter(newText);
-                        return true;
+                        return false;
                     }
                 });
     }
