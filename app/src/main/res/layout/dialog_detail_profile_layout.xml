@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="Edit"
+            android:text="@string/dialog_edit_profile"
             android:textAllCaps="false"
             android:textColor="@color/colorGreen" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Chat"
+                android:text="@string/dialog_chat"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGreen" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Call"
+                android:text="@string/dialog_call_audio"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGreen" />
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Call video"
+                android:text="@string/dialog_call_video"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGreen" />
 

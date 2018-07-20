@@ -1,9 +1,11 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -139,6 +141,7 @@ public class CallActivity extends BaseActivity {
             } else {
                 mtvStatus.setText("Incoming call video from " + mRoom.getRoomName());
             }
+            SoundManage.setAudioForMsgAndCall(this,R.raw.despacito, true);
             mBtnAccept.setVisibility(View.VISIBLE);
         } else {
             if (isAudioCall) {
@@ -395,14 +398,15 @@ public class CallActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mBtnStop:
+                SoundManage.stop(this);
                 mtvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
                 stop();
                 break;
 
             case R.id.mBtnAccept:
-                mtvStatus.setText("Call started!!!");
-                if (isAudioCall) {
+                SoundManage.stop(this);
+                if(isAudioCall){
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
                     mLocalVideoView.setVisibility(View.GONE);
@@ -518,6 +522,7 @@ public class CallActivity extends BaseActivity {
     public void onCallStop() {
         super.onCallStop();
         stop();
+        SoundManage.stop(this);
     }
 
     @Override

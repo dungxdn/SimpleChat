@@ -48,10 +48,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Getter
     private RealmDAO mRealmDAO;
 
-    private final String FRIEND_TITLE = "Friends";
-    private final String CHAT_TITLE = "Chat";
-    private final String MORE_TITLE = "More";
-    private final String NEWS_TITLE = "News";
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
     private static boolean checkCall = false;
@@ -68,9 +64,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void init() {
-        mToolbar.setTitle(NEWS_TITLE);
-        mToolbar.getSettingButton().setVisibility(View.VISIBLE);
-        mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
+        mToolbar.setTitle(getResources().getString(R.string.title_friend_fragment));
+        mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
@@ -92,6 +87,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setOffscreenPageLimit(4);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setCurrentItem(1);
         mViewPager.addOnPageChangeListener(this);
 
         //Setup tab icon
@@ -122,7 +118,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
-                mToolbar.setTitle(NEWS_TITLE);
+                mToolbar.setTitle(getResources().getString(R.string.title_news_fragment));
                 mToolbar.getSharingButton().setVisibility(View.GONE);
                 break;
             }
@@ -134,7 +130,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
                 mToolbar.getSharingButton().setVisibility(View.GONE);
-                mToolbar.setTitle(FRIEND_TITLE);
+                mToolbar.setTitle(getResources().getString(R.string.title_friend_fragment));
                 break;
             }
 
@@ -147,7 +143,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mToolbar.getBackButton().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
                 mToolbar.getSharingButton().setVisibility(View.GONE);
-                mToolbar.setTitle(CHAT_TITLE);
+                mToolbar.setTitle(getResources().getString(R.string.title_chat_fragment));
                 break;
             }
 

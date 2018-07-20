@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_348sdp"
         android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@id/mCnslGroupname"/>
 
     <Button
         android:id="@+id/mBtnCreate"
@@ -69,7 +69,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/shape_button_login"
-        android:text="Create"
+        android:text="@string/btn_create_group"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -52,7 +52,7 @@ public class SignUpActivity extends BaseActivity {
                 .isEmpty() || edtLastname.getText().toString().isEmpty() || edtPassword.getText()
                 .toString()
                 .isEmpty() || edtConfirmPassword.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Empty field!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.text_please_inpur_all_info), Toast.LENGTH_SHORT).show();
         } else {
             if (edtPassword.getText().toString().
                     equals(edtConfirmPassword.getText().toString())) {
@@ -69,7 +69,7 @@ public class SignUpActivity extends BaseActivity {
                                 edtPassword.getText().clear();
                                 edtConfirmPassword.getText().clear();
                                 hiddenProgressBar(mProgressBar);
-                                Toast.makeText(SignUpActivity.this, "Register success!",
+                                Toast.makeText(SignUpActivity.this, getResources().getString(R.string.text_success_register),
                                         Toast.LENGTH_SHORT).show();
                                 finish();
                             }
@@ -77,12 +77,15 @@ public class SignUpActivity extends BaseActivity {
                             @Override
                             public void onError(String message, int code) {
                                 Log.d("SignUp Error: ", message + ", " + code);
+                                Toast.makeText(SignUpActivity.this,
+                                        getResources().getString(R.string.text_error_register), Toast.LENGTH_SHORT)
+                                        .show();
                             }
 
                             @Override
                             public void onFailure() {
                                 Toast.makeText(SignUpActivity.this,
-                                        "Sign up fail. Please check again!", Toast.LENGTH_SHORT)
+                                        getResources().getString(R.string.text_fail_register), Toast.LENGTH_SHORT)
                                         .show();
                             }
                         });
