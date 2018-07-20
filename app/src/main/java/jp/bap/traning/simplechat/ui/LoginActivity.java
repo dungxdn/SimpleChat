@@ -44,12 +44,12 @@ public class LoginActivity extends BaseActivity {
         showProgressBar(mProgressBar);
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
-        if (isConnectedNetwork() == false) {
+        if (!isConnectedNetwork()) {
             NetworkActivity_.intent(this).start();
             hiddenProgressBar(mProgressBar);
         } else if (userName.isEmpty() || password.isEmpty()) {
             indicatorView.hide();
-            Toast.makeText(LoginActivity.this, "Please input usename and password!",
+            Toast.makeText(LoginActivity.this, getResources().getString(R.string.text_not_input_username_pass),
                     Toast.LENGTH_SHORT).show();
             hiddenProgressBar(mProgressBar);
         } else {
