@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:fillAfter="true">
+    <scale android:fromXScale=".5" android:toXScale="1"
+        android:fromYScale=".5" android:toYScale="1"
+        android:pivotX="50%p" android:pivotY="50%p"
+        android:duration="@android:integer/config_longAnimTime" />
+
+    <!-- alpha animation is made at the same time of scale animation, and for me make a better and smooth result, alpha 0 is full trasparent, 1 is the normal state. The final alpha state of the activity after this animation is 1, so pay attention toAlpha must be 1 if you don't want glitch-->
+    <alpha android:fromAlpha="0.5" android:toAlpha="1"
+        android:duration="@android:integer/config_longAnimTime"/>
+</set>

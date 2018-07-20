@@ -138,47 +138,44 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         }
 
         mUserName.setText(user.getFirstName() + " " + user.getLastName());
-        mAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dialog mDialog = new Dialog(mContext);
-                mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                mDialog.setContentView(R.layout.dialog_detail_profile_layout);
-                CircleImageView mImgAvatar = mDialog.findViewById(R.id.mImgAvatar);
-                AppCompatTextView tvUsername = mDialog.findViewById(R.id.mTvUserName);
-                AppCompatButton btnChat = mDialog.findViewById(R.id.mBtnChat);
-                AppCompatButton btnCall = mDialog.findViewById(R.id.mBtnCall);
-                AppCompatButton btnCallVideo = mDialog.findViewById(R.id.mBtnCallVideo);
-                AppCompatButton mBtnEdit = mDialog.findViewById(R.id.mBtnEdit);
-                LinearLayout lnContactFriend = mDialog.findViewById(R.id.lnContactFriend);
+        mAvatar.setOnClickListener(view12 -> {
+            Dialog mDialog = new Dialog(mContext);
+            mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mDialog.setContentView(R.layout.dialog_detail_profile_layout);
+            CircleImageView mImgAvatar = mDialog.findViewById(R.id.mImgAvatar);
+            AppCompatTextView tvUsername = mDialog.findViewById(R.id.mTvUserName);
+            AppCompatButton btnChat = mDialog.findViewById(R.id.mBtnChat);
+            AppCompatButton btnCall = mDialog.findViewById(R.id.mBtnCall);
+            AppCompatButton btnCallVideo = mDialog.findViewById(R.id.mBtnCallVideo);
+            AppCompatButton mBtnEdit = mDialog.findViewById(R.id.mBtnEdit);
+            LinearLayout lnContactFriend = mDialog.findViewById(R.id.lnContactFriend);
 //                if(user.getAvatar()!=null){
-                Glide.with(mContext).load(user.getAvatar()).apply(options).into(mImgAvatar);
+            Glide.with(mContext).load(user.getAvatar()).apply(options).into(mImgAvatar);
 //                } else{
 //                    mImgAvatar.setImageResource(R.drawable.ic_avatar_default);
 //                }
-                if (user.getId() == mineId) {
-                    mBtnEdit.setVisibility(View.VISIBLE);
-                    lnContactFriend.setVisibility(View.GONE);
-                } else {
-                    mBtnEdit.setVisibility(View.GONE);
-                    lnContactFriend.setVisibility(View.VISIBLE);
-                }
-
-                btnChat.setOnClickListener(view1 -> {
-                    mListener.onChat(user);
-                    mDialog.dismiss();
-                });
-                btnCall.setOnClickListener(view1 -> {
-                    mListener.onCallAudio(user.getId());
-                    mDialog.dismiss();
-                });
-                btnCallVideo.setOnClickListener(view1 -> {
-                    mListener.onCallVideo(user.getId());
-                    mDialog.dismiss();
-                });
-                tvUsername.setText(user.getFirstName() + " " + user.getLastName());
-                mDialog.show();
+            if (user.getId() == mineId) {
+                mBtnEdit.setVisibility(View.VISIBLE);
+                lnContactFriend.setVisibility(View.GONE);
+            } else {
+                mBtnEdit.setVisibility(View.GONE);
+                lnContactFriend.setVisibility(View.VISIBLE);
             }
+
+            btnChat.setOnClickListener(view1 -> {
+                mListener.onChat(user);
+                mDialog.dismiss();
+            });
+            btnCall.setOnClickListener(view1 -> {
+                mListener.onCallAudio(user.getId());
+                mDialog.dismiss();
+            });
+            btnCallVideo.setOnClickListener(view1 -> {
+                mListener.onCallVideo(user.getId());
+                mDialog.dismiss();
+            });
+            tvUsername.setText(user.getFirstName() + " " + user.getLastName());
+            mDialog.show();
         });
         mImgButtonCall.setOnClickListener(view1 ->
                 mListener.onCallAudio(user.getId())

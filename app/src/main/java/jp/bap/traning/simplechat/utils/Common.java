@@ -51,7 +51,10 @@ public class Common {
     public static final String typeImage = "image";
     public static final String typeLink = "link";
     public static final String TURN_URL = "stun:stun.l.google.com:19302";
-//    public static final int mMineId =
+    public static final int CALL_BUSY = 1;
+    public static final int CALL_NO_ONE = 2;
+    public static ArrayList<User> usersOnline = new ArrayList<>();
+    //    public static final int mMineId =
 //            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
@@ -93,6 +96,36 @@ public class Common {
             }
         }
         return room;
+    }
+
+    public static User getFriendFromRoom(Room mRoom) {
+        if (mRoom != null) {
+            for (User user : mRoom.getUsers()) {
+                if (user.getId() != Common.getUserLogin().getId()) {
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+                                            int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
     }
 
     public static User getUserLogin() {
@@ -180,19 +213,28 @@ public class Common {
         realmList.clear();
     }
 
-    public static <T> ArrayList<T> covertFromRealmListToArrayList(RealmList<T> mRealmList){
+    public static <T> ArrayList<T> covertFromRealmListToArrayList(RealmList<T> mRealmList) {
         ArrayList<T> mArrayList = new ArrayList<>();
-        for(int i=0; i<mRealmList.size(); i++){
+        for (int i = 0; i < mRealmList.size(); i++) {
             mArrayList.add(mRealmList.get(i));
         }
         return mArrayList;
     }
 
-    public static <T> RealmList<T> covertFromArrayListToRealmList(ArrayList<T> mArrayList){
+    public static <T> RealmList<T> covertFromArrayListToRealmList(ArrayList<T> mArrayList) {
         RealmList<T> mRealmList = new RealmList<>();
-        for(int i=0; i<mArrayList.size(); i++){
+        for (int i = 0; i < mArrayList.size(); i++) {
             mRealmList.add(mArrayList.get(i));
         }
         return mRealmList;
+    }
+
+    public static boolean checkUserOnline(int userID) {
+        for (int i = 0; i < usersOnline.size(); i++) {
+            if (userID == usersOnline.get(i).getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
