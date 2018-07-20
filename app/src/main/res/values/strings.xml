@@ -8,6 +8,7 @@
     <string name="text_forgot_password">Forgot Password? </string>
     <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Register</string>
+    <string name="text_not_input_username_pass">Please input usename and password!</string>
     //SignUp Activity
     <string name="text_create_accout">Create Account</string>
     <string name="text_not_account"> Do not have an account? </string>
@@ -19,12 +20,24 @@
     <string name="hint_firstname">Firstname</string>
     <string name="hint_groupname">Group Name</string>
     <string name="hint_search">Search</string>
+    <string name="text_please_inpur_all_info">Please input all info!</string>
+    <string name="text_success_register">Register success!</string>
+    <string name="text_error_register">Register error. Please check again!</string>
+    <string name="text_fail_register">Register fail. Please check again!</string>
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
     <string name="popupcopy">Copy</string>
     <string name="popupshare">Share</string>
     <string name="popupdelete">Delete</string>
+
+    //MainActivity
+    <string name="title_friend_fragment">Friends</string>
+    <string name="title_news_fragment">News</string>
+    <string name="title_chat_fragment">Chat</string>
+    <string name="title_more_fragment">More</string>
+
+
     //SharingMessage Activity
     <string name="button_sharing_message">Sharing</string>
     <string name="text_message_send">message send...</string>
@@ -56,4 +69,19 @@
     <string name="str_profile">Profile</string>
     <string name="title_activity_news_fragment">NewsFragment</string>
     <string name="action_settings">Settings</string>
+    //Dialog
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_edit_profile">Edit profile</string>
+    <string name="dialog_chat">Chat</string>
+    <string name="dialog_call_audio">Call audio</string>
+    <string name="dialog_call_video">Call video</string>
+
+    //Menu ChatTalkActivity
+    <string name="menu_member">Member</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_help">Help</string>
+
+    <string name="title_new_group">New group</string>
+    <string name="btn_create_group">Create</string>
 </resources>
