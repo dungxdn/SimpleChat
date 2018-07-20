@@ -180,6 +180,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             imageView.setOnClickListener(view -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 FullScreenImageActivity_.intent(mContext).urlImage(message.getContent()).start();
+                ((Activity)mContext).overridePendingTransition(R.anim.anim_zoom_in,0);
             });
         }
     }

@@ -82,6 +82,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
                     User user = gson.fromJson(objectUserOffline, User.class);
+                    Common.usersOnline.remove(user);
                     onUserOffline(user);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -94,6 +95,7 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                     String objectUserOffline = data.getString("user");
                     Gson gson = new Gson();
                     User user = gson.fromJson(objectUserOffline, User.class);
+                    Common.usersOnline.add(user);
                     onUserOnline(user);
                 } catch (Exception e) {
                     e.printStackTrace();

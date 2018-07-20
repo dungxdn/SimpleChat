@@ -19,6 +19,7 @@ public enum Event {
     NEWS("news"),
     LIKE_NEWS("likeNews"),
     COMMENT("comment"),
+    CALL_BUSY("callBusy"),
     //Call
     CALL("call"),
     CALL_CONTENT("callContent"),

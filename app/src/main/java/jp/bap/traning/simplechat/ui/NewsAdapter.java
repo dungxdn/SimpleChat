@@ -1,6 +1,9 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.AppCompatImageButton;
@@ -10,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,7 +81,6 @@ public class NewsAdapter extends RecyclerView.Adapter {
         AppCompatImageButton imageButtonShare;
         AppCompatTextView txtLike;
         AppCompatTextView txtComment;
-        private int i = 0;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -101,6 +105,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
             imageView.setOnClickListener(view -> {
                 News mNews = newsArrayList.get(getAdapterPosition());
                 FullScreenImageActivity_.intent(mContext).urlImage(mNews.getImageView()).start();
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom_in, 0);
             });
 
             imageButtonShare.setOnClickListener(view -> {
@@ -128,11 +133,11 @@ public class NewsAdapter extends RecyclerView.Adapter {
                     //Gui su kien bam like
                     ChatService.getChat().emitOnLikeNews(Common.getUserLogin(), mNews);
                 }
-                //Update Realm
-
             });
 
             imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).mNews(newsArrayList.get(getAdapterPosition())).start());
         }
+
+
     }
 }

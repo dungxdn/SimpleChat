@@ -486,6 +486,14 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
+    public void onCallBusy(int status) {
+        super.onCallBusy(status);
+        //Intent qua CallBusyActivity
+        CallBusyActivity_.intent(this).status(Common.CALL_BUSY).mUser(Common.getFriendFromRoom(mRoom)).start();
+        stop();
+    }
+
+    @Override
     public void onCallAccept() {
         super.onCallAccept();
         createPeerConnection();
