@@ -11,9 +11,11 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.Event;
 
