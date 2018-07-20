@@ -207,7 +207,6 @@ public class CallActivity extends BaseActivity {
 
         //set external speaker if video call
         mAudioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
-
         //Now create a VideoCapturer instance.
         videoCapturerAndroid = createFrontCameraCapturer(new Camera1Enumerator(false));
         //Create MediaConstraints - Will be useful for specifying video and audio constraints.
@@ -605,7 +604,6 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ChatService.getChat().emitCallStop(roomId);
     }
 
     public void stop() {
