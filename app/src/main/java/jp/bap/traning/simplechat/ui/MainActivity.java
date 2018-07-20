@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Getter
     private RealmDAO mRealmDAO;
 
-    private AddNewsFragment_ mAddNewsFragment = new AddNewsFragment_();
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
     private static boolean checkCall = false;
@@ -66,8 +65,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void init() {
         mToolbar.setTitle(getResources().getString(R.string.title_friend_fragment));
-        mToolbar.getSettingButton().setVisibility(View.VISIBLE);
-        mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
+        mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
         mToolbar.getTvTitle().setGravity(Gravity.CENTER);
         ViewCompat.setElevation(mTabLayout, 10);
