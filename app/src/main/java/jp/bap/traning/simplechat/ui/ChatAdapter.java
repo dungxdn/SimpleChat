@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
@@ -64,7 +63,6 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
         options.placeholder(R.drawable.ic_avatar_default);
         options.error(R.drawable.ic_avatar_default);
         Glide.with(mContext).load(room.getAvatar()).apply(options).into(chatHolder.mAvatar);
-
 
         if (lastMessage == null) {
             chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
@@ -111,7 +109,8 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
 
                     for (Room r : mListRoomFilter) {
                         if (r.getType() == Common.TYPE_GROUP_MORE_PEOPLE) {
-                            if (r.getRoomName().toLowerCase().contains(charString.toLowerCase())) {
+                            if (r.getRoomName() != null &&
+                                    r.getRoomName().toLowerCase().contains(charString.toLowerCase())) {
                                 if (r.getRoomName().toLowerCase().contains(charString.toLowerCase())
                                         || isStringExistsInUsers(r.getUsers(), charString)) {
                                     filteredlist.add(r);
@@ -123,7 +122,6 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
                             }
                         }
                     }
-
                     mListRoom = filteredlist;
                 }
 

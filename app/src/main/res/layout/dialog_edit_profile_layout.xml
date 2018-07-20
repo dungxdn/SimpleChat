@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp"
             android:gravity="center"
-            android:text="Edit Profile"
+            android:text="@string/dialog_edit_profile"
             android:textColor="@color/colorGreen"
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold" />
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Cancel"
+                android:text="@string/dialog_cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGreen" />
 
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Save"
+                android:text="@string/dialog_save"
                 android:textAllCaps="false"
                 android:textColor="@color/colorGreen" />
 

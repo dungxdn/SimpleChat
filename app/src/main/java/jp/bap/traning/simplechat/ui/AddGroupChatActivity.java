@@ -35,7 +35,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_add_group_chat)
 public class AddGroupChatActivity extends BaseActivity {
 
-    private String TITLE = "New Group";
     private AddGroupChatAdapter mAddGroupChatAdapter;
     private ArrayList<User> mUserList;
     private List<Integer> mIdList;
@@ -148,7 +147,7 @@ public class AddGroupChatActivity extends BaseActivity {
     }
 
     public void setupToolbar() {
-        mToolbar.setTitle(TITLE);
+        mToolbar.setTitle(getResources().getString(R.string.title_new_group));
         mToolbar.getBackButton().setOnClickListener(v -> finish());
         mToolbar.getSettingButton().setVisibility(View.GONE);
     }
