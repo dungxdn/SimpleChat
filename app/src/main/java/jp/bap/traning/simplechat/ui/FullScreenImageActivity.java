@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -29,6 +30,11 @@ public class FullScreenImageActivity extends BaseActivity {
     @Override
     public void afterView() {
         Common.setImage(FullScreenImageActivity.this, urlImage, fullScreenImage);
+    }
+
+    @Click(R.id.fullScreenImage)
+    public void click(){
+        finish();
     }
 
     @Override

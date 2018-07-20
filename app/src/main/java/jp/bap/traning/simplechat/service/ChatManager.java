@@ -43,11 +43,12 @@ public class ChatManager {
                 Event.LIKE_NEWS,
                 Event.COMMENT,
                 //call
+                Event.CALL_BUSY,
                 Event.CALL,
                 Event.CALL_CONTENT,
                 Event.CALL_ACCEPT,
-                Event.CALL_STOP
-        );
+                Event.CALL_STOP,
+                Event.TURN_ON_CAMERA);
     }
 
     public void addListenerSocket(Listener listener) {
@@ -163,11 +164,34 @@ public class ChatManager {
         }
     }
 
+    public void emitCallBusy(int status, int roomId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("status", status);
+            data.put("roomId", roomId);
+            emit(Event.CALL_BUSY, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void emitCallAccept(int roomId) {
         JSONObject data = new JSONObject();
         try {
             data.put("roomId", roomId);
             emit(Event.CALL_ACCEPT, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emitTurnOnCamera(int roomId, boolean isOn, int userId) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("isOn", isOn);
+            data.put("roomId", roomId);
+            data.put("userId", userId);
+            emit(Event.TURN_ON_CAMERA, data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

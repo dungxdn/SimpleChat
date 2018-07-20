@@ -5,6 +5,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -24,7 +26,6 @@ public class NewsFragment extends BaseFragment {
     private NewsPresenter mNewsPresenter;
     private ArrayList<News> newsArrayList;
     private NewsAdapter newsAdapter;
-
     @ViewById
     RecyclerView listViewNews;
 
@@ -42,7 +43,6 @@ public class NewsFragment extends BaseFragment {
         listViewNews.setAdapter(newsAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(getContext(), 1);
         listViewNews.addItemDecoration(mDividerItemDecoration);
-//        newsAdapter.notifyDataSetChanged();
         //
         mNewsPresenter = new NewsPresenter(new NewsView() {
             @Override
@@ -109,4 +109,6 @@ public class NewsFragment extends BaseFragment {
         }
         return false;
     }
+
+
 }

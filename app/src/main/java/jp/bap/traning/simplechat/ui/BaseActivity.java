@@ -136,8 +136,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                     Gson gson = new Gson();
                     String objectComment = data.getString("comment");
                     Comment comment = gson.fromJson(objectComment, Comment.class);
-                    onCommentReceive(comment);
                     new CommentPresenter().insertOrUpdate(comment);
+                    onCommentReceive(comment);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -159,11 +159,33 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
                 break;
             }
 
+            case CALL_BUSY:{
+                try{
+                    int status = data.getInt("status");
+                    onCallBusy(status);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
+            }
+
             case CALL: {
                 try {
                     int roomId = data.getInt("roomId");
                     boolean isAudioCall = data.getBoolean("isAudioCall");
                     onCall(roomId, isAudioCall);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
+            case TURN_ON_CAMERA: {
+                try {
+                    boolean isOn = data.getBoolean("isOn");
+                    int userId = data.getInt("userId");
+                    onTurnOnCamera(isOn, userId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -221,5 +243,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
     }
 
     public void onCall(int roomId, boolean isAudioCall) {
+    }
+
+    public void onCallBusy(int status){};
+
+    public void onTurnOnCamera(boolean isOn, int userId) {
     }
 }

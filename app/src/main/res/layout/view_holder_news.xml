@@ -29,8 +29,9 @@
         android:id="@+id/imgNews"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_270sdp"
-        android:layout_below="@+id/mAvatarNews"
-        android:layout_marginTop="@dimen/_5sdp" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_below="@+id/mAvatarNews" />
 
     <LinearLayout
         android:id="@+id/lnIcon"
@@ -75,14 +76,13 @@
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:orientation="horizontal"
-        android:weightSum="15"
-        >
+        android:weightSum="15">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/countLike"
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:text="0 like"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
@@ -91,8 +91,8 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/countComment"
             android:layout_width="0dp"
-            android:layout_weight="5"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
             android:text="0 comment"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
@@ -120,8 +120,8 @@
             android:id="@+id/mLnDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:orientation="horizontal"
             app:layout_constraintLeft_toRightOf="@+id/txtName2">
 
