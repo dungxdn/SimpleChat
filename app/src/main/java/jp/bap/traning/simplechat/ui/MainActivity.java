@@ -112,8 +112,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0: {
-                mToolbar.setBackground(getResources().getDrawable(R.drawable.backgroundforlinkdescription));
-                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
