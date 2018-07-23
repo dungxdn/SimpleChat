@@ -75,4 +75,12 @@ public class News extends RealmObject implements Parcelable {
         parcel.writeInt(isLike);
         parcel.writeInt(countComment);
     }
+
+    public RealmList<User> getUsersLike() {
+        return usersLike;
+    }
+
+    public void setUsersLike(RealmList<User> usersLike) {
+        this.usersLike = usersLike;
+    }
 }
