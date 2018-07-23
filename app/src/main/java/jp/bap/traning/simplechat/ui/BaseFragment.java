@@ -70,6 +70,8 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
                         User user = gson.fromJson(objectUser, User.class);
                         usersOnline.add(user);
                     }
+                    Common.usersOnline.clear();
+                    Common.usersOnline = usersOnline;
                     onReceiverListUsersOnline(usersOnline);
                 } catch (Exception e) {
                     e.printStackTrace();

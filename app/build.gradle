@@ -92,4 +92,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //WebRTC
     implementation "org.webrtc:google-webrtc:1.0.22920"
+    //Exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+
 }

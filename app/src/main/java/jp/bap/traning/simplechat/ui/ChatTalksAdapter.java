@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -167,20 +168,28 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
     }
 
     class ImageMessageViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        AppCompatImageView imageView;
         CircleImageView mAvatar;
         TextView txtName;
+        AppCompatImageView sharePicture;
+
 
         public ImageMessageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageMessageChatContent);
             mAvatar = itemView.findViewById(R.id.mAvatar);
             txtName = itemView.findViewById(R.id.txtName);
+            sharePicture = itemView.findViewById(R.id.imgSharePicture);
 
             imageView.setOnClickListener(view -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 FullScreenImageActivity_.intent(mContext).urlImage(message.getContent()).start();
-                ((Activity)mContext).overridePendingTransition(R.anim.anim_zoom_in,0);
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom_in, 0);
+            });
+
+            sharePicture.setOnClickListener(view -> {
+                Message message = messageArrayList.get(getAdapterPosition());
+                SharingMessageActivity_.intent(mContext).message(message).start();
             });
         }
     }
@@ -190,6 +199,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         TextView txtName;
         AppCompatTextView linkMessage;
         AppCompatTextView linkDescription;
+        AppCompatImageView shareLink;
 
         public LinkMessageViewHolder(View itemView) {
             super(itemView);
@@ -197,6 +207,12 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             txtName = itemView.findViewById(R.id.txtName);
             linkMessage = itemView.findViewById(R.id.txtLink);
             linkDescription = itemView.findViewById(R.id.txtLinkDescription);
+            shareLink = itemView.findViewById(R.id.imgShareLink);
+
+            shareLink.setOnClickListener(view -> {
+                Message message = messageArrayList.get(getAdapterPosition());
+                SharingMessageActivity_.intent(mContext).message(message).start();
+            });
         }
     }
 }
