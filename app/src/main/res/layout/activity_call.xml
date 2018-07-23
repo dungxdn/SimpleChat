@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -103,8 +104,7 @@
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/mBtnSwitchCamera"
         android:visibility="gone"
-        android:src="@drawable/ic_switch_camera"
-        android:background="@android:color/transparent"
+        android:background="@drawable/ic_switch_camera_white"
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginLeft="@dimen/_6sdp"
         app:layout_constraintTop_toTopOf="parent"

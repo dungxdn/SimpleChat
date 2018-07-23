@@ -81,12 +81,12 @@ public class Common {
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
                         room.setRoomName(user.getFirstName()
                                 + " "
-                                + user.getLastName()
-                                + "("
-                                + user.getId()
-                                + ")("
-                                + room.getRoomId()
-                                + ")");
+                                + user.getLastName());
+//                                + "("
+//                                + user.getId()
+//                                + ")("
+//                                + room.getRoomId()
+//                                + ")");
                         room.setAvatar(user.getAvatar());
                         break;
                     }

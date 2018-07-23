@@ -1,11 +1,9 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -20,7 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import jp.bap.traning.simplechat.R;
@@ -542,6 +539,7 @@ public class CallActivity extends BaseActivity {
             mImgAvatarCallAudio.setVisibility(View.GONE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_white);
             mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_white);
+            mBtnSwitchCamera.setBackgroundResource(R.drawable.ic_switch_camera_white);
         } else {
             User user = new UserDAO().getUser(userId);
             String userName = user.getFirstName() + " " + user.getLastName();
@@ -551,6 +549,7 @@ public class CallActivity extends BaseActivity {
             mImgAvatarCallAudio.setVisibility(View.VISIBLE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_black);
             mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_black);
+            mBtnSwitchCamera.setBackgroundResource(R.drawable.ic_switch_camera_black);
         }
     }
 
