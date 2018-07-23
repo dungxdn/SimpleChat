@@ -72,6 +72,7 @@ public class NewsFragment extends BaseFragment {
             newsArrayList.get(position).setCountComment(news.getCountComment());
             newsAdapter.notifyItemChanged(position);
         } else {
+            SoundManage.setAudioForMsgAndCall(getContext(),R.raw.you_have_a_new,false);
             newsArrayList.add(0, news);
             newsAdapter.notifyItemInserted(0);
             listViewNews.smoothScrollToPosition(0);

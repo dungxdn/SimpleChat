@@ -209,6 +209,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkCall = false;
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
