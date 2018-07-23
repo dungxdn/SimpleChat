@@ -29,8 +29,6 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     EditText edtPassword;
     @ViewById
-    AVLoadingIndicatorView indicatorView;
-    @ViewById
     ProgressBar mProgressBar;
 
     @Override
@@ -48,7 +46,6 @@ public class LoginActivity extends BaseActivity {
             NetworkActivity_.intent(this).start();
             hiddenProgressBar(mProgressBar);
         } else if (userName.isEmpty() || password.isEmpty()) {
-            indicatorView.hide();
             Toast.makeText(LoginActivity.this, getResources().getString(R.string.text_not_input_username_pass),
                     Toast.LENGTH_SHORT).show();
             hiddenProgressBar(mProgressBar);
@@ -57,7 +54,6 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onSuccess(UserResponse result) {
                     hiddenProgressBar(mProgressBar);
-                    indicatorView.hide();
                     setResult(Common.REQUEST_LOGIN);
 //                    new UserDAO().insertOrUpdate(result.getData());
                     finish();
@@ -66,7 +62,6 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onError(String message, int code) {
                     hiddenProgressBar(mProgressBar);
-                    indicatorView.hide();
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
 
@@ -80,7 +75,6 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     void btnSignUp() {
-        indicatorView.hide();
         edtUserName.setText("");
         edtPassword.setText("");
         startActivity(new Intent(this, SignUpActivity_.class));

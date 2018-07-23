@@ -180,7 +180,6 @@ public class CallActivity extends BaseActivity {
         PeerConnection.IceServer peerIceServerSTUN =
                 PeerConnection.IceServer.builder(Common.STUN_URL).createIceServer();
         peerIceServers.add(peerIceServerSTUN);
-        peerIceServers.add(new PeerConnection.IceServer(Common.TURN_URL, Common.TURN_USER_NAME, Common.TURN_CREDENTIAL));
     }
 
     public void start() {

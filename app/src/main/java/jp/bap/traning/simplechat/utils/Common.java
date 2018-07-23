@@ -46,9 +46,6 @@ public class Common {
     public static final String typeImage = "image";
     public static final String typeLink = "link";
     public static final String STUN_URL = "stun:stunserver.org:3478";
-    public static final String TURN_URL = "turn:192.158.29.39:3478?transport=tcp";
-    public static final String TURN_CREDENTIAL = "JZEOEt2V3Qb0y27GRntt2u2PAYA='";
-    public static final String TURN_USER_NAME = "28224511:1379330808";
     public static final int CALL_BUSY = 1;
     public static final int CALL_NO_ONE = 2;
     public static ArrayList<User> usersOnline = new ArrayList<>();
