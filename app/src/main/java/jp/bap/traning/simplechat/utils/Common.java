@@ -3,7 +3,6 @@ package jp.bap.traning.simplechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.realm.RealmList;
 import io.realm.RealmList;
 
 import java.util.ArrayList;
@@ -33,9 +31,6 @@ import jp.bap.traning.simplechat.service.ChatService;
 
 import static jp.bap.traning.simplechat.utils.SharedPrefs.KEY_SAVE_ID;
 
-/**
- * Created by dungpv on 6/13/18.
- */
 
 public class Common {
     public static final String URL_SERVER = "http://18.216.126.225:3000";
@@ -107,25 +102,6 @@ public class Common {
             }
         }
         return null;
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-                                            int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
     }
 
     public static User getUserLogin() {

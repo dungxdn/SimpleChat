@@ -115,16 +115,6 @@ public class CustomToolbar extends RelativeLayout {
         return mButtonSharing;
     }
 
-//    @Click(R.id.mImgButtonAddGroup)
-//    public void addGroupChat() {
-//        AddGroupChatActivity_.intent(getContext()).start();
-//    }
-//
-//    @Click(R.id.mImgButtonSearch)
-//    public void showSearchView() {
-//        SearchGroupChatActivity_.intent(getContext()).start();
-//    }
-
     @Click({R.id.mImgButtonAddGroup, R.id.mImgButtonSearch, R.id.mImgButtonSetting})
     public void onClick(View view) {
         switch (view.getId()) {
