@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".BaseApp_"
@@ -45,7 +45,8 @@
 
         <activity android:name=".ui.CommentActivity_" />
         <activity android:name=".ui.CallBusyActivity_" />
-        <activity android:name=".ui.AddNewsActivity_"></activity>
+        <activity android:name=".ui.AddNewsActivity_" />
+        <activity android:name=".ui.ChooseLanguageActivity"></activity>
     </application>
 
 </manifest>
