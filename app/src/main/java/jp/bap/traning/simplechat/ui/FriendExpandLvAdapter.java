@@ -119,6 +119,7 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
         CircleImageView mAvatar = view.findViewById(R.id.mImgAvatar);
         AppCompatTextView mUserName = view.findViewById(R.id.mTvUserName);
         AppCompatTextView mStatus = view.findViewById(R.id.mtvStatus);
+        mStatus.setVisibility(View.GONE);
         AppCompatImageButton mImgButtonCall = view.findViewById(R.id.mImgButtonCall);
         AppCompatImageButton mImgButtonCallVideo = view.findViewById(R.id.mImgButtonCallVideo);
 

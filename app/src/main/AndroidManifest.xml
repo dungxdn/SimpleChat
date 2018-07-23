@@ -44,7 +44,8 @@
         <activity android:name=".ui.CommentActivity_" />
         <activity android:name=".ui.CallBusyActivity_" />
         <activity android:name=".ui.AddNewsActivity_" />
-        <activity android:name=".ui.ChooseLanguageActivity"></activity>
+        <activity android:name=".ui.ChooseLanguageActivity_" />
+        <activity android:name=".ui.AboutActivity_"></activity>
     </application>
 
 </manifest>

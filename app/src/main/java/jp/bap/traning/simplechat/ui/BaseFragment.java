@@ -187,7 +187,5 @@ public abstract class BaseFragment extends Fragment implements CallbackManager.L
     public void onNewsCome(News news) {
     }
 
-    ;
-
 
 }

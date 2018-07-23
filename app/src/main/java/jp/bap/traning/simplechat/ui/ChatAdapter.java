@@ -65,7 +65,7 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
         Glide.with(mContext).load(room.getAvatar()).apply(options).into(chatHolder.mAvatar);
 
         if (lastMessage == null) {
-            chatHolder.mTvContent.setText("Chưa có tin nhắn nào.");
+            chatHolder.mTvContent.setText(R.string.no_message);
             chatHolder.mTvTime.setVisibility(View.GONE);
         } else {
             chatHolder.mTvTime.setVisibility(View.VISIBLE);

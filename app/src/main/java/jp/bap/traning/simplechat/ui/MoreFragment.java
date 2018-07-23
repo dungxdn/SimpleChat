@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.esafirm.imagepicker.model.Image;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
@@ -50,6 +52,7 @@ public class MoreFragment extends BaseFragment {
     AppCompatTextView mTvUserName;
     @ViewById
     AppCompatImageButton mImgButtonEdit;
+
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
@@ -99,16 +102,23 @@ public class MoreFragment extends BaseFragment {
         Glide.with(getContext()).load(linkImage).apply(options).into(mImgAvata);
     }
 
-    @Click
-    void mlnLogout() {
-        logout();
+    @Click({R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout, R.id.mImgButtonEdit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mlnLogout:
+                logout();
+                break;
+            case R.id.lnLanguage:
+                ChooseLanguageActivity_.intent(this).startForResult(Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY);
+                break;
+            case R.id.lnAbout:
+                AboutActivity_.intent(getActivity()).start();
+                break;
+            case R.id.mImgButtonEdit:
+                setDialogEditProfile(userLogin, linkImage);
+                break;
+        }
     }
-
-    @Click
-    void mImgButtonEdit() {
-        setDialogEditProfile(userLogin, linkImage);
-    }
-
 
     public static String mFirstName = Common.getUserLogin().getFirstName();
     public static String mLastname = Common.getUserLogin().getLastName();
@@ -173,7 +183,9 @@ public class MoreFragment extends BaseFragment {
 
     private void logout() {
         //Delete session
+        String language = SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class);
         SharedPrefs.getInstance().clear();
+        SharedPrefs.getInstance().putData(Common.KEY_CHOOSE_LANGUAGE, language);
 
         //Stop Connect Server
         getBaseActivity().stopService(new Intent(getBaseActivity(), ChatService.class));
@@ -184,6 +196,11 @@ public class MoreFragment extends BaseFragment {
         //back to SplashActivity
         SplashActivity_.intent(this).extra(Common.REQUEST_LOGOUT_KEY, Common.REQUEST_LOGOUT).start();
         getActivity().finish();
+    }
+
+    @OnActivityResult(Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY)
+    public void reload() {
+        getActivity().recreate();
     }
 
     @Override
