@@ -1,11 +1,9 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -137,7 +135,7 @@ public class CallActivity extends BaseActivity {
         mLocalVideoView.setVisibility(View.GONE);
         mRemoteVideoView.setVisibility(View.GONE);
         if (isIncoming) {
-            animationShake = AnimationUtils.loadAnimation(CallActivity.this,R.anim.anim_shake);
+            animationShake = AnimationUtils.loadAnimation(CallActivity.this,R.anim.anim_shake_button_accept);
             if (isAudioCall) {
                 mtvStatus.setText("Incoming call audio from " + mRoom.getRoomName());
             } else {
