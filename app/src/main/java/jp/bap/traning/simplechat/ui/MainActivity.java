@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void init() {
+        overridePendingTransition(R.anim.anim_slides_down,R.anim.anim_slides_up);
         mToolbar.setTitle(getResources().getString(R.string.title_friend_fragment));
         mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getBackButton().setVisibility(View.GONE);
@@ -214,12 +215,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         checkCall = false;
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
-        checkCall = false;
-    }
 
     public void showProgressBar() {
         showProgressBar(mProgressBar);

@@ -2,15 +2,21 @@ package jp.bap.traning.simplechat.presenter.chattalks;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.lang.annotation.ElementType;
 
 import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksListener;
 
 public class PareseURL extends AsyncTask<String, Void, String> {
     private ChatTalksListener mCallBack;
     private static String link = "";
+    private static String srcImage="";
 
     PareseURL(ChatTalksListener callBack) {
         mCallBack = callBack;
@@ -24,6 +30,9 @@ public class PareseURL extends AsyncTask<String, Void, String> {
             Document document = Jsoup.connect(strings[0]).get();
             // Get document (HTML page) title
             title = document.title();
+            Element mElement = document.select("img").first();
+            srcImage = mElement.absUrl("src");
+            Log.d("url: "," "+srcImage);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -35,7 +44,7 @@ public class PareseURL extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if (!s.trim().isEmpty()) {
-            mCallBack.onRequestURLSuccess(link, s);
+            mCallBack.onRequestURLSuccess(link, s, srcImage);
         } else {
             mCallBack.onRequestURLFailed(link);
         }

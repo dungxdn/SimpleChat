@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -175,6 +176,7 @@ public class ChatAdapter extends RecyclerView.Adapter implements Filterable {
         public void onClick(View view) {
             Log.d(TAG, "onClick: " + mRoomId);
             ChatTalksActivity_.intent(mContext).roomId(mRoomId).start();
+            ((Activity) mContext).overridePendingTransition(R.anim.anim_slides_in_right,R.anim.anim_slides_out_left);
         }
     }
 }

@@ -1,41 +1,26 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.UserDAO;
 import jp.bap.traning.simplechat.model.Message;
-import jp.bap.traning.simplechat.presenter.chattalks.ChatTalksPresenter;
 import jp.bap.traning.simplechat.presenter.chattalks.PopUpBottomSheet;
 import jp.bap.traning.simplechat.utils.Common;
-import jp.bap.traning.simplechat.utils.Event;
-import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 public class ChatTalksAdapter extends RecyclerView.Adapter {
     private ArrayList<Message> messageArrayList;
@@ -125,6 +110,10 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             String arr[] = mMessage.getContent().split(";");
             linkMessageViewHolder.linkMessage.setText(arr[0]);
             linkMessageViewHolder.linkDescription.setText(arr[1]);
+            Log.d("ImageViewTest",arr[2]);
+            if (arr[2].isEmpty() == false) {
+                Common.setImage(mContext,arr[2],linkMessageViewHolder.imageView);
+            }
             if (Common.getUserLogin().getId() != mMessage.getUserID()) {
                 linkMessageViewHolder.txtName.setText(new UserDAO().getUser(mMessage.getUserID()).getFirstName());
             }
@@ -184,12 +173,13 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             imageView.setOnClickListener(view -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 FullScreenImageActivity_.intent(mContext).urlImage(message.getContent()).start();
-                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom_in, 0);
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom, 0);
             });
 
             sharePicture.setOnClickListener(view -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 SharingMessageActivity_.intent(mContext).message(message).start();
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
             });
         }
     }
@@ -200,6 +190,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
         AppCompatTextView linkMessage;
         AppCompatTextView linkDescription;
         AppCompatImageView shareLink;
+        AppCompatImageView imageView;
 
         public LinkMessageViewHolder(View itemView) {
             super(itemView);
@@ -208,10 +199,12 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             linkMessage = itemView.findViewById(R.id.txtLink);
             linkDescription = itemView.findViewById(R.id.txtLinkDescription);
             shareLink = itemView.findViewById(R.id.imgShareLink);
+            imageView = itemView.findViewById(R.id.imgBackground);
 
             shareLink.setOnClickListener(view -> {
                 Message message = messageArrayList.get(getAdapterPosition());
                 SharingMessageActivity_.intent(mContext).message(message).start();
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
             });
         }
     }

@@ -11,9 +11,10 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -31,7 +32,6 @@ import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
-
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -109,6 +109,7 @@ public class CallActivity extends BaseActivity {
     MediaStream mediaStreamRemote;
     private Room mRoom;
     private AudioManager mAudioManager;
+    public Animation animationShake;
 
     private String[] permissionRequired = new String[] {
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
@@ -136,6 +137,7 @@ public class CallActivity extends BaseActivity {
         mLocalVideoView.setVisibility(View.GONE);
         mRemoteVideoView.setVisibility(View.GONE);
         if (isIncoming) {
+            animationShake = AnimationUtils.loadAnimation(CallActivity.this,R.anim.anim_shake);
             if (isAudioCall) {
                 mtvStatus.setText("Incoming call audio from " + mRoom.getRoomName());
             } else {
@@ -143,6 +145,7 @@ public class CallActivity extends BaseActivity {
             }
             SoundManage.setAudioForMsgAndCall(this,R.raw.despacito_marimba_remix, true);
             mBtnAccept.setVisibility(View.VISIBLE);
+            mBtnAccept.startAnimation(animationShake);
         } else {
             if (isAudioCall) {
                 ChatService.getChat().emitCall(roomId, true);
@@ -397,16 +400,16 @@ public class CallActivity extends BaseActivity {
     })
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mBtnStop:
+            case R.id.mBtnStop: {
                 SoundManage.stop(this);
                 mtvStatus.setText("Call ended!!!");
                 ChatService.getChat().emitCallStop(roomId);
                 stop();
                 break;
-
-            case R.id.mBtnAccept:
+            }
+            case R.id.mBtnAccept: {
                 SoundManage.stop(this);
-                if(isAudioCall){
+                if (isAudioCall) {
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
                     mLocalVideoView.setVisibility(View.GONE);
@@ -421,27 +424,28 @@ public class CallActivity extends BaseActivity {
                     mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
                 }
                 mtvStatus.setVisibility(View.GONE);
+                mBtnAccept.clearAnimation();
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
-
-            case R.id.mBtnSwitchCamera:
+            }
+            case R.id.mBtnSwitchCamera: {
                 switchCamera();
                 break;
-
-            case R.id.mBtnTurnOnSpeaker:
+            }
+            case R.id.mBtnTurnOnSpeaker: {
                 mBtnTurnOnSpeaker.setVisibility(View.GONE);
                 mBtnTurnOffSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(true);
                 break;
-
-            case R.id.mBtnTurnOffSpeaker:
+            }
+            case R.id.mBtnTurnOffSpeaker: {
                 mBtnTurnOffSpeaker.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(false);
                 break;
-
-            case R.id.mBtnTurnOnVideoCam:
+            }
+            case R.id.mBtnTurnOnVideoCam: {
                 mBtnTurnOnVideoCam.setVisibility(View.GONE);
                 mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
                 mBtnSwitchCamera.setVisibility(View.VISIBLE);
@@ -452,8 +456,8 @@ public class CallActivity extends BaseActivity {
                             .emitTurnOnCamera(roomId, true, Common.getUserLogin().getId());
                 }
                 break;
-
-            case R.id.mBtnTurnOffVideoCam:
+            }
+            case R.id.mBtnTurnOffVideoCam: {
                 mBtnTurnOffVideoCam.setVisibility(View.GONE);
                 mBtnTurnOnVideoCam.setVisibility(View.VISIBLE);
                 mBtnSwitchCamera.setVisibility(View.GONE);
@@ -468,6 +472,7 @@ public class CallActivity extends BaseActivity {
                     }
                 }
                 break;
+            }
         }
     }
 

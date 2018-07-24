@@ -52,10 +52,12 @@ public class SplashActivity extends BaseActivity {
         if (isConnectedNetwork() == false) {
             isNotWifi = true;
             NetworkActivity_.intent(this).start();
+            overridePendingTransition(R.anim.anim_from_midle,R.anim.anim_to_midle);
         } else {
             int mMineId = SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
             if (mMineId == 0) {
                 LoginActivity_.intent(this).startForResult(Common.REQUEST_LOGIN);
+                overridePendingTransition(R.anim.anim_from_midle,R.anim.anim_to_midle);
             } else {
                 init();
             }
