@@ -142,9 +142,9 @@ public class CallActivity extends BaseActivity {
         if (isIncoming) {
             animationShake = AnimationUtils.loadAnimation(CallActivity.this, R.anim.anim_shake_button_accept);
             if (isAudioCall) {
-                mtvStatus.setText("Incoming call audio from " + mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_audio) + " "+mRoom.getRoomName());
             } else {
-                mtvStatus.setText("Incoming call video from " + mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video)+ " "+mRoom.getRoomName());
             }
             SoundManage.setAudioForMsgAndCall(this, R.raw.despacito_marimba_remix, true);
             mBtnAccept.setVisibility(View.VISIBLE);
@@ -152,15 +152,18 @@ public class CallActivity extends BaseActivity {
             pulsatorLayout.start();
         } else {
             if (isAudioCall) {
-                ChatService.getChat().emitCall(roomId, true);
-                mtvStatus.setText("Calling audio to " + mRoom.getRoomName());
+                if (ChatService.getChat() != null) {
+                    ChatService.getChat().emitCall(roomId, true);
+                }
+                mtvStatus.setText(getResources().getString(R.string.text_call_audio_to) + " "+mRoom.getRoomName());
             } else {
-                ChatService.getChat().emitCall(roomId, false);
-                mtvStatus.setText("Calling video to " + mRoom.getRoomName());
+                if (ChatService.getChat() != null) {
+                    ChatService.getChat().emitCall(roomId, false);
+                }
+                mtvStatus.setText(getResources().getString(R.string.text_call_video_to) + " "+mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.GONE);
-            pulsatorLayout.setVisibility(View.GONE);
-            mBtnTurnOnSpeaker.setVisibility(View.GONE);
+            pulsatorLayout.start();
         }
     }
 
@@ -171,7 +174,7 @@ public class CallActivity extends BaseActivity {
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
                 ChatService.getChat().emitCallStop(roomId);
-                Toast.makeText(this, "You need to accept permission to continue!",
+                Toast.makeText(this, getResources().getString(R.string.text_accept_permission),
                         Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -408,7 +411,7 @@ public class CallActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.mBtnStop: {
                 SoundManage.stop(this);
-                mtvStatus.setText("Call ended!!!");
+                mtvStatus.setText(getResources().getString(R.string.text_call_end));
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCallStop(roomId);
                 }
@@ -516,6 +519,8 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onCallAccept() {
         super.onCallAccept();
+        pulsatorLayout.stop();
+        pulsatorLayout.setVisibility(View.GONE);
         createPeerConnection();
         doCall();
         if (isAudioCall) {
@@ -648,6 +653,7 @@ public class CallActivity extends BaseActivity {
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
         }
+        MainActivity.checkCall = false;
         finish();
     }
 }

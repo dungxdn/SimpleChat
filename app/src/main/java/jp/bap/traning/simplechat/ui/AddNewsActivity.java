@@ -34,7 +34,6 @@ import jp.bap.traning.simplechat.widget.CustomToolbar;
 public class AddNewsActivity extends BaseActivity {
 
     private static String linkImage = "";
-    private final String ADD_NEWS_TITLE = "Create News";
 
     @ViewById
     CircleImageView mAvatarAddNews;
@@ -57,7 +56,7 @@ public class AddNewsActivity extends BaseActivity {
     }
 
     private void setupToolbar() {
-        mToolbar.setTitle(ADD_NEWS_TITLE);
+        mToolbar.setTitle(getResources().getString(R.string.title_tab_add_news));
         mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.getSharingButton().setVisibility(View.VISIBLE);
         mToolbar.getBackButton().setVisibility(View.VISIBLE);
@@ -71,7 +70,9 @@ public class AddNewsActivity extends BaseActivity {
                 Toast.makeText(this, "Please choose a picture!", Toast.LENGTH_SHORT).show();
             } else {
                 //Send Event to Server
-                ChatService.getChat().emitCreateNews(new News(Common.getUserLogin(), edtDescription.getText().toString(), linkImage));
+                if (ChatService.getChat() != null) {
+                    ChatService.getChat().emitCreateNews(new News(Common.getUserLogin(), edtDescription.getText().toString(), linkImage));
+                }
                 Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
                 Common.hideKeyboard(this);
                 finish();

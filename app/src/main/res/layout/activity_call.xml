@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,130 +19,122 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/mLnAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_40sdp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnSpeaker"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_speaker"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"/>
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffSpeaker"
-            android:visibility="gone"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_off_speaker"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"/>
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnVideoCam"
-            android:visibility="gone"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_videocam_white"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"/>
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffVideoCam"
-            android:visibility="gone"
-            android:layout_marginRight="@dimen/_50sdp"
-            android:background="@drawable/ic_turn_off_videocam_white"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"/>
-    </RelativeLayout>
-
-    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-        android:id="@+id/pulsatorLayout"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
-        app:layout_constraintRight_toLeftOf="@+id/mBtnStop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:pulse_count="4"
-        app:pulse_duration="5000"
-        app:pulse_repeat="0"
-        app:pulse_color="@color/colorGreenDark"
-        app:pulse_startFromScratch="false"
-        app:pulse_interpolator="Decelerate"
-        >
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mBtnAccept"
-            android:background="@drawable/call_come"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_centerInParent="true"
-            />
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/ic_turn_off_videocam_white"
+            android:visibility="gone" />
 
-    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnAccept"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:background="@drawable/call_come" />
 
-    <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/mBtnStop"
-        android:background="@drawable/call_end"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginBottom="@dimen/_40sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/mLnAction"
-        />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/mBtnStop"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/call_end" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/mtvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="248dp"
+        android:layout_marginTop="@dimen/_120sdp"
         android:maxLines="1"
         android:text="Status"
         android:textColor="@color/red"
-        android:layout_marginTop="@dimen/_120sdp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/mAvatar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/mImgAvatarCallAudio"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:src="@drawable/ic_avatar_default"
+    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+        android:id="@+id/pulsatorLayout"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/mLnAction"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:pulse_color="@color/colorAccent"
+        app:pulse_count="4"
+        app:pulse_duration="5000"
+        app:pulse_interpolator="Decelerate"
+        app:pulse_repeat="0"
+        app:pulse_startFromScratch="false">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mImgAvatarCallAudio"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_avatar_default"
+            android:visibility="visible" />
+
+    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/mBtnSwitchCamera"
-        android:visibility="gone"
-        android:src="@drawable/ic_switch_camera"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        />
-
-    <TextView
-        android:id="@+id/mTvTurnOffVideoCam"
-        android:textColor="@color/red"
-        android:layout_marginBottom="@dimen/_100sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mImgAvatarCallAudio"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_switch_camera"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mTvTurnOffVideoCam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:textColor="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pulsatorLayout" />
 
 </android.support.constraint.ConstraintLayout>

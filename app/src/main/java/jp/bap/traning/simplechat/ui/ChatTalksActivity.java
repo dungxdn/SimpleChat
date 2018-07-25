@@ -111,8 +111,10 @@ public class ChatTalksActivity extends BaseActivity {
 
 
     private void setupToolbar() {
-        mToolbar.getCallButton().setVisibility(View.VISIBLE);
-        mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
+        if (mRoom.getType()==0){
+            mToolbar.getCallButton().setVisibility(View.VISIBLE);
+            mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
+        }
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
         mToolbar.getSettingButton().setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(ChatTalksActivity.this, mToolbar.getSettingButton());
@@ -215,7 +217,7 @@ public class ChatTalksActivity extends BaseActivity {
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
             public void onRequestURLSuccess(String link, String title, String srcImage) {
-                if (srcImage.isEmpty()){
+                if (srcImage.isEmpty()) {
                     srcImage = "fail";
                 }
                 message = new Message(link + ";" + title + ";" + srcImage, Common.getUserLogin().getId(), roomId, Common.typeLink);
