@@ -81,7 +81,7 @@ public class SharingMessageActivity extends BaseActivity  {
                     int result = isRoomExits(new RoomDAO().getAllRoom(), listUsersId);
                     if (result == sDEFAULT_VALUE_IF_NOT_EXITS_GROUP){
                      //Tao nhom roi gui tin nhan
-                     mAddRoomPresenter2.addroom(listUsersId, 0, null, new AddRoomView() {
+                     mAddRoomPresenter2.addroom(listUsersId, 0, null, null, new AddRoomView() {
                          @Override
                          public void onSuccess(AddRoomResponse result) {
                              mUserRealmList.add(Common.getUserLogin());

@@ -225,7 +225,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             mListUserId.clear();
         }
         mListUserId.add(userId);
-        mAddRoomPresenter.addroom(mListUserId, Common.TYPE_GROUP_TWO_PEOPLE, "", new AddRoomView() {
+        mAddRoomPresenter.addroom(mListUserId, Common.TYPE_GROUP_TWO_PEOPLE, "", null, new AddRoomView() {
             @Override
             public void onSuccess(AddRoomResponse result) {
                 Room mRoom = new Room();

@@ -45,6 +45,7 @@ import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
+import org.webrtc.Logging;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
@@ -248,6 +249,7 @@ public class CallActivity extends BaseActivity {
         // First, try to find front facing camera
         Log.d(TAG, "Looking for front facing cameras.");
         for (String deviceName : deviceNames) {
+            Log.d("DeviceName", deviceName);
             if (enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating front facing camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
@@ -260,10 +262,10 @@ public class CallActivity extends BaseActivity {
         // Front facing camera not found, try something else
         Log.d(TAG, "Looking for other cameras.");
         for (String deviceName : deviceNames) {
+            Log.d("DeviceName", deviceName);
             if (!enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating other camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
                 if (videoCapturer != null) {
                     return videoCapturer;
                 }
@@ -637,6 +639,9 @@ public class CallActivity extends BaseActivity {
         }
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
+        }
+        if (localPeer != null) {
+            localPeer.close();
         }
         finish();
     }

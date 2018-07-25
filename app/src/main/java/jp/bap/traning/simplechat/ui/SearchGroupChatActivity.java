@@ -53,6 +53,8 @@ public class SearchGroupChatActivity extends BaseActivity {
         mToolbar.getSearchView().setVisibility(View.VISIBLE);
         mToolbar.getTvTitle().setVisibility(View.GONE);
         mToolbar.getSettingButton().setVisibility(View.GONE);
+        mToolbar.getBackButton().setVisibility(View.VISIBLE);
+        mToolbar.getBackButton().setOnClickListener((v) -> {finish();});
     }
 
     public void configRecyclerView() {

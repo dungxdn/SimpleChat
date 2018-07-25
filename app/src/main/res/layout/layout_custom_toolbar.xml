@@ -113,10 +113,17 @@
 
         <android.support.v7.widget.SearchView
             android:id="@+id/mSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@null"
             android:visibility="gone"
-            app:iconifiedByDefault="false"></android.support.v7.widget.SearchView>
+            android:searchHintIcon="@null"
+            app:queryHint="@string/hint_search_group"
+            android:layout_margin="@dimen/_5sdp"
+            android:background="@drawable/shape_searchview"
+            android:layout_toRightOf="@id/mImgButtonBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.SearchView>
 
     </RelativeLayout>
 

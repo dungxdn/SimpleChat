@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
 import jp.bap.traning.simplechat.response.AddRoomResponse;
 import jp.bap.traning.simplechat.service.ApiClient;
 import jp.bap.traning.simplechat.utils.Common;
@@ -16,7 +17,8 @@ class AddRoomInteractor {
     AddRoomInteractor() {
     }
 
-    void addRoom(List<Integer> ids, int type, String roomName, AddRoomView callback) {
+    void addRoom(List<Integer> ids, int type, @Nullable String roomName, @Nullable String avatar,
+            AddRoomView callback) {
 
         Call<AddRoomResponse> mCallUser = ApiClient.getService().createRoom(ids, type, roomName);
         mCallUser.enqueue(new Callback<AddRoomResponse>() {
