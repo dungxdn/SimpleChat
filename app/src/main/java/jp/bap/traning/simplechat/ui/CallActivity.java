@@ -31,6 +31,7 @@ import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -83,6 +84,8 @@ public class CallActivity extends BaseActivity {
     AppCompatImageButton mBtnTurnOffVideoCam;
     @ViewById
     TextView mTvTurnOffVideoCam;
+    @ViewById
+    PulsatorLayout pulsatorLayout;
     @Extra
     int roomId;
     @Extra
@@ -146,6 +149,7 @@ public class CallActivity extends BaseActivity {
             SoundManage.setAudioForMsgAndCall(this, R.raw.despacito_marimba_remix, true);
             mBtnAccept.setVisibility(View.VISIBLE);
             mBtnAccept.startAnimation(animationShake);
+            pulsatorLayout.start();
         } else {
             if (isAudioCall) {
                 ChatService.getChat().emitCall(roomId, true);
@@ -155,6 +159,8 @@ public class CallActivity extends BaseActivity {
                 mtvStatus.setText("Calling video to " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.GONE);
+            pulsatorLayout.setVisibility(View.GONE);
+            mBtnTurnOnSpeaker.setVisibility(View.GONE);
         }
     }
 
@@ -411,6 +417,8 @@ public class CallActivity extends BaseActivity {
             }
             case R.id.mBtnAccept: {
                 SoundManage.stop(this);
+                pulsatorLayout.stop();
+                pulsatorLayout.setVisibility(View.GONE);
                 if (isAudioCall) {
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
@@ -418,6 +426,7 @@ public class CallActivity extends BaseActivity {
                     mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
                     mAudioManager.setSpeakerphoneOn(false);
                 } else {
+                    mBtnTurnOnSpeaker.setVisibility(View.GONE);
                     mImgAvatarCallAudio.setVisibility(View.GONE);
                     mRemoteVideoView.setVisibility(View.VISIBLE);
                     mLocalVideoView.setVisibility(View.VISIBLE);

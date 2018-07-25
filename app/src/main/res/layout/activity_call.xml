@@ -31,7 +31,6 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnSpeaker"
-            android:visibility="gone"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_speaker"
             android:layout_width="@dimen/_40sdp"
@@ -60,15 +59,32 @@
             android:background="@drawable/ic_turn_off_videocam_white"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"/>
+    </RelativeLayout>
 
+    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+        android:id="@+id/pulsatorLayout"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        app:layout_constraintRight_toLeftOf="@+id/mBtnStop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:pulse_count="4"
+        app:pulse_duration="5000"
+        app:pulse_repeat="0"
+        app:pulse_color="@color/colorGreenDark"
+        app:pulse_startFromScratch="false"
+        app:pulse_interpolator="Decelerate"
+        >
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnAccept"
-            android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/call_come"
             android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"/>
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerInParent="true"
             />
-    </RelativeLayout>
+
+    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/mBtnStop"
