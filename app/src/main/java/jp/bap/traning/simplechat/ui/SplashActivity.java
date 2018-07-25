@@ -21,6 +21,7 @@ import jp.bap.traning.simplechat.presenter.rooms.GetRoomsPresenter;
 import jp.bap.traning.simplechat.presenter.rooms.GetRoomsView;
 import jp.bap.traning.simplechat.response.RoomResponse;
 import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.LocaleManager;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 
 /**
@@ -35,6 +36,11 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void afterView() {
+        if (SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class).equals("")) {
+            LocaleManager.setLocale(getApplicationContext(), "en");
+        } else {
+            LocaleManager.setLocale(getApplicationContext(), SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class));
+        }
         setUp();
     }
 

@@ -39,9 +39,10 @@
 
 
     //SharingMessage Activity
+    <string name="title_sharing_message">Sharing</string>
     <string name="button_sharing_message">Sharing</string>
     <string name="text_message_send">message send...</string>
-    <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
+    <string name="hind_text_view_title">Send as message to</string>
     //NetWork Activity
     <string name="capture">No Internet Connection</string>
     <string name="description">Your phone is currently not connected to the internet. Please set up a connection!</string>
@@ -62,6 +63,7 @@
     <string name="str_about">About</string>
     <string name="str_not_have_room">You not have room chat</string>
     <string name="empty" translatable="false" />
+    <string name="no_message">No messages yet</string>
 
     //AddNews Fragment
     <string name="edt_description">Say something about this picture...</string>
@@ -84,4 +86,13 @@
 
     <string name="title_new_group">New group</string>
     <string name="btn_create_group">Create</string>
+
+    //Choose Language Activity
+    <string name="lang_en">English</string>
+    <string name="lang_vi">Vietnamese</string>
+
+    //About Activity
+    <string name="about_version">Current version: 1.0.0</string>
+    <string name="about_product">Product of BAP\'s interns, 2018</string>
+    <string name="about_contact">Contact us: greenchatting@gmail.com</string>
 </resources>
