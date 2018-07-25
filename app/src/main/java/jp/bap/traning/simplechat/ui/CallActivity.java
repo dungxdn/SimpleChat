@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -30,6 +31,7 @@ import jp.bap.traning.simplechat.webrtc.CustomPeerConnectionObserver;
 import jp.bap.traning.simplechat.webrtc.CustomSdpObserver;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -109,7 +111,7 @@ public class CallActivity extends BaseActivity {
     private AudioManager mAudioManager;
     public Animation animationShake;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -135,13 +137,13 @@ public class CallActivity extends BaseActivity {
         mLocalVideoView.setVisibility(View.GONE);
         mRemoteVideoView.setVisibility(View.GONE);
         if (isIncoming) {
-            animationShake = AnimationUtils.loadAnimation(CallActivity.this,R.anim.anim_shake_button_accept);
+            animationShake = AnimationUtils.loadAnimation(CallActivity.this, R.anim.anim_shake_button_accept);
             if (isAudioCall) {
                 mtvStatus.setText("Incoming call audio from " + mRoom.getRoomName());
             } else {
                 mtvStatus.setText("Incoming call video from " + mRoom.getRoomName());
             }
-            SoundManage.setAudioForMsgAndCall(this,R.raw.despacito_marimba_remix, true);
+            SoundManage.setAudioForMsgAndCall(this, R.raw.despacito_marimba_remix, true);
             mBtnAccept.setVisibility(View.VISIBLE);
             mBtnAccept.startAnimation(animationShake);
         } else {
@@ -158,7 +160,7 @@ public class CallActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
@@ -401,7 +403,9 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop: {
                 SoundManage.stop(this);
                 mtvStatus.setText("Call ended!!!");
-                ChatService.getChat().emitCallStop(roomId);
+                if (ChatService.getChat() != null) {
+                    ChatService.getChat().emitCallStop(roomId);
+                }
                 stop();
                 break;
             }

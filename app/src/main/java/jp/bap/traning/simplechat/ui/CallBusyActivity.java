@@ -31,6 +31,7 @@ public class CallBusyActivity extends BaseActivity {
 
     @Override
     public void afterView() {
+        overridePendingTransition(R.anim.anim_shake,0);
         if (mUser != null) {
             Common.setAvatar(this, mUser.getId(), mAvatar);
             txtName.setText(mUser.getFirstName() + " " + mUser.getLastName());

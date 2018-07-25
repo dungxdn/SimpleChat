@@ -120,6 +120,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
                     mNews.setUsersLike(temp);
                     imageButtonLike.setImageResource(R.drawable.like);
                     mNews.setIsLike(mNews.getIsLike() - 1);
+                    imageButtonLike.clearAnimation();
                 }
                 txtLike.setText(mNews.getIsLike() + " like and");
                 if (ChatService.getChat() != null) {

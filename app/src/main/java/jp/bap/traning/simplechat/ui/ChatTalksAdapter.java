@@ -110,8 +110,7 @@ public class ChatTalksAdapter extends RecyclerView.Adapter {
             String arr[] = mMessage.getContent().split(";");
             linkMessageViewHolder.linkMessage.setText(arr[0]);
             linkMessageViewHolder.linkDescription.setText(arr[1]);
-            Log.d("ImageViewTest",arr[2]);
-            if (arr[2].isEmpty() == false) {
+            if (arr[2].equals("fail") == false) {
                 Common.setImage(mContext,arr[2],linkMessageViewHolder.imageView);
             }
             if (Common.getUserLogin().getId() != mMessage.getUserID()) {

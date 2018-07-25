@@ -146,7 +146,6 @@ public class ChatTalksActivity extends BaseActivity {
                 overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             } else {
                 CallBusyActivity_.intent(ChatTalksActivity.this).mUser(mUser).status(Common.CALL_NO_ONE).start();
-                overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             }
         });
         mToolbar.getCallButton().setOnClickListener(view -> {
@@ -156,7 +155,6 @@ public class ChatTalksActivity extends BaseActivity {
                 overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             } else {
                 CallBusyActivity_.intent(ChatTalksActivity.this).mUser(mUser).status(Common.CALL_NO_ONE).start();
-                overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             }
         });
     }
@@ -217,6 +215,9 @@ public class ChatTalksActivity extends BaseActivity {
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
             public void onRequestURLSuccess(String link, String title, String srcImage) {
+                if (srcImage.isEmpty()){
+                    srcImage = "fail";
+                }
                 message = new Message(link + ";" + title + ";" + srcImage, Common.getUserLogin().getId(), roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
@@ -229,7 +230,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link + ";" + "No preview available", Common.getUserLogin().getId(), roomId, Common.typeLink);
+                message = new Message(link + ";" + "No preview available" + ";" + "fail", Common.getUserLogin().getId(), roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);

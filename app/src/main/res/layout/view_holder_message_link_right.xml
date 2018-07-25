@@ -21,7 +21,6 @@
         android:layout_width="@dimen/_230sdp"
         android:layout_height="@dimen/_230sdp"
         android:background="@drawable/quick_edit_large_shadow"
-        android:orientation="vertical"
         app:layout_constraintRight_toLeftOf="@+id/mAvatar"
         app:layout_constraintTop_toTopOf="parent">
 
