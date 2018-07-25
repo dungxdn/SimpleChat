@@ -38,7 +38,6 @@ import jp.bap.traning.simplechat.widget.CustomToolbar_;
 
 @EActivity(R.layout.activity_sharing_message)
 public class SharingMessageActivity extends BaseActivity  {
-    private String TITLE = "Chuyển Tiếp";
     private ArrayList<User> mUserList;
     private List<Integer> mIdListPick;
     private SharingMessageAdapter sharingMessageAdapter;
@@ -160,7 +159,7 @@ public class SharingMessageActivity extends BaseActivity  {
     }
 
     public void setupToolbar() {
-        mToolbar.setTitle(TITLE);
+        mToolbar.setTitle(getResources().getString(R.string.title_sharing_message));
         mToolbar.getBackButton().setOnClickListener(v -> finish());
         mToolbar.getSettingButton().setVisibility(View.GONE);
     }

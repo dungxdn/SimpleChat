@@ -38,8 +38,9 @@
     <string name="title_more_fragment">Thêm</string>
 
     //SharingMessage Activity
+    <string name="title_sharing_message">Chuyển tiếp</string>
     <string name="button_sharing_message">Chia sẻ</string>
-    <string name="text_message_send">Đang gởi...</string>
+    <string name="text_message_send">Nội dung</string>
     <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
     //NetWork Activity
     <string name="capture">Không có kết nối internet</string>
@@ -60,6 +61,7 @@
     <string name="str_about">Thông tin</string>
     <string name="str_not_have_room">You not have room chat</string>
     <string name="empty" translatable="false" />
+    <string name="no_message">Chưa có tin nhắn nào</string>
 
     //AddNews Fragment
     <string name="edt_description">Nói điều gì về hình ảnh này...</string>
@@ -79,7 +81,17 @@
     <string name="menu_member">Thành viên</string>
     <string name="menu_setting">Cài đặt</string>
     <string name="menu_help">Trợ giúp</string>
+
     //AddGroupActivity
     <string name="title_new_group">Thêm nhóm trò chuyện</string>
     <string name="btn_create_group">Tạo nhóm</string>
+
+    //Choose Language Activity
+    <string name="lang_en">Tiếng Anh</string>
+    <string name="lang_vi">Tiếng Việt</string>
+
+    //About Activity
+    <string name="about_version">Phiên bản hiện tại: 1.0.0</string>
+    <string name="about_product">Một sản phẩm của nhóm thực tập sinh BAP, 2018</string>
+    <string name="about_contact">Liên hệ: greenchatting@gmail.com</string>
 </resources>
