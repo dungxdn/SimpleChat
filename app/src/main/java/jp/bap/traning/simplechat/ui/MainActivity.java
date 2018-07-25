@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
-    private static boolean checkCall = false;
+    public static boolean checkCall = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setCurrentItem(1);
         mViewPager.addOnPageChangeListener(this);
-        mViewPager.setPageTransformer(false,new FlipPageViewTransformer());
+        mViewPager.setPageTransformer(false, new FlipPageViewTransformer());
 
         //Setup tab icon
         int length = mTabLayout.getTabCount();

@@ -98,13 +98,10 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onStart() {
         super.onStart();
-        mRealmDAO.realmChanged(new RealmDAO.Listener() {
-            @Override
-            public void onRealmChanged(Object o, int check) {
-                me.clear();
-                me.add(Common.getUserLogin());
-                mFriendAdapter.notifyDataSetChanged();
-            }
+        mRealmDAO.realmChanged((o, check) -> {
+            me.clear();
+            me.add(Common.getUserLogin());
+            mFriendAdapter.notifyDataSetChanged();
         });
     }
 
@@ -121,6 +118,9 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         me.clear();
         me.add(Common.getUserLogin());
         mFriendAdapter.notifyDataSetChanged();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().getUsersOnline();
+        }
     }
 
     @Override
@@ -304,4 +304,5 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             }
         });
     }
+
 }
