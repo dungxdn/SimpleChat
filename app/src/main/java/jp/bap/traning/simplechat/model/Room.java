@@ -19,10 +19,11 @@ public class Room extends RealmObject {
     int roomId;
     @Nullable
     String roomName;
+    @Nullable
     String avatar;
     /*
-    Room 2 person -> type = 0;
-    Group -> type = 1;
+    Room 2 person -> type = 0, avatar = null;
+    Group -> type = 1, avatar = link;
      */
     int type;
     RealmList<User> users;

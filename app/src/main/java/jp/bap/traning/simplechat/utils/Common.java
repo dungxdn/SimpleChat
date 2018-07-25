@@ -45,7 +45,7 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
-    public static final String TURN_URL = "stun:stun.l.google.com:19302";
+    public static final String STUN_URL = "stun:stunserver.org:3478";
     public static final int CALL_BUSY = 1;
     public static final int CALL_NO_ONE = 2;
     public static final String KEY_CHOOSE_LANGUAGE = "CHOOSE_LANGUAGE";
@@ -80,12 +80,12 @@ public class Common {
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
                         room.setRoomName(user.getFirstName()
                                 + " "
-                                + user.getLastName()
-                                + "("
-                                + user.getId()
-                                + ")("
-                                + room.getRoomId()
-                                + ")");
+                                + user.getLastName());
+//                                + "("
+//                                + user.getId()
+//                                + ")("
+//                                + room.getRoomId()
+//                                + ")");
                         room.setAvatar(user.getAvatar());
                         break;
                     }

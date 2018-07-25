@@ -10,4 +10,6 @@ public class RoomData {
     @Nullable
     String roomName;
     int type;
+    @Nullable
+    String avatar;
 }
