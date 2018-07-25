@@ -5,15 +5,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.User;
@@ -72,6 +69,7 @@ public class NewsFragment extends BaseFragment {
             newsArrayList.get(position).setCountComment(news.getCountComment());
             newsAdapter.notifyItemChanged(position);
         } else {
+            SoundManage.setAudioForMsgAndCall(getContext(),R.raw.you_have_a_new,false);
             newsArrayList.add(0, news);
             newsAdapter.notifyItemInserted(0);
             listViewNews.smoothScrollToPosition(0);
@@ -110,5 +108,9 @@ public class NewsFragment extends BaseFragment {
         return false;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().overridePendingTransition(R.anim.anim_slides_in_left,0);
+    }
 }

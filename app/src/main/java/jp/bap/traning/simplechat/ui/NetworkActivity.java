@@ -19,7 +19,7 @@ public class NetworkActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-
+        overridePendingTransition(R.anim.anim_shake,0);
     }
 
     @Click

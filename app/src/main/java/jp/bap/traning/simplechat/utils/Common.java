@@ -48,6 +48,8 @@ public class Common {
     public static final String STUN_URL = "stun:stunserver.org:3478";
     public static final int CALL_BUSY = 1;
     public static final int CALL_NO_ONE = 2;
+    public static final String KEY_CHOOSE_LANGUAGE = "CHOOSE_LANGUAGE";
+    public static final int REQUEST_CHOOSE_LANGUAGE_ACTIVITY = 102;
     public static ArrayList<User> usersOnline = new ArrayList<>();
     //    public static final int mMineId =
 //            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);

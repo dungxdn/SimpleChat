@@ -28,7 +28,7 @@
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
             android:padding="@dimen/_8sdp"
-            android:text="SHARE"
+            android:text="@string/action_share"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"

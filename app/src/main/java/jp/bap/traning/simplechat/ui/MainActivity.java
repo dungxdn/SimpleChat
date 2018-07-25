@@ -21,6 +21,7 @@ import android.widget.Toast;
 import jp.bap.traning.simplechat.model.News;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -30,7 +31,10 @@ import jp.bap.traning.simplechat.database.RealmDAO;
 import jp.bap.traning.simplechat.presenter.news.NewsPresenter;
 import jp.bap.traning.simplechat.service.ChatService;
 import jp.bap.traning.simplechat.utils.Common;
+import jp.bap.traning.simplechat.utils.LocaleManager;
+import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
+import jp.bap.traning.simplechat.widget.FlipPageViewTransformer;
 import lombok.Getter;
 
 @EActivity(R.layout.activity_main)
@@ -50,7 +54,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
-    private static boolean checkCall = false;
+    public static boolean checkCall = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void afterView() {
+        if (SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class).equals("")) {
+            LocaleManager.setLocale(getApplicationContext(), "en");
+        } else {
+            LocaleManager.setLocale(getApplicationContext(), SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class));
+        }
         hiddenProgressBar();
         init();
     }
@@ -89,6 +98,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setCurrentItem(1);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setPageTransformer(false, new FlipPageViewTransformer());
 
         //Setup tab icon
         int length = mTabLayout.getTabCount();
@@ -112,8 +122,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0: {
+                mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
-                mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.add_news));
+                mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_add_a_photo));
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
                 mToolbar.getmTvCreateNews().setVisibility(View.GONE);
@@ -209,11 +220,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
+    protected void onResume() {
+        super.onResume();
         checkCall = false;
     }
+
 
     public void showProgressBar() {
         showProgressBar(mProgressBar);
@@ -230,7 +241,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             mMoreFragment.pickAvatar = false;
             mMoreFragment.onActivityResult(requestCode, resultCode, data);
         }
+        if (resultCode == RESULT_OK && requestCode == Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY) {
+            Log.d(TAG, "onActivityResult: REQUEST_CHOOSE_LANGUAGE_ACTIVITY");
+            recreate();
+        }
     }
+
 
     @Override
     public void onCall(int roomId, boolean isAudioCall) {
@@ -242,6 +258,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     .roomId(roomId)
                     .isAudioCall(isAudioCall)
                     .start();
+            overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             //Notify the caller
             if (ChatService.getChat() != null) {
@@ -249,4 +266,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         }
     }
+
+
 }

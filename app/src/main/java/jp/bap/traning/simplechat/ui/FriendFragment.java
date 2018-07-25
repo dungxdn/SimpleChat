@@ -98,13 +98,10 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
     @Override
     public void onStart() {
         super.onStart();
-        mRealmDAO.realmChanged(new RealmDAO.Listener() {
-            @Override
-            public void onRealmChanged(Object o, int check) {
-                me.clear();
-                me.add(Common.getUserLogin());
-                mFriendAdapter.notifyDataSetChanged();
-            }
+        mRealmDAO.realmChanged((o, check) -> {
+            me.clear();
+            me.add(Common.getUserLogin());
+            mFriendAdapter.notifyDataSetChanged();
         });
     }
 
@@ -121,6 +118,9 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
         me.clear();
         me.add(Common.getUserLogin());
         mFriendAdapter.notifyDataSetChanged();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().getUsersOnline();
+        }
     }
 
     @Override
@@ -194,6 +194,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     .isAudioCall(true)
                     .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
+            getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
@@ -211,6 +212,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     .isAudioCall(false)
                     .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
+            getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
@@ -252,6 +254,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                         .isAudioCall(false)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
+                                getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
                                 break;
                             case ACTIVITY_CHAT:
                                 //Start ChatActivity
@@ -267,6 +270,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                         .isAudioCall(true)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
+                                getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
                                 break;
                         }
                     }
@@ -300,4 +304,5 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
             }
         });
     }
+
 }

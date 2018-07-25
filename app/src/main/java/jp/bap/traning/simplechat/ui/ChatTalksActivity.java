@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
@@ -68,6 +71,7 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Override
     public void afterView() {
+        overridePendingTransition(R.anim.anim_together, 0);
         init();
         setupToolbar();
         addEvents();
@@ -75,8 +79,8 @@ public class ChatTalksActivity extends BaseActivity {
 
     @Click
     void imgSendMessage() {
-
         if (edtMessage.getText().toString().trim().isEmpty()) {
+            edtMessage.startAnimation(AnimationUtils.loadAnimation(ChatTalksActivity.this, R.anim.anim_shake));
             Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
         } else {
             if (ChatService.getChat() != null) {
@@ -107,8 +111,10 @@ public class ChatTalksActivity extends BaseActivity {
 
 
     private void setupToolbar() {
-        mToolbar.getCallButton().setVisibility(View.VISIBLE);
-        mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
+        if (mRoom.getType()==0){
+            mToolbar.getCallButton().setVisibility(View.VISIBLE);
+            mToolbar.getCallVideoButton().setVisibility(View.VISIBLE);
+        }
         mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_more_vert));
         mToolbar.getSettingButton().setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(ChatTalksActivity.this, mToolbar.getSettingButton());
@@ -139,6 +145,7 @@ public class ChatTalksActivity extends BaseActivity {
             User mUser = Common.getFriendFromRoom(new RoomDAO().getRoomFromRoomId(roomId));
             if (Common.checkUserOnline(mUser.getId()) == true) {
                 CallActivity_.intent(ChatTalksActivity.this).isIncoming(false).isAudioCall(false).roomId(roomId).start();
+                overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             } else {
                 CallBusyActivity_.intent(ChatTalksActivity.this).mUser(mUser).status(Common.CALL_NO_ONE).start();
             }
@@ -147,6 +154,7 @@ public class ChatTalksActivity extends BaseActivity {
             User mUser = Common.getFriendFromRoom(new RoomDAO().getRoomFromRoomId(roomId));
             if (Common.checkUserOnline(mUser.getId()) == true) {
                 CallActivity_.intent(ChatTalksActivity.this).isIncoming(false).isAudioCall(true).roomId(roomId).start();
+                overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
             } else {
                 CallBusyActivity_.intent(ChatTalksActivity.this).mUser(mUser).status(Common.CALL_NO_ONE).start();
             }
@@ -208,8 +216,11 @@ public class ChatTalksActivity extends BaseActivity {
         //Create ChatTalksPresenter
         this.chatTalksPresenter = new ChatTalksPresenter(new ChatTalksListener() {
             @Override
-            public void onRequestURLSuccess(String link, String title) {
-                message = new Message(link + ";" + title, Common.getUserLogin().getId(), roomId, Common.typeLink);
+            public void onRequestURLSuccess(String link, String title, String srcImage) {
+                if (srcImage.isEmpty()) {
+                    srcImage = "fail";
+                }
+                message = new Message(link + ";" + title + ";" + srcImage, Common.getUserLogin().getId(), roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -221,7 +232,7 @@ public class ChatTalksActivity extends BaseActivity {
 
             @Override
             public void onRequestURLFailed(String link) {
-                message = new Message(link + ";" + "No preview available", Common.getUserLogin().getId(), roomId, Common.typeLink);
+                message = new Message(link + ";" + "No preview available" + ";" + "fail", Common.getUserLogin().getId(), roomId, Common.typeLink);
                 listMessage.add(message);
                 chatTalksAdapter.notifyDataSetChanged();
                 listViewChat.smoothScrollToPosition(listMessage.size() - 1);
@@ -329,6 +340,7 @@ public class ChatTalksActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Log.d("ChatTalksActivity", "onResume");
+        overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
     }
 
     @Override
@@ -339,4 +351,5 @@ public class ChatTalksActivity extends BaseActivity {
             finish();
         }
     }
+
 }

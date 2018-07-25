@@ -1,11 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -15,19 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.RealmList;
 import jp.bap.traning.simplechat.R;
-import jp.bap.traning.simplechat.database.UserDAO;
-import jp.bap.traning.simplechat.model.Comment;
 import jp.bap.traning.simplechat.model.Message;
 import jp.bap.traning.simplechat.model.News;
 import jp.bap.traning.simplechat.model.User;
@@ -72,6 +61,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
+        private Animation animButtonLike;
         CircleImageView avatar;
         AppCompatTextView txtName, txtName2;
         AppCompatImageView imageView;
@@ -99,19 +89,21 @@ public class NewsAdapter extends RecyclerView.Adapter {
             imageButtonComment = itemView.findViewById(R.id.btnComment);
             txtLike = itemView.findViewById(R.id.countLike);
             txtComment = itemView.findViewById(R.id.countComment);
+            animButtonLike = AnimationUtils.loadAnimation(mContext,R.anim.anim_hyperspace_jump);
         }
 
         private void addEvents() {
             imageView.setOnClickListener(view -> {
                 News mNews = newsArrayList.get(getAdapterPosition());
                 FullScreenImageActivity_.intent(mContext).urlImage(mNews.getImageView()).start();
-                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom_in, 0);
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_zoom, 0);
             });
 
             imageButtonShare.setOnClickListener(view -> {
                 News mNews = newsArrayList.get(getAdapterPosition());
                 Message mMessage = new Message(mNews.getImageView(), Common.getUserLogin().getId(), -1, Common.typeImage);
                 SharingMessageActivity_.intent(mContext).message(mMessage).start();
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
             });
 
             imageButtonLike.setOnClickListener(view -> {
@@ -122,11 +114,13 @@ public class NewsAdapter extends RecyclerView.Adapter {
                     mNews.setUsersLike(temp);
                     imageButtonLike.setImageResource(R.drawable.heart);
                     mNews.setIsLike(mNews.getIsLike() + 1);
+                    imageButtonLike.startAnimation(animButtonLike);
                 } else {
                     temp.remove(Common.getUserLogin());
                     mNews.setUsersLike(temp);
                     imageButtonLike.setImageResource(R.drawable.like);
                     mNews.setIsLike(mNews.getIsLike() - 1);
+                    imageButtonLike.clearAnimation();
                 }
                 txtLike.setText(mNews.getIsLike() + " like and");
                 if (ChatService.getChat() != null) {
@@ -135,9 +129,11 @@ public class NewsAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            imageButtonComment.setOnClickListener(view -> CommentActivity_.intent(mContext).mNews(newsArrayList.get(getAdapterPosition())).start());
+            imageButtonComment.setOnClickListener(view -> {
+                CommentActivity_.intent(mContext).mNews(newsArrayList.get(getAdapterPosition())).start();
+                ((Activity) mContext).overridePendingTransition(R.anim.anim_slides_down, R.anim.anim_slides_up);
+            });
+
         }
-
-
     }
 }
