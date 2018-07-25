@@ -1,5 +1,6 @@
 package jp.bap.traning.simplechat.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
@@ -7,7 +8,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import jp.bap.traning.simplechat.ui.AddNewsActivity_;
@@ -130,6 +130,7 @@ public class CustomToolbar extends RelativeLayout {
 
             case R.id.mImgButtonSetting: {
                 AddNewsActivity_.intent(getContext()).start();
+                ((Activity)context).overridePendingTransition(R.anim.anim_slides_in_right,R.anim.anim_slides_out_left);
                 break;
             }
 

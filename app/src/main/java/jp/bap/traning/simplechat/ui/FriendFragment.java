@@ -194,6 +194,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     .isAudioCall(true)
                     .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
+            getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
@@ -211,6 +212,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     .isAudioCall(false)
                     .start();
             ((MainActivity) getActivity()).hiddenProgressBar();
+            getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             addRoomAndSaveRoomToRealm(mUserRealmList, mListUserId, userId, ACTIVITY_VIDEO_CALL);
         }
@@ -252,6 +254,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                         .isAudioCall(false)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
+                                getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
                                 break;
                             case ACTIVITY_CHAT:
                                 //Start ChatActivity
@@ -267,6 +270,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                                         .isAudioCall(true)
                                         .start();
                                 ((MainActivity) getActivity()).hiddenProgressBar();
+                                getActivity().overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
                                 break;
                         }
                     }

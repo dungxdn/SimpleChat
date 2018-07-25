@@ -34,6 +34,7 @@ import jp.bap.traning.simplechat.utils.Common;
 import jp.bap.traning.simplechat.utils.LocaleManager;
 import jp.bap.traning.simplechat.utils.SharedPrefs;
 import jp.bap.traning.simplechat.widget.CustomToolbar_;
+import jp.bap.traning.simplechat.widget.FlipPageViewTransformer;
 import lombok.Getter;
 
 @EActivity(R.layout.activity_main)
@@ -97,6 +98,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setCurrentItem(1);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setPageTransformer(false,new FlipPageViewTransformer());
 
         //Setup tab icon
         int length = mTabLayout.getTabCount();
@@ -218,11 +220,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
+    protected void onResume() {
+        super.onResume();
         checkCall = false;
     }
+
 
     public void showProgressBar() {
         showProgressBar(mProgressBar);
@@ -256,6 +258,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     .roomId(roomId)
                     .isAudioCall(isAudioCall)
                     .start();
+            overridePendingTransition(R.anim.anim_from_midle, R.anim.anim_to_midle);
         } else {
             //Notify the caller
             if (ChatService.getChat() != null) {

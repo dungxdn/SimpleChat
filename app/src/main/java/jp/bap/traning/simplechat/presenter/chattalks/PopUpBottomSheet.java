@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.presenter.chattalks;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -104,6 +105,7 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
             case R.id.popUpShare: {
                 try {
                     SharingMessageActivity_.intent(this).message(mMessage).start();
+                    getActivity().overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
                     dismiss();
                     break;
                 } catch (Exception e) {

@@ -94,5 +94,7 @@ dependencies {
     implementation "org.webrtc:google-webrtc:1.0.22920"
     //Exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+    //Animation
+    implementation 'pl.bclogic:pulsator4droid:1.0.3'
 
 }

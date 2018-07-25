@@ -233,4 +233,8 @@ public class SharingMessageActivity extends BaseActivity  {
         return null;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

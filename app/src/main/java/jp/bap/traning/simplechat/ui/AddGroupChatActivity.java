@@ -59,6 +59,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @AfterViews
     public void afterView() {
+        overridePendingTransition(R.anim.anim_together,0);
         setupToolbar();
         init();
     }

@@ -19,7 +19,8 @@
     <color name="colorOpacity">#da161b1d</color>
     <color name="greenCircle">#780dff00</color>
 
-    <color name="colorGreen">#50ae7d</color>
+    <color name="colorGreen">#54ba85</color>
+    <color name="colorGreenSplash">#008f1f</color>
     <color name="colorGreenLight">#9ddebc</color>
     <color name="colorGreenDark">#1d874a</color>
     <color name="colorGray">#a4a6a5</color>
