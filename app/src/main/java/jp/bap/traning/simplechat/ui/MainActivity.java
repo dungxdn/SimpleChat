@@ -220,7 +220,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        ChatService.setChatManagerNull();
     }
 
     @Override
