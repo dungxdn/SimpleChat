@@ -3,16 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/bg_gray"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray">
+
+    <ImageView
+        android:id="@+id/mCoverPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_170sdp"
+        android:background="@drawable/test1"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layoutTop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorGreen"
+        android:layout_height="@dimen/_170sdp"
+        android:background="#80437b50"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_20sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvata"
@@ -36,17 +43,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mImgButtonEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
-            android:background="@android:color/transparent"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintLeft_toRightOf="@id/mTvUserName"
-            app:layout_constraintTop_toBottomOf="@id/mImgAvata" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
@@ -69,9 +65,9 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/lnUpdateProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lnContact"
                 android:background="@drawable/bg_item_more"
                 android:orientation="horizontal">
 
@@ -79,14 +75,14 @@
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:padding="@dimen/_13sdp"
-                    android:src="@drawable/ic_contact" />
+                    android:src="@drawable/ic_edit_info" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:padding="@dimen/_10sdp"
                     android:gravity="center_vertical"
-                    android:text="@string/str_contact"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/str_update_profile"
                     android:textColor="@color/colorGrayDark" />
 
             </LinearLayout>
@@ -103,9 +99,9 @@
                     android:background="@color/brightGrey" />
 
                 <LinearLayout
+                    android:id="@+id/lnLanguage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lnLanguage"
                     android:background="@drawable/bg_item_more"
                     android:orientation="horizontal">
 
@@ -118,10 +114,10 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        android:padding="@dimen/_10sdp"
                         android:gravity="center_vertical"
+                        android:padding="@dimen/_10sdp"
                         android:text="@string/str_language"
-                        android:textColor="@color/colorGrayDark"/>
+                        android:textColor="@color/colorGrayDark" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -138,9 +134,9 @@
                     android:background="@color/brightGrey" />
 
                 <LinearLayout
+                    android:id="@+id/lnAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lnAbout"
                     android:background="@drawable/bg_item_more"
                     android:orientation="horizontal">
 
@@ -153,9 +149,9 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/_10sdp"
                         android:text="@string/str_about"
-                        android:gravity="center_vertical"
                         android:textColor="@color/colorGrayDark" />
 
                 </LinearLayout>
@@ -204,9 +200,9 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
+                android:gravity="center_vertical"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/str_logout"
-                android:gravity="center_vertical"
                 android:textColor="@color/colorGrayDark" />
 
         </LinearLayout>
