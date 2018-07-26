@@ -465,7 +465,6 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnTurnOnVideoCam:
                 mBtnTurnOnVideoCam.setVisibility(View.GONE);
                 mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
-                mBtnSwitchCamera.setVisibility(View.VISIBLE);
                 mLocalVideoView.setVisibility(View.VISIBLE);
                 if (videoCapturerAndroid != null) {
                     videoCapturerAndroid.startCapture(1280, 720, 30);
@@ -477,7 +476,6 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnTurnOffVideoCam:
                 mBtnTurnOffVideoCam.setVisibility(View.GONE);
                 mBtnTurnOnVideoCam.setVisibility(View.VISIBLE);
-                mBtnSwitchCamera.setVisibility(View.GONE);
                 mLocalVideoView.setVisibility(View.GONE);
                 if (videoCapturerAndroid != null) {
                     try {

@@ -46,7 +46,7 @@
     <string name="capture">Không có kết nối internet</string>
     <string name="description">Thiết bị của bạn chưa có kết nối internet. Hãy thiết lập kết nối!</string>
     <string name="button_try_again"><u>Thử lại!</u></string>
-    //
+
     //Fragment
     <string name="title_tab_friend">Bạn bè</string>
     <string name="title_tab_chat">Nhắn tin</string>
@@ -106,4 +106,7 @@
     <string name="about_version">Phiên bản hiện tại: 1.0.0</string>
     <string name="about_product">Một sản phẩm của nhóm thực tập sinh BAP, 2018</string>
     <string name="about_contact">Liên hệ: greenchatting@gmail.com</string>
+
+    //SearchGroupChat
+    <string name="hint_search_group">Tìm kiếm nhóm, bạn bè ...</string>
 </resources>

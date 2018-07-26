@@ -20,7 +20,6 @@
     <string name="hint_firstname">Firstname</string>
     <string name="hint_groupname">Group Name</string>
     <string name="hint_search">Search</string>
-    <string name="hint_search_group">Search Group</string>
     <string name="text_please_inpur_all_info">Please input all info!</string>
     <string name="text_success_register">Register success!</string>
     <string name="text_error_register">Register error. Please check again!</string>
@@ -107,4 +106,7 @@
     <string name="about_version">Current version: 1.0.0</string>
     <string name="about_product">Product of BAP\'s interns, 2018</string>
     <string name="about_contact">Contact us: greenchatting@gmail.com</string>
+
+    //SearchGroupChat Activity
+    <string name="hint_search_group">Search group, friend ...</string>
 </resources>
