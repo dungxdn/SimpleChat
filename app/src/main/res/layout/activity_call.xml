@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -30,35 +31,35 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnSpeaker"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_speaker"
-            android:visibility="gone" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffSpeaker"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_off_speaker"
-            android:visibility="gone" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnVideoCam"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_videocam_white"
-            android:visibility="gone" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffVideoCam"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/_50sdp"
             android:background="@drawable/ic_turn_off_videocam_white"
-            android:visibility="gone" />
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"/>
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnAccept"
@@ -69,9 +70,9 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnStop"
+            android:background="@drawable/call_end"
             android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:background="@drawable/call_end" />
+            android:layout_height="@dimen/_40sdp"/>
 
     </LinearLayout>
 
@@ -122,7 +123,7 @@
         android:layout_marginLeft="@dimen/_6sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_switch_camera"
+        android:src="@drawable/ic_switch_camera_white"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

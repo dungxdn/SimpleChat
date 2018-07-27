@@ -45,7 +45,7 @@ public class Common {
     public static final String typeText = "text";
     public static final String typeImage = "image";
     public static final String typeLink = "link";
-    public static final String TURN_URL = "stun:stun.l.google.com:19302";
+    public static final String STUN_URL = "stun:stunserver.org:3478";
     public static final int CALL_BUSY = 1;
     public static final int CALL_NO_ONE = 2;
     public static final String KEY_CHOOSE_LANGUAGE = "CHOOSE_LANGUAGE";
@@ -54,18 +54,6 @@ public class Common {
     //    public static final int mMineId =
 //            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
-
-
-    public static void connectToServerSocket(Context context, String host, int token) {
-        if (ChatService.getChat() == null) {
-            Intent i = new Intent(context, ChatService.class);
-            i.putExtra("host", host);
-            i.putExtra("token", token);
-            context.startService(i);
-        } else {
-            Log.d(TAG, "connectToServerSocket: Service started ");
-        }
-    }
 
     public static Room getRoomWithUser(int userId) {
         return new RoomDAO().getRoomWithUser(userId);
@@ -80,12 +68,12 @@ public class Common {
                             .getData(SharedPrefs.KEY_SAVE_ID, Integer.class)) {
                         room.setRoomName(user.getFirstName()
                                 + " "
-                                + user.getLastName()
-                                + "("
-                                + user.getId()
-                                + ")("
-                                + room.getRoomId()
-                                + ")");
+                                + user.getLastName());
+//                                + "("
+//                                + user.getId()
+//                                + ")("
+//                                + room.getRoomId()
+//                                + ")");
                         room.setAvatar(user.getAvatar());
                         break;
                     }

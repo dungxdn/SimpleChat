@@ -48,6 +48,7 @@ import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
+import org.webrtc.Logging;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
@@ -114,7 +115,7 @@ public class CallActivity extends BaseActivity {
     private AudioManager mAudioManager;
     public Animation animationShake;
 
-    private String[] permissionRequired = new String[]{
+    private String[] permissionRequired = new String[] {
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -191,9 +192,9 @@ public class CallActivity extends BaseActivity {
     }
 
     private void getIceServers() {
-        PeerConnection.IceServer peerIceServer =
-                PeerConnection.IceServer.builder(Common.TURN_URL).createIceServer();
-        peerIceServers.add(peerIceServer);
+        PeerConnection.IceServer peerIceServerSTUN =
+                PeerConnection.IceServer.builder(Common.STUN_URL).createIceServer();
+        peerIceServers.add(peerIceServerSTUN);
     }
 
     public void start() {
@@ -219,6 +220,7 @@ public class CallActivity extends BaseActivity {
 
         //set external speaker if video call
         mAudioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
+
         //Now create a VideoCapturer instance.
         videoCapturerAndroid = createFrontCameraCapturer(new Camera1Enumerator(false));
         //Create MediaConstraints - Will be useful for specifying video and audio constraints.
@@ -261,6 +263,7 @@ public class CallActivity extends BaseActivity {
         // First, try to find front facing camera
         Log.d(TAG, "Looking for front facing cameras.");
         for (String deviceName : deviceNames) {
+            Log.d("DeviceName", deviceName);
             if (enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating front facing camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
@@ -273,10 +276,10 @@ public class CallActivity extends BaseActivity {
         // Front facing camera not found, try something else
         Log.d(TAG, "Looking for other cameras.");
         for (String deviceName : deviceNames) {
+            Log.d("DeviceName", deviceName);
             if (!enumerator.isFrontFacing(deviceName)) {
                 Log.d(TAG, "Creating other camera capturer.");
                 VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
                 if (videoCapturer != null) {
                     return videoCapturer;
                 }
@@ -409,7 +412,7 @@ public class CallActivity extends BaseActivity {
     })
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mBtnStop: {
+            case R.id.mBtnStop:
                 SoundManage.stop(this);
                 mtvStatus.setText(getResources().getString(R.string.text_call_end));
                 if (ChatService.getChat() != null) {
@@ -417,8 +420,8 @@ public class CallActivity extends BaseActivity {
                 }
                 stop();
                 break;
-            }
-            case R.id.mBtnAccept: {
+
+            case R.id.mBtnAccept:
                 SoundManage.stop(this);
                 pulsatorLayout.stop();
                 pulsatorLayout.setVisibility(View.GONE);
@@ -442,24 +445,24 @@ public class CallActivity extends BaseActivity {
                 mBtnAccept.setVisibility(View.GONE);
                 ChatService.getChat().emitCallAccept(roomId);
                 break;
-            }
-            case R.id.mBtnSwitchCamera: {
+
+            case R.id.mBtnSwitchCamera:
                 switchCamera();
                 break;
-            }
-            case R.id.mBtnTurnOnSpeaker: {
+
+            case R.id.mBtnTurnOnSpeaker:
                 mBtnTurnOnSpeaker.setVisibility(View.GONE);
                 mBtnTurnOffSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(true);
                 break;
-            }
-            case R.id.mBtnTurnOffSpeaker: {
+
+            case R.id.mBtnTurnOffSpeaker:
                 mBtnTurnOffSpeaker.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
                 mAudioManager.setSpeakerphoneOn(false);
                 break;
-            }
-            case R.id.mBtnTurnOnVideoCam: {
+
+            case R.id.mBtnTurnOnVideoCam:
                 mBtnTurnOnVideoCam.setVisibility(View.GONE);
                 mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
                 mBtnSwitchCamera.setVisibility(View.VISIBLE);
@@ -470,8 +473,8 @@ public class CallActivity extends BaseActivity {
                             .emitTurnOnCamera(roomId, true, Common.getUserLogin().getId());
                 }
                 break;
-            }
-            case R.id.mBtnTurnOffVideoCam: {
+
+            case R.id.mBtnTurnOffVideoCam:
                 mBtnTurnOffVideoCam.setVisibility(View.GONE);
                 mBtnTurnOnVideoCam.setVisibility(View.VISIBLE);
                 mBtnSwitchCamera.setVisibility(View.GONE);
@@ -486,7 +489,6 @@ public class CallActivity extends BaseActivity {
                     }
                 }
                 break;
-            }
         }
     }
 
@@ -524,10 +526,15 @@ public class CallActivity extends BaseActivity {
         createPeerConnection();
         doCall();
         if (isAudioCall) {
-            mRemoteVideoView.setVisibility(View.GONE);
-            mLocalVideoView.setVisibility(View.GONE);
-            mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
-            mAudioManager.setSpeakerphoneOn(false);
+            try {
+                mRemoteVideoView.setVisibility(View.GONE);
+                mLocalVideoView.setVisibility(View.GONE);
+                mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
+                mAudioManager.setSpeakerphoneOn(false);
+                videoCapturerAndroid.stopCapture();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             mImgAvatarCallAudio.setVisibility(View.GONE);
             mRemoteVideoView.setVisibility(View.VISIBLE);
@@ -555,6 +562,7 @@ public class CallActivity extends BaseActivity {
             mImgAvatarCallAudio.setVisibility(View.GONE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_white);
             mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_white);
+            mBtnSwitchCamera.setBackgroundResource(R.drawable.ic_switch_camera_white);
         } else {
             User user = new UserDAO().getUser(userId);
             String userName = user.getFirstName() + " " + user.getLastName();
@@ -564,6 +572,7 @@ public class CallActivity extends BaseActivity {
             mImgAvatarCallAudio.setVisibility(View.VISIBLE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_black);
             mBtnTurnOffVideoCam.setBackgroundResource(R.drawable.ic_turn_off_videocam_black);
+            mBtnSwitchCamera.setBackgroundResource(R.drawable.ic_switch_camera_black);
         }
     }
 
@@ -633,11 +642,6 @@ public class CallActivity extends BaseActivity {
             mediaStreamLocal.removeTrack(localAudioTrack);
             mediaStreamLocal.dispose();
         }
-        if (mediaStreamRemote != null) {
-            mediaStreamRemote.removeTrack(localVideoTrack);
-            mediaStreamRemote.removeTrack(localAudioTrack);
-            mediaStreamRemote.dispose();
-        }
         if (audioConstraints != null) {
             audioConstraints = null;
         }
@@ -645,13 +649,21 @@ public class CallActivity extends BaseActivity {
             audioSource.dispose();
         }
         if (videoCapturerAndroid != null) {
-            videoCapturerAndroid.dispose();
+            try {
+                videoCapturerAndroid.stopCapture();
+                videoCapturerAndroid.dispose();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (mLocalVideoView != null) {
             mLocalVideoView.release();
         }
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
+        }
+        if (localPeer != null) {
+            localPeer.close();
         }
         MainActivity.checkCall = false;
         finish();
