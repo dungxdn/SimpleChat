@@ -31,15 +31,14 @@ public class CallBusyActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        overridePendingTransition(R.anim.anim_fade_in,0);
         SoundManage.stop(this);
         if (mUser != null) {
             Common.setAvatar(this, mUser.getId(), mAvatar);
             txtName.setText(mUser.getFirstName() + " " + mUser.getLastName());
             if (status == Common.CALL_BUSY) {
-                txtStatus.setText(txtName.getText() + " is having another conversation");
+                txtStatus.setText(txtName.getText() + getResources().getString(R.string.busy));
             } else {        //this case is: status == Common.CALL_NO_ONE
-                txtStatus.setText(txtName.getText() + " is not online. Please try in the next time!");
+                txtStatus.setText(txtName.getText() + getResources().getString(R.string.not_online));
             }
         }
     }

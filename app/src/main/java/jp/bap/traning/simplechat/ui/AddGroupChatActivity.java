@@ -139,7 +139,7 @@ public class AddGroupChatActivity extends BaseActivity {
         //if haven't pick someone
         if (mIdList.size() <= 0) {
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.pick_someone), Toast.LENGTH_SHORT).show();
             return;
         }
         //
@@ -211,7 +211,7 @@ public class AddGroupChatActivity extends BaseActivity {
             @Override
             public void onFailure() {
                 hiddenProgressBar(mProgressBar);
-                Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddGroupChatActivity.this, getResources().getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -242,7 +242,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
                         @Override
                         public void onFailure() {
-                            Toast.makeText(AddGroupChatActivity.this, "Failed", Toast.LENGTH_SHORT)
+                            Toast.makeText(AddGroupChatActivity.this, getResources().getString(R.string.failed), Toast.LENGTH_SHORT)
                                     .show();
                         }
                     });
@@ -285,7 +285,6 @@ public class AddGroupChatActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter("ChangedLanguage");
     }
 
     @Override

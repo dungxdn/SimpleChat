@@ -55,6 +55,7 @@ public class CommentActivity extends BaseActivity {
 
     @Override
     public void afterView() {
+        overridePendingTransition(R.anim.anim_slides_in_left,0);
         setupToolbar();
         init();
         getAllCommentFirst();
@@ -114,7 +115,7 @@ public class CommentActivity extends BaseActivity {
     @Click(R.id.imgButtonSendComment)
     public void sendComment() {
         if (edtComment.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Say your feeling...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.have_not_input_comment), Toast.LENGTH_SHORT).show();
         } else {
             Comment mComment = new Comment(mNews.getIdNews(), Common.getUserLogin(), edtComment.getText().toString());
             //Update News

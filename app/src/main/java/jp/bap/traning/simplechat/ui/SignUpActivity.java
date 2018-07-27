@@ -90,7 +90,7 @@ public class SignUpActivity extends BaseActivity {
                             }
                         });
             } else {
-                Toast.makeText(this, "Password is not confirm!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.password_not_confirm), Toast.LENGTH_SHORT).show();
             }
         }
     }

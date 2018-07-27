@@ -9,6 +9,7 @@
     <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Register</string>
     <string name="text_not_input_username_pass">Please input usename and password!</string>
+
     //SignUp Activity
     <string name="text_create_accout">Create Account</string>
     <string name="text_not_account"> Do not have an account? </string>
@@ -23,12 +24,15 @@
     <string name="text_success_register">Register success!</string>
     <string name="text_error_register">Register error. Please check again!</string>
     <string name="text_fail_register">Register fail. Please check again!</string>
+    <string name="password_not_confirm">"Password is not confirm!"</string>
+
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
     <string name="popupcopy">Copy</string>
     <string name="popupshare">Share</string>
     <string name="popupdelete">Delete</string>
+    <string name="have_not_input_message">"You have't input message"</string>
 
     //MainActivity
     <string name="title_friend_fragment">Friends</string>
@@ -43,12 +47,17 @@
     <string name="button_sharing_message">Sharing</string>
     <string name="text_message_send">message send...</string>
     <string name="hind_text_view_title">Send as message to</string>
+
     //NetWork Activity
     <string name="capture">No Internet Connection</string>
     <string name="description">Your phone is currently not connected to the internet. Please set up a connection!</string>
     <string name="button_try_again"><u>Try Again!</u></string>
+    <string name="no_connection">"No Internet. Please Try again!"</string>
+
     //Comment Activity
     <string name="hint_edt_comment"><u>Input your comment</u></string>
+    <string name="have_not_input_comment">"You have't input your's comment"</string>
+
     //Fragment
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
@@ -76,6 +85,7 @@
     <string name="confirm_logout">Are you sure you want to Logout?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="update_success">Update success</string>
 
     //Dialog
     <string name="dialog_cancel">Cancel</string>
@@ -95,6 +105,8 @@
     <string name="btn_create_group">Create</string>
     <string name="hint_groupname">"Group's Name"</string>
     <string name="text_insert_group_name">"Insert group's name"</string>
+    <string name="pick_someone">Pick someone!</string>
+    <string name="failed">Failed, try again!</string>
 
     //Choose Language Activity
     <string name="lang_en">English</string>
@@ -106,6 +118,7 @@
     <string name="text_call_audio_to">Calling audio to </string>
     <string name="text_call_video_to">Calling video to</string>
     <string name="text_call_end">Call ended!</string>
+    <string name="turn_off_camera"> was turn off camera!</string>
 
     //Permission
     <string name="text_accept_permission">You need to accept permission to continue!  </string>
@@ -117,4 +130,13 @@
 
     //SearchGroupChat Activity
     <string name="hint_search_group">Search group, friend ...</string>
+
+    //CallBusy Activity
+    <string name="busy"> is having another conversation</string>
+    <string name="not_online"> is not online!</string>
+
+    //AddNews Acivity
+    <string name="say_something">Just say something....</string>
+    <string name="pick_picture">Please choose a picture!</string>
+    <string name="share_success">Share News Success!</string>
 </resources>

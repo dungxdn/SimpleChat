@@ -8,6 +8,7 @@
     <string name="text_forgot_password">Quên mật khẩu? </string>
     <string name="text_register">Đăng kí mới</string>
     <string name="text_not_input_username_pass">Vui lòng nhập đủ tên và mật khẩu!</string>
+
     //SignUp Activity
     <string name="text_create_accout">Tạo mới tài khoản</string>
     <string name="text_not_account">Bạn chưa có tài khoản? </string>
@@ -22,12 +23,15 @@
     <string name="text_success_register">Đăng kí thành công!</string>
     <string name="text_error_register">Đăng kí lỗi. Vui lòng kiểm tra lại!</string>
     <string name="text_fail_register">Đăng kí thất bại. Vui lòng kiểm tra lại!</string>
+    <string name="password_not_confirm">"Mật khẩu không đúng!"</string>
+
     //ChatTalks Activity
     <string name="textview_text_chat_name">Bạn bè</string>
     <string name="edittext_input_message">Nhập nội dung tin nhắn</string>
     <string name="popupcopy">Sao chép</string>
     <string name="popupshare">Chia sẻ</string>
     <string name="popupdelete">Xóa</string>
+    <string name="have_not_input_message">Bạn chưa nhập tin nhắc!</string>
 
     //MainActivity
     <string name="title_friend_fragment">Bạn bè</string>
@@ -41,10 +45,16 @@
     <string name="button_sharing_message">Chia sẻ</string>
     <string name="text_message_send">Nội dung</string>
     <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
+
     //NetWork Activity
     <string name="capture">Không có kết nối internet</string>
     <string name="description">Thiết bị của bạn chưa có kết nối internet. Hãy thiết lập kết nối!</string>
     <string name="button_try_again"><u>Thử lại!</u></string>
+    <string name="no_connection">Không có kết nối. Thử lại!</string>
+
+    //Comment Activity
+    <string name="hint_edt_comment">Bình luận</string>
+    <string name="have_not_input_comment">"Bạn chưa nhập bình luận!"</string>
 
     //Fragment
     <string name="title_tab_friend">Bạn bè</string>
@@ -73,6 +83,7 @@
     <string name="confirm_logout">Bạn có chắc muốn đăng xuất?</string>
     <string name="yes">có</string>
     <string name="no">không</string>
+    <string name="update_success">Cập nhật thành công</string>
 
     //Dialog
     <string name="dialog_cancel">Trở về</string>
@@ -92,6 +103,8 @@
     <string name="btn_create_group">Tạo</string>
     <string name="hint_groupname">Tên nhóm</string>
     <string name="text_insert_group_name">Thêm tên nhóm</string>
+    <string name="pick_someone">Chọn bạn bè để tạo cuộc trò chuyện!</string>
+    <string name="failed">Không thể tạo mới cuộc trò chuyện, thử lại!</string>
 
     //Choose Language Activity
     <string name="lang_en">Tiếng Anh</string>
@@ -102,7 +115,8 @@
     <string name="text_incoming_call_video">Cuộc gọi video từ </string>
     <string name="text_call_audio_to">Đang gọi tới </string>
     <string name="text_call_video_to">Đang gọi video tới </string>
-    <string name="text_call_end">Kết thúc cuộc gọi!</string>
+    <string name="text_call_end">Kết thúc cọi!</string>
+    <string name="turn_off_camera"> đã tắt camera!</string>
 
 
     //Permission
@@ -113,6 +127,16 @@
     <string name="about_product">Một sản phẩm của nhóm thực tập sinh BAP, 2018</string>
     <string name="about_contact">Liên hệ: greenchatting@gmail.com</string>
 
-    //SearchGroupChat
+    //SearchGroupChat Activity
     <string name="hint_search_group">Tìm kiếm nhóm, bạn bè ...</string>
+
+    //CallBusy Activity
+    <string name="busy"> đang có cuộc trò chuyện khác</string>
+    <string name="not_online"> đang khồn hoạt động!</string>
+
+
+    //AddNews Acivity
+    <string name="say_something">Nói gì đó về điều này...</string>
+    <string name="pick_picture">Hãy ch!</string>
+    <string name="share_success">Chia sẻ thành công!</string>
 </resources>

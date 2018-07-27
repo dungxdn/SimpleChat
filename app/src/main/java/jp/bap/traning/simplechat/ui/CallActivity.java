@@ -60,7 +60,6 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoRenderer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
-import org.webrtc.NetworkMonitorAutoDetect;
 
 @EActivity(R.layout.activity_call)
 public class CallActivity extends BaseActivity {
@@ -573,7 +572,7 @@ public class CallActivity extends BaseActivity {
             User user = new UserDAO().getUser(userId);
             String userName = user.getFirstName() + " " + user.getLastName();
             mRemoteVideoView.setVisibility(View.GONE);
-            mTvTurnOffVideoCam.setText(userName + " was turn off camera!");
+            mTvTurnOffVideoCam.setText(userName + getResources().getString(R.string.turn_off_camera));
             mTvTurnOffVideoCam.setVisibility(View.VISIBLE);
             mImgAvatarCallAudio.setVisibility(View.VISIBLE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_black);

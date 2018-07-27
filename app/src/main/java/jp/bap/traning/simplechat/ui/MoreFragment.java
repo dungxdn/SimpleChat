@@ -103,7 +103,7 @@ public class MoreFragment extends BaseFragment {
         Glide.with(getContext()).load(linkImage).apply(options).into(mImgAvata);
     }
 
-    @Click({ R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout, R.id.mImgButtonEdit })
+    @Click({ R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mlnLogout:
@@ -115,9 +115,6 @@ public class MoreFragment extends BaseFragment {
                 break;
             case R.id.lnAbout:
                 AboutActivity_.intent(getActivity()).start();
-                break;
-            case R.id.mImgButtonEdit:
-                setDialogEditProfile(userLogin, linkImage);
                 break;
         }
     }
@@ -160,7 +157,7 @@ public class MoreFragment extends BaseFragment {
                     edtLastName.getText().toString(), linkImage, new UpdateUserView() {
                         @Override
                         public void onSuccess(BaseResponse result) {
-                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
                                     .show();
                             user.setAvatar(linkImage);
                             user.setFirstName(edtFirstName.getText().toString());
@@ -171,13 +168,13 @@ public class MoreFragment extends BaseFragment {
 
                         @Override
                         public void onError(String message, int code) {
-                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
                                     .show();
                         }
 
                         @Override
                         public void onFailure() {
-                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
                                     .show();
                         }
                     });
