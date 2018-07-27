@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,8 +24,6 @@ import javax.annotation.Nullable;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
-import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
@@ -170,7 +169,7 @@ public class AddGroupChatActivity extends BaseActivity {
         //if haven't input groups's name
         if (mIdListFully.size() > 2 && mEdtGroupName.getText().toString().isEmpty()) {
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "Please, insert group's name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.text_insert_group_name), Toast.LENGTH_SHORT).show();
             return;
         }
         if (mIdListFully.size() > 2) {
@@ -281,5 +280,16 @@ public class AddGroupChatActivity extends BaseActivity {
             mIdList.remove(new Integer(users.getId()));
         }
         mAddGroupChatAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("ChangedLanguage");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

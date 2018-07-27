@@ -18,7 +18,6 @@
     <string name="hint_lastname">Lastname</string>
     <string name="hint_confirm_pass">Confirm password</string>
     <string name="hint_firstname">Firstname</string>
-    <string name="hint_groupname">Group Name</string>
     <string name="hint_search">Search</string>
     <string name="text_please_inpur_all_info">Please input all info!</string>
     <string name="text_success_register">Register success!</string>
@@ -36,6 +35,7 @@
     <string name="title_news_fragment">News</string>
     <string name="title_chat_fragment">Chat</string>
     <string name="title_more_fragment">More</string>
+    <string name="text_click_back_again_to_exit">Please click BACK again to exit</string>
 
 
     //SharingMessage Activity
@@ -85,8 +85,11 @@
     <string name="menu_setting">Setting</string>
     <string name="menu_help">Help</string>
 
+    //AddGroupChat Activity
     <string name="title_new_group">New group</string>
     <string name="btn_create_group">Create</string>
+    <string name="hint_groupname">"Group's Name"</string>
+    <string name="text_insert_group_name">"Insert group's name"</string>
 
     //Choose Language Activity
     <string name="lang_en">English</string>

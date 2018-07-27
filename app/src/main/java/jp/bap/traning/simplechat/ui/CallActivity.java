@@ -48,7 +48,6 @@ import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
-import org.webrtc.Logging;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
@@ -630,8 +629,12 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().emitCallStop(roomId);
+        }
+        stop();
     }
 
     public void stop() {

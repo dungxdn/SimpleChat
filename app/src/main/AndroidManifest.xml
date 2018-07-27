@@ -45,7 +45,7 @@
         <activity android:name=".ui.CallBusyActivity_" />
         <activity android:name=".ui.AddNewsActivity_" />
         <activity android:name=".ui.ChooseLanguageActivity_" />
-        <activity android:name=".ui.AboutActivity_"></activity>
+        <activity android:name=".ui.AboutActivity_"/>
     </application>
 
 </manifest>

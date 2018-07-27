@@ -6,7 +6,6 @@
     <string name="hinh_first_name">Họ</string>
     <string name="text_login">Đăng nhập</string>
     <string name="text_forgot_password">Quên mật khẩu? </string>
-    <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Đăng kí mới</string>
     <string name="text_not_input_username_pass">Vui lòng nhập đủ tên và mật khẩu!</string>
     //SignUp Activity
@@ -18,7 +17,6 @@
     <string name="hint_lastname">Tên</string>
     <string name="hint_confirm_pass">Xác nhận mật khẩu</string>
     <string name="hint_firstname">Họ</string>
-    <string name="hint_groupname">Tên nhóm</string>
     <string name="hint_search">Tìm kiếm</string>
     <string name="text_please_inpur_all_info">Vui lòng nhập đầy đủ thông tin!</string>
     <string name="text_success_register">Đăng kí thành công!</string>
@@ -36,6 +34,7 @@
     <string name="title_news_fragment">Bảng tin</string>
     <string name="title_chat_fragment">Tin nhắn</string>
     <string name="title_more_fragment">Thêm</string>
+    <string name="text_click_back_again_to_exit">Nhấn nút BACK thêm một lần nữa để thoát </string>
 
     //SharingMessage Activity
     <string name="title_sharing_message">Chuyển tiếp</string>
@@ -59,7 +58,7 @@
     <string name="str_contact">Liên lạc</string>
     <string name="str_language">Ngôn ngữ</string>
     <string name="str_about">Thông tin</string>
-    <string name="str_not_have_room">You not have room chat</string>
+    <string name="str_not_have_room">Bạn chưa có cuộc trò chuyện nào</string>
     <string name="empty" translatable="false" />
     <string name="no_message">Chưa có tin nhắn nào</string>
 
@@ -83,9 +82,11 @@
     <string name="menu_setting">Cài đặt</string>
     <string name="menu_help">Trợ giúp</string>
 
-    //AddGroupActivity
-    <string name="title_new_group">Thêm nhóm trò chuyện</string>
-    <string name="btn_create_group">Tạo nhóm</string>
+    //AddGroupChat Activity
+    <string name="title_new_group">Tạo cuộc trò chuyện nhóm</string>
+    <string name="btn_create_group">Tạo</string>
+    <string name="hint_groupname">Tên nhóm</string>
+    <string name="text_insert_group_name">Thêm tên nhóm</string>
 
     //Choose Language Activity
     <string name="lang_en">Tiếng Anh</string>
