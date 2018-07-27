@@ -69,6 +69,11 @@
     <string name="action_settings">Cài đặt</string>
     <string name="action_share">Chia sẻ</string>
 
+    //More Fragment
+    <string name="confirm_logout">Bạn có chắc muốn đăng xuất?</string>
+    <string name="yes">có</string>
+    <string name="no">không</string>
+
     //Dialog
     <string name="dialog_cancel">Trở về</string>
     <string name="dialog_save">Lưu</string>

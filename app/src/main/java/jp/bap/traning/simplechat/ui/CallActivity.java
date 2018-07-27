@@ -37,8 +37,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Enumerator;
@@ -58,6 +60,7 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoRenderer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
+import org.webrtc.NetworkMonitorAutoDetect;
 
 @EActivity(R.layout.activity_call)
 public class CallActivity extends BaseActivity {
@@ -527,6 +530,9 @@ public class CallActivity extends BaseActivity {
                 mRemoteVideoView.setVisibility(View.GONE);
                 mLocalVideoView.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
+                if (!mAudioManager.isMicrophoneMute()) {
+                    mAudioManager.setMicrophoneMute(true);
+                }
                 mAudioManager.setSpeakerphoneOn(false);
                 videoCapturerAndroid.stopCapture();
             } catch (InterruptedException e) {
@@ -537,6 +543,9 @@ public class CallActivity extends BaseActivity {
             mRemoteVideoView.setVisibility(View.VISIBLE);
             mLocalVideoView.setVisibility(View.VISIBLE);
             mBtnSwitchCamera.setVisibility(View.VISIBLE);
+            if (!mAudioManager.isMicrophoneMute()) {
+                mAudioManager.setMicrophoneMute(true);
+            }
             mAudioManager.setSpeakerphoneOn(true);
             mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
         }
@@ -638,6 +647,9 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
+        if (mAudioManager.isSpeakerphoneOn()) {
+            mAudioManager.setSpeakerphoneOn(false);
+        }
         if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);

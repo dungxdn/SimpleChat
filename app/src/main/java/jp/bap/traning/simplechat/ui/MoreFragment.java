@@ -1,7 +1,9 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
@@ -61,7 +63,6 @@ public class MoreFragment extends BaseFragment {
     private RequestOptions options;
     private RealmDAO mRealmDAO;
 
-
     @Override
     public void afterView() {
         mUploadImagePresenter = new UploadImagePresenter();
@@ -102,14 +103,15 @@ public class MoreFragment extends BaseFragment {
         Glide.with(getContext()).load(linkImage).apply(options).into(mImgAvata);
     }
 
-    @Click({R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout, R.id.mImgButtonEdit})
+    @Click({ R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout, R.id.mImgButtonEdit })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mlnLogout:
-                logout();
+                showDialog();
                 break;
             case R.id.lnLanguage:
-                ChooseLanguageActivity_.intent(this).startForResult(Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY);
+                ChooseLanguageActivity_.intent(this)
+                        .startForResult(Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY);
                 break;
             case R.id.lnAbout:
                 AboutActivity_.intent(getActivity()).start();
@@ -142,48 +144,69 @@ public class MoreFragment extends BaseFragment {
         edtFirstName.setText(mFirstName);
         edtLastName.setText(mLastname);
         dialogImgAvata.setOnClickListener(view -> {
-                    Common.selectImage(getContext());
-                    pickAvatar = true;
-                    mFirstName = edtFirstName.getText().toString();
-                    mLastname = edtLastName.getText().toString();
-                    mDialog.dismiss();
-                }
-        );
+            Common.selectImage(getContext());
+            pickAvatar = true;
+            mFirstName = edtFirstName.getText().toString();
+            mLastname = edtLastName.getText().toString();
+            mDialog.dismiss();
+        });
         btnCancel.setOnClickListener(view -> {
             mDialog.dismiss();
             mFirstName = user.getFirstName();
             mLastname = user.getLastName();
         });
         btnSave.setOnClickListener(view -> {
-            new UpdateUserPresenter().updateUser(edtFirstName.getText().toString(), edtLastName.getText().toString(), linkImage, new UpdateUserView() {
-                @Override
-                public void onSuccess(BaseResponse result) {
-                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-                    user.setAvatar(linkImage);
-                    user.setFirstName(edtFirstName.getText().toString());
-                    user.setLastName(edtLastName.getText().toString());
-                    new UserDAO().insertOrUpdate(user);
-                    mDialog.dismiss();
-                }
+            new UpdateUserPresenter().updateUser(edtFirstName.getText().toString(),
+                    edtLastName.getText().toString(), linkImage, new UpdateUserView() {
+                        @Override
+                        public void onSuccess(BaseResponse result) {
+                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                                    .show();
+                            user.setAvatar(linkImage);
+                            user.setFirstName(edtFirstName.getText().toString());
+                            user.setLastName(edtLastName.getText().toString());
+                            new UserDAO().insertOrUpdate(user);
+                            mDialog.dismiss();
+                        }
 
-                @Override
-                public void onError(String message, int code) {
-                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-                }
+                        @Override
+                        public void onError(String message, int code) {
+                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
 
-                @Override
-                public void onFailure() {
-                    Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT).show();
-                }
-            });
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(getContext(), "Update success", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
         });
         mDialog.show();
     }
 
+    private void showDialog() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(getContext()).setTitle(R.string.app_name)
+                        .setIcon(R.drawable.icon_02)
+                        .setMessage(getResources().getString(R.string.confirm_logout))
+                        .setCancelable(false)
+                        .setPositiveButton(getResources().getText(R.string.yes),
+                                (DialogInterface dialog, int which) -> {
+                                    logout();
+                                })
+                        .setNegativeButton(getResources().getString(R.string.no),
+                                (DialogInterface dialog, int which) -> {
+                                    dialog.cancel();
+                                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     private void logout() {
         //Delete session
-        String language = SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class);
+        String language =
+                SharedPrefs.getInstance().getData(Common.KEY_CHOOSE_LANGUAGE, String.class);
         SharedPrefs.getInstance().clear();
         SharedPrefs.getInstance().putData(Common.KEY_CHOOSE_LANGUAGE, language);
 
@@ -194,7 +217,9 @@ public class MoreFragment extends BaseFragment {
         ImgurClient.stopImgurClient();
 
         //back to SplashActivity
-        SplashActivity_.intent(this).extra(Common.REQUEST_LOGOUT_KEY, Common.REQUEST_LOGOUT).start();
+        SplashActivity_.intent(this)
+                .extra(Common.REQUEST_LOGOUT_KEY, Common.REQUEST_LOGOUT)
+                .start();
         getActivity().finish();
     }
 
@@ -217,26 +242,27 @@ public class MoreFragment extends BaseFragment {
             Image image = ImagePicker.getFirstImageOrNull(data);
             try {
                 File mFile = new File(image.getPath());
-                new UploadImagePresenter().uploadImage("", "", "", "", mFile, new UploadImageView() {
-                    @Override
-                    public void onSuccess(ImageResponse result) {
-                        String linkImage = result.getData().getLink();
-                        setDialogEditProfile(Common.getUserLogin(), linkImage);
-                        ((MainActivity) getActivity()).hiddenProgressBar();
-                    }
+                new UploadImagePresenter().uploadImage("", "", "", "", mFile,
+                        new UploadImageView() {
+                            @Override
+                            public void onSuccess(ImageResponse result) {
+                                String linkImage = result.getData().getLink();
+                                setDialogEditProfile(Common.getUserLogin(), linkImage);
+                                ((MainActivity) getActivity()).hiddenProgressBar();
+                            }
 
-                    @Override
-                    public void onError(String message, int code) {
-                        Log.d("MoreFragment", "onError: ");
-                        ((MainActivity) getActivity()).hiddenProgressBar();
-                    }
+                            @Override
+                            public void onError(String message, int code) {
+                                Log.d("MoreFragment", "onError: ");
+                                ((MainActivity) getActivity()).hiddenProgressBar();
+                            }
 
-                    @Override
-                    public void onFailure() {
-                        Log.d("MoreFragment", "onFailure: ");
-                        ((MainActivity) getActivity()).hiddenProgressBar();
-                    }
-                });
+                            @Override
+                            public void onFailure() {
+                                Log.d("MoreFragment", "onFailure: ");
+                                ((MainActivity) getActivity()).hiddenProgressBar();
+                            }
+                        });
             } catch (Exception e) {
                 e.printStackTrace();
             }
