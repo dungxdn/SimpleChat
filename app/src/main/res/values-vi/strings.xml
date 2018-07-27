@@ -56,7 +56,7 @@
     <string name="title_me">Tôi</string>
     <string name="title_friend">Bạn bè</string>
     <string name="str_logout">Đăng xuất</string>
-    <string name="str_contact">Liên lạc</string>
+    <string name="str_update_profile">Cập nhật thông tin</string>
     <string name="str_language">Ngôn ngữ</string>
     <string name="str_about">Thông tin</string>
     <string name="str_not_have_room">You not have room chat</string>
@@ -106,4 +106,7 @@
     <string name="about_version">Phiên bản hiện tại: 1.0.0</string>
     <string name="about_product">Một sản phẩm của nhóm thực tập sinh BAP, 2018</string>
     <string name="about_contact">Liên hệ: greenchatting@gmail.com</string>
+
+    //Update profile activity
+    <string name="str_btn_update">Cập nhật</string>
 </resources>
