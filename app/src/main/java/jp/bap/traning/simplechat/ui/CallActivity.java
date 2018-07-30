@@ -115,7 +115,7 @@ public class CallActivity extends BaseActivity {
     private AudioManager mAudioManager;
     public Animation animationShake;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
@@ -143,9 +143,9 @@ public class CallActivity extends BaseActivity {
         if (isIncoming) {
             animationShake = AnimationUtils.loadAnimation(CallActivity.this, R.anim.anim_shake_button_accept);
             if (isAudioCall) {
-                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_audio) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_audio) + " " + mRoom.getRoomName());
             } else {
-                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video)+ " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video) + " " + mRoom.getRoomName());
             }
             SoundManage.setAudioForMsgAndCall(this, R.raw.wedonttalkanymore, true);
             mBtnAccept.setVisibility(View.VISIBLE);
@@ -156,12 +156,12 @@ public class CallActivity extends BaseActivity {
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCall(roomId, true);
                 }
-                mtvStatus.setText(getResources().getString(R.string.text_call_audio_to) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_call_audio_to) + " " + mRoom.getRoomName());
             } else {
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCall(roomId, false);
                 }
-                mtvStatus.setText(getResources().getString(R.string.text_call_video_to) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_call_video_to) + " " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.GONE);
             pulsatorLayout.start();
@@ -636,16 +636,12 @@ public class CallActivity extends BaseActivity {
         super.onDestroy();
     }
 
+
+
     public void stop() {
         if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
-            //Nhi fix
-
-            mediaStreamRemote.audioTracks.clear();
-            mediaStreamRemote.dispose();
-            //Nhi
-
             mediaStreamLocal.dispose();
         }
         if (audioConstraints != null) {
@@ -670,7 +666,9 @@ public class CallActivity extends BaseActivity {
         }
         if (localPeer != null) {
             localPeer.close();
+            localPeer.dispose();
         }
+
         MainActivity.checkCall = false;
         finish();
     }

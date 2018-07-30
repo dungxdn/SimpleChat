@@ -8,12 +8,14 @@
     tools:context=".ui.SignUpActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/scrollView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/lnTop"
                 android:layout_width="match_parent"
@@ -148,12 +150,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_below="@id/lnCenter"
                 android:id="@+id/lnBottom"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_alignParentBottom="true"
+                android:layout_below="@id/lnCenter"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -179,7 +181,6 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
 
 
     <include layout="@layout/activity_progressbar"></include>
