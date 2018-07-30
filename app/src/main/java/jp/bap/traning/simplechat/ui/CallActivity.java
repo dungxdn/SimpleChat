@@ -295,6 +295,8 @@ public class CallActivity extends BaseActivity {
                 CameraVideoCapturer cameraVideoCapturer =
                         (CameraVideoCapturer) videoCapturerAndroid;
                 cameraVideoCapturer.switchCamera(null);
+                mLocalVideoView.setMirror(false);
+                mRemoteVideoView.setMirror(false);
             } else {
 
             }
