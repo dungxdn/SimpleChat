@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SimpleChat</string>
+
     //Login Activity
     <string name="hint_email">Tên đăng nhập</string>
     <string name="hint_pass">Mật khẩu</string>
@@ -9,6 +10,7 @@
     <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Đăng kí mới</string>
     <string name="text_not_input_username_pass">Vui lòng nhập đủ tên và mật khẩu!</string>
+
     //SignUp Activity
     <string name="text_create_accout">Tạo mới tài khoản</string>
     <string name="text_not_account">Bạn chưa có tài khoản? </string>
@@ -24,6 +26,7 @@
     <string name="text_success_register">Đăng kí thành công!</string>
     <string name="text_error_register">Đăng kí lỗi. Vui lòng kiểm tra lại!</string>
     <string name="text_fail_register">Đăng kí thất bại. Vui lòng kiểm tra lại!</string>
+
     //ChatTalks Activity
     <string name="textview_text_chat_name">Bạn bè</string>
     <string name="edittext_input_message">Nhập nội dung tin nhắn</string>
@@ -42,11 +45,18 @@
     <string name="button_sharing_message">Chia sẻ</string>
     <string name="text_message_send">Nội dung</string>
     <string name="hind_text_view_title">Gửi dưới dạng tin nhắn cho</string>
+
     //NetWork Activity
     <string name="capture">Không có kết nối internet</string>
     <string name="description">Thiết bị của bạn chưa có kết nối internet. Hãy thiết lập kết nối!</string>
     <string name="button_try_again"><u>Thử lại!</u></string>
-    //
+
+    //Comment Activity
+    <string name="hint_edt_comment"><u>Nhập bình luận của bạn</u></string>
+    <string name="title_comment_activity">Bình luận</string>
+    <string name="text_like">thích và</string>
+    <string name="text_comment">bình luận.</string>
+
     //Fragment
     <string name="title_tab_friend">Bạn bè</string>
     <string name="title_tab_chat">Nhắn tin</string>
@@ -99,7 +109,6 @@
     <string name="text_call_video_to">Đang gọi video tới </string>
     <string name="text_call_end">Kết thúc cuộc gọi!</string>
 
-
     //Permission
     <string name="text_accept_permission">Bạn cần cấp quyền để tiếp tục sử dụng!</string>
 
@@ -110,4 +119,13 @@
 
     //Update profile activity
     <string name="str_btn_update">Cập nhật</string>
+
+    //Confirm Dialog
+    <string name="title_delete_message">Xóa tin nhắn?</string>
+    <string name="description_delete_message">Bạn không thể hoàn tác sau khi xóa bản sao của những tin nhắn này</string>
+    <string name="confirm_yes">Có</string>
+    <string name="confirm_no">Không</string>
+    <string name="result_delete">Đã Xóa!</string>
+    <string name="copy_message">Đã sao chép văn bản!</string>
+
 </resources>
