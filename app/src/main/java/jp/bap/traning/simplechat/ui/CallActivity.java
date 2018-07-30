@@ -37,8 +37,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Enumerator;
@@ -48,7 +50,6 @@ import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
-import org.webrtc.Logging;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
@@ -467,7 +468,6 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnTurnOnVideoCam:
                 mBtnTurnOnVideoCam.setVisibility(View.GONE);
                 mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
-                mBtnSwitchCamera.setVisibility(View.VISIBLE);
                 mLocalVideoView.setVisibility(View.VISIBLE);
                 if (videoCapturerAndroid != null) {
                     videoCapturerAndroid.startCapture(1280, 720, 30);
@@ -479,7 +479,6 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnTurnOffVideoCam:
                 mBtnTurnOffVideoCam.setVisibility(View.GONE);
                 mBtnTurnOnVideoCam.setVisibility(View.VISIBLE);
-                mBtnSwitchCamera.setVisibility(View.GONE);
                 mLocalVideoView.setVisibility(View.GONE);
                 if (videoCapturerAndroid != null) {
                     try {
@@ -532,6 +531,9 @@ public class CallActivity extends BaseActivity {
                 mRemoteVideoView.setVisibility(View.GONE);
                 mLocalVideoView.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
+                if (!mAudioManager.isMicrophoneMute()) {
+                    mAudioManager.setMicrophoneMute(true);
+                }
                 mAudioManager.setSpeakerphoneOn(false);
                 videoCapturerAndroid.stopCapture();
             } catch (InterruptedException e) {
@@ -542,6 +544,9 @@ public class CallActivity extends BaseActivity {
             mRemoteVideoView.setVisibility(View.VISIBLE);
             mLocalVideoView.setVisibility(View.VISIBLE);
             mBtnSwitchCamera.setVisibility(View.VISIBLE);
+            if (!mAudioManager.isMicrophoneMute()) {
+                mAudioManager.setMicrophoneMute(true);
+            }
             mAudioManager.setSpeakerphoneOn(true);
             mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
         }
@@ -569,7 +574,7 @@ public class CallActivity extends BaseActivity {
             User user = new UserDAO().getUser(userId);
             String userName = user.getFirstName() + " " + user.getLastName();
             mRemoteVideoView.setVisibility(View.GONE);
-            mTvTurnOffVideoCam.setText(userName + " was turn off camera!");
+            mTvTurnOffVideoCam.setText(userName + getResources().getString(R.string.turn_off_camera));
             mTvTurnOffVideoCam.setVisibility(View.VISIBLE);
             mImgAvatarCallAudio.setVisibility(View.VISIBLE);
             mBtnTurnOnVideoCam.setBackgroundResource(R.drawable.ic_turn_on_videocam_black);
@@ -634,11 +639,18 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().emitCallStop(roomId);
+        }
+        stop();
     }
 
     public void stop() {
+        if (mAudioManager.isSpeakerphoneOn()) {
+            mAudioManager.setSpeakerphoneOn(false);
+        }
         if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
@@ -651,12 +663,7 @@ public class CallActivity extends BaseActivity {
             audioSource.dispose();
         }
         if (videoCapturerAndroid != null) {
-            try {
-                videoCapturerAndroid.stopCapture();
-                videoCapturerAndroid.dispose();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            videoCapturerAndroid.dispose();
         }
         if (mLocalVideoView != null) {
             mLocalVideoView.release();

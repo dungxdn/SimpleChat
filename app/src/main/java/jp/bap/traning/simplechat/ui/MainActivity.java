@@ -2,6 +2,7 @@ package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private MoreFragment_ mMoreFragment = new MoreFragment_();
     private NewsFragment_ mNewsFragment = new NewsFragment_();
     public static boolean checkCall = false;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,5 +272,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getResources().getString(R.string.text_click_back_again_to_exit), Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed((() -> doubleBackToExitPressedOnce = false), 2000);
+    }
 
 }

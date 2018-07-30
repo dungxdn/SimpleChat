@@ -1,8 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -65,15 +63,15 @@ public class AddNewsActivity extends BaseActivity {
         mToolbar.getSharingButton().setOnClickListener(view -> {
             //            Goi Emit
             if (edtDescription.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Just say something....", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.say_something), Toast.LENGTH_SHORT).show();
             } else if (linkImage.isEmpty()) {
-                Toast.makeText(this, "Please choose a picture!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.pick_picture), Toast.LENGTH_SHORT).show();
             } else {
                 //Send Event to Server
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCreateNews(new News(Common.getUserLogin(), edtDescription.getText().toString(), linkImage));
                 }
-                Toast.makeText(getApplicationContext(), "Share News Success!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.share_success), Toast.LENGTH_SHORT).show();
                 Common.hideKeyboard(this);
                 finish();
             }
@@ -88,11 +86,11 @@ public class AddNewsActivity extends BaseActivity {
 
     public News getNews() {
         if (edtDescription.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Just say something....", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.say_something), Toast.LENGTH_SHORT).show();
             return null;
 
         } else if (linkImage.isEmpty()) {
-            Toast.makeText(this, "Please choose a picture!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.pick_picture), Toast.LENGTH_SHORT).show();
             return null;
         } else {
             return new News(Common.getUserLogin(), edtDescription.getText().toString(), linkImage);

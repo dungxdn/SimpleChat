@@ -285,7 +285,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
                     @Override
                     public void onFailure() {
                         ((MainActivity) getActivity()).hiddenProgressBar();
-                        Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.failed), Toast.LENGTH_SHORT).show();
                         return;
                     }
                 });
@@ -299,7 +299,7 @@ public class FriendFragment extends BaseFragment implements FriendExpandLvAdapte
 
             @Override
             public void onFailure() {
-                Toast.makeText(getContext(), "Fail!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.failed), Toast.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).hiddenProgressBar();
             }
         });

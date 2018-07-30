@@ -19,7 +19,6 @@ public class NetworkActivity extends BaseActivity {
 
     @Override
     public void afterView() {
-        overridePendingTransition(R.anim.anim_shake,0);
     }
 
     @Click
@@ -27,7 +26,7 @@ public class NetworkActivity extends BaseActivity {
         if (isConnectedNetwork() == true) {
             finish();
         } else {
-            Toast.makeText(NetworkActivity.this, "No Internet. Please Try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NetworkActivity.this, getResources().getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -69,11 +69,6 @@ public class Common {
                         room.setRoomName(user.getFirstName()
                                 + " "
                                 + user.getLastName());
-//                                + "("
-//                                + user.getId()
-//                                + ")("
-//                                + room.getRoomId()
-//                                + ")");
                         room.setAvatar(user.getAvatar());
                         break;
                     }
