@@ -124,6 +124,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0: {
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setImageDrawable(getResources().getDrawable(R.drawable.ic_add_a_photo));
@@ -136,6 +137,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
 
             case 1: {
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
@@ -147,6 +149,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
 
             case 2: {
+                mToolbar.setVisibility(View.VISIBLE);
                 mToolbar.getTvTitle().setVisibility(View.VISIBLE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.VISIBLE);
@@ -161,6 +164,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             case 3: {
                 mToolbar.getTvTitle().setVisibility(View.GONE);
+                mToolbar.setVisibility(View.GONE);
                 mToolbar.getSettingButton().setVisibility(View.GONE);
                 mToolbar.getImgButtonAddGroup().setVisibility(View.GONE);
                 mToolbar.getImgButtonSearch().setVisibility(View.GONE);
@@ -218,7 +222,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        ChatService.setChatManagerNull();
     }
 
     @Override

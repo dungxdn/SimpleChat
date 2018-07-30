@@ -175,6 +175,10 @@ public class FriendExpandLvAdapter extends BaseExpandableListAdapter {
                 mListener.onCallVideo(user.getId());
                 mDialog.dismiss();
             });
+            mBtnEdit.setOnClickListener(view1 -> {
+                UpdateProfileActivity_.intent(mContext).start();
+                mDialog.dismiss();
+            });
             tvUsername.setText(user.getFirstName() + " " + user.getLastName());
             mDialog.show();
         });

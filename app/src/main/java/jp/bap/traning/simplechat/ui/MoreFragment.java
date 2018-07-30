@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -53,12 +54,11 @@ public class MoreFragment extends BaseFragment {
     @ViewById
     AppCompatTextView mTvUserName;
     @ViewById
-    AppCompatImageButton mImgButtonEdit;
+    ImageView mCoverPhoto;
 
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
 
-    private static String linkImage;
     private User userLogin;
     private RequestOptions options;
     private RealmDAO mRealmDAO;
@@ -98,14 +98,21 @@ public class MoreFragment extends BaseFragment {
 
     private void loadDataUserLogin() {
         userLogin = Common.getUserLogin();
+        RequestOptions options1 = new RequestOptions();
+        options1.centerCrop();
+        options1.placeholder(R.drawable.test1);
+        options1.error(R.drawable.test1);
+        Glide.with(getContext()).load(userLogin.getAvatar()).apply(options1).into(mCoverPhoto);
         mTvUserName.setText(userLogin.getFirstName() + " " + userLogin.getLastName());
-        linkImage = userLogin.getAvatar();
-        Glide.with(getContext()).load(linkImage).apply(options).into(mImgAvata);
+        Glide.with(getContext()).load(userLogin.getAvatar()).apply(options).into(mImgAvata);
     }
 
-    @Click({ R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout })
+    @Click({R.id.lnUpdateProfile, R.id.lnAbout, R.id.lnLanguage, R.id.mlnLogout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.lnUpdateProfile:
+                UpdateProfileActivity_.intent(getActivity()).start();
+                break;
             case R.id.mlnLogout:
                 showDialog();
                 break;
@@ -117,69 +124,6 @@ public class MoreFragment extends BaseFragment {
                 AboutActivity_.intent(getActivity()).start();
                 break;
         }
-    }
-
-    public static String mFirstName = Common.getUserLogin().getFirstName();
-    public static String mLastname = Common.getUserLogin().getLastName();
-
-    public void setDialogEditProfile(User user, String linkImage) {
-        Dialog mDialog = new Dialog(getContext());
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.dialog_edit_profile_layout);
-        mDialog.setCancelable(false);
-
-        CircleImageView dialogImgAvata = mDialog.findViewById(R.id.mImgAvatar);
-        AppCompatEditText edtFirstName = mDialog.findViewById(R.id.mEdtFirstName);
-        AppCompatEditText edtLastName = mDialog.findViewById(R.id.mEdtLastName);
-        AppCompatButton btnCancel = mDialog.findViewById(R.id.mBtnCancel);
-        AppCompatButton btnSave = mDialog.findViewById(R.id.mBtnSave);
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        options.placeholder(R.drawable.ic_avatar_default);
-        options.error(R.drawable.ic_avatar_default);
-        Glide.with(this).load(linkImage).apply(options).into(dialogImgAvata);
-        edtFirstName.setText(mFirstName);
-        edtLastName.setText(mLastname);
-        dialogImgAvata.setOnClickListener(view -> {
-            Common.selectImage(getContext());
-            pickAvatar = true;
-            mFirstName = edtFirstName.getText().toString();
-            mLastname = edtLastName.getText().toString();
-            mDialog.dismiss();
-        });
-        btnCancel.setOnClickListener(view -> {
-            mDialog.dismiss();
-            mFirstName = user.getFirstName();
-            mLastname = user.getLastName();
-        });
-        btnSave.setOnClickListener(view -> {
-            new UpdateUserPresenter().updateUser(edtFirstName.getText().toString(),
-                    edtLastName.getText().toString(), linkImage, new UpdateUserView() {
-                        @Override
-                        public void onSuccess(BaseResponse result) {
-                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
-                                    .show();
-                            user.setAvatar(linkImage);
-                            user.setFirstName(edtFirstName.getText().toString());
-                            user.setLastName(edtLastName.getText().toString());
-                            new UserDAO().insertOrUpdate(user);
-                            mDialog.dismiss();
-                        }
-
-                        @Override
-                        public void onError(String message, int code) {
-                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-
-                        @Override
-                        public void onFailure() {
-                            Toast.makeText(getContext(), getResources().getString(R.string.update_success), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
-        });
-        mDialog.show();
     }
 
     private void showDialog() {
@@ -223,46 +167,5 @@ public class MoreFragment extends BaseFragment {
     @OnActivityResult(Common.REQUEST_CHOOSE_LANGUAGE_ACTIVITY)
     public void reload() {
         getActivity().recreate();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("MoreFragment", "onActivityResult");
-        ((MainActivity) getActivity()).showProgressBar();
-        if (data != null) {
-            ((MainActivity) getActivity()).showProgressBar();
-        } else {
-            ((MainActivity) getActivity()).hiddenProgressBar();
-        }
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            Image image = ImagePicker.getFirstImageOrNull(data);
-            try {
-                File mFile = new File(image.getPath());
-                new UploadImagePresenter().uploadImage("", "", "", "", mFile,
-                        new UploadImageView() {
-                            @Override
-                            public void onSuccess(ImageResponse result) {
-                                String linkImage = result.getData().getLink();
-                                setDialogEditProfile(Common.getUserLogin(), linkImage);
-                                ((MainActivity) getActivity()).hiddenProgressBar();
-                            }
-
-                            @Override
-                            public void onError(String message, int code) {
-                                Log.d("MoreFragment", "onError: ");
-                                ((MainActivity) getActivity()).hiddenProgressBar();
-                            }
-
-                            @Override
-                            public void onFailure() {
-                                Log.d("MoreFragment", "onFailure: ");
-                                ((MainActivity) getActivity()).hiddenProgressBar();
-                            }
-                        });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

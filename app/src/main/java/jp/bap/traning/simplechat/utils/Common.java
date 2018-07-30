@@ -55,18 +55,6 @@ public class Common {
 //            SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
     public static final int DEFAULT_VALUE_IF_NOT_EXITS_GROUP = 0;
 
-
-    public static void connectToServerSocket(Context context, String host, int token) {
-        if (ChatService.getChat() == null) {
-            Intent i = new Intent(context, ChatService.class);
-            i.putExtra("host", host);
-            i.putExtra("token", token);
-            context.startService(i);
-        } else {
-            Log.d(TAG, "connectToServerSocket: Service started ");
-        }
-    }
-
     public static Room getRoomWithUser(int userId) {
         return new RoomDAO().getRoomWithUser(userId);
     }

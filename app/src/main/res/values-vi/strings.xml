@@ -53,8 +53,10 @@
     <string name="no_connection">Không có kết nối. Thử lại!</string>
 
     //Comment Activity
-    <string name="hint_edt_comment">Bình luận</string>
-    <string name="have_not_input_comment">"Bạn chưa nhập bình luận!"</string>
+    <string name="hint_edt_comment"><u>Nhập bình luận của bạn</u></string>
+    <string name="title_comment_activity">Bình luận</string>
+    <string name="text_like">thích và</string>
+    <string name="text_comment">bình luận.</string>
 
     //Fragment
     <string name="title_tab_friend">Bạn bè</string>
@@ -65,7 +67,7 @@
     <string name="title_me">Tôi</string>
     <string name="title_friend">Bạn bè</string>
     <string name="str_logout">Đăng xuất</string>
-    <string name="str_contact">Liên lạc</string>
+    <string name="str_update_profile">Cập nhật thông tin</string>
     <string name="str_language">Ngôn ngữ</string>
     <string name="str_about">Thông tin</string>
     <string name="str_not_have_room">Bạn chưa có cuộc trò chuyện nào</string>
@@ -118,7 +120,6 @@
     <string name="text_call_end">Kết thúc cọi!</string>
     <string name="turn_off_camera"> đã tắt camera!</string>
 
-
     //Permission
     <string name="text_accept_permission">Bạn cần cấp quyền để tiếp tục sử dụng!</string>
 
@@ -139,4 +140,16 @@
     <string name="say_something">Nói gì đó về điều này...</string>
     <string name="pick_picture">Hãy ch!</string>
     <string name="share_success">Chia sẻ thành công!</string>
+
+    //Update profile activity
+    <string name="str_btn_update">Cập nhật</string>
+
+    //Confirm Dialog
+    <string name="title_delete_message">Xóa tin nhắn?</string>
+    <string name="description_delete_message">Bạn không thể hoàn tác sau khi xóa bản sao của những tin nhắn này</string>
+    <string name="confirm_yes">Có</string>
+    <string name="confirm_no">Không</string>
+    <string name="result_delete">Đã Xóa!</string>
+    <string name="copy_message">Đã sao chép văn bản!</string>
+
 </resources>

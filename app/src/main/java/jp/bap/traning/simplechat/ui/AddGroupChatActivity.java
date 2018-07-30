@@ -132,6 +132,13 @@ public class AddGroupChatActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ChatService.getChat() != null) {
+            ChatService.getChat().getUsersOnline();
+        }
+    }
 
     void addGroupChat() {
         Common.hideKeyboard(AddGroupChatActivity.this);

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SimpleChat</string>
+
     //Login Activity
     <string name="hint_email">UserName</string>
     <string name="hint_pass">Password</string>
@@ -56,7 +57,9 @@
 
     //Comment Activity
     <string name="hint_edt_comment"><u>Input your comment</u></string>
-    <string name="have_not_input_comment">"You have't input your's comment"</string>
+    <string name="title_comment_activity">Comment</string>
+    <string name="text_like">like and</string>
+    <string name="text_comment">comment.</string>
 
     //Fragment
     <string name="title_tab_friend">Friends</string>
@@ -67,7 +70,7 @@
     <string name="title_me">Me</string>
     <string name="title_friend">Friends</string>
     <string name="str_logout">Logout</string>
-    <string name="str_contact">Contact</string>
+    <string name="str_update_profile">Update profile</string>
     <string name="str_language">Language</string>
     <string name="str_about">About</string>
     <string name="str_not_have_room">You not have room chat</string>
@@ -139,4 +142,16 @@
     <string name="say_something">Just say something....</string>
     <string name="pick_picture">Please choose a picture!</string>
     <string name="share_success">Share News Success!</string>
+
+    //Update profile activity
+    <string name="str_btn_update">Update</string>
+
+    //Confirm Dialog
+    <string name="title_delete_message">Delete a message?</string>
+    <string name="description_delete_message">You can not undo after deleting a copy of the messages</string>
+    <string name="confirm_yes">Yes</string>
+    <string name="confirm_no">No</string>
+    <string name="result_delete">Deleted!</string>
+    <string name="copy_message">Text has been copied!</string>
+
 </resources>

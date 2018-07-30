@@ -83,7 +83,16 @@ public class SplashActivity extends BaseActivity {
             public void onSuccess(RoomResponse result) {
                 int mMineId =
                         SharedPrefs.getInstance().getData(SharedPrefs.KEY_SAVE_ID, Integer.class);
-                Common.connectToServerSocket(SplashActivity.this, Common.URL_SERVER, mMineId);
+                if (ChatService.getChat() == null) {
+                    Intent i = new Intent(SplashActivity.this, ChatService.class);
+                    i.putExtra("host", Common.URL_SERVER);
+                    i.putExtra("token", mMineId);
+                    getApplicationContext().startService(i);
+                } else {
+                    Log.d(TAG, "connectToServerSocket: Service started ");
+                    MainActivity_.intent(SplashActivity.this).start();
+                    finish();
+                }
             }
 
             @Override

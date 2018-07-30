@@ -148,7 +148,7 @@ public class CallActivity extends BaseActivity {
             } else {
                 mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video)+ " "+mRoom.getRoomName());
             }
-            SoundManage.setAudioForMsgAndCall(this, R.raw.despacito_marimba_remix, true);
+            SoundManage.setAudioForMsgAndCall(this, R.raw.wedonttalkanymore, true);
             mBtnAccept.setVisibility(View.VISIBLE);
             mBtnAccept.startAnimation(animationShake);
             pulsatorLayout.start();

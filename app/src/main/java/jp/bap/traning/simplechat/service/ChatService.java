@@ -45,7 +45,7 @@ public class ChatService extends Service implements ChatManager.Listener {
             int token = intent.getIntExtra("token", 0);
             initSocket(host, token);
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     private void initSocket(String host, int token) {
@@ -102,10 +102,6 @@ public class ChatService extends Service implements ChatManager.Listener {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
         mSocket.disconnect();
-        sChatManager = null;
-    }
-
-    public static void setChatManagerNull() {
         sChatManager = null;
     }
 

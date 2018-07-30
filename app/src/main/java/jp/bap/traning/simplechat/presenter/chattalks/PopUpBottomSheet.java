@@ -94,7 +94,7 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
         switch (view.getId()) {
             case R.id.popUpCopy: {
                 try {
-                    Toast.makeText(getActivity(), "Đã sao chép văn bản", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.copy_message), Toast.LENGTH_SHORT).show();
                     copyTextMessage(mMessage.getContent());
                     dismiss();
                     break;
@@ -136,11 +136,11 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
 
     private void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Xóa tin nhắn?")
-                .setMessage("Bạn không thể hoàn tác sau khi xóa bản sao của những tin nhắn này")
-                .setPositiveButton("Yes", (dialog, id) -> {
+        builder.setTitle(getResources().getString(R.string.title_delete_message))
+                .setMessage(getResources().getString(R.string.description_delete_message))
+                .setPositiveButton(getResources().getString(R.string.confirm_yes), (dialog, id) -> {
                     try {
-                        Toast.makeText(builder.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(builder.getContext(), getResources().getString(R.string.result_delete), Toast.LENGTH_SHORT).show();
                         new MessagePresenter().deleteMessage(mMessage.getId());
                         checkChange = 1;
                         ChatTalksActivity_.intent(builder.getContext()).roomId(mMessage.getRoomID()).start();
@@ -148,10 +148,10 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
                         e.printStackTrace();
                     }
                 })
-                .setNegativeButton("No", (dialog, id) -> dialog.cancel())
+                .setNegativeButton(getResources().getString(R.string.confirm_no), (dialog, id) -> dialog.cancel())
                 .show();
-
     }
+
 
 
 }
