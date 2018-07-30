@@ -57,6 +57,7 @@
     <string name="title_comment_activity">Bình luận</string>
     <string name="text_like">thích và</string>
     <string name="text_comment">bình luận.</string>
+    <string name="have_not_input_comment">Bạn chưa thêm bình luận</string>
 
     //Fragment
     <string name="title_tab_friend">Bạn bè</string>

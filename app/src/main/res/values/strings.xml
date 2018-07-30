@@ -60,6 +60,7 @@
     <string name="title_comment_activity">Comment</string>
     <string name="text_like">like and</string>
     <string name="text_comment">comment.</string>
+    <string name="have_not_input_comment">You have not input your comment</string>
 
     //Fragment
     <string name="title_tab_friend">Friends</string>
