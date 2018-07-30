@@ -46,8 +46,8 @@ public class NewsAdapter extends RecyclerView.Adapter {
         newsViewHolder.txtName.setText(mNews.getUser().getFirstName() + " " + mNews.getUser().getLastName());
         newsViewHolder.txtName2.setText(mNews.getUser().getFirstName() + " " + mNews.getUser().getLastName());
         newsViewHolder.txtDescription.setText(mNews.getDescription());
-        newsViewHolder.txtLike.setText(mNews.getIsLike() + " like and ");
-        newsViewHolder.txtComment.setText(mNews.getCountComment() + " comment.");
+        newsViewHolder.txtLike.setText(mNews.getIsLike() + " " + mContext.getResources().getString(R.string.text_like)+" ");
+        newsViewHolder.txtComment.setText(mNews.getCountComment() + " " + mContext.getResources().getString(R.string.text_comment));
         if (mNews.getUsersLike().contains(Common.getUserLogin()) == true) {
             newsViewHolder.imageButtonLike.setImageResource(R.drawable.heart);
         }
@@ -122,7 +122,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
                     mNews.setIsLike(mNews.getIsLike() - 1);
                     imageButtonLike.clearAnimation();
                 }
-                txtLike.setText(mNews.getIsLike() + " like and");
+                txtLike.setText(mNews.getIsLike() + " " + mContext.getResources().getString(R.string.text_like)+" ");
                 if (ChatService.getChat() != null) {
                     //Gui su kien bam like
                     ChatService.getChat().emitOnLikeNews(Common.getUserLogin(), mNews);
