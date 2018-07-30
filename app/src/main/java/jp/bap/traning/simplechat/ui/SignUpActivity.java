@@ -80,6 +80,7 @@ public class SignUpActivity extends BaseActivity {
                                 Toast.makeText(SignUpActivity.this,
                                         getResources().getString(R.string.text_error_register), Toast.LENGTH_SHORT)
                                         .show();
+                                hiddenProgressBar(mProgressBar);
                             }
 
                             @Override
@@ -87,10 +88,11 @@ public class SignUpActivity extends BaseActivity {
                                 Toast.makeText(SignUpActivity.this,
                                         getResources().getString(R.string.text_fail_register), Toast.LENGTH_SHORT)
                                         .show();
+                                hiddenProgressBar(mProgressBar);
                             }
                         });
             } else {
-                Toast.makeText(this, "Password is not confirm!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.password_not_confirm), Toast.LENGTH_SHORT).show();
             }
         }
     }

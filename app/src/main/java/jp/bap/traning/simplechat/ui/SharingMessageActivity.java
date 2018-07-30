@@ -63,7 +63,7 @@ public class SharingMessageActivity extends BaseActivity  {
         showProgressBar(mProgressBar);
         if (mIdListPick.size() <= 0){
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.pick_someone), Toast.LENGTH_SHORT).show();
             return;
         }
         for (Integer i : mIdListPick) {

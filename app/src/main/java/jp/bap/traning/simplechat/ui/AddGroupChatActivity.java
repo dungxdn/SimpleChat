@@ -1,6 +1,7 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,8 +24,6 @@ import javax.annotation.Nullable;
 
 import jp.bap.traning.simplechat.R;
 import jp.bap.traning.simplechat.database.RoomDAO;
-import jp.bap.traning.simplechat.model.Room;
-import jp.bap.traning.simplechat.model.RoomData;
 import jp.bap.traning.simplechat.model.User;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomPresenter;
 import jp.bap.traning.simplechat.presenter.addrooms.AddRoomView;
@@ -76,7 +75,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
     @AfterViews
     public void afterView() {
-        overridePendingTransition(R.anim.anim_together,0);
+        overridePendingTransition(R.anim.anim_slides_in_left,0);
         setupToolbar();
         init();
     }
@@ -147,7 +146,7 @@ public class AddGroupChatActivity extends BaseActivity {
         //if haven't pick someone
         if (mIdList.size() <= 0) {
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "Pick someone!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.pick_someone), Toast.LENGTH_SHORT).show();
             return;
         }
         //
@@ -177,7 +176,7 @@ public class AddGroupChatActivity extends BaseActivity {
         //if haven't input groups's name
         if (mIdListFully.size() > 2 && mEdtGroupName.getText().toString().isEmpty()) {
             hiddenProgressBar(mProgressBar);
-            Toast.makeText(this, "Please, insert group's name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.text_insert_group_name), Toast.LENGTH_SHORT).show();
             return;
         }
         if (mIdListFully.size() > 2) {
@@ -219,7 +218,7 @@ public class AddGroupChatActivity extends BaseActivity {
             @Override
             public void onFailure() {
                 hiddenProgressBar(mProgressBar);
-                Toast.makeText(AddGroupChatActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddGroupChatActivity.this, getResources().getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -250,7 +249,7 @@ public class AddGroupChatActivity extends BaseActivity {
 
                         @Override
                         public void onFailure() {
-                            Toast.makeText(AddGroupChatActivity.this, "Failed", Toast.LENGTH_SHORT)
+                            Toast.makeText(AddGroupChatActivity.this, getResources().getString(R.string.failed), Toast.LENGTH_SHORT)
                                     .show();
                         }
                     });
@@ -288,5 +287,10 @@ public class AddGroupChatActivity extends BaseActivity {
             mIdList.remove(new Integer(users.getId()));
         }
         mAddGroupChatAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

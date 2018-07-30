@@ -81,7 +81,7 @@ public class ChatTalksActivity extends BaseActivity {
     void imgSendMessage() {
         if (edtMessage.getText().toString().trim().isEmpty()) {
             edtMessage.startAnimation(AnimationUtils.loadAnimation(ChatTalksActivity.this, R.anim.anim_shake));
-            Toast.makeText(ChatTalksActivity.this, "Edit Message is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChatTalksActivity.this, getResources().getString(R.string.have_not_input_message), Toast.LENGTH_SHORT).show();
         } else {
             if (ChatService.getChat() != null) {
                 //show in the UI
@@ -317,19 +317,6 @@ public class ChatTalksActivity extends BaseActivity {
                         Log.d("ChatTalksActivity", "onFailure: ");
                     }
                 });
-
-//                //Create a bitmap covert to String : sendMessage
-//                Bitmap bitmap = chatTalksPresenter.readBitmapAndScale(image.getPath());
-//                String bitMapImage = chatTalksPresenter.BitMapToString(bitmap);
-//                //Create a message model and sendChatMessage
-//                Message message = new Message(bitMapImage, Common.mMineId, roomId, Common.typeImage);
-//                listMessage.add(message);
-//                chatTalksAdapter.notifyDataSetChanged();
-//                listViewChat.smoothScrollToPosition(listMessage.size() - 1);
-//                //Save into Realm Database
-//                messagePresenter.insertOrUpdateMessage(message);
-//                //Send event to the Socket
-//                ChatService.getChat().sendMessage(message, message.getRoomID());
             } catch (Exception e) {
                 e.printStackTrace();
             }
