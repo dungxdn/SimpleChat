@@ -80,6 +80,7 @@ public class SignUpActivity extends BaseActivity {
                                 Toast.makeText(SignUpActivity.this,
                                         getResources().getString(R.string.text_error_register), Toast.LENGTH_SHORT)
                                         .show();
+                                hiddenProgressBar(mProgressBar);
                             }
 
                             @Override
@@ -87,6 +88,7 @@ public class SignUpActivity extends BaseActivity {
                                 Toast.makeText(SignUpActivity.this,
                                         getResources().getString(R.string.text_fail_register), Toast.LENGTH_SHORT)
                                         .show();
+                                hiddenProgressBar(mProgressBar);
                             }
                         });
             } else {
