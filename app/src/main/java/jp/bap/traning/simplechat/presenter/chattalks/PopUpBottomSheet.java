@@ -140,10 +140,10 @@ public class PopUpBottomSheet extends BottomSheetDialogFragment {
                 .setMessage(getResources().getString(R.string.description_delete_message))
                 .setPositiveButton(getResources().getString(R.string.confirm_yes), (dialog, id) -> {
                     try {
-                        Toast.makeText(builder.getContext(), getResources().getString(R.string.result_delete), Toast.LENGTH_SHORT).show();
                         new MessagePresenter().deleteMessage(mMessage.getId());
                         checkChange = 1;
                         ChatTalksActivity_.intent(builder.getContext()).roomId(mMessage.getRoomID()).start();
+                        Toast.makeText(builder.getContext(), ""+builder.getContext().getResources().getString(R.string.result_delete), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

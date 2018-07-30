@@ -296,6 +296,8 @@ public class CallActivity extends BaseActivity {
                 CameraVideoCapturer cameraVideoCapturer =
                         (CameraVideoCapturer) videoCapturerAndroid;
                 cameraVideoCapturer.switchCamera(null);
+                mLocalVideoView.setMirror(false);
+                mRemoteVideoView.setMirror(false);
             } else {
 
             }
@@ -661,12 +663,7 @@ public class CallActivity extends BaseActivity {
             audioSource.dispose();
         }
         if (videoCapturerAndroid != null) {
-            try {
-                videoCapturerAndroid.stopCapture();
-                videoCapturerAndroid.dispose();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            videoCapturerAndroid.dispose();
         }
         if (mLocalVideoView != null) {
             mLocalVideoView.release();
