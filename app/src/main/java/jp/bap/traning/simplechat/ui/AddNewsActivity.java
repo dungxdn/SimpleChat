@@ -99,7 +99,7 @@ public class AddNewsActivity extends BaseActivity {
         }
     }
 
-    @Click(R.id.imgAddNews)
+    @Click(R.id.lnChooseImage)
     void choosePicture() {
         Common.selectImage(this);
         showProgressBar(mProgressBar);
@@ -124,6 +124,7 @@ public class AddNewsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(ImageResponse result) {
                         linkImage = result.getData().getLink();
+                        imgAddNews.setVisibility(View.VISIBLE);
                         Common.setImage(AddNewsActivity.this, linkImage, imgAddNews);
                         hiddenProgressBar(mProgressBar);
                     }

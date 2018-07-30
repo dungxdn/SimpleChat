@@ -640,6 +640,12 @@ public class CallActivity extends BaseActivity {
         if (mediaStreamLocal != null) {
             mediaStreamLocal.removeTrack(localVideoTrack);
             mediaStreamLocal.removeTrack(localAudioTrack);
+            //Nhi fix
+
+            mediaStreamRemote.audioTracks.clear();
+            mediaStreamRemote.dispose();
+            //Nhi
+
             mediaStreamLocal.dispose();
         }
         if (audioConstraints != null) {

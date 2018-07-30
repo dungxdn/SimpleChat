@@ -64,11 +64,12 @@
     <string name="no_message">Chưa có tin nhắn nào</string>
 
     //AddNews Fragment
-    <string name="edt_description">Nói điều gì về hình ảnh này...</string>
+    <string name="edt_description">Nói gì đó...</string>
     <string name="str_profile">Thông tin cá nhân</string>
     <string name="title_activity_news_fragment">NewsFragment</string>
     <string name="action_settings">Cài đặt</string>
     <string name="action_share">Chia sẻ</string>
+    <string name="str_choose_image">Chọn ảnh</string>
 
     //Dialog
     <string name="dialog_cancel">Trở về</string>

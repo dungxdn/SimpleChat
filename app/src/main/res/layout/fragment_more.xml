@@ -18,12 +18,12 @@
         android:layout_height="@dimen/_170sdp"
         android:background="#80437b50"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/_20sdp">
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImgAvata"
             android:layout_width="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_35sdp"
             android:layout_height="@dimen/_100sdp"
             android:src="@drawable/ic_avatar_default"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvUserName"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="@dimen/_30sdp"
             android:gravity="center"
             android:text="@string/title_tab_friend"
             android:textColor="@color/white"
