@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SimpleChat</string>
+
     //Login Activity
     <string name="hint_email">UserName</string>
     <string name="hint_pass">Password</string>
@@ -9,6 +10,7 @@
     <string name="text_recover"><u>Recover it</u></string>
     <string name="text_register">Register</string>
     <string name="text_not_input_username_pass">Please input usename and password!</string>
+
     //SignUp Activity
     <string name="text_create_accout">Create Account</string>
     <string name="text_not_account"> Do not have an account? </string>
@@ -25,6 +27,7 @@
     <string name="text_success_register">Register success!</string>
     <string name="text_error_register">Register error. Please check again!</string>
     <string name="text_fail_register">Register fail. Please check again!</string>
+
     //ChatTalks Activity
     <string name="textview_text_chat_name">Your Friend</string>
     <string name="edittext_input_message">Input your messsage</string>
@@ -44,12 +47,18 @@
     <string name="button_sharing_message">Sharing</string>
     <string name="text_message_send">message send...</string>
     <string name="hind_text_view_title">Send as message to</string>
+
     //NetWork Activity
     <string name="capture">No Internet Connection</string>
     <string name="description">Your phone is currently not connected to the internet. Please set up a connection!</string>
     <string name="button_try_again"><u>Try Again!</u></string>
+
     //Comment Activity
     <string name="hint_edt_comment"><u>Input your comment</u></string>
+    <string name="title_comment_activity">Comment</string>
+    <string name="text_like">like and</string>
+    <string name="text_comment">comment.</string>
+
     //Fragment
     <string name="title_tab_friend">Friends</string>
     <string name="title_tab_chat">Chat</string>
@@ -68,11 +77,11 @@
 
     //AddNews Fragment
     <string name="edt_description">Say something about this picture...</string>
-    //
     <string name="str_profile">Profile</string>
     <string name="title_activity_news_fragment">NewsFragment</string>
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
+
     //Dialog
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>
@@ -110,4 +119,13 @@
 
     //Update profile activity
     <string name="str_btn_update">Update</string>
+
+    //Confirm Dialog
+    <string name="title_delete_message">Delete a message?</string>
+    <string name="description_delete_message">You can not undo after deleting a copy of the messages</string>
+    <string name="confirm_yes">Yes</string>
+    <string name="confirm_no">No</string>
+    <string name="result_delete">Deleted!</string>
+    <string name="copy_message">Text has been copied!</string>
+
 </resources>

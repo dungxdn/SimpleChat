@@ -64,7 +64,7 @@ public class CommentActivity extends BaseActivity {
     private void setupToolbar() {
         mToolbar.getCallButton().setVisibility(View.GONE);
         mToolbar.getCallVideoButton().setVisibility(View.GONE);
-        mToolbar.setTitle("Comment");
+        mToolbar.setTitle(getResources().getString(R.string.title_comment_activity));
         mToolbar.getBackButton().setOnClickListener(view -> finish());
         mToolbar.getSettingButton().setVisibility(View.GONE);
         mToolbar.setBackgroundColor(Color.WHITE);
