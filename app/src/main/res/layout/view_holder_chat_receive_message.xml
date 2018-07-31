@@ -30,6 +30,7 @@
         android:id="@+id/mLnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="@dimen/_200sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_message_friend"
         android:orientation="horizontal"
@@ -40,8 +41,10 @@
             android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_3sdp"
+            android:maxWidth="@dimen/_200sdp"
+            android:text="njjhfgjkhfdjkhgjkfhdgjkhdfkjghjk"
             android:layout_gravity="center"
-            android:text="Helloooooooooooo"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp" />
     </LinearLayout>

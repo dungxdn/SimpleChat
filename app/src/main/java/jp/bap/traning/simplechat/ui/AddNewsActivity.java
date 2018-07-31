@@ -72,6 +72,8 @@ public class AddNewsActivity extends BaseActivity {
                     ChatService.getChat().emitCreateNews(new News(Common.getUserLogin(), edtDescription.getText().toString(), linkImage));
                 }
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.share_success), Toast.LENGTH_SHORT).show();
+                linkImage="";
+                edtDescription.setText("");
                 Common.hideKeyboard(this);
                 finish();
             }
