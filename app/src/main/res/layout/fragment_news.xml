@@ -13,31 +13,8 @@
         android:id="@+id/listViewNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_3sdp"
         >
     </android.support.v7.widget.RecyclerView>
 
 
 </FrameLayout>
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:id="@+id/newsFragment"-->
-    <!--android:background="@color/white"-->
-    <!--tools:context=".ui.NewsFragment">-->
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/listViewNews"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="@dimen/_5sdp"-->
-        <!--android:layout_marginBottom="@dimen/_3sdp"-->
-        <!--&gt;-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-
-<!--</RelativeLayout>-->

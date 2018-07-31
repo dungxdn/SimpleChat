@@ -120,6 +120,9 @@ public class CallActivity extends BaseActivity {
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
+    private boolean isTurnOff = false;
+    private boolean isEmitStop = false;
+
     @Override
     public void afterView() {
         mRoom = Common.getFullRoomFromRoomId(roomId);
@@ -418,10 +421,12 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop:
                 SoundManage.stop(this);
                 mtvStatus.setText(getResources().getString(R.string.text_call_end));
-                if (ChatService.getChat() != null) {
-                    ChatService.getChat().emitCallStop(roomId);
-                }
-                stop();
+//                if (ChatService.getChat() != null) {
+//                    ChatService.getChat().emitCallStop(roomId);
+//                }
+//                stop();
+                isTurnOff = true;
+                finish();
                 break;
 
             case R.id.mBtnAccept:
@@ -556,8 +561,9 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onCallStop() {
         super.onCallStop();
-        stop();
         SoundManage.stop(this);
+        finish();
+//        stop();
     }
 
     @Override
@@ -639,15 +645,26 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (ChatService.getChat() != null && isTurnOff) {
+            ChatService.getChat().emitCallStop(roomId);
+            isEmitStop = true;
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        if (ChatService.getChat() != null) {
+        if (!isEmitStop && ChatService.getChat() != null) {
             ChatService.getChat().emitCallStop(roomId);
         }
         stop();
     }
 
-
+    @Override
+    public void onBackPressed() {
+    }
 
     public void stop() {
         if (mAudioManager.isSpeakerphoneOn()) {
@@ -673,12 +690,25 @@ public class CallActivity extends BaseActivity {
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
         }
+//        if (localPeer != null) {
+//            localPeer.close();
+//        }
+        if (peerConnectionFactory != null) {
+            peerConnectionFactory.stopAecDump();
+        }
         if (localPeer != null) {
             localPeer.close();
-            localPeer.dispose();
+//            localPeer.dispose();
+            localPeer = null;
         }
-
+        if (peerConnectionFactory != null) {
+//            peerConnectionFactory.dispose();
+            peerConnectionFactory.shutdownInternalTracer();
+            peerConnectionFactory = null;
+        }
+//        PeerConnectionFactory.stopInternalTracingCapture();
+//        PeerConnectionFactory.shutdownInternalTracer();
         MainActivity.checkCall = false;
-        finish();
+//        finish();
     }
 }
