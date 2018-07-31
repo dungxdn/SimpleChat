@@ -651,7 +651,6 @@ public class CallActivity extends BaseActivity {
             ChatService.getChat().emitCallStop(roomId);
             isEmitStop = true;
         }
-        stop();
     }
 
     @Override
@@ -660,6 +659,7 @@ public class CallActivity extends BaseActivity {
         if (!isEmitStop && ChatService.getChat() != null) {
             ChatService.getChat().emitCallStop(roomId);
         }
+        stop();
     }
 
     @Override
