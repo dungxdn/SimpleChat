@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/white"
+            android:singleLine="true"
             android:hint="@string/hint_firstname"
             android:padding="@dimen/_5sdp" />
 
@@ -62,6 +63,7 @@
             android:id="@+id/mEdtLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:background="@color/white"
             android:hint="@string/hint_lastname"
             android:padding="@dimen/_5sdp" />
