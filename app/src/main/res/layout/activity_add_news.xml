@@ -51,16 +51,48 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@android:color/transparent"
             android:hint="@string/edt_description"
-            android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_15ssp" />
+            android:padding="@dimen/_5sdp" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/imgAddNews"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="@dimen/_300sdp"
             android:layout_below="@+id/edtDescription"
             android:layout_marginTop="@dimen/_5sdp"
             android:src="@drawable/default_image_news" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/brightGrey"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/lnChooseImage"
+                android:background="@drawable/bg_item_more"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/ic_image_default"
+                    android:padding="@dimen/_13sdp"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorGrayDark"
+                    android:text="@string/str_choose_image"
+                    android:textSize="@dimen/_12ssp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
         <include layout="@layout/activity_progressbar"></include>
 
