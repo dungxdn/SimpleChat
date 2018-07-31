@@ -68,7 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         AppCompatTextView txtDescription;
         AppCompatImageButton imageButtonLike;
         AppCompatImageButton imageButtonComment;
-        AppCompatImageButton imageButtonShare;
+        AppCompatImageView imageButtonShare;
         AppCompatTextView txtLike;
         AppCompatTextView txtComment;
 

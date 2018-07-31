@@ -39,6 +39,7 @@ public class NewsFragment extends BaseFragment {
         listViewNews.setItemAnimator(new DefaultItemAnimator());
         listViewNews.setAdapter(newsAdapter);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(getContext(), 1);
+        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_new_recyclerview));
         listViewNews.addItemDecoration(mDividerItemDecoration);
         //
         mNewsPresenter = new NewsPresenter(new NewsView() {
