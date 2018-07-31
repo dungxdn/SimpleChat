@@ -116,9 +116,12 @@ public class CallActivity extends BaseActivity {
     private AudioManager mAudioManager;
     public Animation animationShake;
 
-    private String[] permissionRequired = new String[] {
+    private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
+
+    private boolean isTurnOff = false;
+    private boolean isEmitStop = false;
 
     @Override
     public void afterView() {
@@ -144,9 +147,9 @@ public class CallActivity extends BaseActivity {
         if (isIncoming) {
             animationShake = AnimationUtils.loadAnimation(CallActivity.this, R.anim.anim_shake_button_accept);
             if (isAudioCall) {
-                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_audio) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_audio) + " " + mRoom.getRoomName());
             } else {
-                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video)+ " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_incoming_call_video) + " " + mRoom.getRoomName());
             }
             SoundManage.setAudioForMsgAndCall(this, R.raw.wedonttalkanymore, true);
             mBtnAccept.setVisibility(View.VISIBLE);
@@ -157,12 +160,12 @@ public class CallActivity extends BaseActivity {
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCall(roomId, true);
                 }
-                mtvStatus.setText(getResources().getString(R.string.text_call_audio_to) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_call_audio_to) + " " + mRoom.getRoomName());
             } else {
                 if (ChatService.getChat() != null) {
                     ChatService.getChat().emitCall(roomId, false);
                 }
-                mtvStatus.setText(getResources().getString(R.string.text_call_video_to) + " "+mRoom.getRoomName());
+                mtvStatus.setText(getResources().getString(R.string.text_call_video_to) + " " + mRoom.getRoomName());
             }
             mBtnAccept.setVisibility(View.GONE);
             pulsatorLayout.start();
@@ -418,10 +421,12 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop:
                 SoundManage.stop(this);
                 mtvStatus.setText(getResources().getString(R.string.text_call_end));
-                if (ChatService.getChat() != null) {
-                    ChatService.getChat().emitCallStop(roomId);
-                }
-                stop();
+//                if (ChatService.getChat() != null) {
+//                    ChatService.getChat().emitCallStop(roomId);
+//                }
+//                stop();
+                isTurnOff = true;
+                finish();
                 break;
 
             case R.id.mBtnAccept:
@@ -556,8 +561,9 @@ public class CallActivity extends BaseActivity {
     @Override
     public void onCallStop() {
         super.onCallStop();
-        stop();
         SoundManage.stop(this);
+        finish();
+//        stop();
     }
 
     @Override
@@ -639,12 +645,25 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (ChatService.getChat() != null) {
+    protected void onPause() {
+        super.onPause();
+        if (ChatService.getChat() != null && isTurnOff) {
             ChatService.getChat().emitCallStop(roomId);
+            isEmitStop = true;
         }
         stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!isEmitStop && ChatService.getChat() != null) {
+            ChatService.getChat().emitCallStop(roomId);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     public void stop() {
@@ -671,10 +690,25 @@ public class CallActivity extends BaseActivity {
         if (mRemoteVideoView != null) {
             mRemoteVideoView.release();
         }
+//        if (localPeer != null) {
+//            localPeer.close();
+//        }
+        if (peerConnectionFactory != null) {
+            peerConnectionFactory.stopAecDump();
+        }
         if (localPeer != null) {
             localPeer.close();
+//            localPeer.dispose();
+            localPeer = null;
         }
+        if (peerConnectionFactory != null) {
+//            peerConnectionFactory.dispose();
+            peerConnectionFactory.shutdownInternalTracer();
+            peerConnectionFactory = null;
+        }
+//        PeerConnectionFactory.stopInternalTracingCapture();
+//        PeerConnectionFactory.shutdownInternalTracer();
         MainActivity.checkCall = false;
-        finish();
+//        finish();
     }
 }
