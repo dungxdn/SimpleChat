@@ -195,8 +195,7 @@ public class CallActivity extends BaseActivity {
 
     private void getIceServers() {
         PeerConnection.IceServer peerIceServerSTUN =
-                //PeerConnection.IceServer.builder(Common.STUN_URL).createIceServer();
-                new PeerConnection.IceServer("turn:turn.robin-aisystem.com:2022", "robin", "EID5rvjx8Ls8wO9DALls1gAQa");
+                PeerConnection.IceServer.builder(Common.STUN_URL).createIceServer();
         peerIceServers.add(peerIceServerSTUN);
     }
 
