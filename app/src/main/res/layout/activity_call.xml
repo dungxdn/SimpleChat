@@ -32,7 +32,7 @@
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnSpeaker"
             android:visibility="gone"
-            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_speaker"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"/>
@@ -40,7 +40,7 @@
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffSpeaker"
             android:visibility="gone"
-            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
             android:background="@drawable/ic_turn_off_speaker"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"/>
@@ -48,7 +48,7 @@
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOnVideoCam"
             android:visibility="gone"
-            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
             android:background="@drawable/ic_turn_on_videocam_white"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"/>
@@ -56,7 +56,7 @@
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/mBtnTurnOffVideoCam"
             android:visibility="gone"
-            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
             android:background="@drawable/ic_turn_off_videocam_white"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"/>
@@ -65,7 +65,7 @@
             android:id="@+id/mBtnAccept"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
             android:background="@drawable/call_come" />
 
         <android.support.v7.widget.AppCompatImageButton
@@ -83,9 +83,8 @@
         android:layout_marginBottom="248dp"
         android:layout_marginTop="@dimen/_120sdp"
         android:maxLines="1"
-        android:text="Status"
+        android:text="@string/text_call_end"
         android:textColor="@color/red"
-        app:layout_constraintBottom_toTopOf="@+id/mAvatar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -120,7 +119,7 @@
         android:id="@+id/mBtnSwitchCamera"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:background="@drawable/ic_switch_camera_white"
         android:visibility="gone"

@@ -32,7 +32,7 @@
 
     </android.support.design.widget.TabLayout>
 
-    <include layout="@layout/activity_progressbar"></include>
+    <include layout="@layout/activity_progressbar"/>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@
         android:layout_height="24dp"
         android:gravity="center"
         android:paddingBottom="@dimen/_5sdp"
-        android:text="Chat"
+        android:text="@string/title_tab_chat"
         android:textColor="@drawable/selection_color_text_tablayout"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintLeft_toLeftOf="parent"

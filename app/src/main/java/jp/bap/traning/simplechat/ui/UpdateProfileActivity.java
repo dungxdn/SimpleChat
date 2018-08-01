@@ -1,8 +1,6 @@
 package jp.bap.traning.simplechat.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
@@ -17,7 +15,6 @@ import com.esafirm.imagepicker.model.Image;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;

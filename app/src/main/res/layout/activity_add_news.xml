@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addNewsFragment"
     android:layout_width="match_parent"
@@ -12,19 +11,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <jp.bap.traning.simplechat.widget.CustomToolbar_
             android:id="@+id/mToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></jp.bap.traning.simplechat.widget.CustomToolbar_>
+            android:layout_height="wrap_content"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mAvatarAddNews"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_below="@+id/mToolbar"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/ic_avatar_default" />
 
@@ -32,12 +31,12 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toRightOf="@+id/mAvatarAddNews"
+            android:layout_toEndOf="@+id/mAvatarAddNews"
             android:layout_below="@+id/mToolbar"
             android:padding="@dimen/_5sdp"
-            android:text="Name"
+            android:text="@string/title_friend"
             android:textColor="@color/black"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold" />
@@ -47,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mAvatarAddNews"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@android:color/transparent"
             android:hint="@string/edt_description"
@@ -94,7 +93,7 @@
 
 
 
-        <include layout="@layout/activity_progressbar"></include>
+        <include layout="@layout/activity_progressbar"/>
 
     </RelativeLayout>
 

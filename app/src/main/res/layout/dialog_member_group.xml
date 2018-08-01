@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/_10sdp"
             android:gravity="center"
-            android:text="Name"
+            android:text="@string/title_new_group"
             android:id="@+id/tvGroupName"
             android:textColor="@color/colorGreen"
             android:textSize="@dimen/_16ssp"

@@ -257,7 +257,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onCall(int roomId, boolean isAudioCall) {
         super.onCall(roomId, isAudioCall);
         if (checkCall == false) {
-            checkCall = true;
+//            checkCall = true;
             CallActivity_.intent(this)
                     .isIncoming(true)
                     .roomId(roomId)

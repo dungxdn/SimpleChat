@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/lnTop"
@@ -39,8 +39,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgv_logo">
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/edtUsername"
@@ -56,8 +55,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgv_logo">
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/edtFirstname"
@@ -142,8 +140,6 @@
                     style="@style/AVLoadingIndicatorView"
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
-                    android:layout_below="@+id/imgv_logo"
-                    android:layout_centerHorizontal="true"
                     android:visibility="invisible"
                     app:indicatorColor="@color/yellow"
                     app:indicatorName="PacmanIndicator" />
@@ -183,7 +179,7 @@
     </ScrollView>
 
 
-    <include layout="@layout/activity_progressbar"></include>
+    <include layout="@layout/activity_progressbar"/>
 
 
 </RelativeLayout>

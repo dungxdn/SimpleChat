@@ -140,7 +140,7 @@
 
     //AddNews Acivity
     <string name="say_something">Nói gì đó về điều này...</string>
-    <string name="pick_picture">Hãy ch!</string>
+    <string name="pick_picture">Hãy chọn một hình ảnh!</string>
     <string name="share_success">Chia sẻ thành công!</string>
 
     //Update profile activity

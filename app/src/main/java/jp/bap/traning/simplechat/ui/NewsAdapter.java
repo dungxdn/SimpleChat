@@ -50,6 +50,8 @@ public class NewsAdapter extends RecyclerView.Adapter {
         newsViewHolder.txtComment.setText(mNews.getCountComment() + " " + mContext.getResources().getString(R.string.text_comment));
         if (mNews.getUsersLike().contains(Common.getUserLogin()) == true) {
             newsViewHolder.imageButtonLike.setImageResource(R.drawable.heart);
+        } else{
+            newsViewHolder.imageButtonLike.setImageResource(R.drawable.like);
         }
         Common.setImage(mContext, mNews.getImageView(), newsViewHolder.imageView);
         Common.setAvatar(mContext, mNews.getUser().getId(), newsViewHolder.avatar);

@@ -145,7 +145,7 @@ public class SharingMessageActivity extends BaseActivity  {
 
             @Override
             public void onRemoveId(int id) {
-                mIdListPick.remove(new Integer(id));
+                mIdListPick.remove(id);
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

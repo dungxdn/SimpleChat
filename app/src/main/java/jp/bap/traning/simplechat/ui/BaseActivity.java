@@ -155,9 +155,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
             }
 
             case CALL_STOP: {
-                onCallStop();
+                try {
+                    boolean isUserShutdown = data.getBoolean("isUserShutdown");
+                    onCallStop(isUserShutdown);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             }
+
 
             case CALL_BUSY:{
                 try{
@@ -233,7 +239,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
         return false;
     }
 
-    public void onCallStop() {
+    public void onCallStop(boolean userShutdown) {
     }
 
     public void onCallContent(JSONObject data) {

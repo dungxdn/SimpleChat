@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
-            android:text="Nhi Nguyen"
+            android:text="@string/title_friend"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />
 

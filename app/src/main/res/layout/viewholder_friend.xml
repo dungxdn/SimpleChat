@@ -27,21 +27,19 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mTvUserName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User 1" />
+            android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mtvStatus"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Good" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/mImgButtonCallVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:background="@android:color/transparent"
         android:padding="@dimen/_10sdp"
         android:src="@drawable/ic_videocam"

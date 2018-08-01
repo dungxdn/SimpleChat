@@ -15,28 +15,30 @@ public class SoundManage {
         mAudioPlayer = AudioPlayer.getInstance(context);
         AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
-        switch (am.getRingerMode()) {
-            case AudioManager.RINGER_MODE_SILENT:
-                Log.i("MyApp", "Silent mode");
-                break;
-            case AudioManager.RINGER_MODE_VIBRATE:
-                if (isRepeat) {
-                    mAudioPlayer.setVibratorRepeat();
-                }else{
-                    mAudioPlayer.setVibratorNoRepeat();
-                }
-                Log.i("MyApp", "Vibrate mode");
-                break;
-            case AudioManager.RINGER_MODE_NORMAL:
-                if (isRepeat) {
-                    mAudioPlayer.setVibratorRepeat();
-                    mAudioPlayer.playAndRepeat(context,srcAudio);
-                }else{
-                    mAudioPlayer.setVibratorNoRepeat();
-                    mAudioPlayer.play(context, srcAudio);
-                }
-                Log.i("MyApp", "Normal mode");
-                break;
+        if (am != null) {
+            switch (am.getRingerMode()) {
+                case AudioManager.RINGER_MODE_SILENT:
+                    Log.i("MyApp", "Silent mode");
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    if (isRepeat) {
+                        mAudioPlayer.setVibratorRepeat();
+                    }else{
+                        mAudioPlayer.setVibratorNoRepeat();
+                    }
+                    Log.i("MyApp", "Vibrate mode");
+                    break;
+                case AudioManager.RINGER_MODE_NORMAL:
+                    if (isRepeat) {
+                        mAudioPlayer.setVibratorRepeat();
+                        mAudioPlayer.playAndRepeat(context,srcAudio);
+                    }else{
+                        mAudioPlayer.setVibratorNoRepeat();
+                        mAudioPlayer.play(context, srcAudio);
+                    }
+                    Log.i("MyApp", "Normal mode");
+                    break;
+            }
         }
     }
 

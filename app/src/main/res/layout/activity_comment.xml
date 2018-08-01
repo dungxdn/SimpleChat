@@ -54,7 +54,8 @@
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/background_edt_message"
-            android:paddingLeft="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:textSize="@dimen/_14ssp"
             android:hint="@string/hint_edt_comment"
@@ -66,12 +67,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:background="@android:color/transparent"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:src="@drawable/ic_send_comment_green"
             android:layout_gravity="center"
             android:padding="@dimen/_4sdp"
             />
     </LinearLayout>
-    <include layout="@layout/activity_progressbar"></include>
+    <include layout="@layout/activity_progressbar"/>
 
 </RelativeLayout>

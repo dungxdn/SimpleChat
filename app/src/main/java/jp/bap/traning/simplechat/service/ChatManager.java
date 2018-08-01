@@ -143,10 +143,11 @@ public class ChatManager {
         }
     }
 
-    public void emitCallStop(int roomId) {
+    public void emitCallStop(int roomId, boolean isUserShutdown) {
         JSONObject data = new JSONObject();
         try {
             data.put("roomId", roomId);
+            data.put("isUserShutdown",isUserShutdown);
             emit(Event.CALL_STOP, data);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -20,10 +20,10 @@
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_3sdp"
-        android:layout_toRightOf="@+id/mAvatarNews"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_toEndOf="@+id/mAvatarNews"
         android:padding="@dimen/_5sdp"
-        android:text="Name"
+        android:text="@string/title_friend"
         android:textColor="@color/black"
         android:textSize="@dimen/_13ssp"
         android:textStyle="bold" />
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:layout_below="@+id/imgNews"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:orientation="horizontal"
         android:weightSum="7">
@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lnIcon"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:orientation="horizontal"
         android:weightSum="15">
@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="0 like"
+            android:text="@string/text_like"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
@@ -97,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text="0 comment"
+            android:text="@string/text_comment"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
@@ -108,13 +108,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relaytiveBelowIcon"
-        android:layout_marginLeft="@dimen/_5sdp">
+        android:layout_marginStart="@dimen/_5sdp">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtName2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/title_friend"
             android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:orientation="horizontal"
             app:layout_constraintLeft_toRightOf="@+id/txtName2">
 
@@ -133,7 +133,7 @@
                 android:id="@+id/txtDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Have a nice day!"
+                android:text="@string/say_something"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp" />
         </LinearLayout>

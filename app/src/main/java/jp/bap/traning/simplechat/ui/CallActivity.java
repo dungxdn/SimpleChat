@@ -115,16 +115,15 @@ public class CallActivity extends BaseActivity {
     private Room mRoom;
     private AudioManager mAudioManager;
     public Animation animationShake;
+    private boolean isUserShutdown = true;
 
     private String[] permissionRequired = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
-    private boolean isTurnOff = false;
-    private boolean isEmitStop = false;
-
     @Override
     public void afterView() {
+        MainActivity.checkCall = true;
         mRoom = Common.getFullRoomFromRoomId(roomId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Permission.initPermission(this, permissionRequired);
@@ -178,7 +177,7 @@ public class CallActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int r : grantResults) {
             if (r != PackageManager.PERMISSION_GRANTED) {
-                ChatService.getChat().emitCallStop(roomId);
+                ChatService.getChat().emitCallStop(roomId,false);
                 Toast.makeText(this, getResources().getString(R.string.text_accept_permission),
                         Toast.LENGTH_SHORT).show();
                 finish();
@@ -255,8 +254,6 @@ public class CallActivity extends BaseActivity {
         // can add our renderer to the VideoTrack.
         localVideoTrack.addRenderer(localRenderer);
 
-        mLocalVideoView.setMirror(true);
-        mRemoteVideoView.setMirror(true);
 
         gotUserMedia = true;
     }
@@ -299,8 +296,6 @@ public class CallActivity extends BaseActivity {
                 CameraVideoCapturer cameraVideoCapturer =
                         (CameraVideoCapturer) videoCapturerAndroid;
                 cameraVideoCapturer.switchCamera(null);
-                mLocalVideoView.setMirror(false);
-                mRemoteVideoView.setMirror(false);
             } else {
 
             }
@@ -421,18 +416,16 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop:
                 SoundManage.stop(this);
                 mtvStatus.setText(getResources().getString(R.string.text_call_end));
-//                if (ChatService.getChat() != null) {
-//                    ChatService.getChat().emitCallStop(roomId);
-//                }
-//                stop();
-                isTurnOff = true;
-                finish();
+                if (ChatService.getChat() != null && isUserShutdown == true) {
+                    ChatService.getChat().emitCallStop(roomId, false);
+                }
+                stop();
                 break;
 
             case R.id.mBtnAccept:
                 SoundManage.stop(this);
                 pulsatorLayout.stop();
-                pulsatorLayout.setVisibility(View.GONE);
+//                pulsatorLayout.setVisibility(View.GONE);
                 if (isAudioCall) {
                     mImgAvatarCallAudio.setVisibility(View.VISIBLE);
                     mRemoteVideoView.setVisibility(View.GONE);
@@ -528,7 +521,7 @@ public class CallActivity extends BaseActivity {
     public void onCallAccept() {
         super.onCallAccept();
         pulsatorLayout.stop();
-        pulsatorLayout.setVisibility(View.GONE);
+//        pulsatorLayout.setVisibility(View.GONE);
         createPeerConnection();
         doCall();
         if (isAudioCall) {
@@ -559,12 +552,13 @@ public class CallActivity extends BaseActivity {
     }
 
     @Override
-    public void onCallStop() {
-        super.onCallStop();
+    public void onCallStop(boolean userShutdown) {
+        super.onCallStop(userShutdown);
+        isUserShutdown = userShutdown;
         SoundManage.stop(this);
         finish();
-//        stop();
     }
+
 
     @Override
     public void onTurnOnCamera(boolean isOn, int userId) {
@@ -644,23 +638,6 @@ public class CallActivity extends BaseActivity {
         }, sdpConstraints);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (ChatService.getChat() != null && isTurnOff) {
-            ChatService.getChat().emitCallStop(roomId);
-            isEmitStop = true;
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (!isEmitStop && ChatService.getChat() != null) {
-            ChatService.getChat().emitCallStop(roomId);
-        }
-        stop();
-    }
 
     @Override
     public void onBackPressed() {
@@ -709,6 +686,6 @@ public class CallActivity extends BaseActivity {
 //        PeerConnectionFactory.stopInternalTracingCapture();
 //        PeerConnectionFactory.shutdownInternalTracer();
         MainActivity.checkCall = false;
-//        finish();
+        finish();
     }
 }

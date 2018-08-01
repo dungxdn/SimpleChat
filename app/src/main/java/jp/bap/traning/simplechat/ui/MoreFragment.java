@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ public class MoreFragment extends BaseFragment {
     @ViewById
     AppCompatTextView mTvUserName;
     @ViewById
-    ImageView mCoverPhoto;
+    AppCompatImageView mCoverPhoto;
 
     UploadImagePresenter mUploadImagePresenter;
     UpdateUserPresenter mUpdateUserPresenter;
