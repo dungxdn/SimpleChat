@@ -121,6 +121,7 @@ public class CallActivity extends BaseActivity {
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
     };
 
+
     @Override
     public void afterView() {
         MainActivity.checkCall = true;
@@ -223,6 +224,10 @@ public class CallActivity extends BaseActivity {
 
         //set external speaker if video call
         mAudioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
+        if (mAudioManager.isMicrophoneMute()) {
+            mAudioManager.setMicrophoneMute(false);
+        }
+        mAudioManager.setSpeakerphoneOn(false);
 
         //Now create a VideoCapturer instance.
         videoCapturerAndroid = createFrontCameraCapturer(new Camera1Enumerator(false));
@@ -416,8 +421,8 @@ public class CallActivity extends BaseActivity {
             case R.id.mBtnStop:
                 SoundManage.stop(this);
                 mtvStatus.setText(getResources().getString(R.string.text_call_end));
-                if (ChatService.getChat() != null && isUserShutdown == true) {
-                    ChatService.getChat().emitCallStop(roomId, false);
+                if (ChatService.getChat() != null) {
+                    ChatService.getChat().emitCallStop(roomId);
                 }
                 stop();
                 break;
@@ -431,14 +436,14 @@ public class CallActivity extends BaseActivity {
                     mRemoteVideoView.setVisibility(View.GONE);
                     mLocalVideoView.setVisibility(View.GONE);
                     mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
-                    mAudioManager.setSpeakerphoneOn(false);
+                    //mAudioManager.setSpeakerphoneOn(false);
                 } else {
                     mBtnTurnOnSpeaker.setVisibility(View.GONE);
                     mImgAvatarCallAudio.setVisibility(View.GONE);
                     mRemoteVideoView.setVisibility(View.VISIBLE);
                     mLocalVideoView.setVisibility(View.VISIBLE);
                     mBtnSwitchCamera.setVisibility(View.VISIBLE);
-                    mAudioManager.setSpeakerphoneOn(false);
+                    //mAudioManager.setSpeakerphoneOn(false);
                     mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
                 }
                 mtvStatus.setVisibility(View.GONE);
@@ -529,10 +534,7 @@ public class CallActivity extends BaseActivity {
                 mRemoteVideoView.setVisibility(View.GONE);
                 mLocalVideoView.setVisibility(View.GONE);
                 mBtnTurnOnSpeaker.setVisibility(View.VISIBLE);
-                if (!mAudioManager.isMicrophoneMute()) {
-                    mAudioManager.setMicrophoneMute(true);
-                }
-                mAudioManager.setSpeakerphoneOn(false);
+                //mAudioManager.setSpeakerphoneOn(false);
                 videoCapturerAndroid.stopCapture();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -542,10 +544,7 @@ public class CallActivity extends BaseActivity {
             mRemoteVideoView.setVisibility(View.VISIBLE);
             mLocalVideoView.setVisibility(View.VISIBLE);
             mBtnSwitchCamera.setVisibility(View.VISIBLE);
-            if (!mAudioManager.isMicrophoneMute()) {
-                mAudioManager.setMicrophoneMute(true);
-            }
-            mAudioManager.setSpeakerphoneOn(true);
+            //mAudioManager.setSpeakerphoneOn(true);
             mBtnTurnOffVideoCam.setVisibility(View.VISIBLE);
         }
         mtvStatus.setVisibility(View.GONE);
@@ -556,7 +555,7 @@ public class CallActivity extends BaseActivity {
         super.onCallStop(userShutdown);
         isUserShutdown = userShutdown;
         SoundManage.stop(this);
-        finish();
+        stop();
     }
 
 
@@ -644,47 +643,23 @@ public class CallActivity extends BaseActivity {
     }
 
     public void stop() {
-        if (mAudioManager.isSpeakerphoneOn()) {
-            mAudioManager.setSpeakerphoneOn(false);
-        }
-        if (mediaStreamLocal != null) {
-            mediaStreamLocal.removeTrack(localVideoTrack);
-            mediaStreamLocal.removeTrack(localAudioTrack);
-            mediaStreamLocal.dispose();
-        }
-        if (audioConstraints != null) {
-            audioConstraints = null;
-        }
-        if (audioSource != null) {
-            audioSource.dispose();
-        }
-        if (videoCapturerAndroid != null) {
-            videoCapturerAndroid.dispose();
-        }
-        if (mLocalVideoView != null) {
-            mLocalVideoView.release();
-        }
-        if (mRemoteVideoView != null) {
-            mRemoteVideoView.release();
-        }
-//        if (localPeer != null) {
-//            localPeer.close();
-//        }
-        if (peerConnectionFactory != null) {
-            peerConnectionFactory.stopAecDump();
-        }
         if (localPeer != null) {
-            localPeer.close();
-//            localPeer.dispose();
+            localPeer.dispose();
             localPeer = null;
         }
-        if (peerConnectionFactory != null) {
-//            peerConnectionFactory.dispose();
-            peerConnectionFactory.shutdownInternalTracer();
-            peerConnectionFactory = null;
-        }
-//        PeerConnectionFactory.stopInternalTracingCapture();
-//        PeerConnectionFactory.shutdownInternalTracer();
+//        if (mediaStreamLocal != null) {
+//            mediaStreamLocal.dispose();
+//        }
+//        if (videoCapturerAndroid != null) {
+//            videoCapturerAndroid.dispose();
+//        }
+//        if (mLocalVideoView != null) {
+//            mLocalVideoView.release();
+//        }
+//        if (mRemoteVideoView != null) {
+//            mRemoteVideoView.release();
+//        }
+
         MainActivity.checkCall = false;
         finish();
     }
