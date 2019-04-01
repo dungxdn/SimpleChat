@@ -127,5 +127,5 @@
     <string name="confirm_no">No</string>
     <string name="result_delete">Deleted!</string>
     <string name="copy_message">Text has been copied!</string>
-
+    <string name="app_name_edit">Supper Shipper</string>
 </resources>
